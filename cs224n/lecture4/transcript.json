@@ -1,0 +1,8390 @@
+{
+  "video_url": "https://www.bilibili.com/video/BV1U5RNYgEfp/?p=4",
+  "title": "斯坦福大学《深度学习自然语言处理|Stanford CS224N NLP with Deep Learning 2024》中英字幕（deepseek-R1 p04 [04]Lecture 4 - Dependency Parsing.zh_en",
+  "video_id": "BV1U5RNYgEfp_p4",
+  "duration": 4736.021,
+  "chapters": [],
+  "segments": [
+    {
+      "start": "00:00:05",
+      "end": "00:00:07",
+      "text": "OK, hi everyone!"
+    },
+    {
+      "start": "00:00:07",
+      "end": "00:00:15",
+      "text": "OK, so for today we're going to do a 180 from where we were on"
+    },
+    {
+      "start": "00:00:15",
+      "end": "00:00:15",
+      "text": "Tuesday."
+    },
+    {
+      "start": "00:00:16",
+      "end": "00:00:23",
+      "text": "And so today I'm going to talk about syntactic structure,"
+    },
+    {
+      "start": "00:00:23",
+      "end": "00:00:25",
+      "text": "linguistic structure of human language sentences,"
+    },
+    {
+      "start": "00:00:26",
+      "end": "00:00:30",
+      "text": "dependency parsing, dependency grammars,"
+    },
+    {
+      "start": "00:00:30",
+      "end": "00:00:33",
+      "text": "and then how you go about building dependency parsers."
+    },
+    {
+      "start": "00:00:33",
+      "end": "00:00:38",
+      "text": "所以我们今天很深入在语言层面上"
+    },
+    {
+      "start": "00:00:38",
+      "end": "00:00:42",
+      "text": "有多少人在观众中"
+    },
+    {
+      "start": "00:00:42",
+      "end": "00:00:44",
+      "text": "做过语言课程"
+    },
+    {
+      "start": "00:00:44",
+      "end": "00:00:47",
+      "text": "好 很多人做过语言课程"
+    },
+    {
+      "start": "00:00:47",
+      "end": "00:00:49",
+      "text": "好 很好"
+    },
+    {
+      "start": "00:00:49",
+      "end": "00:00:51",
+      "text": "而其他人呢"
+    },
+    {
+      "start": "00:00:51",
+      "end": "00:00:52",
+      "text": "这就是你们的机会"
+    },
+    {
+      "start": "00:00:52",
+      "end": "00:00:54",
+      "text": "看到一些人文语言的组织"
+    },
+    {
+      "start": "00:00:54",
+      "end": "00:00:55",
+      "text": "如果你们喜欢"
+    },
+    {
+      "start": "00:00:55",
+      "end": "00:00:58",
+      "text": "可以在语言课程上入学"
+    },
+    {
+      "start": "00:01:05",
+      "end": "00:01:08",
+      "text": "我们将在周二发布的计划中"
+    },
+    {
+      "start": "00:01:08",
+      "end": "00:01:10",
+      "text": "在第二半计划中"
+    },
+    {
+      "start": "00:01:10",
+      "end": "00:01:13",
+      "text": "您要做的工作是"
+    },
+    {
+      "start": "00:01:13",
+      "end": "00:01:13",
+      "text": "使用PyTorch来建立"
+    },
+    {
+      "start": "00:01:13",
+      "end": "00:01:15",
+      "text": "一种脉络分辨器"
+    },
+    {
+      "start": "00:01:15",
+      "end": "00:01:19",
+      "text": "以后我们将谈论"
+    },
+    {
+      "start": "00:01:19",
+      "end": "00:01:22",
+      "text": "您需要建立的部份"
+    },
+    {
+      "start": "00:01:22",
+      "end": "00:01:24",
+      "text": "就是机械学习的部份"
+    },
+    {
+      "start": "00:01:24",
+      "end": "00:01:26",
+      "text": "做决定的部份"
+    },
+    {
+      "start": "00:01:26",
+      "end": "00:01:26",
+      "text": "我们将给您"
+    },
+    {
+      "start": "00:01:26",
+      "end": "00:01:29",
+      "text": "其餘的分析程序"
+    },
+    {
+      "start": "00:01:29",
+      "end": "00:01:32",
+      "text": "但這也讓我們提醒大家"
+    },
+    {
+      "start": "00:01:32",
+      "end": "00:01:35",
+      "text": "第二半的 assignment 2"
+    },
+    {
+      "start": "00:01:35",
+      "end": "00:01:36",
+      "text": "使用了PyTorch"
+    },
+    {
+      "start": "00:01:36",
+      "end": "00:01:38",
+      "text": "一個最主要的深入學習模式"
+    },
+    {
+      "start": "00:01:39",
+      "end": "00:01:40",
+      "text": "如果你們不熟悉"
+    },
+    {
+      "start": "00:01:40",
+      "end": "00:01:42",
+      "text": "也很好的方法是"
+    },
+    {
+      "start": "00:01:42",
+      "end": "00:01:47",
+      "text": "參考Friday PyTorch的課程"
+    },
+    {
+      "start": "00:01:47",
+      "end": "00:01:50",
+      "text": "雖然我們也嘗試了assignment 2"
+    },
+    {
+      "start": "00:01:50",
+      "end": "00:01:51",
+      "text": "所以這個課程是很好的地方"
+    },
+    {
+      "start": "00:01:51",
+      "end": "00:01:53",
+      "text": "可以參考PyTorch"
+    },
+    {
+      "start": "00:01:53",
+      "end": "00:01:58",
+      "text": "我们将会更多谈论最后的项目"
+    },
+    {
+      "start": "00:01:58",
+      "end": "00:02:00",
+      "text": "但你肯定已经愿意"
+    },
+    {
+      "start": "00:02:00",
+      "end": "00:02:03",
+      "text": "与TAs或我一起讨论最后的项目"
+    },
+    {
+      "start": "00:02:03",
+      "end": "00:02:06",
+      "text": "我们将会提供TAs的资讯"
+    },
+    {
+      "start": "00:02:06",
+      "end": "00:02:10",
+      "text": "您可以在办公室的页面上"
+    },
+    {
+      "start": "00:02:10",
+      "end": "00:02:11",
+      "text": "知道更多关于他们的资讯"
+    },
+    {
+      "start": "00:02:11",
+      "end": "00:02:13",
+      "text": "好，我们直接进入"
+    },
+    {
+      "start": "00:02:13",
+      "end": "00:02:16",
+      "text": "和开始谈论文化的结构"
+    },
+    {
+      "start": "00:02:16",
+      "end": "00:02:23",
+      "text": "在人文语言的语言组织上"
+    },
+    {
+      "start": "00:02:23",
+      "end": "00:02:27",
+      "text": "人们认为的有两个主要方法"
+    },
+    {
+      "start": "00:02:27",
+      "end": "00:02:35",
+      "text": "一种方法是以语言的语言组织"
+    },
+    {
+      "start": "00:02:35",
+      "end": "00:02:38",
+      "text": "这种语言组织代表了"
+    },
+    {
+      "start": "00:02:39",
+      "end": "00:02:43",
+      "text": "电脑科学家通常认为的"
+    },
+    {
+      "start": "00:02:43",
+      "end": "00:02:44",
+      "text": "无语言语言"
+    },
+    {
+      "start": "00:02:44",
+      "end": "00:02:49",
+      "text": "So I'm going to spend a couple of minutes going over that view"
+    },
+    {
+      "start": "00:02:49",
+      "end": "00:02:50",
+      "text": "of things"
+    },
+    {
+      "start": "00:02:50",
+      "end": "00:02:53",
+      "text": "But you know actually it's not the main one that I'm going to"
+    },
+    {
+      "start": "00:02:53",
+      "end": "00:02:54",
+      "text": "talk about in this class"
+    },
+    {
+      "start": "00:02:54",
+      "end": "00:02:58",
+      "text": "I'm going to spend most of this class talking about an alternative"
+    },
+    {
+      "start": "00:02:58",
+      "end": "00:03:01",
+      "text": "way of thinking about things called dependency grammars"
+    },
+    {
+      "start": "00:03:01",
+      "end": "00:03:04",
+      "text": "There are actually some correspondences you can make between"
+    },
+    {
+      "start": "00:03:04",
+      "end": "00:03:06",
+      "text": "the two ways of thinking about things"
+    },
+    {
+      "start": "00:03:06",
+      "end": "00:03:09",
+      "text": "But I'm not going to go through into those here today"
+    },
+    {
+      "start": "00:03:09",
+      "end": "00:03:15",
+      "text": "So for the constituency grammar or phrase structure version of"
+    },
+    {
+      "start": "00:03:15",
+      "end": "00:03:15",
+      "text": "things"
+    },
+    {
+      "start": "00:03:15",
+      "end": "00:03:19",
+      "text": "the way that you go about thinking about the structure of human"
+    },
+    {
+      "start": "00:03:19",
+      "end": "00:03:19",
+      "text": "languages"
+    },
+    {
+      "start": "00:03:19",
+      "end": "00:03:21",
+      "text": "is well there are words"
+    },
+    {
+      "start": "00:03:21",
+      "end": "00:03:23",
+      "text": "languages have lots of words"
+    },
+    {
+      "start": "00:03:23",
+      "end": "00:03:25",
+      "text": "hundreds of thousands of words"
+    },
+    {
+      "start": "00:03:25",
+      "end": "00:03:28",
+      "text": "but it seems like a lot of the words"
+    },
+    {
+      "start": "00:03:28",
+      "end": "00:03:30",
+      "text": "nearly all the words in fact"
+    },
+    {
+      "start": "00:03:30",
+      "end": "00:03:34",
+      "text": "fall into a few basic classes"
+    },
+    {
+      "start": "00:03:34",
+      "end": "00:03:36",
+      "text": "that represent their nature"
+    },
+    {
+      "start": "00:03:36",
+      "end": "00:03:39",
+      "text": "and how they behave in sentences"
+    },
+    {
+      "start": "00:03:39",
+      "end": "00:03:42",
+      "text": "So for words like the examples here"
+    },
+    {
+      "start": "00:03:42",
+      "end": "00:03:44",
+      "text": "we have nouns"
+    },
+    {
+      "start": "00:03:44",
+      "end": "00:03:45",
+      "text": "so cat is a noun"
+    },
+    {
+      "start": "00:03:45",
+      "end": "00:03:47",
+      "text": "door is a noun"
+    },
+    {
+      "start": "00:03:47",
+      "end": "00:03:50",
+      "text": "but you know something like linguistics is also a noun"
+    },
+    {
+      "start": "00:03:50",
+      "end": "00:03:52",
+      "text": "so we have nouns"
+    },
+    {
+      "start": "00:03:52",
+      "end": "00:03:55",
+      "text": "and then we have other kinds of words"
+    },
+    {
+      "start": "00:03:55",
+      "end": "00:03:58",
+      "text": "so something like cuddly is an adjective"
+    },
+    {
+      "start": "00:03:58",
+      "end": "00:04:00",
+      "text": "a word that can modify nouns"
+    },
+    {
+      "start": "00:04:00",
+      "end": "00:04:04",
+      "text": "and then we have the the for the cuddly cat"
+    },
+    {
+      "start": "00:04:06",
+      "end": "00:04:11",
+      "text": "that is sort of a slightly more complex one as to how to name"
+    },
+    {
+      "start": "00:04:12",
+      "end": "00:04:16",
+      "text": "normally in modern linguistics we refer to words like that as"
+    },
+    {
+      "start": "00:04:16",
+      "end": "00:04:17",
+      "text": "a determiner"
+    },
+    {
+      "start": "00:04:17",
+      "end": "00:04:19",
+      "text": "you might also see the name article"
+    },
+    {
+      "start": "00:04:19",
+      "end": "00:04:25",
+      "text": "and when sometimes when people are trying to shoehorn human language"
+    },
+    {
+      "start": "00:04:25",
+      "end": "00:04:27",
+      "text": "into eight part of speech categories"
+    },
+    {
+      "start": "00:04:27",
+      "end": "00:04:28",
+      "text": "that they say it's an adjective"
+    },
+    {
+      "start": "00:04:28",
+      "end": "00:04:31",
+      "text": "but it doesn't really behave like regular adjectives"
+    },
+    {
+      "start": "00:04:31",
+      "end": "00:04:35",
+      "text": "然後我們有說法如by、through、on、to、and ones like that"
+    },
+    {
+      "start": "00:04:35",
+      "end": "00:04:37",
+      "text": "所以它們都是 prepositions"
+    },
+    {
+      "start": "00:04:37",
+      "end": "00:04:39",
+      "text": "我們有這些classes"
+    },
+    {
+      "start": "00:04:39",
+      "end": "00:04:42",
+      "text": "有很多說法適用於每個class"
+    },
+    {
+      "start": "00:04:42",
+      "end": "00:04:45",
+      "text": "所以它們會被稱為conventionally as parts of speech"
+    },
+    {
+      "start": "00:04:45",
+      "end": "00:04:48",
+      "text": "但我們有了說法後"
+    },
+    {
+      "start": "00:04:48",
+      "end": "00:04:50",
+      "text": "我們開始將它們放進更大的組合"
+    },
+    {
+      "start": "00:04:50",
+      "end": "00:04:53",
+      "text": "例如Cuddly cat是某種組合"
+    },
+    {
+      "start": "00:04:53",
+      "end": "00:05:00",
+      "text": "所以這似乎是一種詞語的解釋"
+    },
+    {
+      "start": "00:05:00",
+      "end": "00:05:00",
+      "text": "a cat"
+    },
+    {
+      "start": "00:05:00",
+      "end": "00:05:03",
+      "text": "and so this gets referred to as a noun phrase"
+    },
+    {
+      "start": "00:05:04",
+      "end": "00:05:06",
+      "text": "and then by the door"
+    },
+    {
+      "start": "00:05:06",
+      "end": "00:05:08",
+      "text": "well this is a phrase"
+    },
+    {
+      "start": "00:05:08",
+      "end": "00:05:11",
+      "text": "but actually it has inside this the door"
+    },
+    {
+      "start": "00:05:11",
+      "end": "00:05:13",
+      "text": "and that's a noun phrase"
+    },
+    {
+      "start": "00:05:14",
+      "end": "00:05:17",
+      "text": "but this bigger unit here of by the door"
+    },
+    {
+      "start": "00:05:17",
+      "end": "00:05:19",
+      "text": "is then a prepositional phrase"
+    },
+    {
+      "start": "00:05:20",
+      "end": "00:05:23",
+      "text": "and we can continue to build bigger units"
+    },
+    {
+      "start": "00:05:24",
+      "end": "00:05:26",
+      "text": "so inside you know this"
+    },
+    {
+      "start": "00:05:26",
+      "end": "00:05:28",
+      "text": "we have this phrase"
+    },
+    {
+      "start": "00:05:28",
+      "end": "00:05:29",
+      "text": "that we've already looked at"
+    },
+    {
+      "start": "00:05:29",
+      "end": "00:05:31",
+      "text": "是用词词和词词"
+    },
+    {
+      "start": "00:05:31",
+      "end": "00:05:33",
+      "text": "然后我们可以用"
+    },
+    {
+      "start": "00:05:33",
+      "end": "00:05:35",
+      "text": "另一个词词"
+    },
+    {
+      "start": "00:05:35",
+      "end": "00:05:36",
+      "text": "叫做Cuddly Cat"
+    },
+    {
+      "start": "00:05:36",
+      "end": "00:05:38",
+      "text": "我们可以将它们放在一起"
+    },
+    {
+      "start": "00:05:38",
+      "end": "00:05:41",
+      "text": "建立一个更大的词词"
+    },
+    {
+      "start": "00:05:41",
+      "end": "00:05:43",
+      "text": "叫做The Cuddly Cat by the Door"
+    },
+    {
+      "start": "00:05:44",
+      "end": "00:05:46",
+      "text": "以此作为表达"
+    },
+    {
+      "start": "00:05:46",
+      "end": "00:05:47",
+      "text": "你可以开始写"
+    },
+    {
+      "start": "00:05:47",
+      "end": "00:05:49",
+      "text": "一个词词组织语言"
+    },
+    {
+      "start": "00:05:49",
+      "end": "00:05:51",
+      "text": "或者一个无语言语言"
+    },
+    {
+      "start": "00:05:51",
+      "end": "00:05:54",
+      "text": "代表什么可能性"
+    },
+    {
+      "start": "00:05:54",
+      "end": "00:05:55",
+      "text": "在英语中建立词词"
+    },
+    {
+      "start": "00:05:55",
+      "end": "00:05:57",
+      "text": "在英文中"
+    },
+    {
+      "start": "00:05:57",
+      "end": "00:05:59",
+      "text": "同樣類似的詞詞構成語言"
+    },
+    {
+      "start": "00:05:59",
+      "end": "00:06:01",
+      "text": "可以用於其他語言"
+    },
+    {
+      "start": "00:06:01",
+      "end": "00:06:04",
+      "text": "所以這是開始給你"
+    },
+    {
+      "start": "00:06:04",
+      "end": "00:06:06",
+      "text": "有可能的詞詞構成的方式"
+    },
+    {
+      "start": "00:06:06",
+      "end": "00:06:08",
+      "text": "所以你可以有"
+    },
+    {
+      "start": "00:06:09",
+      "end": "00:06:12",
+      "text": "詞詞是一種定義"
+    },
+    {
+      "start": "00:06:12",
+      "end": "00:06:14",
+      "text": "跟著是一種詞"
+    },
+    {
+      "start": "00:06:14",
+      "end": "00:06:16",
+      "text": "然後還有貓和狗"
+    },
+    {
+      "start": "00:06:16",
+      "end": "00:06:19",
+      "text": "你可以有大貓"
+    },
+    {
+      "start": "00:06:19",
+      "end": "00:06:21",
+      "text": "所以你可能會說"
+    },
+    {
+      "start": "00:06:21",
+      "end": "00:06:22",
+      "text": "好 除了這樣"
+    },
+    {
+      "start": "00:06:22",
+      "end": "00:06:23",
+      "text": "我可能會想要"
+    },
+    {
+      "start": "00:06:23",
+      "end": "00:06:25",
+      "text": "有一个比较好的例子"
+    },
+    {
+      "start": "00:06:25",
+      "end": "00:06:25",
+      "text": "就是一个语言词"
+    },
+    {
+      "start": "00:06:26",
+      "end": "00:06:27",
+      "text": "去一个定义"
+    },
+    {
+      "start": "00:06:27",
+      "end": "00:06:29",
+      "text": "一个选项语言"
+    },
+    {
+      "start": "00:06:30",
+      "end": "00:06:31",
+      "text": "然后一个语言"
+    },
+    {
+      "start": "00:06:31",
+      "end": "00:06:33",
+      "text": "如果你想想"
+    },
+    {
+      "start": "00:06:33",
+      "end": "00:06:36",
+      "text": "你可以有不同的语言"
+    },
+    {
+      "start": "00:06:36",
+      "end": "00:06:37",
+      "text": "比如说"
+    },
+    {
+      "start": "00:06:37",
+      "end": "00:06:39",
+      "text": "大大的"
+    },
+    {
+      "start": "00:06:40",
+      "end": "00:06:41",
+      "text": "绿色的"
+    },
+    {
+      "start": "00:06:41",
+      "end": "00:06:42",
+      "text": "猫"
+    },
+    {
+      "start": "00:06:42",
+      "end": "00:06:44",
+      "text": "或是什么样的"
+    },
+    {
+      "start": "00:06:44",
+      "end": "00:06:46",
+      "text": "所以你可以有不同的语言"
+    },
+    {
+      "start": "00:06:46",
+      "end": "00:06:48",
+      "text": "听到的语言"
+    },
+    {
+      "start": "00:06:48",
+      "end": "00:06:50",
+      "text": "那种纯净的星"
+    },
+    {
+      "start": "00:06:50",
+      "end": "00:06:51",
+      "text": "你可以有很多的"
+    },
+    {
+      "start": "00:06:52",
+      "end": "00:06:55",
+      "text": "大小的小綠色的貓"
+    },
+    {
+      "start": "00:06:55",
+      "end": "00:06:58",
+      "text": "但是你可以把東西放在"
+    },
+    {
+      "start": "00:06:58",
+      "end": "00:07:00",
+      "text": "下一個詞句後"
+    },
+    {
+      "start": "00:07:00",
+      "end": "00:07:01",
+      "text": "所以你可以把這些"
+    },
+    {
+      "start": "00:07:01",
+      "end": "00:07:02",
+      "text": "prepositional phrases"
+    },
+    {
+      "start": "00:07:02",
+      "end": "00:07:03",
+      "text": "放在一個盒子裡"
+    },
+    {
+      "start": "00:07:03",
+      "end": "00:07:05",
+      "text": "所以我們也可能想說"
+    },
+    {
+      "start": "00:07:05",
+      "end": "00:07:07",
+      "text": "一個詞句可以被"
+    },
+    {
+      "start": "00:07:07",
+      "end": "00:07:09",
+      "text": "重新寫成一個詞句"
+    },
+    {
+      "start": "00:07:09",
+      "end": "00:07:11",
+      "text": "跟著一個 prepositional phrase"
+    },
+    {
+      "start": "00:07:11",
+      "end": "00:07:13",
+      "text": "而一個 prepositional phrase"
+    },
+    {
+      "start": "00:07:14",
+      "end": "00:07:16",
+      "text": "可以被代表一個"
+    },
+    {
+      "start": "00:07:16",
+      "end": "00:07:18",
+      "text": "preposition 跟著一個詞句"
+    },
+    {
+      "start": "00:07:18",
+      "end": "00:07:22",
+      "text": "And somewhere we're also going to want to represent our parts"
+    },
+    {
+      "start": "00:07:22",
+      "end": "00:07:24",
+      "text": "of speech membership"
+    },
+    {
+      "start": "00:07:24",
+      "end": "00:07:30",
+      "text": "So a determiner can go to words like a or the"
+    },
+    {
+      "start": "00:07:30",
+      "end": "00:07:35",
+      "text": "And an adjective can go to words like large,"
+    },
+    {
+      "start": "00:07:36",
+      "end": "00:07:40",
+      "text": "cuddly or many other words that I'm not going to write down"
+    },
+    {
+      "start": "00:07:40",
+      "end": "00:07:49",
+      "text": "and a preposition can go to words like in, on, under, etc."
+    },
+    {
+      "start": "00:07:50",
+      "end": "00:07:55",
+      "text": "After that, okay, so now I've got a little grammar here"
+    },
+    {
+      "start": "00:07:55",
+      "end": "00:08:00",
+      "text": "and this little grammar here could sort of make everything I"
+    },
+    {
+      "start": "00:08:00",
+      "end": "00:08:01",
+      "text": "'ve got in these sentences"
+    },
+    {
+      "start": "00:08:01",
+      "end": "00:08:03",
+      "text": "Well, I actually can do this one too"
+    },
+    {
+      "start": "00:08:03",
+      "end": "00:08:06",
+      "text": "I can do the large barking one where there are multiple ones"
+    },
+    {
+      "start": "00:08:06",
+      "end": "00:08:10",
+      "text": "But then if I start going beyond these noun phrases"
+    },
+    {
+      "start": "00:08:10",
+      "end": "00:08:15",
+      "text": "and say think of sentences like"
+    },
+    {
+      "start": "00:08:15",
+      "end": "00:08:16",
+      "text": "talk to the cat"
+    },
+    {
+      "start": "00:08:16",
+      "end": "00:08:22",
+      "text": "or talk to the large cuddly dog by the door"
+    },
+    {
+      "start": "00:08:22",
+      "end": "00:08:25",
+      "text": "well now I've got here a verb talk"
+    },
+    {
+      "start": "00:08:25",
+      "end": "00:08:27",
+      "text": "and I've again got a preposition"
+    },
+    {
+      "start": "00:08:27",
+      "end": "00:08:31",
+      "text": "so I might then have more rules"
+    },
+    {
+      "start": "00:08:31",
+      "end": "00:08:33",
+      "text": "that says I can have a verb phrase"
+    },
+    {
+      "start": "00:08:33",
+      "end": "00:08:37",
+      "text": "and the verb phrase can go to a verb"
+    },
+    {
+      "start": "00:08:37",
+      "end": "00:08:39",
+      "text": "and then a prepositional phrase"
+    },
+    {
+      "start": "00:08:39",
+      "end": "00:08:43",
+      "text": "and then that could explain these two sentences as well"
+    },
+    {
+      "start": "00:08:43",
+      "end": "00:08:45",
+      "text": "and in this kind of way"
+    },
+    {
+      "start": "00:08:45",
+      "end": "00:08:48",
+      "text": "I can start to build up a grammar"
+    },
+    {
+      "start": "00:08:48",
+      "end": "00:08:50",
+      "text": "of the structure of English sentences"
+    },
+    {
+      "start": "00:08:50",
+      "end": "00:08:52",
+      "text": "as a context-free grammar"
+    },
+    {
+      "start": "00:08:52",
+      "end": "00:08:54",
+      "text": "make sense?"
+    },
+    {
+      "start": "00:08:54",
+      "end": "00:08:56",
+      "text": "yeah, okay"
+    },
+    {
+      "start": "00:08:57",
+      "end": "00:09:03",
+      "text": "and so that's what is being quite commonly done"
+    },
+    {
+      "start": "00:09:03",
+      "end": "00:09:05",
+      "text": "in linguistics and elsewhere"
+    },
+    {
+      "start": "00:09:05",
+      "end": "00:09:12",
+      "text": "swear um okay uh yeah uh"
+    },
+    {
+      "start": "00:09:12",
+      "end": "00:09:15",
+      "text": "so let me just do that once more"
+    },
+    {
+      "start": "00:09:15",
+      "end": "00:09:17",
+      "text": "but behind in this one"
+    },
+    {
+      "start": "00:09:17",
+      "end": "00:09:21",
+      "text": "so one thing i can do here is say oh"
+    },
+    {
+      "start": "00:09:21",
+      "end": "00:09:25",
+      "text": "i have i'm going to look at this"
+    },
+    {
+      "start": "00:09:25",
+      "end": "00:09:26",
+      "text": "with its phrase structure"
+    },
+    {
+      "start": "00:09:26",
+      "end": "00:09:28",
+      "text": "and if i write it upside down"
+    },
+    {
+      "start": "00:09:28",
+      "end": "00:09:30",
+      "text": "to give myself some space for later"
+    },
+    {
+      "start": "00:09:30",
+      "end": "00:09:33",
+      "text": "you know i could start um"
+    },
+    {
+      "start": "00:09:35",
+      "end": "00:09:36",
+      "text": "making a phrase structure"
+    },
+    {
+      "start": "00:09:36",
+      "end": "00:09:39",
+      "text": "structure that is of this sentence"
+    },
+    {
+      "start": "00:09:39",
+      "end": "00:09:42",
+      "text": "and I'll start to run out of space"
+    },
+    {
+      "start": "00:09:42",
+      "end": "00:09:47",
+      "text": "but I can sort of start to make this"
+    },
+    {
+      "start": "00:09:47",
+      "end": "00:09:48",
+      "text": "phrase structure of the sentence"
+    },
+    {
+      "start": "00:09:48",
+      "end": "00:09:51",
+      "text": "so that's phrase structure"
+    },
+    {
+      "start": "00:09:51",
+      "end": "00:09:54",
+      "text": "but there's another form of representation"
+    },
+    {
+      "start": "00:09:55",
+      "end": "00:09:58",
+      "text": "that has been fairly widely used in linguistics"
+    },
+    {
+      "start": "00:09:58",
+      "end": "00:09:59",
+      "text": "and we're going"
+    },
+    {
+      "start": "00:09:59",
+      "end": "00:10:01",
+      "text": "and it's been commonly used in NLP"
+    },
+    {
+      "start": "00:10:01",
+      "end": "00:10:04",
+      "text": "and we're going to use for the parsers we built"
+    },
+    {
+      "start": "00:10:04",
+      "end": "00:10:06",
+      "text": "and that's dependency structure"
+    },
+    {
+      "start": "00:10:06",
+      "end": "00:10:08",
+      "text": "所以依靠形式代表了一些"
+    },
+    {
+      "start": "00:10:08",
+      "end": "00:10:10",
+      "text": "稍微不一樣的東西"
+    },
+    {
+      "start": "00:10:10",
+      "end": "00:10:15",
+      "text": "它想到主要的詞或頭部或其他東西"
+    },
+    {
+      "start": "00:10:15",
+      "end": "00:10:19",
+      "text": "然後它們用哪些詞來改變或作出論點"
+    },
+    {
+      "start": "00:10:20",
+      "end": "00:10:24",
+      "text": "所以在大廳的大廳裡看著門"
+    },
+    {
+      "start": "00:10:24",
+      "end": "00:10:28",
+      "text": "這就是用看著的指令"
+    },
+    {
+      "start": "00:10:28",
+      "end": "00:10:32",
+      "text": "所以整個東西的頭部就是看著"
+    },
+    {
+      "start": "00:10:32",
+      "end": "00:10:39",
+      "text": "and then looking is taking one or more arguments or modifiers"
+    },
+    {
+      "start": "00:10:39",
+      "end": "00:10:43",
+      "text": "and well what the looking is saying here is"
+    },
+    {
+      "start": "00:10:43",
+      "end": "00:10:47",
+      "text": "well what you want to do is look in the large crate"
+    },
+    {
+      "start": "00:10:47",
+      "end": "00:10:51",
+      "text": "so we are looking in something"
+    },
+    {
+      "start": "00:10:51",
+      "end": "00:10:54",
+      "text": "and then what we're looking in is a crate"
+    },
+    {
+      "start": "00:10:54",
+      "end": "00:10:57",
+      "text": "and then the crate has some modifiers"
+    },
+    {
+      "start": "00:10:57",
+      "end": "00:10:59",
+      "text": "it's a large crate"
+    },
+    {
+      "start": "00:10:59",
+      "end": "00:11:01",
+      "text": "it's the large crate"
+    },
+    {
+      "start": "00:11:01",
+      "end": "00:11:07",
+      "text": "and then the crate is also placed somewhere"
+    },
+    {
+      "start": "00:11:07",
+      "end": "00:11:10",
+      "text": "it's placed in the kitchen"
+    },
+    {
+      "start": "00:11:10",
+      "end": "00:11:14",
+      "text": "so that in the kitchen is also modifying crate"
+    },
+    {
+      "start": "00:11:14",
+      "end": "00:11:18",
+      "text": "and then we've got over here the by the door"
+    },
+    {
+      "start": "00:11:19",
+      "end": "00:11:25",
+      "text": "well the by the door is also modifying crate"
+    },
+    {
+      "start": "00:11:25",
+      "end": "00:11:28",
+      "text": "so we've also got a link down over to here"
+    },
+    {
+      "start": "00:11:28",
+      "end": "00:11:31",
+      "text": "and that gives us our piece of structure here"
+    },
+    {
+      "start": "00:11:31",
+      "end": "00:11:33",
+      "text": "which having filled that in"
+    },
+    {
+      "start": "00:11:33",
+      "end": "00:11:35",
+      "text": "makes me realize I actually got it wrong"
+    },
+    {
+      "start": "00:11:35",
+      "end": "00:11:37",
+      "text": "when I was doing"
+    },
+    {
+      "start": "00:11:37",
+      "end": "00:11:39",
+      "text": "the constituency representation"
+    },
+    {
+      "start": "00:11:39",
+      "end": "00:11:41",
+      "text": "whoopsie"
+    },
+    {
+      "start": "00:11:41",
+      "end": "00:11:42",
+      "text": "so I should get my"
+    },
+    {
+      "start": "00:11:42",
+      "end": "00:11:45",
+      "text": "because in the constituency representation"
+    },
+    {
+      "start": "00:11:45",
+      "end": "00:11:47",
+      "text": "I made the kitchen by the door"
+    },
+    {
+      "start": "00:11:47",
+      "end": "00:11:49",
+      "text": "into a phrase and that was actually wrong"
+    },
+    {
+      "start": "00:11:49",
+      "end": "00:11:50",
+      "text": "whoops bad me"
+    },
+    {
+      "start": "00:11:51",
+      "end": "00:11:53",
+      "text": "so what I should have actually"
+    },
+    {
+      "start": "00:11:53",
+      "end": "00:11:54",
+      "text": "had"
+    },
+    {
+      "start": "00:11:55",
+      "end": "00:11:57",
+      "text": "was we had"
+    },
+    {
+      "start": "00:11:57",
+      "end": "00:11:59",
+      "text": "another prepositional phrase"
+    },
+    {
+      "start": "00:11:59",
+      "end": "00:12:03",
+      "text": "that went to a noun phrase of in the kitchen"
+    },
+    {
+      "start": "00:12:03",
+      "end": "00:12:05",
+      "text": "and then both of those"
+    },
+    {
+      "start": "00:12:05",
+      "end": "00:12:12",
+      "text": "were coming off a bigger noun phrase like that"
+    },
+    {
+      "start": "00:12:12",
+      "end": "00:12:13",
+      "text": "whoopsie"
+    },
+    {
+      "start": "00:12:13",
+      "end": "00:12:13",
+      "text": "okay"
+    },
+    {
+      "start": "00:12:13",
+      "end": "00:12:16",
+      "text": "I get it right most of the time"
+    },
+    {
+      "start": "00:12:16",
+      "end": "00:12:20",
+      "text": "okay but so this idea of dependency structure"
+    },
+    {
+      "start": "00:12:20",
+      "end": "00:12:22",
+      "text": "is that we're sort of finding"
+    },
+    {
+      "start": "00:12:22",
+      "end": "00:12:23",
+      "text": "what is the head word"
+    },
+    {
+      "start": "00:12:24",
+      "end": "00:12:25",
+      "text": "and then we're saying"
+    },
+    {
+      "start": "00:12:25",
+      "end": "00:12:27",
+      "text": "which things modify the head word"
+    },
+    {
+      "start": "00:12:27",
+      "end": "00:12:29",
+      "text": "and either of these representations"
+    },
+    {
+      "start": "00:12:29",
+      "end": "00:12:33",
+      "text": "我们可以使用来解决"
+    },
+    {
+      "start": "00:12:34",
+      "end": "00:12:36",
+      "text": "语言的结构"
+    },
+    {
+      "start": "00:12:36",
+      "end": "00:12:39",
+      "text": "在哪些语言结合"
+    },
+    {
+      "start": "00:12:39",
+      "end": "00:12:41",
+      "text": "哪些语言改变其他语言"
+    },
+    {
+      "start": "00:12:41",
+      "end": "00:12:43",
+      "text": "所以基本的理念是"
+    },
+    {
+      "start": "00:12:43",
+      "end": "00:12:45",
+      "text": "当人们交流"
+    },
+    {
+      "start": "00:12:45",
+      "end": "00:12:49",
+      "text": "我们交流在一条链的流程"
+    },
+    {
+      "start": "00:12:49",
+      "end": "00:12:51",
+      "text": "如果是"
+    },
+    {
+      "start": "00:12:51",
+      "end": "00:12:53",
+      "text": "经典的写字系统"
+    },
+    {
+      "start": "00:12:53",
+      "end": "00:12:56",
+      "text": "它是你读的一条链的语言"
+    },
+    {
+      "start": "00:12:57",
+      "end": "00:12:58",
+      "text": "如果是"
+    },
+    {
+      "start": "00:12:58",
+      "end": "00:13:01",
+      "text": "就像你現在聽我講的語言一樣"
+    },
+    {
+      "start": "00:13:01",
+      "end": "00:13:04",
+      "text": "它並不是一條正常的語言"
+    },
+    {
+      "start": "00:13:04",
+      "end": "00:13:06",
+      "text": "而是一條正常的聲音"
+    },
+    {
+      "start": "00:13:07",
+      "end": "00:13:09",
+      "text": "當人們在說話時"
+    },
+    {
+      "start": "00:13:09",
+      "end": "00:13:11",
+      "text": "人們在說話時"
+    },
+    {
+      "start": "00:13:11",
+      "end": "00:13:12",
+      "text": "不會有白色的空間"
+    },
+    {
+      "start": "00:13:12",
+      "end": "00:13:16",
+      "text": "有時候人們會在"
+    },
+    {
+      "start": "00:13:16",
+      "end": "00:13:18",
+      "text": "一個句子或一句話的結尾時停止"
+    },
+    {
+      "start": "00:13:18",
+      "end": "00:13:19",
+      "text": "但在大體上"
+    },
+    {
+      "start": "00:13:19",
+      "end": "00:13:21",
+      "text": "我只是在說持續的語言"
+    },
+    {
+      "start": "00:13:21",
+      "end": "00:13:27",
+      "text": "一對一的進行"
+    },
+    {
+      "start": "00:13:27",
+      "end": "00:13:30",
+      "text": "你必须这样做"
+    },
+    {
+      "start": "00:13:30",
+      "end": "00:13:32",
+      "text": "但如果你当时在想"
+    },
+    {
+      "start": "00:13:32",
+      "end": "00:13:38",
+      "text": "我可以实际上理解Chris在说话"
+    },
+    {
+      "start": "00:13:38",
+      "end": "00:13:41",
+      "text": "那你会有些程度上"
+    },
+    {
+      "start": "00:13:41",
+      "end": "00:13:43",
+      "text": "你将这一线运动"
+    },
+    {
+      "start": "00:13:43",
+      "end": "00:13:46",
+      "text": "转化成一个意义"
+    },
+    {
+      "start": "00:13:46",
+      "end": "00:13:49",
+      "text": "有些语言会改变其他语言"
+    },
+    {
+      "start": "00:13:49",
+      "end": "00:13:51",
+      "text": "你会有这些更大的组织"
+    },
+    {
+      "start": "00:13:51",
+      "end": "00:13:52",
+      "text": "例如同事"
+    },
+    {
+      "start": "00:13:52",
+      "end": "00:13:55",
+      "text": "他们会理解语言的意义"
+    },
+    {
+      "start": "00:13:55",
+      "end": "00:14:01",
+      "text": "人类听众需要研究什么改变什么"
+    },
+    {
+      "start": "00:14:01",
+      "end": "00:14:04",
+      "text": "才能够正确地理解语言"
+    },
+    {
+      "start": "00:14:05",
+      "end": "00:14:07",
+      "text": "同样地"
+    },
+    {
+      "start": "00:14:07",
+      "end": "00:14:09",
+      "text": "我们的模型需要能够"
+    },
+    {
+      "start": "00:14:09",
+      "end": "00:14:10",
+      "text": "正确地理解语言"
+    },
+    {
+      "start": "00:14:10",
+      "end": "00:14:13",
+      "text": "才能够正确地"
+    },
+    {
+      "start": "00:14:13",
+      "end": "00:14:13",
+      "text": "正确地解释语言"
+    },
+    {
+      "start": "00:14:13",
+      "end": "00:14:16",
+      "text": "所以我们将要做的"
+    },
+    {
+      "start": "00:14:16",
+      "end": "00:14:18",
+      "text": "是为了建立联系计划"
+    },
+    {
+      "start": "00:14:18",
+      "end": "00:14:21",
+      "text": "我们将要具体地"
+    },
+    {
+      "start": "00:14:21",
+      "end": "00:14:24",
+      "text": "建立一个综合计划模式"
+    },
+    {
+      "start": "00:14:24",
+      "end": "00:14:28",
+      "text": "讓我們找出這些文字的結構"
+    },
+    {
+      "start": "00:14:28",
+      "end": "00:14:31",
+      "text": "後來我們會改變這一點"
+    },
+    {
+      "start": "00:14:31",
+      "end": "00:14:36",
+      "text": "因為當我們進入轉換語言模式時"
+    },
+    {
+      "start": "00:14:36",
+      "end": "00:14:39",
+      "text": "它們只會進入文字的過程中"
+    },
+    {
+      "start": "00:14:39",
+      "end": "00:14:43",
+      "text": "但其實在 neural network 的規則之內"
+    },
+    {
+      "start": "00:14:43",
+      "end": "00:14:46",
+      "text": "它們在認識和建立同樣的結構"
+    },
+    {
+      "start": "00:14:46",
+      "end": "00:14:48",
+      "text": "我們稍後會討論這一點"
+    },
+    {
+      "start": "00:14:48",
+      "end": "00:14:49",
+      "text": "後期的課程"
+    },
+    {
+      "start": "00:14:49",
+      "end": "00:14:51",
+      "text": "以給大家更多的理解"
+    },
+    {
+      "start": "00:14:53",
+      "end": "00:14:55",
+      "text": "什麼改變什麼"
+    },
+    {
+      "start": "00:14:55",
+      "end": "00:14:58",
+      "text": "是對解的重要性"
+    },
+    {
+      "start": "00:14:58",
+      "end": "00:15:00",
+      "text": "這裡有幾個有趣的例子"
+    },
+    {
+      "start": "00:15:00",
+      "end": "00:15:01",
+      "text": "從報紙的主題"
+    },
+    {
+      "start": "00:15:01",
+      "end": "00:15:04",
+      "text": "這些有趣的例子是因為"
+    },
+    {
+      "start": "00:15:04",
+      "end": "00:15:10",
+      "text": "文字並不是只有一種解釋方法"
+    },
+    {
+      "start": "00:15:10",
+      "end": "00:15:13",
+      "text": "當你有一種語言的綜合"
+    },
+    {
+      "start": "00:15:13",
+      "end": "00:15:16",
+      "text": "通常在人文語中"
+    },
+    {
+      "start": "00:15:16",
+      "end": "00:15:18",
+      "text": "文字的循环是不明显的"
+    },
+    {
+      "start": "00:15:18",
+      "end": "00:15:21",
+      "text": "而它是依靠人类的解释"
+    },
+    {
+      "start": "00:15:21",
+      "end": "00:15:24",
+      "text": "所做的事和合作的意义"
+    },
+    {
+      "start": "00:15:24",
+      "end": "00:15:25",
+      "text": "来解决它们的问题"
+    },
+    {
+      "start": "00:15:25",
+      "end": "00:15:29",
+      "text": "这是第一个例子"
+    },
+    {
+      "start": "00:15:29",
+      "end": "00:15:31",
+      "text": "科学家将宇宙鸟数量"
+    },
+    {
+      "start": "00:15:32",
+      "end": "00:15:36",
+      "text": "那是不明显的"
+    },
+    {
+      "start": "00:15:36",
+      "end": "00:15:38",
+      "text": "你可以给这两个可能的评论"
+    },
+    {
+      "start": "00:15:38",
+      "end": "00:15:43",
+      "text": "你如何给这两个可能的评论"
+    },
+    {
+      "start": "00:15:45",
+      "end": "00:15:48",
+      "text": "in space counting whales"
+    },
+    {
+      "start": "00:15:48",
+      "end": "00:15:51",
+      "text": "and the other one is that they're whales from in space"
+    },
+    {
+      "start": "00:15:51",
+      "end": "00:15:54",
+      "text": "so one possibility is"
+    },
+    {
+      "start": "00:15:54",
+      "end": "00:15:56",
+      "text": "so we've got this prepositional phrase"
+    },
+    {
+      "start": "00:15:56",
+      "end": "00:15:58",
+      "text": "this is a prepositional phrase here"
+    },
+    {
+      "start": "00:15:58",
+      "end": "00:16:02",
+      "text": "one possibility is that this prepositional phrase"
+    },
+    {
+      "start": "00:16:02",
+      "end": "00:16:06",
+      "text": "is modifying whales"
+    },
+    {
+      "start": "00:16:10",
+      "end": "00:16:12",
+      "text": "so they're whales from space"
+    },
+    {
+      "start": "00:16:12",
+      "end": "00:16:17",
+      "text": "and the other possibility is that it's the counting that's happening"
+    },
+    {
+      "start": "00:16:17",
+      "end": "00:16:18",
+      "text": "from space"
+    },
+    {
+      "start": "00:16:18",
+      "end": "00:16:21",
+      "text": "so the scientists are counting it from space"
+    },
+    {
+      "start": "00:16:21",
+      "end": "00:16:24",
+      "text": "okay so that corresponds to my two pictures here"
+    },
+    {
+      "start": "00:16:24",
+      "end": "00:16:31",
+      "text": "so in one picture it's the counting that is happening from space"
+    },
+    {
+      "start": "00:16:32",
+      "end": "00:16:36",
+      "text": "which is actually the right interpretation of what the article"
+    },
+    {
+      "start": "00:16:36",
+      "end": "00:16:36",
+      "text": "is about"
+    },
+    {
+      "start": "00:16:36",
+      "end": "00:16:40",
+      "text": "but in the other interpretation we have space whales"
+    },
+    {
+      "start": "00:16:40",
+      "end": "00:16:44",
+      "text": "and the scientists are counting the space whales"
+    },
+    {
+      "start": "00:16:44",
+      "end": "00:16:46",
+      "text": "that are arriving or something like that"
+    },
+    {
+      "start": "00:16:46",
+      "end": "00:16:50",
+      "text": "and so then we have the from space"
+    },
+    {
+      "start": "00:16:50",
+      "end": "00:16:51",
+      "text": "that are modifying the whales"
+    },
+    {
+      "start": "00:16:51",
+      "end": "00:16:55",
+      "text": "okay so what we have here right"
+    },
+    {
+      "start": "00:16:55",
+      "end": "00:16:57",
+      "text": "is a prepositional phrase"
+    },
+    {
+      "start": "00:16:58",
+      "end": "00:17:00",
+      "text": "which comes after a noun phrase"
+    },
+    {
+      "start": "00:17:00",
+      "end": "00:17:01",
+      "text": "it's just a one word noun phrase here"
+    },
+    {
+      "start": "00:17:01",
+      "end": "00:17:03",
+      "text": "whales that's fine"
+    },
+    {
+      "start": "00:17:03",
+      "end": "00:17:05",
+      "text": "and then before that is a verb"
+    },
+    {
+      "start": "00:17:05",
+      "end": "00:17:07",
+      "text": "and so the thing"
+    },
+    {
+      "start": "00:17:07",
+      "end": "00:17:12",
+      "text": "So one place in English where you get a lot of ambiguities"
+    },
+    {
+      "start": "00:17:12",
+      "end": "00:17:14",
+      "text": "is from these prepositional phrases"
+    },
+    {
+      "start": "00:17:14",
+      "end": "00:17:17",
+      "text": "because whenever you get prepositional phrases"
+    },
+    {
+      "start": "00:17:17",
+      "end": "00:17:19",
+      "text": "and prepositional phrases are really common in English"
+    },
+    {
+      "start": "00:17:19",
+      "end": "00:17:20",
+      "text": "if you think about it"
+    },
+    {
+      "start": "00:17:20",
+      "end": "00:17:22",
+      "text": "whenever you get them like this"
+    },
+    {
+      "start": "00:17:22",
+      "end": "00:17:25",
+      "text": "it's always ambiguous as to"
+    },
+    {
+      "start": "00:17:27",
+      "end": "00:17:32",
+      "text": "it's always ambiguous as to what earlier thing in the sentence"
+    },
+    {
+      "start": "00:17:32",
+      "end": "00:17:34",
+      "text": "they're dependent of"
+    },
+    {
+      "start": "00:17:34",
+      "end": "00:17:41",
+      "text": "um and so um you know you can sort of put in another prepositional"
+    },
+    {
+      "start": "00:17:41",
+      "end": "00:17:46",
+      "text": "phrase in the morning or something like that and so then the"
+    },
+    {
+      "start": "00:17:46",
+      "end": "00:17:49",
+      "text": "ambiguities just multiply"
+    },
+    {
+      "start": "00:17:49",
+      "end": "00:17:55",
+      "text": "and so the important thing to notice here about human language"
+    },
+    {
+      "start": "00:17:55",
+      "end": "00:18:01",
+      "text": "is human language is in syntactic terms globally ambiguous right"
+    },
+    {
+      "start": "00:18:01",
+      "end": "00:18:04",
+      "text": "所以在设计语言中"
+    },
+    {
+      "start": "00:18:04",
+      "end": "00:18:08",
+      "text": "有地区语言的解释"
+    },
+    {
+      "start": "00:18:08",
+      "end": "00:18:10",
+      "text": "有多少人做过综艺课程"
+    },
+    {
+      "start": "00:18:10",
+      "end": "00:18:11",
+      "text": "我认为最近很少"
+    },
+    {
+      "start": "00:18:11",
+      "end": "00:18:13",
+      "text": "有谁做过综艺课程"
+    },
+    {
+      "start": "00:18:13",
+      "end": "00:18:17",
+      "text": "看起来比较少人做过综艺课程"
+    },
+    {
+      "start": "00:18:17",
+      "end": "00:18:18",
+      "text": "比较少人做过语言课程"
+    },
+    {
+      "start": "00:18:18",
+      "end": "00:18:18",
+      "text": "那很有趣"
+    },
+    {
+      "start": "00:18:19",
+      "end": "00:18:20",
+      "text": "好吧"
+    },
+    {
+      "start": "00:18:21",
+      "end": "00:18:23",
+      "text": "我不会做太多"
+    },
+    {
+      "start": "00:18:23",
+      "end": "00:18:24",
+      "text": "综艺课程的解释"
+    },
+    {
+      "start": "00:18:24",
+      "end": "00:18:26",
+      "text": "当我年轻的时候"
+    },
+    {
+      "start": "00:18:26",
+      "end": "00:18:30",
+      "text": "那是以前的CS课程"
+    },
+    {
+      "start": "00:18:30",
+      "end": "00:18:33",
+      "text": "我们在写文章中 写文章中 写文章中"
+    },
+    {
+      "start": "00:18:33",
+      "end": "00:18:36",
+      "text": "我们被视为科学教育的主要职责"
+    },
+    {
+      "start": "00:18:36",
+      "end": "00:18:37",
+      "text": "但我认为没有其他"
+    },
+    {
+      "start": "00:18:38",
+      "end": "00:18:41",
+      "text": "所以在设计语言中"
+    },
+    {
+      "start": "00:18:41",
+      "end": "00:18:43",
+      "text": "你可以有一个地区的障碍"
+    },
+    {
+      "start": "00:18:44",
+      "end": "00:18:46",
+      "text": "但是障碍总是解决的"
+    },
+    {
+      "start": "00:18:46",
+      "end": "00:18:48",
+      "text": "所以我们有简单的规则"
+    },
+    {
+      "start": "00:18:48",
+      "end": "00:18:50",
+      "text": "在设计语言中"
+    },
+    {
+      "start": "00:18:50",
+      "end": "00:18:53",
+      "text": "其他语言是与最接近的"
+    },
+    {
+      "start": "00:18:53",
+      "end": "00:18:54",
+      "text": "如果"
+    },
+    {
+      "start": "00:18:55",
+      "end": "00:18:57",
+      "text": "在Python里面有点不一样"
+    },
+    {
+      "start": "00:18:57",
+      "end": "00:18:58",
+      "text": "因为它是障碍"
+    },
+    {
+      "start": "00:18:58",
+      "end": "00:18:59",
+      "text": "但是有的規則"
+    },
+    {
+      "start": "00:18:59",
+      "end": "00:19:00",
+      "text": "在計算語言中"
+    },
+    {
+      "start": "00:19:00",
+      "end": "00:19:02",
+      "text": "永遠不會有全球規則"
+    },
+    {
+      "start": "00:19:04",
+      "end": "00:19:07",
+      "text": "但是人類的語言"
+    },
+    {
+      "start": "00:19:07",
+      "end": "00:19:08",
+      "text": "並不是如此"
+    },
+    {
+      "start": "00:19:09",
+      "end": "00:19:10",
+      "text": "沒有任何解決"
+    },
+    {
+      "start": "00:19:10",
+      "end": "00:19:14",
+      "text": "這兩個讀法是正確的"
+    },
+    {
+      "start": "00:19:14",
+      "end": "00:19:15",
+      "text": "如果我用一個大字"
+    },
+    {
+      "start": "00:19:15",
+      "end": "00:19:17",
+      "text": "它仍然會有規則"
+    },
+    {
+      "start": "00:19:17",
+      "end": "00:19:19",
+      "text": "你只是用語言"
+    },
+    {
+      "start": "00:19:19",
+      "end": "00:19:21",
+      "text": "用內容和智慧"
+    },
+    {
+      "start": "00:19:21",
+      "end": "00:19:23",
+      "text": "來決定發生什麼"
+    },
+    {
+      "start": "00:19:23",
+      "end": "00:19:25",
+      "text": "所以要用一個"
+    },
+    {
+      "start": "00:19:25",
+      "end": "00:19:28",
+      "text": "这是一个比较实际的例子"
+    },
+    {
+      "start": "00:19:30",
+      "end": "00:19:32",
+      "text": "这是你平时早上在"
+    },
+    {
+      "start": "00:19:32",
+      "end": "00:19:34",
+      "text": "《华尔街日报》中"
+    },
+    {
+      "start": "00:19:34",
+      "end": "00:19:35",
+      "text": "认识的一种惨言"
+    },
+    {
+      "start": "00:19:35",
+      "end": "00:19:37",
+      "text": "这份认识是"
+    },
+    {
+      "start": "00:19:37",
+      "end": "00:19:37",
+      "text": "在每周会议中"
+    },
+    {
+      "start": "00:19:37",
+      "end": "00:19:39",
+      "text": "购买的Royal Trust Co. Ltd."
+    },
+    {
+      "start": "00:19:39",
+      "end": "00:19:42",
+      "text": "购买的Royal Trust Co. Ltd."
+    },
+    {
+      "start": "00:19:42",
+      "end": "00:19:47",
+      "text": "所以你能看到这句话"
+    },
+    {
+      "start": "00:19:47",
+      "end": "00:19:49",
+      "text": "是我们有一个词"
+    },
+    {
+      "start": "00:19:49",
+      "end": "00:19:50",
+      "text": "然后我们有一个词"
+    },
+    {
+      "start": "00:19:50",
+      "end": "00:19:53",
+      "text": "然后之后"
+    },
+    {
+      "start": "00:19:53",
+      "end": "00:19:57",
+      "text": "We have four prepositional phrases in a row"
+    },
+    {
+      "start": "00:19:57",
+      "end": "00:20:00",
+      "text": "Okay, so what do these prepositional phrases modify?"
+    },
+    {
+      "start": "00:20:01",
+      "end": "00:20:05",
+      "text": "So what does by Royal Trust Co. Ltd. modify?"
+    },
+    {
+      "start": "00:20:07",
+      "end": "00:20:09",
+      "text": "The acquisition, right?"
+    },
+    {
+      "start": "00:20:09",
+      "end": "00:20:11",
+      "text": "So it's the acquisition by Royal Trust Co."
+    },
+    {
+      "start": "00:20:12",
+      "end": "00:20:15",
+      "text": "Then of Toronto modifies"
+    },
+    {
+      "start": "00:20:17",
+      "end": "00:20:19",
+      "text": "So it's Royal Trust Co. Ltd. of Toronto"
+    },
+    {
+      "start": "00:20:20",
+      "end": "00:20:22",
+      "text": "So yeah, later on"
+    },
+    {
+      "start": "00:20:22",
+      "end": "00:20:25",
+      "text": "prepositional phrases can also modify"
+    },
+    {
+      "start": "00:20:25",
+      "end": "00:20:27",
+      "text": "早前的语言词"
+    },
+    {
+      "start": "00:20:27",
+      "end": "00:20:28",
+      "text": "或至少内容词"
+    },
+    {
+      "start": "00:20:28",
+      "end": "00:20:30",
+      "text": "中的Royal Trust Co. Ltd"
+    },
+    {
+      "start": "00:20:30",
+      "end": "00:20:31",
+      "text": "好"
+    },
+    {
+      "start": "00:20:31",
+      "end": "00:20:33",
+      "text": "$27一份"
+    },
+    {
+      "start": "00:20:34",
+      "end": "00:20:37",
+      "text": "是回到改变"
+    },
+    {
+      "start": "00:20:37",
+      "end": "00:20:38",
+      "text": "额外的额外"
+    },
+    {
+      "start": "00:20:39",
+      "end": "00:20:39",
+      "text": "好"
+    },
+    {
+      "start": "00:20:39",
+      "end": "00:20:42",
+      "text": "在每个月的会议中"
+    },
+    {
+      "start": "00:20:42",
+      "end": "00:20:43",
+      "text": "是"
+    },
+    {
+      "start": "00:20:43",
+      "end": "00:20:43",
+      "text": "是的"
+    },
+    {
+      "start": "00:20:43",
+      "end": "00:20:45",
+      "text": "是批准"
+    },
+    {
+      "start": "00:20:45",
+      "end": "00:20:47",
+      "text": "所以它回到那里"
+    },
+    {
+      "start": "00:20:47",
+      "end": "00:20:47",
+      "text": "对"
+    },
+    {
+      "start": "00:20:47",
+      "end": "00:20:50",
+      "text": "但是你知道"
+    },
+    {
+      "start": "00:20:50",
+      "end": "00:20:51",
+      "text": "是的"
+    },
+    {
+      "start": "00:20:52",
+      "end": "00:20:53",
+      "text": "所以你知道"
+    },
+    {
+      "start": "00:20:53",
+      "end": "00:20:54",
+      "text": "所以如果你开始"
+    },
+    {
+      "start": "00:20:54",
+      "end": "00:20:57",
+      "text": "你只要有一堆這個類似的"
+    },
+    {
+      "start": "00:20:57",
+      "end": "00:20:59",
+      "text": "prepositional phrases的文章"
+    },
+    {
+      "start": "00:20:59",
+      "end": "00:21:02",
+      "text": "你就可以開始得到更多的"
+    },
+    {
+      "start": "00:21:02",
+      "end": "00:21:04",
+      "text": "attachment 的 ambiguities"
+    },
+    {
+      "start": "00:21:04",
+      "end": "00:21:05",
+      "text": "你不會得到"
+    },
+    {
+      "start": "00:21:05",
+      "end": "00:21:08",
+      "text": "你不會得到"
+    },
+    {
+      "start": "00:21:08",
+      "end": "00:21:10",
+      "text": "一個完全自由選擇的"
+    },
+    {
+      "start": "00:21:10",
+      "end": "00:21:13",
+      "text": "factorial number of attachment points"
+    },
+    {
+      "start": "00:21:13",
+      "end": "00:21:15",
+      "text": "因為有一個限制"
+    },
+    {
+      "start": "00:21:15",
+      "end": "00:21:18",
+      "text": "這些dependencies 不能接近"
+    },
+    {
+      "start": "00:21:19",
+      "end": "00:21:21",
+      "text": "所以你再往前走"
+    },
+    {
+      "start": "00:21:21",
+      "end": "00:21:23",
+      "text": "你必須要相同距離"
+    },
+    {
+      "start": "00:21:23",
+      "end": "00:21:24",
+      "text": "再往後走或再往後走"
+    },
+    {
+      "start": "00:21:24",
+      "end": "00:21:26",
+      "text": "但無論如何"
+    },
+    {
+      "start": "00:21:26",
+      "end": "00:21:28",
+      "text": "所以你得到的讀取數字"
+    },
+    {
+      "start": "00:21:28",
+      "end": "00:21:30",
+      "text": "就是Catalan系列"
+    },
+    {
+      "start": "00:21:30",
+      "end": "00:21:31",
+      "text": "這就是你看到的系列"
+    },
+    {
+      "start": "00:21:31",
+      "end": "00:21:32",
+      "text": "在其他地方"
+    },
+    {
+      "start": "00:21:32",
+      "end": "00:21:34",
+      "text": "如果你有做過圖表的學術"
+    },
+    {
+      "start": "00:21:34",
+      "end": "00:21:35",
+      "text": "或其他類似的"
+    },
+    {
+      "start": "00:21:35",
+      "end": "00:21:37",
+      "text": "如果你在做橫向計算"
+    },
+    {
+      "start": "00:21:37",
+      "end": "00:21:39",
+      "text": "你就得到Catalan"
+    },
+    {
+      "start": "00:21:39",
+      "end": "00:21:41",
+      "text": "因為你得到同樣的物理"
+    },
+    {
+      "start": "00:21:41",
+      "end": "00:21:43",
+      "text": "但事情不相通"
+    },
+    {
+      "start": "00:21:43",
+      "end": "00:21:44",
+      "text": "所以這是一個"
+    },
+    {
+      "start": "00:21:44",
+      "end": "00:21:46",
+      "text": "可能讀取的逐漸增長的系列"
+    },
+    {
+      "start": "00:21:48",
+      "end": "00:21:51",
+      "text": "所以它很快就會變得很大"
+    },
+    {
+      "start": "00:21:51",
+      "end": "00:21:56",
+      "text": "所以我认为如果你有四个语言词"
+    },
+    {
+      "start": "00:21:56",
+      "end": "00:21:57",
+      "text": "你会得到13个语言"
+    },
+    {
+      "start": "00:21:57",
+      "end": "00:21:58",
+      "text": "如果你有五个语言词"
+    },
+    {
+      "start": "00:21:58",
+      "end": "00:22:00",
+      "text": "你会得到27个语言"
+    },
+    {
+      "start": "00:22:00",
+      "end": "00:22:01",
+      "text": "然后从那里长大"
+    },
+    {
+      "start": "00:22:01",
+      "end": "00:22:03",
+      "text": "所以你会得到很多的误会"
+    },
+    {
+      "start": "00:22:03",
+      "end": "00:22:05",
+      "text": "但重要的事情是"
+    },
+    {
+      "start": "00:22:06",
+      "end": "00:22:09",
+      "text": "人类每天早上都会读这些词"
+    },
+    {
+      "start": "00:22:10",
+      "end": "00:22:13",
+      "text": "或者至少人们在银行工作时"
+    },
+    {
+      "start": "00:22:13",
+      "end": "00:22:13",
+      "text": "都会读这些词"
+    },
+    {
+      "start": "00:22:13",
+      "end": "00:22:18",
+      "text": "他们的脑子不会爆裂"
+    },
+    {
+      "start": "00:22:18",
+      "end": "00:22:20",
+      "text": "他们想着13个语言"
+    },
+    {
+      "start": "00:22:20",
+      "end": "00:22:22",
+      "text": "and which one is correct, right?"
+    },
+    {
+      "start": "00:22:23",
+      "end": "00:22:25",
+      "text": "We just sort of do this as we go along"
+    },
+    {
+      "start": "00:22:25",
+      "end": "00:22:26",
+      "text": "and it's sort of obvious"
+    },
+    {
+      "start": "00:22:27",
+      "end": "00:22:30",
+      "text": "Okay, let's just do a couple more examples"
+    },
+    {
+      "start": "00:22:30",
+      "end": "00:22:35",
+      "text": "of where we get ambiguities in human language"
+    },
+    {
+      "start": "00:22:35",
+      "end": "00:22:39",
+      "text": "So a different one you get is coordination scope ambiguity"
+    },
+    {
+      "start": "00:22:39",
+      "end": "00:22:43",
+      "text": "So shuttle veteran and long time NASA executive"
+    },
+    {
+      "start": "00:22:43",
+      "end": "00:22:45",
+      "text": "Fred Gregory appointed to board"
+    },
+    {
+      "start": "00:22:45",
+      "end": "00:22:47",
+      "text": "How is this sentence ambiguous?"
+    },
+    {
+      "start": "00:22:51",
+      "end": "00:22:52",
+      "text": "Yeah"
+    },
+    {
+      "start": "00:22:52",
+      "end": "00:22:56",
+      "text": "Yeah, so there can either be one person Fred Gregory"
+    },
+    {
+      "start": "00:22:56",
+      "end": "00:23:00",
+      "text": "and they're both a shuttle veteran and a NASA executive"
+    },
+    {
+      "start": "00:23:01",
+      "end": "00:23:05",
+      "text": "or it can be that there are two people"
+    },
+    {
+      "start": "00:23:05",
+      "end": "00:23:06",
+      "text": "there's a shuttle veteran"
+    },
+    {
+      "start": "00:23:06",
+      "end": "00:23:11",
+      "text": "and there's a long time NASA executive Fred Gregory"
+    },
+    {
+      "start": "00:23:12",
+      "end": "00:23:15",
+      "text": "Okay, yeah, so we'd be kind of capturing those"
+    },
+    {
+      "start": "00:23:15",
+      "end": "00:23:18",
+      "text": "by having extra grammar rules"
+    },
+    {
+      "start": "00:23:18",
+      "end": "00:23:20",
+      "text": "where a noun phrase can go to a noun phrase"
+    },
+    {
+      "start": "00:23:20",
+      "end": "00:23:23",
+      "text": "a phrase, a conjunction, and a noun phrase"
+    },
+    {
+      "start": "00:23:23",
+      "end": "00:23:29",
+      "text": "but then another thing that you get in English is apposition"
+    },
+    {
+      "start": "00:23:29",
+      "end": "00:23:34",
+      "text": "so you can have a noun phrase that's a descriptive noun phrase"
+    },
+    {
+      "start": "00:23:34",
+      "end": "00:23:36",
+      "text": "of another noun phrase like a name"
+    },
+    {
+      "start": "00:23:36",
+      "end": "00:23:40",
+      "text": "you know, the author, Fred Gregory, or something like that"
+    },
+    {
+      "start": "00:23:41",
+      "end": "00:23:46",
+      "text": "saying the word English again, I meant to comment"
+    },
+    {
+      "start": "00:23:47",
+      "end": "00:23:50",
+      "text": "I'm only going to give English examples here"
+    },
+    {
+      "start": "00:23:51",
+      "end": "00:23:56",
+      "text": "In different languages, you don't get all the same ambiguities"
+    },
+    {
+      "start": "00:23:57",
+      "end": "00:24:00",
+      "text": "So if you're familiar with, say, Chinese"
+    },
+    {
+      "start": "00:24:01",
+      "end": "00:24:04",
+      "text": "you might have thought about the prepositional phrase example"
+    },
+    {
+      "start": "00:24:05",
+      "end": "00:24:07",
+      "text": "of wait a minute, we don't have that one"
+    },
+    {
+      "start": "00:24:07",
+      "end": "00:24:11",
+      "text": "because the prepositional phrase modifying the verb"
+    },
+    {
+      "start": "00:24:11",
+      "end": "00:24:13",
+      "text": "would appear before the verb"
+    },
+    {
+      "start": "00:24:13",
+      "end": "00:24:14",
+      "text": "and the object noun would be afterwards"
+    },
+    {
+      "start": "00:24:14",
+      "end": "00:24:16",
+      "text": "我会完全不明显"
+    },
+    {
+      "start": "00:24:16",
+      "end": "00:24:17",
+      "text": "这是真的"
+    },
+    {
+      "start": "00:24:17",
+      "end": "00:24:22",
+      "text": "但这不意味着中国是不明显的"
+    },
+    {
+      "start": "00:24:22",
+      "end": "00:24:24",
+      "text": "中国有很多很坏的不明显"
+    },
+    {
+      "start": "00:24:27",
+      "end": "00:24:30",
+      "text": "只是不同语言"
+    },
+    {
+      "start": "00:24:30",
+      "end": "00:24:31",
+      "text": "有不同的逻辑"
+    },
+    {
+      "start": "00:24:34",
+      "end": "00:24:38",
+      "text": "所以在英文中"
+    },
+    {
+      "start": "00:24:38",
+      "end": "00:24:40",
+      "text": "尤其是在更简单的语言中"
+    },
+    {
+      "start": "00:24:40",
+      "end": "00:24:44",
+      "text": "而不是用明确的组织语言"
+    },
+    {
+      "start": "00:24:44",
+      "end": "00:24:48",
+      "text": "而是用组织语言的组织"
+    },
+    {
+      "start": "00:24:48",
+      "end": "00:24:52",
+      "text": "来解释组织的概念"
+    },
+    {
+      "start": "00:24:52",
+      "end": "00:24:58",
+      "text": "这里是特朗普总统的一个有趣的例子"
+    },
+    {
+      "start": "00:24:58",
+      "end": "00:25:01",
+      "text": "我们可以有组织构图的障碍"
+    },
+    {
+      "start": "00:25:01",
+      "end": "00:25:05",
+      "text": "医生，没有心脏，有心理问题"
+    },
+    {
+      "start": "00:25:05",
+      "end": "00:25:09",
+      "text": "好 再一次 這是同樣類似的"
+    },
+    {
+      "start": "00:25:09",
+      "end": "00:25:12",
+      "text": "心理規律規律"
+    },
+    {
+      "start": "00:25:12",
+      "end": "00:25:14",
+      "text": "也就是說 心理規律規律"
+    },
+    {
+      "start": "00:25:14",
+      "end": "00:25:17",
+      "text": "和心理問題不相同"
+    },
+    {
+      "start": "00:25:17",
+      "end": "00:25:25",
+      "text": "或是 心理規律規律不相同"
+    },
+    {
+      "start": "00:25:25",
+      "end": "00:25:28",
+      "text": "你選擇吧"
+    },
+    {
+      "start": "00:25:30",
+      "end": "00:25:32",
+      "text": "好 讓我看看"
+    },
+    {
+      "start": "00:25:34",
+      "end": "00:25:44",
+      "text": "这个是我的最危险的一个，是一个不同的态度的态度警告，学生们得到第一手工作经验，"
+    },
+    {
+      "start": "00:25:45",
+      "end": "00:25:55",
+      "text": "所以这个也是一个态度，你知道，无论你是否有第一手，"
+    },
+    {
+      "start": "00:25:55",
+      "end": "00:26:02",
+      "text": "and then both the job and the firsthand modifying experience"
+    },
+    {
+      "start": "00:26:02",
+      "end": "00:26:06",
+      "text": "or there's this other reading if you have a smutty mind that"
+    },
+    {
+      "start": "00:26:06",
+      "end": "00:26:07",
+      "text": "might come to you"
+    },
+    {
+      "start": "00:26:08",
+      "end": "00:26:10",
+      "text": "OK one more fun one"
+    },
+    {
+      "start": "00:26:10",
+      "end": "00:26:16",
+      "text": "OK mutilated body washes up on Rio Beach to be used for Olympics"
+    },
+    {
+      "start": "00:26:16",
+      "end": "00:26:17",
+      "text": "beach volleyball"
+    },
+    {
+      "start": "00:26:17",
+      "end": "00:26:22",
+      "text": "OK so what are the two possible readings of this sentence"
+    },
+    {
+      "start": "00:26:22",
+      "end": "00:26:25",
+      "text": "you know these are real examples from quality newspapers"
+    },
+    {
+      "start": "00:26:25",
+      "end": "00:26:26",
+      "text": "在媒体上"
+    },
+    {
+      "start": "00:26:26",
+      "end": "00:26:30",
+      "text": "这两个词的评论是什么"
+    },
+    {
+      "start": "00:26:37",
+      "end": "00:26:40",
+      "text": "这里我们有一个"
+    },
+    {
+      "start": "00:26:40",
+      "end": "00:26:43",
+      "text": "无限的词词"
+    },
+    {
+      "start": "00:26:44",
+      "end": "00:26:46",
+      "text": "无限的词词"
+    },
+    {
+      "start": "00:26:46",
+      "end": "00:26:48",
+      "text": "用于乒乓球"
+    },
+    {
+      "start": "00:26:48",
+      "end": "00:26:53",
+      "text": "这些词词"
+    },
+    {
+      "start": "00:26:53",
+      "end": "00:26:55",
+      "text": "有同样的效果"
+    },
+    {
+      "start": "00:26:57",
+      "end": "00:27:01",
+      "text": "可以用来改变不同的东西"
+    },
+    {
+      "start": "00:27:01",
+      "end": "00:27:02",
+      "text": "所以它可以是"
+    },
+    {
+      "start": "00:27:03",
+      "end": "00:27:04",
+      "text": "纽约海岛"
+    },
+    {
+      "start": "00:27:04",
+      "end": "00:27:05",
+      "text": "用来参与"
+    },
+    {
+      "start": "00:27:05",
+      "end": "00:27:07",
+      "text": "奥林匹克海岛比赛"
+    },
+    {
+      "start": "00:27:07",
+      "end": "00:27:10",
+      "text": "或者是被殴护的身体"
+    },
+    {
+      "start": "00:27:10",
+      "end": "00:27:12",
+      "text": "用来参与海岛比赛"
+    },
+    {
+      "start": "00:27:12",
+      "end": "00:27:19",
+      "text": "好 这些就是我们想使用"
+    },
+    {
+      "start": "00:27:19",
+      "end": "00:27:22",
+      "text": "词词的结构"
+    },
+    {
+      "start": "00:27:22",
+      "end": "00:27:23",
+      "text": "来明白它们的意味"
+    },
+    {
+      "start": "00:27:23",
+      "end": "00:27:30",
+      "text": "We also use it in lots of just sort of mundane practical ways"
+    },
+    {
+      "start": "00:27:30",
+      "end": "00:27:34",
+      "text": "when we're building various kinds of natural language processing"
+    },
+    {
+      "start": "00:27:34",
+      "end": "00:27:35",
+      "text": "systems"
+    },
+    {
+      "start": "00:27:35",
+      "end": "00:27:40",
+      "text": "So a kind of thing that people often in practical systems do"
+    },
+    {
+      "start": "00:27:40",
+      "end": "00:27:43",
+      "text": "is that they want to get out facts of various kinds"
+    },
+    {
+      "start": "00:27:43",
+      "end": "00:27:47",
+      "text": "So for people who do stuff with bioinformatics"
+    },
+    {
+      "start": "00:27:47",
+      "end": "00:27:50",
+      "text": "that they commonly want to get out things like protein-prote"
+    },
+    {
+      "start": "00:27:50",
+      "end": "00:27:51",
+      "text": "in interaction facts"
+    },
+    {
+      "start": "00:27:51",
+      "end": "00:27:56",
+      "text": "and so commonly you can get those kind of facts out"
+    },
+    {
+      "start": "00:27:56",
+      "end": "00:27:57",
+      "text": "by looking for patterns"
+    },
+    {
+      "start": "00:27:57",
+      "end": "00:27:59",
+      "text": "so you know have a verb interacts"
+    },
+    {
+      "start": "00:28:00",
+      "end": "00:28:01",
+      "text": "that's going to be indicating"
+    },
+    {
+      "start": "00:28:01",
+      "end": "00:28:03",
+      "text": "an interaction pattern"
+    },
+    {
+      "start": "00:28:03",
+      "end": "00:28:06",
+      "text": "and well it's going to be taking arguments"
+    },
+    {
+      "start": "00:28:06",
+      "end": "00:28:08",
+      "text": "so it's going to be taking a subject"
+    },
+    {
+      "start": "00:28:08",
+      "end": "00:28:12",
+      "text": "and interacts with the prepositional argument"
+    },
+    {
+      "start": "00:28:12",
+      "end": "00:28:15",
+      "text": "and so that will be an interaction"
+    },
+    {
+      "start": "00:28:15",
+      "end": "00:28:19",
+      "text": "that Kaisi whatever that is interacts with sassay"
+    },
+    {
+      "start": "00:28:19",
+      "end": "00:28:21",
+      "text": "but in this case the sassay"
+    },
+    {
+      "start": "00:28:21",
+      "end": "00:28:24",
+      "text": "是和Chi-A和Chi-B合作的"
+    },
+    {
+      "start": "00:28:24",
+      "end": "00:28:28",
+      "text": "所以它們也會跟其他兩種東西"
+    },
+    {
+      "start": "00:28:28",
+      "end": "00:28:28",
+      "text": "互動"
+    },
+    {
+      "start": "00:28:28",
+      "end": "00:28:30",
+      "text": "所以你可以使用"
+    },
+    {
+      "start": "00:28:30",
+      "end": "00:28:31",
+      "text": "這個類似的詞句構成的"
+    },
+    {
+      "start": "00:28:31",
+      "end": "00:28:33",
+      "text": "Dependency Paths的模式"
+    },
+    {
+      "start": "00:28:33",
+      "end": "00:28:37",
+      "text": "以獲得你喜歡的事實和事件"
+    },
+    {
+      "start": "00:28:37",
+      "end": "00:28:41",
+      "text": "例如是一個事件理解系統"
+    },
+    {
+      "start": "00:28:41",
+      "end": "00:28:45",
+      "text": "人們會做這些類似的分析"
+    },
+    {
+      "start": "00:28:46",
+      "end": "00:28:48",
+      "text": "透過生物科學的文章"
+    },
+    {
+      "start": "00:28:48",
+      "end": "00:28:48",
+      "text": "以建立一種"
+    },
+    {
+      "start": "00:28:48",
+      "end": "00:28:50",
+      "text": "所謂的基礎資料"
+    },
+    {
+      "start": "00:28:50",
+      "end": "00:28:52",
+      "text": "所謂的基礎基礎合作"
+    },
+    {
+      "start": "00:28:52",
+      "end": "00:28:54",
+      "text": "以及類似的東西"
+    },
+    {
+      "start": "00:28:55",
+      "end": "00:28:55",
+      "text": "好的"
+    },
+    {
+      "start": "00:28:55",
+      "end": "00:28:59",
+      "text": "所以語言結構是有用的"
+    },
+    {
+      "start": "00:29:00",
+      "end": "00:29:03",
+      "text": "而它是很具形式的"
+    },
+    {
+      "start": "00:29:04",
+      "end": "00:29:07",
+      "text": "所以你應該想起人類"
+    },
+    {
+      "start": "00:29:07",
+      "end": "00:29:09",
+      "text": "作為活動的解釋者"
+    },
+    {
+      "start": "00:29:09",
+      "end": "00:29:12",
+      "text": "使用他們的概念知識"
+    },
+    {
+      "start": "00:29:12",
+      "end": "00:29:14",
+      "text": "包括在文章中的最早的東西"
+    },
+    {
+      "start": "00:29:14",
+      "end": "00:29:16",
+      "text": "他們周圍的世界知識"
+    },
+    {
+      "start": "00:29:16",
+      "end": "00:29:17",
+      "text": "他們的世界的運作"
+    },
+    {
+      "start": "00:29:17",
+      "end": "00:29:19",
+      "text": "to work out the right structure"
+    },
+    {
+      "start": "00:29:19",
+      "end": "00:29:21",
+      "text": "Yeah, so now I want to go on"
+    },
+    {
+      "start": "00:29:22",
+      "end": "00:29:24",
+      "text": "and show you a bit more"
+    },
+    {
+      "start": "00:29:24",
+      "end": "00:29:26",
+      "text": "about sort of dependency grammars"
+    },
+    {
+      "start": "00:29:26",
+      "end": "00:29:27",
+      "text": "which is what we're going to be using"
+    },
+    {
+      "start": "00:29:27",
+      "end": "00:29:30",
+      "text": "So for dependency syntax"
+    },
+    {
+      "start": "00:29:31",
+      "end": "00:29:33",
+      "text": "that it postulates that you can"
+    },
+    {
+      "start": "00:29:33",
+      "end": "00:29:36",
+      "text": "capture the structure of a sentence"
+    },
+    {
+      "start": "00:29:36",
+      "end": "00:29:40",
+      "text": "by having these sort of asymmetric"
+    },
+    {
+      "start": "00:29:40",
+      "end": "00:29:41",
+      "text": "dependent relations"
+    },
+    {
+      "start": "00:29:42",
+      "end": "00:29:44",
+      "text": "which we might just call arrows"
+    },
+    {
+      "start": "00:29:44",
+      "end": "00:29:47",
+      "text": "which are going from heads to dependents"
+    },
+    {
+      "start": "00:29:47",
+      "end": "00:29:49",
+      "text": "So here the sentence is"
+    },
+    {
+      "start": "00:29:49",
+      "end": "00:29:51",
+      "text": "bills on ports and immigration"
+    },
+    {
+      "start": "00:29:51",
+      "end": "00:29:52",
+      "text": "were submitted by"
+    },
+    {
+      "start": "00:29:52",
+      "end": "00:29:54",
+      "text": "Senator Brownback"
+    },
+    {
+      "start": "00:29:54",
+      "end": "00:29:55",
+      "text": "Republican of Kansas"
+    },
+    {
+      "start": "00:29:55",
+      "end": "00:29:56",
+      "text": "and we're sort of"
+    },
+    {
+      "start": "00:29:56",
+      "end": "00:29:57",
+      "text": "picking out heads"
+    },
+    {
+      "start": "00:29:57",
+      "end": "00:30:00",
+      "text": "and then we've got"
+    },
+    {
+      "start": "00:30:00",
+      "end": "00:30:02",
+      "text": "things that depend on them"
+    },
+    {
+      "start": "00:30:02",
+      "end": "00:30:04",
+      "text": "that modify them"
+    },
+    {
+      "start": "00:30:06",
+      "end": "00:30:07",
+      "text": "So if you're on the"
+    },
+    {
+      "start": "00:30:07",
+      "end": "00:30:09",
+      "text": "video audience"
+    },
+    {
+      "start": "00:30:09",
+      "end": "00:30:10",
+      "text": "and you are educated"
+    },
+    {
+      "start": "00:30:10",
+      "end": "00:30:12",
+      "text": "in the United States"
+    },
+    {
+      "start": "00:30:12",
+      "end": "00:30:14",
+      "text": "and you're over the age of 50"
+    },
+    {
+      "start": "00:30:14",
+      "end": "00:30:19",
+      "text": "或者如果你去的那些公共学校"
+    },
+    {
+      "start": "00:30:19",
+      "end": "00:30:22",
+      "text": "他们也会学习中文"
+    },
+    {
+      "start": "00:30:22",
+      "end": "00:30:25",
+      "text": "你可能看过语言计算"
+    },
+    {
+      "start": "00:30:25",
+      "end": "00:30:30",
+      "text": "所以Reed Kellogg的语言计算"
+    },
+    {
+      "start": "00:30:30",
+      "end": "00:30:34",
+      "text": "是一个非常广泛的美国教育"
+    },
+    {
+      "start": "00:30:34",
+      "end": "00:30:39",
+      "text": "它真的是一个很语言的语言"
+    },
+    {
+      "start": "00:30:39",
+      "end": "00:30:43",
+      "text": "是一个很语气的语言语言"
+    },
+    {
+      "start": "00:30:43",
+      "end": "00:30:46",
+      "text": "你必须要在不同角度写出语言"
+    },
+    {
+      "start": "00:30:46",
+      "end": "00:30:46",
+      "text": "之类的"
+    },
+    {
+      "start": "00:30:46",
+      "end": "00:30:48",
+      "text": "但基本上"
+    },
+    {
+      "start": "00:30:48",
+      "end": "00:30:49",
+      "text": "你只写了他们的头部"
+    },
+    {
+      "start": "00:30:49",
+      "end": "00:30:50",
+      "text": "和他们的联系"
+    },
+    {
+      "start": "00:30:50",
+      "end": "00:30:53",
+      "text": "以不同的有趣形状的语言"
+    },
+    {
+      "start": "00:30:54",
+      "end": "00:30:56",
+      "text": "这也是联系语言"
+    },
+    {
+      "start": "00:30:56",
+      "end": "00:30:57",
+      "text": "好"
+    },
+    {
+      "start": "00:30:57",
+      "end": "00:31:01",
+      "text": "所以这是联系语言的开始"
+    },
+    {
+      "start": "00:31:01",
+      "end": "00:31:04",
+      "text": "但就像有趣形状的语言"
+    },
+    {
+      "start": "00:31:04",
+      "end": "00:31:07",
+      "text": "通常人们想添加"
+    },
+    {
+      "start": "00:31:07",
+      "end": "00:31:08",
+      "text": "更多的资讯"
+    },
+    {
+      "start": "00:31:10",
+      "end": "00:31:13",
+      "text": "所以最普遍的方式是"
+    },
+    {
+      "start": "00:31:13",
+      "end": "00:31:19",
+      "text": "按照某些語言關係的名字"
+    },
+    {
+      "start": "00:31:19",
+      "end": "00:31:20",
+      "text": "所以某些東西可以是"
+    },
+    {
+      "start": "00:31:20",
+      "end": "00:31:21",
+      "text": "某個語言的主題"
+    },
+    {
+      "start": "00:31:21",
+      "end": "00:31:24",
+      "text": "或是某個項目"
+    },
+    {
+      "start": "00:31:24",
+      "end": "00:31:26",
+      "text": "或是某個文字改造"
+    },
+    {
+      "start": "00:31:26",
+      "end": "00:31:28",
+      "text": "或是某個項目"
+    },
+    {
+      "start": "00:31:28",
+      "end": "00:31:29",
+      "text": "或是一些類似的東西"
+    },
+    {
+      "start": "00:31:32",
+      "end": "00:31:34",
+      "text": "我只是想給大家"
+    },
+    {
+      "start": "00:31:34",
+      "end": "00:31:36",
+      "text": "一些獨立的語言"
+    },
+    {
+      "start": "00:31:36",
+      "end": "00:31:36",
+      "text": "概念"
+    },
+    {
+      "start": "00:31:36",
+      "end": "00:31:40",
+      "text": "I'm not expecting you to master all of these names"
+    },
+    {
+      "start": "00:31:40",
+      "end": "00:31:42",
+      "text": "and ways of doing things"
+    },
+    {
+      "start": "00:31:43",
+      "end": "00:31:45",
+      "text": "and you know there are different systems"
+    },
+    {
+      "start": "00:31:45",
+      "end": "00:31:47",
+      "text": "of deciding what's heads and dependents"
+    },
+    {
+      "start": "00:31:47",
+      "end": "00:31:51",
+      "text": "and not all the details are important"
+    },
+    {
+      "start": "00:31:51",
+      "end": "00:31:53",
+      "text": "what you should get into your head"
+    },
+    {
+      "start": "00:31:53",
+      "end": "00:31:54",
+      "text": "is just sort of the basic idea"
+    },
+    {
+      "start": "00:31:54",
+      "end": "00:31:56",
+      "text": "of what one of these does"
+    },
+    {
+      "start": "00:31:56",
+      "end": "00:31:58",
+      "text": "and some sense of"
+    },
+    {
+      "start": "00:31:58",
+      "end": "00:31:59",
+      "text": "oh it should be"
+    },
+    {
+      "start": "00:31:59",
+      "end": "00:32:00",
+      "text": "at the phrase level"
+    },
+    {
+      "start": "00:32:00",
+      "end": "00:32:01",
+      "text": "it should be representing"
+    },
+    {
+      "start": "00:32:01",
+      "end": "00:32:03",
+      "text": "what's modifying what"
+    },
+    {
+      "start": "00:32:03",
+      "end": "00:32:05",
+      "text": "so we do actually ask some questions"
+    },
+    {
+      "start": "00:32:05",
+      "end": "00:32:07",
+      "text": "on the assignment"
+    },
+    {
+      "start": "00:32:07",
+      "end": "00:32:10",
+      "text": "and so for the cases like"
+    },
+    {
+      "start": "00:32:10",
+      "end": "00:32:11",
+      "text": "the prepositional phrase"
+    },
+    {
+      "start": "00:32:11",
+      "end": "00:32:12",
+      "text": "what is it modifying"
+    },
+    {
+      "start": "00:32:12",
+      "end": "00:32:15",
+      "text": "you should be able to give the right answer to that"
+    },
+    {
+      "start": "00:32:17",
+      "end": "00:32:18",
+      "text": "okay"
+    },
+    {
+      "start": "00:32:19",
+      "end": "00:32:20",
+      "text": "yeah"
+    },
+    {
+      "start": "00:32:21",
+      "end": "00:32:22",
+      "text": "okay so"
+    },
+    {
+      "start": "00:32:22",
+      "end": "00:32:25",
+      "text": "this is just a little bit more"
+    },
+    {
+      "start": "00:32:25",
+      "end": "00:32:27",
+      "text": "vocabulary so yeah we have these"
+    },
+    {
+      "start": "00:32:27",
+      "end": "00:32:29",
+      "text": "arrows or dependencies"
+    },
+    {
+      "start": "00:32:29",
+      "end": "00:32:32",
+      "text": "and so I'm going to say that they connect"
+    },
+    {
+      "start": "00:32:32",
+      "end": "00:32:33",
+      "text": "between a head and a dependent"
+    },
+    {
+      "start": "00:32:33",
+      "end": "00:32:35",
+      "text": "but sometimes people use other words"
+    },
+    {
+      "start": "00:32:35",
+      "end": "00:32:38",
+      "text": "譬如說 governor 和 modifier 之類的"
+    },
+    {
+      "start": "00:32:38",
+      "end": "00:32:46",
+      "text": "因此 疑問通常會被視為成為一棵樹"
+    },
+    {
+      "start": "00:32:46",
+      "end": "00:32:48",
+      "text": "因此 你會看到有一個連接的東西"
+    },
+    {
+      "start": "00:32:48",
+      "end": "00:32:52",
+      "text": "有一個律動的東西"
+    },
+    {
+      "start": "00:32:52",
+      "end": "00:32:53",
+      "text": "所以我們的一個律動"
+    },
+    {
+      "start": "00:32:53",
+      "end": "00:32:54",
+      "text": "就是這篇文章的頂端"
+    },
+    {
+      "start": "00:32:58",
+      "end": "00:32:59",
+      "text": "所以 疑問"
+    },
+    {
+      "start": "00:32:59",
+      "end": "00:33:03",
+      "text": "即使你通常看到的"
+    },
+    {
+      "start": "00:33:03",
+      "end": "00:33:06",
+      "text": "通常在文学课程中"
+    },
+    {
+      "start": "00:33:06",
+      "end": "00:33:10",
+      "text": "或者在史丹佛学院学习的CS103课程中"
+    },
+    {
+      "start": "00:33:10",
+      "end": "00:33:12",
+      "text": "或者在数学学院学习的"
+    },
+    {
+      "start": "00:33:12",
+      "end": "00:33:14",
+      "text": "你会看到的通常是"
+    },
+    {
+      "start": "00:33:14",
+      "end": "00:33:16",
+      "text": "无语言语言"
+    },
+    {
+      "start": "00:33:16",
+      "end": "00:33:17",
+      "text": "或无语言语言"
+    },
+    {
+      "start": "00:33:17",
+      "end": "00:33:18",
+      "text": "我说真的"
+    },
+    {
+      "start": "00:33:19",
+      "end": "00:33:24",
+      "text": "它是有很长的历史的"
+    },
+    {
+      "start": "00:33:24",
+      "end": "00:33:25",
+      "text": "所以实际上"
+    },
+    {
+      "start": "00:33:25",
+      "end": "00:33:28",
+      "text": "人文语言的组织"
+    },
+    {
+      "start": "00:33:28",
+      "end": "00:33:31",
+      "text": "是人文历史中"
+    },
+    {
+      "start": "00:33:31",
+      "end": "00:33:32",
+      "text": "是分类语言"
+    },
+    {
+      "start": "00:33:33",
+      "end": "00:33:35",
+      "text": "所以 语言学者们"
+    },
+    {
+      "start": "00:33:35",
+      "end": "00:33:38",
+      "text": "以分类语言为第一个"
+    },
+    {
+      "start": "00:33:38",
+      "end": "00:33:39",
+      "text": "或实际上是第一个"
+    },
+    {
+      "start": "00:33:39",
+      "end": "00:33:41",
+      "text": "语言人员读读"
+    },
+    {
+      "start": "00:33:41",
+      "end": "00:33:44",
+      "text": "人文语言的语言语言"
+    },
+    {
+      "start": "00:33:44",
+      "end": "00:33:45",
+      "text": "是帕南尼"
+    },
+    {
+      "start": "00:33:45",
+      "end": "00:33:48",
+      "text": "帕南尼在业务中学习桑斯克语"
+    },
+    {
+      "start": "00:33:48",
+      "end": "00:33:50",
+      "text": "帕南尼生活了这么久"
+    },
+    {
+      "start": "00:33:50",
+      "end": "00:33:53",
+      "text": "其实人们不太知道他在哪里生活"
+    },
+    {
+      "start": "00:33:53",
+      "end": "00:33:55",
+      "text": "他在四十多年前的"
+    },
+    {
+      "start": "00:33:55",
+      "end": "00:33:57",
+      "text": "四十八世纪之间生活"
+    },
+    {
+      "start": "00:33:58",
+      "end": "00:34:00",
+      "text": "但是实际上没有人知道他在哪里"
+    },
+    {
+      "start": "00:34:00",
+      "end": "00:34:07",
+      "text": "他在現在的阿富汗居住的地方"
+    },
+    {
+      "start": "00:34:07",
+      "end": "00:34:12",
+      "text": "他為了為宗教的原因而受到激進"
+    },
+    {
+      "start": "00:34:12",
+      "end": "00:34:16",
+      "text": "他建立了一種桑菲勒語語言"
+    },
+    {
+      "start": "00:34:16",
+      "end": "00:34:19",
+      "text": "他用桑菲勒語語言來代表桑菲勒語言的形容詞"
+    },
+    {
+      "start": "00:34:19",
+      "end": "00:34:30",
+      "text": "在第一十年代，他們用桑菲勒語語言做了很多文化研究"
+    },
+    {
+      "start": "00:34:30",
+      "end": "00:34:33",
+      "text": "所謂的解釋無意義的語言"
+    },
+    {
+      "start": "00:34:33",
+      "end": "00:34:36",
+      "text": "是非常非常最近的"
+    },
+    {
+      "start": "00:34:36",
+      "end": "00:34:39",
+      "text": "所以最初的文字構造語言"
+    },
+    {
+      "start": "00:34:39",
+      "end": "00:34:40",
+      "text": "是在40年代開始"
+    },
+    {
+      "start": "00:34:40",
+      "end": "00:34:47",
+      "text": "然後被1950年代的"
+    },
+    {
+      "start": "00:34:47",
+      "end": "00:34:47",
+      "text": "磅礦工藝研究所描述的"
+    },
+    {
+      "start": "00:34:47",
+      "end": "00:34:51",
+      "text": "對於電腦科學者來說"
+    },
+    {
+      "start": "00:34:52",
+      "end": "00:34:53",
+      "text": "這是一個很重要的事"
+    },
+    {
+      "start": "00:34:53",
+      "end": "00:34:56",
+      "text": "所以各位電腦科學家們"
+    },
+    {
+      "start": "00:34:56",
+      "end": "00:34:58",
+      "text": "如果你們知道磅礦工藝研究所"
+    },
+    {
+      "start": "00:34:58",
+      "end": "00:35:00",
+      "text": "通常都知道兩件事"
+    },
+    {
+      "start": "00:35:00",
+      "end": "00:35:02",
+      "text": "一是他们讨厌"
+    },
+    {
+      "start": "00:35:02",
+      "end": "00:35:08",
+      "text": "在CS103或相同的课程中"
+    },
+    {
+      "start": "00:35:08",
+      "end": "00:35:08",
+      "text": "被迫学习的 Chomsky Hierarchy"
+    },
+    {
+      "start": "00:35:08",
+      "end": "00:35:12",
+      "text": "第二是他是一个非常左派的政治家"
+    },
+    {
+      "start": "00:35:12",
+      "end": "00:35:14",
+      "text": "但如果我只谈论"
+    },
+    {
+      "start": "00:35:14",
+      "end": "00:35:15",
+      "text": "现在的第一个两个人"
+    },
+    {
+      "start": "00:35:15",
+      "end": "00:35:19",
+      "text": "Chomsky Hierarchy"
+    },
+    {
+      "start": "00:35:19",
+      "end": "00:35:21",
+      "text": "无论是为了伤害"
+    },
+    {
+      "start": "00:35:21",
+      "end": "00:35:24",
+      "text": "小学数学科学家"
+    },
+    {
+      "start": "00:35:24",
+      "end": "00:35:26",
+      "text": "或是为了解释"
+    },
+    {
+      "start": "00:35:27",
+      "end": "00:35:28",
+      "text": "正确的事实"
+    },
+    {
+      "start": "00:35:28",
+      "end": "00:35:29",
+      "text": "关于语言理论的事实"
+    },
+    {
+      "start": "00:35:29",
+      "end": "00:35:30",
+      "text": "Chomsky的 Hierarchy"
+    },
+    {
+      "start": "00:35:30",
+      "end": "00:35:35",
+      "text": "是人文语言的设计"
+    },
+    {
+      "start": "00:35:35",
+      "end": "00:35:37",
+      "text": "因为当时"
+    },
+    {
+      "start": "00:35:37",
+      "end": "00:35:40",
+      "text": "而在更多时期的事情中"
+    },
+    {
+      "start": "00:35:40",
+      "end": "00:35:46",
+      "text": "人们经常模拟人文语言"
+    },
+    {
+      "start": "00:35:46",
+      "end": "00:35:48",
+      "text": "以正常的"
+    },
+    {
+      "start": "00:35:48",
+      "end": "00:35:49",
+      "text": "丰富的"
+    },
+    {
+      "start": "00:35:49",
+      "end": "00:35:53",
+      "text": "丰富的语言类型方式"
+    },
+    {
+      "start": "00:35:53",
+      "end": "00:35:54",
+      "text": "而Chomsky认为"
+    },
+    {
+      "start": "00:35:55",
+      "end": "00:35:58",
+      "text": "这完全不合适的"
+    },
+    {
+      "start": "00:35:58",
+      "end": "00:36:03",
+      "text": "形容詞來代表人文的複雜性"
+    },
+    {
+      "start": "00:36:03",
+      "end": "00:36:04",
+      "text": "所以他為了發展"
+    },
+    {
+      "start": "00:36:04",
+      "end": "00:36:06",
+      "text": "複雜性語言的論述"
+    },
+    {
+      "start": "00:36:06",
+      "end": "00:36:08",
+      "text": "就建立了複雜性語言"
+    },
+    {
+      "start": "00:36:11",
+      "end": "00:36:12",
+      "text": "OK 無論如何"
+    },
+    {
+      "start": "00:36:12",
+      "end": "00:36:13",
+      "text": "這就夠了"
+    },
+    {
+      "start": "00:36:13",
+      "end": "00:36:18",
+      "text": "這是我用巴勒尼斯語言的畫面"
+    },
+    {
+      "start": "00:36:18",
+      "end": "00:36:21",
+      "text": "或者是其中一個版本"
+    },
+    {
+      "start": "00:36:21",
+      "end": "00:36:25",
+      "text": "其實這是非常非常誤會的"
+    },
+    {
+      "start": "00:36:25",
+      "end": "00:36:27",
+      "text": "因為其中一個非常驚人的事"
+    },
+    {
+      "start": "00:36:27",
+      "end": "00:36:29",
+      "text": "帕丹尼的文化"
+    },
+    {
+      "start": "00:36:29",
+      "end": "00:36:30",
+      "text": "而他生活的年代"
+    },
+    {
+      "start": "00:36:30",
+      "end": "00:36:31",
+      "text": "也不知何時"
+    },
+    {
+      "start": "00:36:32",
+      "end": "00:36:36",
+      "text": "帕丹尼的文化是從文字製作出來的"
+    },
+    {
+      "start": "00:36:36",
+      "end": "00:36:39",
+      "text": "這讓我感到有點驚訝"
+    },
+    {
+      "start": "00:36:39",
+      "end": "00:36:45",
+      "text": "有些西方有名的作品"
+    },
+    {
+      "start": "00:36:46",
+      "end": "00:36:48",
+      "text": "例如歐馬的作品"
+    },
+    {
+      "start": "00:36:48",
+      "end": "00:36:50",
+      "text": "《歷史奇蹟》和《伊利亞》"
+    },
+    {
+      "start": "00:36:50",
+      "end": "00:36:53",
+      "text": "原來這些作品是從文字製作出來的"
+    },
+    {
+      "start": "00:36:54",
+      "end": "00:36:55",
+      "text": "從文字製作出來的"
+    },
+    {
+      "start": "00:36:56",
+      "end": "00:37:02",
+      "text": "那是很难做的，但如果在高中做过演唱会，"
+    },
+    {
+      "start": "00:37:02",
+      "end": "00:37:03",
+      "text": "你可能会相信，"
+    },
+    {
+      "start": "00:37:03",
+      "end": "00:37:06",
+      "text": "那些人可能会记得《博士》。"
+    },
+    {
+      "start": "00:37:07",
+      "end": "00:37:08",
+      "text": "但我认为，"
+    },
+    {
+      "start": "00:37:08",
+      "end": "00:37:12",
+      "text": "人们可以记得语言语言的语言语言，"
+    },
+    {
+      "start": "00:37:12",
+      "end": "00:37:15",
+      "text": "然后把语言传播了百年，"
+    },
+    {
+      "start": "00:37:16",
+      "end": "00:37:17",
+      "text": "这让我感到很震撼。"
+    },
+    {
+      "start": "00:37:18",
+      "end": "00:37:22",
+      "text": "但这就是巴南尼语言的事。"
+    },
+    {
+      "start": "00:37:24",
+      "end": "00:37:28",
+      "text": "虽然这是一本传统的传统文章"
+    },
+    {
+      "start": "00:37:28",
+      "end": "00:37:34",
+      "text": "但这本文章可能是从潘恩尼写的约一百年后写出来的"
+    },
+    {
+      "start": "00:37:34",
+      "end": "00:37:38",
+      "text": "好 回到现代的事情"
+    },
+    {
+      "start": "00:37:43",
+      "end": "00:37:52",
+      "text": "我们不想让您拆开详细详细的详细详细详细的详细"
+    },
+    {
+      "start": "00:37:52",
+      "end": "00:37:55",
+      "text": "你可能会有疑惑的地方是"
+    },
+    {
+      "start": "00:37:55",
+      "end": "00:37:59",
+      "text": "人们做事情有不同的方式"
+    },
+    {
+      "start": "00:37:59",
+      "end": "00:38:01",
+      "text": "他们不同意的方式"
+    },
+    {
+      "start": "00:38:01",
+      "end": "00:38:04",
+      "text": "就是他们的手指"
+    },
+    {
+      "start": "00:38:04",
+      "end": "00:38:06",
+      "text": "有些人用手指"
+    },
+    {
+      "start": "00:38:06",
+      "end": "00:38:09",
+      "text": "从头部向下指向"
+    },
+    {
+      "start": "00:38:09",
+      "end": "00:38:12",
+      "text": "而有些人用手指"
+    },
+    {
+      "start": "00:38:12",
+      "end": "00:38:14",
+      "text": "从头部向下指向"
+    },
+    {
+      "start": "00:38:14",
+      "end": "00:38:18",
+      "text": "所以，现代的分别语言"
+    },
+    {
+      "start": "00:38:18",
+      "end": "00:38:20",
+      "text": "Grammar largely follows"
+    },
+    {
+      "start": "00:38:20",
+      "end": "00:38:23",
+      "text": "the work of Lucien Tenier"
+    },
+    {
+      "start": "00:38:23",
+      "end": "00:38:26",
+      "text": "a French linguist"
+    },
+    {
+      "start": "00:38:26",
+      "end": "00:38:31",
+      "text": "he did the arrows pointing from the head to the dependent"
+    },
+    {
+      "start": "00:38:31",
+      "end": "00:38:33",
+      "text": "and so that's what I'm doing today"
+    },
+    {
+      "start": "00:38:33",
+      "end": "00:38:35",
+      "text": "but you'll see both"
+    },
+    {
+      "start": "00:38:35",
+      "end": "00:38:38",
+      "text": "we sort of said that you know"
+    },
+    {
+      "start": "00:38:38",
+      "end": "00:38:39",
+      "text": "normally you assume that"
+    },
+    {
+      "start": "00:38:39",
+      "end": "00:38:41",
+      "text": "you have a tree with a single root"
+    },
+    {
+      "start": "00:38:41",
+      "end": "00:38:43",
+      "text": "it's kind of common"
+    },
+    {
+      "start": "00:38:43",
+      "end": "00:38:46",
+      "text": "and it works out more easily for the parsing"
+    },
+    {
+      "start": "00:38:46",
+      "end": "00:38:48",
+      "text": "If you sort of add to a sentence"
+    },
+    {
+      "start": "00:38:48",
+      "end": "00:38:50",
+      "text": "a sort of a fake root node"
+    },
+    {
+      "start": "00:38:50",
+      "end": "00:38:52",
+      "text": "so you know that that's going to be the starting point"
+    },
+    {
+      "start": "00:38:52",
+      "end": "00:38:55",
+      "text": "and it's going to take one dependent"
+    },
+    {
+      "start": "00:38:55",
+      "end": "00:38:57",
+      "text": "which is the word that's the head of the sentence"
+    },
+    {
+      "start": "00:38:57",
+      "end": "00:38:59",
+      "text": "and then you're going to work down from there"
+    },
+    {
+      "start": "00:39:01",
+      "end": "00:39:01",
+      "text": "OK"
+    },
+    {
+      "start": "00:39:03",
+      "end": "00:39:07",
+      "text": "So before getting more into doing dependency parsing"
+    },
+    {
+      "start": "00:39:07",
+      "end": "00:39:10",
+      "text": "I just wanted to sort of take a little detour"
+    },
+    {
+      "start": "00:39:10",
+      "end": "00:39:14",
+      "text": "to tell you about the importance"
+    },
+    {
+      "start": "00:39:16",
+      "end": "00:39:24",
+      "text": "在自然语言复制中发生了重要的事情"
+    },
+    {
+      "start": "00:39:24",
+      "end": "00:39:27",
+      "text": "这是一个有趣的变化"
+    },
+    {
+      "start": "00:39:27",
+      "end": "00:39:31",
+      "text": "今天我们会从一个方向进行"
+    },
+    {
+      "start": "00:39:31",
+      "end": "00:39:34",
+      "text": "后期课程我们会从另一个方向进行"
+    },
+    {
+      "start": "00:39:34",
+      "end": "00:39:37",
+      "text": "在早期自然语言复制中"
+    },
+    {
+      "start": "00:39:37",
+      "end": "00:39:40",
+      "text": "人们开始看到"
+    },
+    {
+      "start": "00:39:41",
+      "end": "00:39:43",
+      "text": "human languages have structure"
+    },
+    {
+      "start": "00:39:43",
+      "end": "00:39:46",
+      "text": "so what we should do"
+    },
+    {
+      "start": "00:39:46",
+      "end": "00:39:48",
+      "text": "is start writing rules"
+    },
+    {
+      "start": "00:39:48",
+      "end": "00:39:50",
+      "text": "for the structure of human languages"
+    },
+    {
+      "start": "00:39:50",
+      "end": "00:39:52",
+      "text": "and you know I start writing a few"
+    },
+    {
+      "start": "00:39:52",
+      "end": "00:39:54",
+      "text": "context free grammar rules"
+    },
+    {
+      "start": "00:39:54",
+      "end": "00:39:55",
+      "text": "for the structure of English"
+    },
+    {
+      "start": "00:39:55",
+      "end": "00:39:56",
+      "text": "on that early slide"
+    },
+    {
+      "start": "00:39:56",
+      "end": "00:39:57",
+      "text": "and you could also write"
+    },
+    {
+      "start": "00:39:57",
+      "end": "00:39:59",
+      "text": "dependency grammar structure rules"
+    },
+    {
+      "start": "00:39:59",
+      "end": "00:40:02",
+      "text": "so people tried to do"
+    },
+    {
+      "start": "00:40:02",
+      "end": "00:40:03",
+      "text": "natural language processing"
+    },
+    {
+      "start": "00:40:03",
+      "end": "00:40:05",
+      "text": "by having rules"
+    },
+    {
+      "start": "00:40:05",
+      "end": "00:40:06",
+      "text": "grammar rules"
+    },
+    {
+      "start": "00:40:06",
+      "end": "00:40:08",
+      "text": "dictionaries of parts of speech"
+    },
+    {
+      "start": "00:40:08",
+      "end": "00:40:09",
+      "text": "and things like that"
+    },
+    {
+      "start": "00:40:09",
+      "end": "00:40:11",
+      "text": "而這就給了你Parser"
+    },
+    {
+      "start": "00:40:12",
+      "end": "00:40:15",
+      "text": "這在背景上"
+    },
+    {
+      "start": "00:40:15",
+      "end": "00:40:18",
+      "text": "是很難得的"
+    },
+    {
+      "start": "00:40:18",
+      "end": "00:40:22",
+      "text": "有很多原因都很難得"
+    },
+    {
+      "start": "00:40:22",
+      "end": "00:40:23",
+      "text": "其中一個原因是"
+    },
+    {
+      "start": "00:40:24",
+      "end": "00:40:26",
+      "text": "雖然有這些非常"
+    },
+    {
+      "start": "00:40:26",
+      "end": "00:40:27",
+      "text": "清晰的、很正常的"
+    },
+    {
+      "start": "00:40:27",
+      "end": "00:40:29",
+      "text": "人文語言的結構"
+    },
+    {
+      "start": "00:40:29",
+      "end": "00:40:30",
+      "text": "但是有一個很長的"
+    },
+    {
+      "start": "00:40:30",
+      "end": "00:40:32",
+      "text": "很複雜的故事"
+    },
+    {
+      "start": "00:40:32",
+      "end": "00:40:36",
+      "text": "所有的奇怪的用途"
+    },
+    {
+      "start": "00:40:36",
+      "end": "00:40:39",
+      "text": "都開始在人文語言中發生"
+    },
+    {
+      "start": "00:40:39",
+      "end": "00:40:45",
+      "text": "就是很难得到手写语言的证据"
+    },
+    {
+      "start": "00:40:45",
+      "end": "00:40:50",
+      "text": "因为人们用语言的创意"
+    },
+    {
+      "start": "00:40:50",
+      "end": "00:40:54",
+      "text": "所以你可能会想起一些东西"
+    },
+    {
+      "start": "00:40:56",
+      "end": "00:41:01",
+      "text": "我可能不太会用年轻人的语言"
+    },
+    {
+      "start": "00:41:01",
+      "end": "00:41:07",
+      "text": "但是你可能还是很熟悉的"
+    },
+    {
+      "start": "00:41:07",
+      "end": "00:41:08",
+      "text": "在《星球战争》中"
+    },
+    {
+      "start": "00:41:08",
+      "end": "00:41:09",
+      "text": "你会有尤德托克"
+    },
+    {
+      "start": "00:41:09",
+      "end": "00:41:11",
+      "text": "你把语言处理好"
+    },
+    {
+      "start": "00:41:11",
+      "end": "00:41:12",
+      "text": "但人们仍然不懂"
+    },
+    {
+      "start": "00:41:12",
+      "end": "00:41:15",
+      "text": "所以这就是改变语言的方式"
+    },
+    {
+      "start": "00:41:15",
+      "end": "00:41:20",
+      "text": "前面有个评论"
+    },
+    {
+      "start": "00:41:20",
+      "end": "00:41:20",
+      "text": "是说"
+    },
+    {
+      "start": "00:41:20",
+      "end": "00:41:22",
+      "text": "语言的结尾不是这样"
+    },
+    {
+      "start": "00:41:23",
+      "end": "00:41:25",
+      "text": "那是个很棒的想法"
+    },
+    {
+      "start": "00:41:25",
+      "end": "00:41:26",
+      "text": "不是"
+    },
+    {
+      "start": "00:41:27",
+      "end": "00:41:31",
+      "text": "人们学习了这一点"
+    },
+    {
+      "start": "00:41:31",
+      "end": "00:41:32",
+      "text": "但语言是不一样的"
+    },
+    {
+      "start": "00:41:33",
+      "end": "00:41:35",
+      "text": "所以是很难"
+    },
+    {
+      "start": "00:41:36",
+      "end": "00:41:38",
+      "text": "但是我所谈到的更大的原因"
+    },
+    {
+      "start": "00:41:38",
+      "end": "00:41:41",
+      "text": "实际上就是我所谈到的"
+    },
+    {
+      "start": "00:41:41",
+      "end": "00:41:44",
+      "text": "既然你只写了一篇文章"
+    },
+    {
+      "start": "00:41:44",
+      "end": "00:41:47",
+      "text": "我的文章里的"
+    },
+    {
+      "start": "00:41:47",
+      "end": "00:41:48",
+      "text": "代表词的词词"
+    },
+    {
+      "start": "00:41:48",
+      "end": "00:41:50",
+      "text": "有13个不同的词词"
+    },
+    {
+      "start": "00:41:50",
+      "end": "00:41:52",
+      "text": "而你没有选择"
+    },
+    {
+      "start": "00:41:52",
+      "end": "00:41:53",
+      "text": "其中的词词"
+    },
+    {
+      "start": "00:41:53",
+      "end": "00:41:54",
+      "text": "但你知道"
+    },
+    {
+      "start": "00:41:54",
+      "end": "00:41:55",
+      "text": "如果你有知道"
+    },
+    {
+      "start": "00:41:55",
+      "end": "00:41:58",
+      "text": "词词是如何改变其他词"
+    },
+    {
+      "start": "00:41:58",
+      "end": "00:42:00",
+      "text": "那你就可以"
+    },
+    {
+      "start": "00:42:00",
+      "end": "00:42:01",
+      "text": "得到一些数据"
+    },
+    {
+      "start": "00:42:01",
+      "end": "00:42:03",
+      "text": "然后开始预测"
+    },
+    {
+      "start": "00:42:03",
+      "end": "00:42:06",
+      "text": "在哪種程度 哪些東西可以改變其他東西"
+    },
+    {
+      "start": "00:42:06",
+      "end": "00:42:10",
+      "text": "所以人們想要開始做那種預測"
+    },
+    {
+      "start": "00:42:10",
+      "end": "00:42:14",
+      "text": "屬於機器學習模式的預測"
+    },
+    {
+      "start": "00:42:14",
+      "end": "00:42:16",
+      "text": "所以 能夠這樣做"
+    },
+    {
+      "start": "00:42:16",
+      "end": "00:42:20",
+      "text": "導致在60年代最早的反應"
+    },
+    {
+      "start": "00:42:21",
+      "end": "00:42:25",
+      "text": "但在80年代和90年代開始"
+    },
+    {
+      "start": "00:42:25",
+      "end": "00:42:30",
+      "text": "人們決定 無論是為了進行自然語言"
+    },
+    {
+      "start": "00:42:31",
+      "end": "00:42:33",
+      "text": "自然语言理解的设计"
+    },
+    {
+      "start": "00:42:33",
+      "end": "00:42:36",
+      "text": "是建立数据资源"
+    },
+    {
+      "start": "00:42:36",
+      "end": "00:42:41",
+      "text": "所以在90年代和2000年代"
+    },
+    {
+      "start": "00:42:41",
+      "end": "00:42:44",
+      "text": "自然语言理解的设计的名称"
+    },
+    {
+      "start": "00:42:44",
+      "end": "00:42:47",
+      "text": "是建立数据资源"
+    },
+    {
+      "start": "00:42:47",
+      "end": "00:42:48",
+      "text": "然后使用这些资源"
+    },
+    {
+      "start": "00:42:48",
+      "end": "00:42:50",
+      "text": "建立设计学习系统"
+    },
+    {
+      "start": "00:42:52",
+      "end": "00:42:54",
+      "text": "现在这些变化是反过来的"
+    },
+    {
+      "start": "00:42:54",
+      "end": "00:42:56",
+      "text": "再次被大型语言模式"
+    },
+    {
+      "start": "00:42:56",
+      "end": "00:42:59",
+      "text": "我们将在一个星期或多的时间内到达"
+    },
+    {
+      "start": "00:42:59",
+      "end": "00:43:01",
+      "text": "但是这里是一个例子"
+    },
+    {
+      "start": "00:43:01",
+      "end": "00:43:04",
+      "text": "所以这是全球联系的树枝"
+    },
+    {
+      "start": "00:43:04",
+      "end": "00:43:06",
+      "text": "我实际上有很大的参与"
+    },
+    {
+      "start": "00:43:06",
+      "end": "00:43:08",
+      "text": "它是一种很酷的资源"
+    },
+    {
+      "start": "00:43:08",
+      "end": "00:43:09",
+      "text": "为各种各样的用途"
+    },
+    {
+      "start": "00:43:09",
+      "end": "00:43:12",
+      "text": "因为它实际上是一个广泛的"
+    },
+    {
+      "start": "00:43:12",
+      "end": "00:43:13",
+      "text": "逻辑计划"
+    },
+    {
+      "start": "00:43:14",
+      "end": "00:43:16",
+      "text": "有超过100个不同的语言"
+    },
+    {
+      "start": "00:43:17",
+      "end": "00:43:19",
+      "text": "与语言复制"
+    },
+    {
+      "start": "00:43:19",
+      "end": "00:43:22",
+      "text": "与一种一样的联系形式"
+    },
+    {
+      "start": "00:43:22",
+      "end": "00:43:23",
+      "text": "所以它实际上是很好的"
+    },
+    {
+      "start": "00:43:23",
+      "end": "00:43:26",
+      "text": "为逻辑计划和"
+    },
+    {
+      "start": "00:43:26",
+      "end": "00:43:27",
+      "text": "和严格语言的作品"
+    },
+    {
+      "start": "00:43:27",
+      "end": "00:43:29",
+      "text": "但是这些是"
+    },
+    {
+      "start": "00:43:31",
+      "end": "00:43:33",
+      "text": "我认为Muramar是一位"
+    },
+    {
+      "start": "00:43:33",
+      "end": "00:43:34",
+      "text": "有名的狗训练员"
+    },
+    {
+      "start": "00:43:34",
+      "end": "00:43:36",
+      "text": "在这些语言中"
+    },
+    {
+      "start": "00:43:36",
+      "end": "00:43:38",
+      "text": "放了一个联系的结构"
+    },
+    {
+      "start": "00:43:38",
+      "end": "00:43:40",
+      "text": "这些都在那里写着"
+    },
+    {
+      "start": "00:43:40",
+      "end": "00:43:41",
+      "text": "很弱的"
+    },
+    {
+      "start": "00:43:41",
+      "end": "00:43:43",
+      "text": "人类都在"
+    },
+    {
+      "start": "00:43:43",
+      "end": "00:43:46",
+      "text": "制造这些联系的结构"
+    },
+    {
+      "start": "00:43:46",
+      "end": "00:43:48",
+      "text": "然后这些是给我们的数据"
+    },
+    {
+      "start": "00:43:48",
+      "end": "00:43:50",
+      "text": "让我们能从联系中"
+    },
+    {
+      "start": "00:43:50",
+      "end": "00:43:56",
+      "text": "学习一些类似联系派对的东西"
+    },
+    {
+      "start": "00:43:56",
+      "end": "00:43:58",
+      "text": "这就是我们将使用的"
+    },
+    {
+      "start": "00:43:58",
+      "end": "00:44:00",
+      "text": "是这种数据来建立的"
+    },
+    {
+      "start": "00:44:00",
+      "end": "00:44:02",
+      "text": "一个联络计算机"
+    },
+    {
+      "start": "00:44:02",
+      "end": "00:44:03",
+      "text": "它将学习"
+    },
+    {
+      "start": "00:44:03",
+      "end": "00:44:06",
+      "text": "你会有狗训练员"
+    },
+    {
+      "start": "00:44:07",
+      "end": "00:44:09",
+      "text": "你会有有名训练员"
+    },
+    {
+      "start": "00:44:09",
+      "end": "00:44:10",
+      "text": "所以它将建立一些"
+    },
+    {
+      "start": "00:44:10",
+      "end": "00:44:12",
+      "text": "数据和资讯"
+    },
+    {
+      "start": "00:44:12",
+      "end": "00:44:15",
+      "text": "来证明什么样的事情是有可能的"
+    },
+    {
+      "start": "00:44:15",
+      "end": "00:44:16",
+      "text": "对"
+    },
+    {
+      "start": "00:44:17",
+      "end": "00:44:19",
+      "text": "所以从开始"
+    },
+    {
+      "start": "00:44:19",
+      "end": "00:44:21",
+      "text": "建立一个这样的树枝链"
+    },
+    {
+      "start": "00:44:21",
+      "end": "00:44:25",
+      "text": "感觉就像"
+    },
+    {
+      "start": "00:44:25",
+      "end": "00:44:27",
+      "text": "就像是很慢的努力"
+    },
+    {
+      "start": "00:44:27",
+      "end": "00:44:30",
+      "text": "其實是很慢的努力"
+    },
+    {
+      "start": "00:44:30",
+      "end": "00:44:34",
+      "text": "但它顯然是一個非常有效的策略"
+    },
+    {
+      "start": "00:44:34",
+      "end": "00:44:38",
+      "text": "因為它提供了非常好的使用資源"
+    },
+    {
+      "start": "00:44:38",
+      "end": "00:44:40",
+      "text": "當人們做了一次"
+    },
+    {
+      "start": "00:44:40",
+      "end": "00:44:42",
+      "text": "各種各樣的人都可以使用它"
+    },
+    {
+      "start": "00:44:42",
+      "end": "00:44:45",
+      "text": "去建造Parser、Speech Taggers"
+    },
+    {
+      "start": "00:44:46",
+      "end": "00:44:48",
+      "text": "去做Psycho-linguistic Models"
+    },
+    {
+      "start": "00:44:48",
+      "end": "00:44:50",
+      "text": "以及各種各樣的東西"
+    },
+    {
+      "start": "00:44:50",
+      "end": "00:44:51",
+      "text": "你會得到一些"
+    },
+    {
+      "start": "00:44:51",
+      "end": "00:44:53",
+      "text": "儲存的頻率資訊"
+    },
+    {
+      "start": "00:44:54",
+      "end": "00:44:59",
+      "text": "它也提供了另一件重要的事情"
+    },
+    {
+      "start": "00:44:59",
+      "end": "00:45:02",
+      "text": "它提供了一種方法去評論系統"
+    },
+    {
+      "start": "00:45:02",
+      "end": "00:45:06",
+      "text": "去說它們有多好在製造Parser"
+    },
+    {
+      "start": "00:45:07",
+      "end": "00:45:10",
+      "text": "這可能對你來講有趣"
+    },
+    {
+      "start": "00:45:11",
+      "end": "00:45:14",
+      "text": "在現代機器學時期"
+    },
+    {
+      "start": "00:45:14",
+      "end": "00:45:15",
+      "text": "但事實是"
+    },
+    {
+      "start": "00:45:15",
+      "end": "00:45:20",
+      "text": "當人們在50年 60年 70年"
+    },
+    {
+      "start": "00:45:20",
+      "end": "00:45:23",
+      "text": "做自然語言處理的時候"
+    },
+    {
+      "start": "00:45:23",
+      "end": "00:45:25",
+      "text": "evaluation methods"
+    },
+    {
+      "start": "00:45:25",
+      "end": "00:45:28",
+      "text": "the way you showed people you had a good parser"
+    },
+    {
+      "start": "00:45:28",
+      "end": "00:45:30",
+      "text": "is you ran the program"
+    },
+    {
+      "start": "00:45:30",
+      "end": "00:45:32",
+      "text": "you said type in a sentence"
+    },
+    {
+      "start": "00:45:32",
+      "end": "00:45:32",
+      "text": "look at what it"
+    },
+    {
+      "start": "00:45:32",
+      "end": "00:45:33",
+      "text": "look look it's worked"
+    },
+    {
+      "start": "00:45:33",
+      "end": "00:45:35",
+      "text": "it's a really good parser"
+    },
+    {
+      "start": "00:45:35",
+      "end": "00:45:39",
+      "text": "you know there was no systematic evaluation"
+    },
+    {
+      "start": "00:45:39",
+      "end": "00:45:41",
+      "text": "of NLP systems whatsoever"
+    },
+    {
+      "start": "00:45:42",
+      "end": "00:45:45",
+      "text": "so actually saying look here's"
+    },
+    {
+      "start": "00:45:45",
+      "end": "00:45:47",
+      "text": "a thousand hand parsed sentences"
+    },
+    {
+      "start": "00:45:48",
+      "end": "00:45:51",
+      "text": "let's evaluate how well your parser does on those"
+    },
+    {
+      "start": "00:45:51",
+      "end": "00:46:03",
+      "text": "那是在80年代，尤其是在90年代發生的一個新發展"
+    },
+    {
+      "start": "00:46:03",
+      "end": "00:46:07",
+      "text": "現在我們有了所有這些知識"
+    },
+    {
+      "start": "00:46:07",
+      "end": "00:46:13",
+      "text": "我們要開始建立瀏覽模式"
+    },
+    {
+      "start": "00:46:13",
+      "end": "00:46:18",
+      "text": "我會展示一個特別的瀏覽模式"
+    },
+    {
+      "start": "00:46:18",
+      "end": "00:46:21",
+      "text": "你會在課程中使用的"
+    },
+    {
+      "start": "00:46:22",
+      "end": "00:46:22",
+      "text": "首先"
+    },
+    {
+      "start": "00:46:23",
+      "end": "00:46:26",
+      "text": "你應該想一想"
+    },
+    {
+      "start": "00:46:26",
+      "end": "00:46:28",
+      "text": "什麼樣的資訊"
+    },
+    {
+      "start": "00:46:28",
+      "end": "00:46:31",
+      "text": "應該用來決定"
+    },
+    {
+      "start": "00:46:31",
+      "end": "00:46:35",
+      "text": "這就是四個因素"
+    },
+    {
+      "start": "00:46:35",
+      "end": "00:46:36",
+      "text": "很明顯的因素"
+    },
+    {
+      "start": "00:46:36",
+      "end": "00:46:37",
+      "text": "可以用來決定"
+    },
+    {
+      "start": "00:46:37",
+      "end": "00:46:38",
+      "text": "首先"
+    },
+    {
+      "start": "00:46:40",
+      "end": "00:46:43",
+      "text": "想想這兩句"
+    },
+    {
+      "start": "00:46:43",
+      "end": "00:46:44",
+      "text": "在橫額上的兩句"
+    },
+    {
+      "start": "00:46:44",
+      "end": "00:46:46",
+      "text": "是否合理"
+    },
+    {
+      "start": "00:46:46",
+      "end": "00:46:52",
+      "text": "So that for discussion of the outstanding issues was completed"
+    },
+    {
+      "start": "00:46:52",
+      "end": "00:46:57",
+      "text": "So to have discussion of issues"
+    },
+    {
+      "start": "00:46:58",
+      "end": "00:47:01",
+      "text": "That's a plausible dependency"
+    },
+    {
+      "start": "00:47:02",
+      "end": "00:47:06",
+      "text": "To have, you know, what's a silly one"
+    },
+    {
+      "start": "00:47:06",
+      "end": "00:47:11",
+      "text": "To have something like the being a dependent of completed"
+    },
+    {
+      "start": "00:47:11",
+      "end": "00:47:13",
+      "text": "That makes no sense at all"
+    },
+    {
+      "start": "00:47:13",
+      "end": "00:47:16",
+      "text": "所以你知道有什么语言在里面"
+    },
+    {
+      "start": "00:47:18",
+      "end": "00:47:19",
+      "text": "第二个是距离"
+    },
+    {
+      "start": "00:47:19",
+      "end": "00:47:23",
+      "text": "所以你可以有长距离的距离"
+    },
+    {
+      "start": "00:47:23",
+      "end": "00:47:25",
+      "text": "它们会长一段时间"
+    },
+    {
+      "start": "00:47:25",
+      "end": "00:47:29",
+      "text": "但大多数的距离是短距离"
+    },
+    {
+      "start": "00:47:29",
+      "end": "00:47:31",
+      "text": "很多语言的距离"
+    },
+    {
+      "start": "00:47:31",
+      "end": "00:47:33",
+      "text": "是在他们的邻居语言上"
+    },
+    {
+      "start": "00:47:33",
+      "end": "00:47:34",
+      "text": "在很短的距离里"
+    },
+    {
+      "start": "00:47:34",
+      "end": "00:47:36",
+      "text": "所以这是一个好选择"
+    },
+    {
+      "start": "00:47:36",
+      "end": "00:47:39",
+      "text": "除了距离"
+    },
+    {
+      "start": "00:47:39",
+      "end": "00:47:44",
+      "text": "知道之处之处的语言"
+    },
+    {
+      "start": "00:47:44",
+      "end": "00:47:49",
+      "text": "所以语言或判断是很少的"
+    },
+    {
+      "start": "00:47:49",
+      "end": "00:47:53",
+      "text": "然后还有一个最后的语言"
+    },
+    {
+      "start": "00:47:53",
+      "end": "00:47:55",
+      "text": "就是头部的细腻"
+    },
+    {
+      "start": "00:47:55",
+      "end": "00:47:57",
+      "text": "就是它们用了多少的语言"
+    },
+    {
+      "start": "00:48:00",
+      "end": "00:48:04",
+      "text": "如果有一个语言是破坏"
+    },
+    {
+      "start": "00:48:05",
+      "end": "00:48:10",
+      "text": "well it probably has something to the left"
+    },
+    {
+      "start": "00:48:10",
+      "end": "00:48:13",
+      "text": "because it probably has who did the breaking"
+    },
+    {
+      "start": "00:48:13",
+      "end": "00:48:17",
+      "text": "and it probably has something to the right"
+    },
+    {
+      "start": "00:48:17",
+      "end": "00:48:20",
+      "text": "because there might be the cup or something like that"
+    },
+    {
+      "start": "00:48:21",
+      "end": "00:48:24",
+      "text": "but you know it doesn't have to be that"
+    },
+    {
+      "start": "00:48:24",
+      "end": "00:48:26",
+      "text": "because it could be the cup broke"
+    },
+    {
+      "start": "00:48:26",
+      "end": "00:48:30",
+      "text": "so you can have something to the left"
+    },
+    {
+      "start": "00:48:30",
+      "end": "00:48:31",
+      "text": "but nothing to the right"
+    },
+    {
+      "start": "00:48:31",
+      "end": "00:48:34",
+      "text": "but you sort of have to have something to the left"
+    },
+    {
+      "start": "00:48:34",
+      "end": "00:48:37",
+      "text": "而相反你不可以有任何的東西"
+    },
+    {
+      "start": "00:48:37",
+      "end": "00:48:42",
+      "text": "你不可以說他破了杯子 醬汁 鍋子"
+    },
+    {
+      "start": "00:48:43",
+      "end": "00:48:46",
+      "text": "所以它不需要很多的疑問"
+    },
+    {
+      "start": "00:48:46",
+      "end": "00:48:47",
+      "text": "所以你會有這樣的概念"
+    },
+    {
+      "start": "00:48:49",
+      "end": "00:48:54",
+      "text": "對 有另一個困難的小概念"
+    },
+    {
+      "start": "00:48:54",
+      "end": "00:48:55",
+      "text": "關於分辨性"
+    },
+    {
+      "start": "00:48:55",
+      "end": "00:49:03",
+      "text": "通常分辨性就像這個樣子"
+    },
+    {
+      "start": "00:49:03",
+      "end": "00:49:07",
+      "text": "and nesting dependencies corresponds to a tree structure"
+    },
+    {
+      "start": "00:49:07",
+      "end": "00:49:10",
+      "text": "as you'd have in a context-free grammar"
+    },
+    {
+      "start": "00:49:10",
+      "end": "00:49:34",
+      "text": "so I will"
+    },
+    {
+      "start": "00:49:34",
+      "end": "00:49:35",
+      "text": "fair enough"
+    },
+    {
+      "start": "00:49:35",
+      "end": "00:49:38",
+      "text": "I will assert that this is"
+    },
+    {
+      "start": "00:49:38",
+      "end": "00:49:40",
+      "text": "a sentence"
+    },
+    {
+      "start": "00:49:42",
+      "end": "00:49:48",
+      "text": "and discussion is the subject of the verb completed"
+    },
+    {
+      "start": "00:49:48",
+      "end": "00:49:52",
+      "text": "and you know normally for a sentence"
+    },
+    {
+      "start": "00:49:52",
+      "end": "00:49:55",
+      "text": "we say the main thing in a sentence is its verb"
+    },
+    {
+      "start": "00:49:55",
+      "end": "00:49:59",
+      "text": "and so yeah so that's why the root is heading to completed"
+    },
+    {
+      "start": "00:49:59",
+      "end": "00:50:03",
+      "text": "and the subject of the verb is also an important thing"
+    },
+    {
+      "start": "00:50:03",
+      "end": "00:50:06",
+      "text": "but the arguments of the verb"
+    },
+    {
+      "start": "00:50:06",
+      "end": "00:50:07",
+      "text": "like the subject of the verb"
+    },
+    {
+      "start": "00:50:07",
+      "end": "00:50:08",
+      "text": "the object of the verb"
+    },
+    {
+      "start": "00:50:08",
+      "end": "00:50:10",
+      "text": "there is one prepositional phrase modifiers"
+    },
+    {
+      "start": "00:50:10",
+      "end": "00:50:14",
+      "text": "它们都被定义成语言"
+    },
+    {
+      "start": "00:50:14",
+      "end": "00:50:15",
+      "text": "是的"
+    },
+    {
+      "start": "00:50:15",
+      "end": "00:50:23",
+      "text": "除此之外 语言是否正确的"
+    },
+    {
+      "start": "00:50:23",
+      "end": "00:50:26",
+      "text": "你开始用的语言是否正确的"
+    },
+    {
+      "start": "00:50:26",
+      "end": "00:50:30",
+      "text": "如果你有这样的语言"
+    },
+    {
+      "start": "00:50:30",
+      "end": "00:50:35",
+      "text": "那总是答案"
+    },
+    {
+      "start": "00:50:35",
+      "end": "00:50:36",
+      "text": "我想说"
+    },
+    {
+      "start": "00:50:36",
+      "end": "00:50:39",
+      "text": "这里有些语言有关系"
+    },
+    {
+      "start": "00:50:39",
+      "end": "00:50:41",
+      "text": "但是有些语言"
+    },
+    {
+      "start": "00:50:41",
+      "end": "00:50:43",
+      "text": "你不需要用文字和文字"
+    },
+    {
+      "start": "00:50:44",
+      "end": "00:50:53",
+      "text": "你可以用很矛盾的方式"
+    },
+    {
+      "start": "00:50:53",
+      "end": "00:50:55",
+      "text": "用英文"
+    },
+    {
+      "start": "00:50:55",
+      "end": "00:50:56",
+      "text": "比如說"
+    },
+    {
+      "start": "00:50:57",
+      "end": "00:50:58",
+      "text": "Easy as pie"
+    },
+    {
+      "start": "00:50:58",
+      "end": "00:51:00",
+      "text": "沒有文字"
+    },
+    {
+      "start": "00:51:00",
+      "end": "00:51:02",
+      "text": "所以你會說Easy"
+    },
+    {
+      "start": "00:51:02",
+      "end": "00:51:05",
+      "text": "這個詞彙的詞彙"
+    },
+    {
+      "start": "00:51:05",
+      "end": "00:51:07",
+      "text": "是文字的頭文"
+    },
+    {
+      "start": "00:51:07",
+      "end": "00:51:12",
+      "text": "這是一個問題"
+    },
+    {
+      "start": "00:51:12",
+      "end": "00:51:14",
+      "text": "like what is the story"
+    },
+    {
+      "start": "00:51:14",
+      "end": "00:51:15",
+      "text": "is that what it is"
+    },
+    {
+      "start": "00:51:15",
+      "end": "00:51:17",
+      "text": "like we would still look at that as the"
+    },
+    {
+      "start": "00:51:18",
+      "end": "00:51:19",
+      "text": "that one is complicated"
+    },
+    {
+      "start": "00:51:19",
+      "end": "00:51:22",
+      "text": "some people would say it is"
+    },
+    {
+      "start": "00:51:22",
+      "end": "00:51:26",
+      "text": "and some people would say it isn't"
+    },
+    {
+      "start": "00:51:26",
+      "end": "00:51:28",
+      "text": "and in particular in universal dependency"
+    },
+    {
+      "start": "00:51:28",
+      "end": "00:51:31",
+      "text": "we don't actually say that is is the head of the sentence"
+    },
+    {
+      "start": "00:51:31",
+      "end": "00:51:33",
+      "text": "but I don't want to get too far into this"
+    },
+    {
+      "start": "00:51:33",
+      "end": "00:51:35",
+      "text": "if you want you can sort of look more"
+    },
+    {
+      "start": "00:51:35",
+      "end": "00:51:37",
+      "text": "at how things are done"
+    },
+    {
+      "start": "00:51:37",
+      "end": "00:51:38",
+      "text": "but you know"
+    },
+    {
+      "start": "00:51:38",
+      "end": "00:51:40",
+      "text": "I want to fully admit that you know"
+    },
+    {
+      "start": "00:51:40",
+      "end": "00:51:44",
+      "text": "所以分别语言并不是一个独特定义的理论"
+    },
+    {
+      "start": "00:51:44",
+      "end": "00:51:46",
+      "text": "人们有各种不同的想法"
+    },
+    {
+      "start": "00:51:46",
+      "end": "00:51:50",
+      "text": "以各种情况来定义自己的头脑"
+    },
+    {
+      "start": "00:51:50",
+      "end": "00:51:52",
+      "text": "而他们都在讨论这件事"
+    },
+    {
+      "start": "00:51:52",
+      "end": "00:51:53",
+      "text": "语言家们都在讨论"
+    },
+    {
+      "start": "00:51:53",
+      "end": "00:51:54",
+      "text": "什么是正确的组织"
+    },
+    {
+      "start": "00:51:54",
+      "end": "00:51:56",
+      "text": "可以用在各种语言中"
+    },
+    {
+      "start": "00:51:56",
+      "end": "00:51:59",
+      "text": "但是人们做事情不同的方式"
+    },
+    {
+      "start": "00:51:59",
+      "end": "00:52:02",
+      "text": "不意味着每个人都不同意"
+    },
+    {
+      "start": "00:52:02",
+      "end": "00:52:04",
+      "text": "那里面有组织"
+    },
+    {
+      "start": "00:52:04",
+      "end": "00:52:06",
+      "text": "里面有词词和改变"
+    },
+    {
+      "start": "00:52:06",
+      "end": "00:52:09",
+      "text": "and ambiguities and so on between them"
+    },
+    {
+      "start": "00:52:10",
+      "end": "00:52:10",
+      "text": "okay"
+    },
+    {
+      "start": "00:52:11",
+      "end": "00:52:13",
+      "text": "yeah so normally we get this sort of nesting"
+    },
+    {
+      "start": "00:52:13",
+      "end": "00:52:15",
+      "text": "that corresponds to what you can build"
+    },
+    {
+      "start": "00:52:15",
+      "end": "00:52:17",
+      "text": "with context free grammar structure"
+    },
+    {
+      "start": "00:52:17",
+      "end": "00:52:20",
+      "text": "but sometimes in human languages"
+    },
+    {
+      "start": "00:52:20",
+      "end": "00:52:24",
+      "text": "you get dependencies that don't nest"
+    },
+    {
+      "start": "00:52:24",
+      "end": "00:52:26",
+      "text": "so you get sentences like"
+    },
+    {
+      "start": "00:52:26",
+      "end": "00:52:29",
+      "text": "I'll give a talk tomorrow on neural networks"
+    },
+    {
+      "start": "00:52:29",
+      "end": "00:52:32",
+      "text": "where actually the on neural networks"
+    },
+    {
+      "start": "00:52:33",
+      "end": "00:52:35",
+      "text": "is modifying the talk"
+    },
+    {
+      "start": "00:52:35",
+      "end": "00:52:39",
+      "text": "where the yesterday is an argument of"
+    },
+    {
+      "start": "00:52:39",
+      "end": "00:52:42",
+      "text": "sorry the tomorrow is an argument of give"
+    },
+    {
+      "start": "00:52:42",
+      "end": "00:52:45",
+      "text": "and so you get these crossing dependencies"
+    },
+    {
+      "start": "00:52:45",
+      "end": "00:52:48",
+      "text": "which are referred to as non-projective dependencies"
+    },
+    {
+      "start": "00:52:49",
+      "end": "00:52:53",
+      "text": "you also get them when you form questions"
+    },
+    {
+      "start": "00:52:53",
+      "end": "00:52:57",
+      "text": "so who did Bill buy the coffee from yesterday"
+    },
+    {
+      "start": "00:52:57",
+      "end": "00:53:01",
+      "text": "that the who is the object of the preposition from"
+    },
+    {
+      "start": "00:53:01",
+      "end": "00:53:04",
+      "text": "but it's been moved out the front"
+    },
+    {
+      "start": "00:53:04",
+      "end": "00:53:08",
+      "text": "所以这又给我们一个非凝固性的结构"
+    },
+    {
+      "start": "00:53:09",
+      "end": "00:53:10",
+      "text": "如果你想想"
+    },
+    {
+      "start": "00:53:11",
+      "end": "00:53:16",
+      "text": "是的，你仍然可以说"
+    },
+    {
+      "start": "00:53:16",
+      "end": "00:53:18",
+      "text": "你有一个凝固性树"
+    },
+    {
+      "start": "00:53:18",
+      "end": "00:53:20",
+      "text": "但是它有不同的语言"
+    },
+    {
+      "start": "00:53:21",
+      "end": "00:53:25",
+      "text": "所以一个你必须处理的东西"
+    },
+    {
+      "start": "00:53:25",
+      "end": "00:53:27",
+      "text": "是完全凝固性的凝固性"
+    },
+    {
+      "start": "00:53:27",
+      "end": "00:53:29",
+      "text": "就是这种非凝固性的结构"
+    },
+    {
+      "start": "00:53:29",
+      "end": "00:53:30",
+      "text": "但是我说的"
+    },
+    {
+      "start": "00:53:30",
+      "end": "00:53:34",
+      "text": "其实我们现在没有办法凝固性的结构"
+    },
+    {
+      "start": "00:53:34",
+      "end": "00:53:35",
+      "text": "Dependency Parsing"
+    },
+    {
+      "start": "00:53:36",
+      "end": "00:53:36",
+      "text": "OK"
+    },
+    {
+      "start": "00:53:36",
+      "end": "00:53:39",
+      "text": "所以有很多不同的方法"
+    },
+    {
+      "start": "00:53:39",
+      "end": "00:53:42",
+      "text": "讓人們做Dependency Parsing"
+    },
+    {
+      "start": "00:53:42",
+      "end": "00:53:43",
+      "text": "有些人是透過"
+    },
+    {
+      "start": "00:53:43",
+      "end": "00:53:44",
+      "text": "動力計算"
+    },
+    {
+      "start": "00:53:44",
+      "end": "00:53:47",
+      "text": "有些人是用"
+    },
+    {
+      "start": "00:53:47",
+      "end": "00:53:48",
+      "text": "Graph Algorithms"
+    },
+    {
+      "start": "00:53:48",
+      "end": "00:53:50",
+      "text": "如果我時間充足"
+    },
+    {
+      "start": "00:53:50",
+      "end": "00:53:51",
+      "text": "我可能再次提到"
+    },
+    {
+      "start": "00:53:51",
+      "end": "00:53:53",
+      "text": "有些人是用"
+    },
+    {
+      "start": "00:53:53",
+      "end": "00:53:54",
+      "text": "限制滿足的方法"
+    },
+    {
+      "start": "00:53:54",
+      "end": "00:53:57",
+      "text": "如果你有看過CS-221"
+    },
+    {
+      "start": "00:53:57",
+      "end": "00:54:00",
+      "text": "但最常見的方法"
+    },
+    {
+      "start": "00:54:00",
+      "end": "00:54:01",
+      "text": "在實習中"
+    },
+    {
+      "start": "00:54:01",
+      "end": "00:54:02",
+      "text": "出現的就是"
+    },
+    {
+      "start": "00:54:03",
+      "end": "00:54:04",
+      "text": "這個轉換基礎的計算"
+    },
+    {
+      "start": "00:54:04",
+      "end": "00:54:10",
+      "text": "這也有點有趣"
+    },
+    {
+      "start": "00:54:10",
+      "end": "00:54:13",
+      "text": "也給我們一個非常簡單的"
+    },
+    {
+      "start": "00:54:13",
+      "end": "00:54:14",
+      "text": "機器學習方法"
+    },
+    {
+      "start": "00:54:15",
+      "end": "00:54:16",
+      "text": "所以這也很適合"
+    },
+    {
+      "start": "00:54:16",
+      "end": "00:54:19",
+      "text": "任務二的用家"
+    },
+    {
+      "start": "00:54:19",
+      "end": "00:54:20",
+      "text": "所以這就是我們要"
+    },
+    {
+      "start": "00:54:20",
+      "end": "00:54:21",
+      "text": "在這裡探索的"
+    },
+    {
+      "start": "00:54:21",
+      "end": "00:54:26",
+      "text": "好，所以我們做的"
+    },
+    {
+      "start": "00:54:27",
+      "end": "00:54:29",
+      "text": "轉換基礎的計算"
+    },
+    {
+      "start": "00:54:29",
+      "end": "00:54:34",
+      "text": "and transition based parsing is you know this is where it's unfortunate"
+    },
+    {
+      "start": "00:54:34",
+      "end": "00:54:38",
+      "text": "that only two people in the class have done a compilers class"
+    },
+    {
+      "start": "00:54:38",
+      "end": "00:54:44",
+      "text": "so a simple form of parsing that's also used in compilers class"
+    },
+    {
+      "start": "00:54:44",
+      "end": "00:54:47",
+      "text": "is something called shift reduce parsing"
+    },
+    {
+      "start": "00:54:47",
+      "end": "00:54:51",
+      "text": "where you start sort of bottom up and you start putting little"
+    },
+    {
+      "start": "00:54:51",
+      "end": "00:54:54",
+      "text": "units together and build bigger constituents"
+    },
+    {
+      "start": "00:54:54",
+      "end": "00:54:57",
+      "text": "但如果很多人沒有看過"
+    },
+    {
+      "start": "00:54:57",
+      "end": "00:55:01",
+      "text": "這不一定很有幫助"
+    },
+    {
+      "start": "00:55:01",
+      "end": "00:55:03",
+      "text": "所以我會給你們一個具體的例子"
+    },
+    {
+      "start": "00:55:03",
+      "end": "00:55:05",
+      "text": "所以我們要知道的東西是"
+    },
+    {
+      "start": "00:55:05",
+      "end": "00:55:06",
+      "text": "我們有兩種資料結構"
+    },
+    {
+      "start": "00:55:06",
+      "end": "00:55:08",
+      "text": "我們有多於兩種"
+    },
+    {
+      "start": "00:55:08",
+      "end": "00:55:12",
+      "text": "我們有兩種資料結構"
+    },
+    {
+      "start": "00:55:12",
+      "end": "00:55:14",
+      "text": "我們有一個分析器"
+    },
+    {
+      "start": "00:55:14",
+      "end": "00:55:16",
+      "text": "有我們進口的文字"
+    },
+    {
+      "start": "00:55:16",
+      "end": "00:55:18",
+      "text": "然後我們開始建造"
+    },
+    {
+      "start": "00:55:18",
+      "end": "00:55:21",
+      "text": "一塊文字結構"
+    },
+    {
+      "start": "00:55:21",
+      "end": "00:55:22",
+      "text": "我們把它放在一塊"
+    },
+    {
+      "start": "00:55:22",
+      "end": "00:55:26",
+      "text": "and the little trick to know that for the buffer"
+    },
+    {
+      "start": "00:55:26",
+      "end": "00:55:28",
+      "text": "the top is written to the left"
+    },
+    {
+      "start": "00:55:28",
+      "end": "00:55:30",
+      "text": "and for the stack the top is written to the right"
+    },
+    {
+      "start": "00:55:30",
+      "end": "00:55:35",
+      "text": "and so we take actions which are like shift and reduce actions"
+    },
+    {
+      "start": "00:55:36",
+      "end": "00:55:39",
+      "text": "and when we take arc building actions"
+    },
+    {
+      "start": "00:55:39",
+      "end": "00:55:42",
+      "text": "we build up a set of dependency arcs"
+    },
+    {
+      "start": "00:55:42",
+      "end": "00:55:45",
+      "text": "which are going to be the dependency structure of our sentence"
+    },
+    {
+      "start": "00:55:45",
+      "end": "00:55:48",
+      "text": "and that's all incredibly abstract"
+    },
+    {
+      "start": "00:55:48",
+      "end": "00:55:51",
+      "text": "and so I'm going to show an example"
+    },
+    {
+      "start": "00:55:51",
+      "end": "00:55:55",
+      "text": "我希望能给大家一些理解"
+    },
+    {
+      "start": "00:55:55",
+      "end": "00:55:58",
+      "text": "这是一个例子"
+    },
+    {
+      "start": "00:55:58",
+      "end": "00:56:02",
+      "text": "我想做一个非常简单的例子"
+    },
+    {
+      "start": "00:56:02",
+      "end": "00:56:07",
+      "text": "我吃了鱼"
+    },
+    {
+      "start": "00:56:08",
+      "end": "00:56:12",
+      "text": "我用的方式是"
+    },
+    {
+      "start": "00:56:12",
+      "end": "00:56:14",
+      "text": "我有我的组合"
+    },
+    {
+      "start": "00:56:14",
+      "end": "00:56:19",
+      "text": "我先把 root 字放在组合上"
+    },
+    {
+      "start": "00:56:19",
+      "end": "00:56:23",
+      "text": "然后我把整个词的词词都放在我的滑鼠里"
+    },
+    {
+      "start": "00:56:23",
+      "end": "00:56:25",
+      "text": "所以这是我写的开始状态"
+    },
+    {
+      "start": "00:56:25",
+      "end": "00:56:27",
+      "text": "在那里的非常小的印刷"
+    },
+    {
+      "start": "00:56:27",
+      "end": "00:56:30",
+      "text": "然后每个过程的每个步骤"
+    },
+    {
+      "start": "00:56:30",
+      "end": "00:56:33",
+      "text": "我会选择三个行动"
+    },
+    {
+      "start": "00:56:33",
+      "end": "00:56:35",
+      "text": "我可以选择转换"
+    },
+    {
+      "start": "00:56:35",
+      "end": "00:56:41",
+      "text": "就是把滑鼠的最高词移到滑鼠里"
+    },
+    {
+      "start": "00:56:41",
+      "end": "00:56:44",
+      "text": "或者我可以选择左轮或右轮"
+    },
+    {
+      "start": "00:56:44",
+      "end": "00:56:47",
+      "text": "而这两个行动是我的减少行动"
+    },
+    {
+      "start": "00:56:47",
+      "end": "00:56:49",
+      "text": "that build a little bit of syntactic structure"
+    },
+    {
+      "start": "00:56:49",
+      "end": "00:56:53",
+      "text": "by saying that one word is a dependent of another word"
+    },
+    {
+      "start": "00:56:53",
+      "end": "00:56:55",
+      "text": "in either a left or a right direction"
+    },
+    {
+      "start": "00:56:56",
+      "end": "00:56:59",
+      "text": "so here are sequence of operations I can take"
+    },
+    {
+      "start": "00:56:59",
+      "end": "00:57:02",
+      "text": "and so starting off"
+    },
+    {
+      "start": "00:57:02",
+      "end": "00:57:05",
+      "text": "the first thing I can do is shift"
+    },
+    {
+      "start": "00:57:05",
+      "end": "00:57:08",
+      "text": "so then I've moved I onto the stack"
+    },
+    {
+      "start": "00:57:08",
+      "end": "00:57:12",
+      "text": "I can decide that I want to shift again"
+    },
+    {
+      "start": "00:57:12",
+      "end": "00:57:14",
+      "text": "and so then I'd take 8"
+    },
+    {
+      "start": "00:57:14",
+      "end": "00:57:17",
+      "text": "and also move it onto"
+    },
+    {
+      "start": "00:57:17",
+      "end": "00:57:21",
+      "text": "所以我现在有三个东西在我的盘子上"
+    },
+    {
+      "start": "00:57:22",
+      "end": "00:57:24",
+      "text": "所以在这个情况下"
+    },
+    {
+      "start": "00:57:24",
+      "end": "00:57:27",
+      "text": "我可以做其他事情"
+    },
+    {
+      "start": "00:57:27",
+      "end": "00:57:30",
+      "text": "特别是左边的圈子会说"
+    },
+    {
+      "start": "00:57:30",
+      "end": "00:57:35",
+      "text": "我可以把前面两个东西放在盘子上"
+    },
+    {
+      "start": "00:57:35",
+      "end": "00:57:40",
+      "text": "然后把前面的东西放在盘子上"
+    },
+    {
+      "start": "00:57:40",
+      "end": "00:57:42",
+      "text": "而前面的东西放在盘子上"
+    },
+    {
+      "start": "00:57:42",
+      "end": "00:57:43",
+      "text": "都会有关系"
+    },
+    {
+      "start": "00:57:43",
+      "end": "00:57:46",
+      "text": "所以如果我做左边的圈子行动"
+    },
+    {
+      "start": "00:57:47",
+      "end": "00:57:51",
+      "text": "I'm effectively saying that the i is a dependent of 8"
+    },
+    {
+      "start": "00:57:51",
+      "end": "00:57:53",
+      "text": "and then I pop both of"
+    },
+    {
+      "start": "00:57:53",
+      "end": "00:57:56",
+      "text": "then I pop the dependent off the stack"
+    },
+    {
+      "start": "00:57:56",
+      "end": "00:58:00",
+      "text": "but I add on that I've built a dependency"
+    },
+    {
+      "start": "00:58:00",
+      "end": "00:58:03",
+      "text": "that I made i a dependent of 8"
+    },
+    {
+      "start": "00:58:03",
+      "end": "00:58:06",
+      "text": "I could then do another shift operation"
+    },
+    {
+      "start": "00:58:06",
+      "end": "00:58:11",
+      "text": "so I shift fish from the buffer onto the stack"
+    },
+    {
+      "start": "00:58:11",
+      "end": "00:58:14",
+      "text": "and then I can do a right arc which says"
+    },
+    {
+      "start": "00:58:14",
+      "end": "00:58:18",
+      "text": "I'm going to have fish as a dependent of 8"
+    },
+    {
+      "start": "00:58:18",
+      "end": "00:58:21",
+      "text": "so then fish disappears from the stack"
+    },
+    {
+      "start": "00:58:21",
+      "end": "00:58:24",
+      "text": "and I add in this new dependency"
+    },
+    {
+      "start": "00:58:24",
+      "end": "00:58:27",
+      "text": "saying fish is a dependent of 8"
+    },
+    {
+      "start": "00:58:27",
+      "end": "00:58:30",
+      "text": "I then do right arc again"
+    },
+    {
+      "start": "00:58:31",
+      "end": "00:58:34",
+      "text": "which is then saying that"
+    },
+    {
+      "start": "00:58:34",
+      "end": "00:58:36",
+      "text": "8 is a dependent of root"
+    },
+    {
+      "start": "00:58:36",
+      "end": "00:58:39",
+      "text": "so I'm left with just root on my stack"
+    },
+    {
+      "start": "00:58:39",
+      "end": "00:58:41",
+      "text": "and I've built a new dependent"
+    },
+    {
+      "start": "00:58:41",
+      "end": "00:58:43",
+      "text": "saying 8 is a dependent of root"
+    },
+    {
+      "start": "00:58:43",
+      "end": "00:58:46",
+      "text": "而在这个时刻，我已经进入了结束的状态。"
+    },
+    {
+      "start": "00:58:46",
+      "end": "00:58:49",
+      "text": "我的结束状态是，我的分辨器是空的，"
+    },
+    {
+      "start": "00:58:50",
+      "end": "00:58:53",
+      "text": "而我的组合只是用了这个语言的根源。"
+    },
+    {
+      "start": "00:58:55",
+      "end": "00:59:00",
+      "text": "因此，这给了我一个组织的行动，"
+    },
+    {
+      "start": "00:59:00",
+      "end": "00:59:03",
+      "text": "称之为 transition-based parsing的转换。"
+    },
+    {
+      "start": "00:59:03",
+      "end": "00:59:07",
+      "text": "而通过做出这些不同的转换的项目，"
+    },
+    {
+      "start": "00:59:07",
+      "end": "00:59:09",
+      "text": "我可以建立语言结构。"
+    },
+    {
+      "start": "00:59:09",
+      "end": "00:59:14",
+      "text": "I've got choices of when to shift and when to reduce"
+    },
+    {
+      "start": "00:59:14",
+      "end": "00:59:18",
+      "text": "and whether to reduce left or reduce right"
+    },
+    {
+      "start": "00:59:18",
+      "end": "00:59:19",
+      "text": "the arc left arc right"
+    },
+    {
+      "start": "00:59:19",
+      "end": "00:59:23",
+      "text": "and so by making different ones of those choices"
+    },
+    {
+      "start": "00:59:23",
+      "end": "00:59:27",
+      "text": "I could make any structure for the sentence that I wanted to"
+    },
+    {
+      "start": "00:59:27",
+      "end": "00:59:33",
+      "text": "so if I somehow thought that this sentence should have a different"
+    },
+    {
+      "start": "00:59:33",
+      "end": "00:59:33",
+      "text": "structure"
+    },
+    {
+      "start": "00:59:33",
+      "end": "00:59:35",
+      "text": "and that I should be the head"
+    },
+    {
+      "start": "00:59:35",
+      "end": "00:59:38",
+      "text": "and it's a dependent of that"
+    },
+    {
+      "start": "00:59:38",
+      "end": "00:59:40",
+      "text": "and fishes are dependent of that"
+    },
+    {
+      "start": "00:59:40",
+      "end": "00:59:42",
+      "text": "well I could achieve this"
+    },
+    {
+      "start": "00:59:42",
+      "end": "00:59:45",
+      "text": "by making some different choices"
+    },
+    {
+      "start": "00:59:45",
+      "end": "00:59:47",
+      "text": "as to I'd now be saying"
+    },
+    {
+      "start": "00:59:47",
+      "end": "00:59:49",
+      "text": "I was doing a right arc operation"
+    },
+    {
+      "start": "00:59:49",
+      "end": "00:59:52",
+      "text": "so that 8 would become a dependent of i"
+    },
+    {
+      "start": "00:59:52",
+      "end": "00:59:54",
+      "text": "rather than the other way around"
+    },
+    {
+      "start": "00:59:54",
+      "end": "00:59:57",
+      "text": "so the choices of which operations I take"
+    },
+    {
+      "start": "00:59:57",
+      "end": "00:59:59",
+      "text": "determine the syntactic structure"
+    },
+    {
+      "start": "00:59:59",
+      "end": "01:00:02",
+      "text": "the set of dependencies that I have built"
+    },
+    {
+      "start": "01:00:02",
+      "end": "01:00:05",
+      "text": "which are my set of dependencies down here"
+    },
+    {
+      "start": "01:00:05",
+      "end": "01:00:08",
+      "text": "现在我建立的联系中心"
+    },
+    {
+      "start": "01:00:08",
+      "end": "01:00:10",
+      "text": "是正确的"
+    },
+    {
+      "start": "01:00:10",
+      "end": "01:00:11",
+      "text": "因为每个步骤"
+    },
+    {
+      "start": "01:00:11",
+      "end": "01:00:13",
+      "text": "我都做了正确的行动"
+    },
+    {
+      "start": "01:00:15",
+      "end": "01:00:18",
+      "text": "所以最重要的思维"
+    },
+    {
+      "start": "01:00:18",
+      "end": "01:00:22",
+      "text": "是通过逐渐逐渐地辨认"
+    },
+    {
+      "start": "01:00:22",
+      "end": "01:00:25",
+      "text": "它们达到哪里"
+    },
+    {
+      "start": "01:00:25",
+      "end": "01:00:29",
+      "text": "有一个人"
+    },
+    {
+      "start": "01:00:29",
+      "end": "01:00:32",
+      "text": "我猜他在哪里"
+    },
+    {
+      "start": "01:00:32",
+      "end": "01:00:36",
+      "text": "我猜他在哪里"
+    },
+    {
+      "start": "01:00:36",
+      "end": "01:00:37",
+      "text": "是一位瑞典NLP的人"
+    },
+    {
+      "start": "01:00:38",
+      "end": "01:00:41",
+      "text": "在2000年代"
+    },
+    {
+      "start": "01:00:41",
+      "end": "01:00:44",
+      "text": "他提出了一個想法"
+    },
+    {
+      "start": "01:00:44",
+      "end": "01:00:47",
+      "text": "而不是做那種"
+    },
+    {
+      "start": "01:00:47",
+      "end": "01:00:48",
+      "text": "經濟化計算"
+    },
+    {
+      "start": "01:00:48",
+      "end": "01:00:50",
+      "text": "或是圖表計算"
+    },
+    {
+      "start": "01:00:50",
+      "end": "01:00:50",
+      "text": "或是那些"
+    },
+    {
+      "start": "01:00:50",
+      "end": "01:00:52",
+      "text": "人們通常都會做的東西"
+    },
+    {
+      "start": "01:00:54",
+      "end": "01:00:56",
+      "text": "現在我們有機器學習"
+    },
+    {
+      "start": "01:00:56",
+      "end": "01:00:58",
+      "text": "所以我們可能可以建立"
+    },
+    {
+      "start": "01:00:58",
+      "end": "01:01:01",
+      "text": "一個快速有效的計算機"
+    },
+    {
+      "start": "01:01:01",
+      "end": "01:01:03",
+      "text": "我們要怎麼建立它呢"
+    },
+    {
+      "start": "01:01:03",
+      "end": "01:01:07",
+      "text": "就是在做一个转换的项目"
+    },
+    {
+      "start": "01:01:07",
+      "end": "01:01:11",
+      "text": "然后是机械学生的工作"
+    },
+    {
+      "start": "01:01:11",
+      "end": "01:01:14",
+      "text": "去预测每个时刻的正确转换"
+    },
+    {
+      "start": "01:01:15",
+      "end": "01:01:17",
+      "text": "所以如果你这样做"
+    },
+    {
+      "start": "01:01:17",
+      "end": "01:01:22",
+      "text": "每个时刻你都在解决一个东西"
+    },
+    {
+      "start": "01:01:22",
+      "end": "01:01:25",
+      "text": "所以你所做的几个动作"
+    },
+    {
+      "start": "01:01:25",
+      "end": "01:01:27",
+      "text": "来解决一个句子是一线的"
+    },
+    {
+      "start": "01:01:27",
+      "end": "01:01:31",
+      "text": "所以这是一个一线的解决程序"
+    },
+    {
+      "start": "01:01:31",
+      "end": "01:01:39",
+      "text": "而如果您在CS103中看过语言充满语言"
+    },
+    {
+      "start": "01:01:39",
+      "end": "01:01:43",
+      "text": "您想做任何你完全认为语言充满语言的"
+    },
+    {
+      "start": "01:01:43",
+      "end": "01:01:46",
+      "text": "语言充满语言的计算方式"
+    },
+    {
+      "start": "01:01:46",
+      "end": "01:01:47",
+      "text": "您就会得到一种语言充满语言的"
+    },
+    {
+      "start": "01:01:47",
+      "end": "01:01:49",
+      "text": "语言充满语言计算方式"
+    },
+    {
+      "start": "01:01:49",
+      "end": "01:01:56",
+      "text": "所以以最简单的计算方式来说"
+    },
+    {
+      "start": "01:01:56",
+      "end": "01:01:57",
+      "text": "您不需要任何搜索"
+    },
+    {
+      "start": "01:01:58",
+      "end": "01:02:02",
+      "text": "在每个步骤中你只是在预测下一个转换"
+    },
+    {
+      "start": "01:02:02",
+      "end": "01:02:05",
+      "text": "所以你在做这种转换的细节"
+    },
+    {
+      "start": "01:02:05",
+      "end": "01:02:08",
+      "text": "作为机器学习的行为"
+    },
+    {
+      "start": "01:02:08",
+      "end": "01:02:12",
+      "text": "而这细节带给你 sentence 的解决结构"
+    },
+    {
+      "start": "01:02:12",
+      "end": "01:02:16",
+      "text": "而NIVA能展示的主要结果是"
+    },
+    {
+      "start": "01:02:16",
+      "end": "01:02:20",
+      "text": "机器学习是足够好的"
+    },
+    {
+      "start": "01:02:20",
+      "end": "01:02:21",
+      "text": "让你能够做到这些"
+    },
+    {
+      "start": "01:02:21",
+      "end": "01:02:24",
+      "text": "而且获得非常准确的解决结果"
+    },
+    {
+      "start": "01:02:24",
+      "end": "01:02:27",
+      "text": "虽然它并没有任何搜索"
+    },
+    {
+      "start": "01:02:27",
+      "end": "01:02:29",
+      "text": "它只是这样做预测"
+    },
+    {
+      "start": "01:02:30",
+      "end": "01:02:30",
+      "text": "好"
+    },
+    {
+      "start": "01:02:36",
+      "end": "01:02:39",
+      "text": "他在2005年做的"
+    },
+    {
+      "start": "01:02:39",
+      "end": "01:02:42",
+      "text": "那是在4年之前"
+    },
+    {
+      "start": "01:02:42",
+      "end": "01:02:46",
+      "text": "所以他做的方式是使用"
+    },
+    {
+      "start": "01:02:46",
+      "end": "01:02:47",
+      "text": "一种比较古典的"
+    },
+    {
+      "start": "01:02:48",
+      "end": "01:02:50",
+      "text": "有象征性的"
+    },
+    {
+      "start": "01:02:50",
+      "end": "01:02:52",
+      "text": "机器学习系统"
+    },
+    {
+      "start": "01:02:52",
+      "end": "01:02:54",
+      "text": "所以他有一个大级标签"
+    },
+    {
+      "start": "01:02:54",
+      "end": "01:02:56",
+      "text": "可能是一个"
+    },
+    {
+      "start": "01:02:56",
+      "end": "01:02:57",
+      "text": "选择选择标签"
+    },
+    {
+      "start": "01:02:57",
+      "end": "01:02:59",
+      "text": "或者像是一个"
+    },
+    {
+      "start": "01:02:59",
+      "end": "01:03:00",
+      "text": "支持 vector 机器"
+    },
+    {
+      "start": "01:03:00",
+      "end": "01:03:03",
+      "text": "所以他用的力量是"
+    },
+    {
+      "start": "01:03:03",
+      "end": "01:03:05",
+      "text": "使用指数功能"
+    },
+    {
+      "start": "01:03:05",
+      "end": "01:03:07",
+      "text": "所以你使用的技术是"
+    },
+    {
+      "start": "01:03:07",
+      "end": "01:03:10",
+      "text": "在标签上的词语"
+    },
+    {
+      "start": "01:03:10",
+      "end": "01:03:11",
+      "text": "是好语"
+    },
+    {
+      "start": "01:03:11",
+      "end": "01:03:13",
+      "text": "而词语是语言"
+    },
+    {
+      "start": "01:03:13",
+      "end": "01:03:19",
+      "text": "或者在标签上的词语"
+    },
+    {
+      "start": "01:03:19",
+      "end": "01:03:20",
+      "text": "是好语"
+    },
+    {
+      "start": "01:03:20",
+      "end": "01:03:26",
+      "text": "but the word that's sort of second on the stack is the verb has"
+    },
+    {
+      "start": "01:03:26",
+      "end": "01:03:30",
+      "text": "right you'd get these sort of combinations of matching functions"
+    },
+    {
+      "start": "01:03:30",
+      "end": "01:03:34",
+      "text": "and they would be used as features in a machine learning system"
+    },
+    {
+      "start": "01:03:34",
+      "end": "01:03:35",
+      "text": "to predict the paths"
+    },
+    {
+      "start": "01:03:35",
+      "end": "01:03:41",
+      "text": "but the problem is that once you started building these features"
+    },
+    {
+      "start": "01:03:41",
+      "end": "01:03:43",
+      "text": "that were conjunctions and multiple terms"
+    },
+    {
+      "start": "01:03:43",
+      "end": "01:03:47",
+      "text": "you ended up with millions and millions of features right"
+    },
+    {
+      "start": "01:03:47",
+      "end": "01:03:49",
+      "text": "because you're putting particular words and features"
+    },
+    {
+      "start": "01:03:49",
+      "end": "01:03:53",
+      "text": "然后你组合了多个语言的选择"
+    },
+    {
+      "start": "01:03:53",
+      "end": "01:03:55",
+      "text": "所以它们就是亿多亿多的功能"
+    },
+    {
+      "start": "01:03:55",
+      "end": "01:03:58",
+      "text": "所以你必须要处理亿多亿多的功能"
+    },
+    {
+      "start": "01:03:58",
+      "end": "01:04:00",
+      "text": "更加重要的是"
+    },
+    {
+      "start": "01:04:00",
+      "end": "01:04:02",
+      "text": "每个功能的功能都超过了"
+    },
+    {
+      "start": "01:04:02",
+      "end": "01:04:04",
+      "text": "你从来没有看到的"
+    },
+    {
+      "start": "01:04:04",
+      "end": "01:04:06",
+      "text": "你只能看到一个功能"
+    },
+    {
+      "start": "01:04:06",
+      "end": "01:04:10",
+      "text": "只有十次和一亿句子"
+    },
+    {
+      "start": "01:04:10",
+      "end": "01:04:13",
+      "text": "因为你用了这些非常精准的系统"
+    },
+    {
+      "start": "01:04:13",
+      "end": "01:04:14",
+      "text": "所以在一方面"
+    },
+    {
+      "start": "01:04:14",
+      "end": "01:04:17",
+      "text": "同时，在这些功能结合中，"
+    },
+    {
+      "start": "01:04:18",
+      "end": "01:04:19",
+      "text": "分辨方法更加明确，"
+    },
+    {
+      "start": "01:04:20",
+      "end": "01:04:23",
+      "text": "而且当时人们也有很明确的分辨方法。"
+    },
+    {
+      "start": "01:04:24",
+      "end": "01:04:27",
+      "text": "但是他们有这种不适合的特征。"
+    },
+    {
+      "start": "01:04:29",
+      "end": "01:04:31",
+      "text": "对，所以，"
+    },
+    {
+      "start": "01:04:32",
+      "end": "01:04:33",
+      "text": "再进一步，"
+    },
+    {
+      "start": "01:04:33",
+      "end": "01:04:35",
+      "text": "我应该解释一下如何我们"
+    },
+    {
+      "start": "01:04:35",
+      "end": "01:04:37",
+      "text": "测试分辨方法。"
+    },
+    {
+      "start": "01:04:40",
+      "end": "01:04:42",
+      "text": "所以我们在测试"
+    },
+    {
+      "start": "01:04:42",
+      "end": "01:04:43",
+      "text": "拥有拥有的拥有的拥有"
+    },
+    {
+      "start": "01:04:43",
+      "end": "01:04:45",
+      "text": "我们基本上在测试"
+    },
+    {
+      "start": "01:04:45",
+      "end": "01:04:48",
+      "text": "你对拥有的拥有"
+    },
+    {
+      "start": "01:04:48",
+      "end": "01:04:51",
+      "text": "是否正确的"
+    },
+    {
+      "start": "01:04:51",
+      "end": "01:04:53",
+      "text": "所以这里是一个拥有的拥有"
+    },
+    {
+      "start": "01:04:54",
+      "end": "01:04:57",
+      "text": "她看了视频课"
+    },
+    {
+      "start": "01:05:00",
+      "end": "01:05:01",
+      "text": "其实对不起"
+    },
+    {
+      "start": "01:05:01",
+      "end": "01:05:02",
+      "text": "那是金色的拥有"
+    },
+    {
+      "start": "01:05:02",
+      "end": "01:05:04",
+      "text": "那是正确的拥有"
+    },
+    {
+      "start": "01:05:04",
+      "end": "01:05:06",
+      "text": "她看了视频课"
+    },
+    {
+      "start": "01:05:06",
+      "end": "01:05:07",
+      "text": "那是正确的拥有"
+    },
+    {
+      "start": "01:05:07",
+      "end": "01:05:12",
+      "text": "So you can write out what are the different dependencies"
+    },
+    {
+      "start": "01:05:13",
+      "end": "01:05:17",
+      "text": "Right so one's head is two, two's head is zero"
+    },
+    {
+      "start": "01:05:17",
+      "end": "01:05:22",
+      "text": "word three's head is five, word four's head is five"
+    },
+    {
+      "start": "01:05:22",
+      "end": "01:05:23",
+      "text": "word five's head is two"
+    },
+    {
+      "start": "01:05:23",
+      "end": "01:05:28",
+      "text": "So these pairs of numbers represent our dependencies"
+    },
+    {
+      "start": "01:05:28",
+      "end": "01:05:32",
+      "text": "Then if someone proposes a parse of the sentence"
+    },
+    {
+      "start": "01:05:32",
+      "end": "01:05:36",
+      "text": "you can literally say okay which of these did they get right"
+    },
+    {
+      "start": "01:05:36",
+      "end": "01:05:38",
+      "text": "所以它们没有这个正确"
+    },
+    {
+      "start": "01:05:38",
+      "end": "01:05:41",
+      "text": "它们把其余的正确了"
+    },
+    {
+      "start": "01:05:41",
+      "end": "01:05:43",
+      "text": "所以它们的确率是80%"
+    },
+    {
+      "start": "01:05:43",
+      "end": "01:05:45",
+      "text": "所以有时候人们只是"
+    },
+    {
+      "start": "01:05:45",
+      "end": "01:05:47",
+      "text": "不标准地测试项目"
+    },
+    {
+      "start": "01:05:48",
+      "end": "01:05:49",
+      "text": "所以这就被称为"
+    },
+    {
+      "start": "01:05:49",
+      "end": "01:05:52",
+      "text": "不标准的担忧确率"
+    },
+    {
+      "start": "01:05:52",
+      "end": "01:05:54",
+      "text": "但是有时候人们也想要"
+    },
+    {
+      "start": "01:05:54",
+      "end": "01:06:00",
+      "text": "用项目 定义 项目等等来标准"
+    },
+    {
+      "start": "01:06:00",
+      "end": "01:06:00",
+      "text": "然后也说"
+    },
+    {
+      "start": "01:06:00",
+      "end": "01:06:03",
+      "text": "你能否把标准正确"
+    },
+    {
+      "start": "01:06:03",
+      "end": "01:06:04",
+      "text": "所以在这个情况下"
+    },
+    {
+      "start": "01:06:04",
+      "end": "01:06:06",
+      "text": "只有五个标准"
+    },
+    {
+      "start": "01:06:06",
+      "end": "01:06:11",
+      "text": "所以标准的确率是40%"
+    },
+    {
+      "start": "01:06:13",
+      "end": "01:06:24",
+      "text": "所以这就是人们在2010年期间做到的事"
+    },
+    {
+      "start": "01:06:24",
+      "end": "01:06:27",
+      "text": "我已经开始说了"
+    },
+    {
+      "start": "01:06:27",
+      "end": "01:06:30",
+      "text": "指示功能的问题是"
+    },
+    {
+      "start": "01:06:30",
+      "end": "01:06:33",
+      "text": "它们很粗糙"
+    },
+    {
+      "start": "01:06:33",
+      "end": "01:06:35",
+      "text": "你不经常看到"
+    },
+    {
+      "start": "01:06:35",
+      "end": "01:06:36",
+      "text": "很常見的"
+    },
+    {
+      "start": "01:06:36",
+      "end": "01:06:37",
+      "text": "它們是不完整的"
+    },
+    {
+      "start": "01:06:37",
+      "end": "01:06:40",
+      "text": "因為有些是你見過的"
+    },
+    {
+      "start": "01:06:40",
+      "end": "01:06:41",
+      "text": "有些是你見過的"
+    },
+    {
+      "start": "01:06:41",
+      "end": "01:06:41",
+      "text": "有些是你沒有見過的"
+    },
+    {
+      "start": "01:06:42",
+      "end": "01:06:44",
+      "text": "所以你會錯過一些功能"
+    },
+    {
+      "start": "01:06:44",
+      "end": "01:06:46",
+      "text": "但最後的問題是"
+    },
+    {
+      "start": "01:06:46",
+      "end": "01:06:48",
+      "text": "其實只要計算"
+    },
+    {
+      "start": "01:06:48",
+      "end": "01:06:51",
+      "text": "所有那些典型功能"
+    },
+    {
+      "start": "01:06:51",
+      "end": "01:06:52",
+      "text": "是很費用的"
+    },
+    {
+      "start": "01:06:52",
+      "end": "01:06:53",
+      "text": "結果如果你進行"
+    },
+    {
+      "start": "01:06:53",
+      "end": "01:06:54",
+      "text": "任務時間分析"
+    },
+    {
+      "start": "01:06:55",
+      "end": "01:06:57",
+      "text": "通常在計算"
+    },
+    {
+      "start": "01:06:57",
+      "end": "01:06:58",
+      "text": "不是在做"
+    },
+    {
+      "start": "01:06:58",
+      "end": "01:07:00",
+      "text": "機械學習的決定"
+    },
+    {
+      "start": "01:07:00",
+      "end": "01:07:01",
+      "text": "而是在簡單地"
+    },
+    {
+      "start": "01:07:01",
+      "end": "01:07:02",
+      "text": "在計算這些功能"
+    },
+    {
+      "start": "01:07:02",
+      "end": "01:07:05",
+      "text": "你把这种联系计算机放进去"
+    },
+    {
+      "start": "01:07:05",
+      "end": "01:07:08",
+      "text": "因此线组织开始显示"
+    },
+    {
+      "start": "01:07:08",
+      "end": "01:07:10",
+      "text": "它们是有成功性的"
+    },
+    {
+      "start": "01:07:10",
+      "end": "01:07:13",
+      "text": "这意味着你可能可以建立"
+    },
+    {
+      "start": "01:07:13",
+      "end": "01:07:15",
+      "text": "一个更好的联系计算机"
+    },
+    {
+      "start": "01:07:15",
+      "end": "01:07:20",
+      "text": "使用线组织的联系计算机"
+    },
+    {
+      "start": "01:07:20",
+      "end": "01:07:23",
+      "text": "这就能利用我们已经开始看到的"
+    },
+    {
+      "start": "01:07:23",
+      "end": "01:07:26",
+      "text": "严厚和细胀的图表"
+    },
+    {
+      "start": "01:07:26",
+      "end": "01:07:30",
+      "text": "我们已经开始看到的叙迦叙迦代表"
+    },
+    {
+      "start": "01:07:30",
+      "end": "01:07:34",
+      "text": "所以这就是我们开始探索的"
+    },
+    {
+      "start": "01:07:34",
+      "end": "01:07:35",
+      "text": "特别是"
+    },
+    {
+      "start": "01:07:37",
+      "end": "01:07:39",
+      "text": "我当时是一名专业大学学生"
+    },
+    {
+      "start": "01:07:39",
+      "end": "01:07:43",
+      "text": "曾经在前几天叙迦叙迦代表2.24n"
+    },
+    {
+      "start": "01:07:43",
+      "end": "01:07:45",
+      "text": "实际上是两次"
+    },
+    {
+      "start": "01:07:45",
+      "end": "01:07:48",
+      "text": "她创建了"
+    },
+    {
+      "start": "01:07:48",
+      "end": "01:07:52",
+      "text": "一种脚转基础靠拥挤设计"
+    },
+    {
+      "start": "01:07:52",
+      "end": "01:07:56",
+      "text": "展示了这个方法的成功"
+    },
+    {
+      "start": "01:07:56",
+      "end": "01:08:01",
+      "text": "So this was NIVRA's transition-based dependency parser"
+    },
+    {
+      "start": "01:08:01",
+      "end": "01:08:06",
+      "text": "People had also explored other methods of dependency parsing"
+    },
+    {
+      "start": "01:08:06",
+      "end": "01:08:08",
+      "text": "So these were two graph-based dependency parsers"
+    },
+    {
+      "start": "01:08:08",
+      "end": "01:08:16",
+      "text": "And essentially for the kind of symbolic feature machine learning"
+    },
+    {
+      "start": "01:08:16",
+      "end": "01:08:16",
+      "text": "methods"
+    },
+    {
+      "start": "01:08:16",
+      "end": "01:08:20",
+      "text": "NIVRA's parser was really fast"
+    },
+    {
+      "start": "01:08:20",
+      "end": "01:08:25",
+      "text": "because it was using this linear transition-based parsing idea"
+    },
+    {
+      "start": "01:08:25",
+      "end": "01:08:29",
+      "text": "the dependent the graph-based dependency parsers"
+    },
+    {
+      "start": "01:08:29",
+      "end": "01:08:30",
+      "text": "were way way slower"
+    },
+    {
+      "start": "01:08:30",
+      "end": "01:08:32",
+      "text": "right you know they're about what"
+    },
+    {
+      "start": "01:08:32",
+      "end": "01:08:33",
+      "text": "50 times slower"
+    },
+    {
+      "start": "01:08:33",
+      "end": "01:08:36",
+      "text": "but they were slightly more accurate"
+    },
+    {
+      "start": "01:08:36",
+      "end": "01:08:37",
+      "text": "you can see here that"
+    },
+    {
+      "start": "01:08:37",
+      "end": "01:08:39",
+      "text": "you're getting a bit better numbers"
+    },
+    {
+      "start": "01:08:39",
+      "end": "01:08:40",
+      "text": "so essentially what"
+    },
+    {
+      "start": "01:08:40",
+      "end": "01:08:42",
+      "text": "was able to show was"
+    },
+    {
+      "start": "01:08:42",
+      "end": "01:08:45",
+      "text": "you could build something that was"
+    },
+    {
+      "start": "01:08:45",
+      "end": "01:08:47",
+      "text": "basically as accurate as the best known"
+    },
+    {
+      "start": "01:08:48",
+      "end": "01:08:50",
+      "text": "graph-based dependency parsers"
+    },
+    {
+      "start": "01:08:50",
+      "end": "01:08:52",
+      "text": "but it was fast"
+    },
+    {
+      "start": "01:08:52",
+      "end": "01:08:55",
+      "text": "就像其他轉換基礎模式"
+    },
+    {
+      "start": "01:08:55",
+      "end": "01:08:59",
+      "text": "雖然雖然你可能會覺得"
+    },
+    {
+      "start": "01:08:59",
+      "end": "01:09:01",
+      "text": "我現在有真正的數字和數據"
+    },
+    {
+      "start": "01:09:01",
+      "end": "01:09:03",
+      "text": "肯定這會讓我變慢"
+    },
+    {
+      "start": "01:09:03",
+      "end": "01:09:05",
+      "text": "但事實上"
+    },
+    {
+      "start": "01:09:06",
+      "end": "01:09:09",
+      "text": "這類型模式花了這麼多時間"
+    },
+    {
+      "start": "01:09:09",
+      "end": "01:09:12",
+      "text": "在功能計算中"
+    },
+    {
+      "start": "01:09:12",
+      "end": "01:09:15",
+      "text": "其實你可以在同一時間"
+    },
+    {
+      "start": "01:09:15",
+      "end": "01:09:17",
+      "text": "使用電腦網絡做得更快"
+    },
+    {
+      "start": "01:09:17",
+      "end": "01:09:19",
+      "text": "好 那怎麼做"
+    },
+    {
+      "start": "01:09:19",
+      "end": "01:09:20",
+      "text": "那怎么办"
+    },
+    {
+      "start": "01:09:20",
+      "end": "01:09:23",
+      "text": "我们已经看到语言混合"
+    },
+    {
+      "start": "01:09:23",
+      "end": "01:09:25",
+      "text": "所以它会使用语言混合"
+    },
+    {
+      "start": "01:09:25",
+      "end": "01:09:29",
+      "text": "所以它可以使用语言代表"
+    },
+    {
+      "start": "01:09:29",
+      "end": "01:09:31",
+      "text": "这有利于"
+    },
+    {
+      "start": "01:09:31",
+      "end": "01:09:33",
+      "text": "即使你没有看到特别的语言"
+    },
+    {
+      "start": "01:09:33",
+      "end": "01:09:34",
+      "text": "或特别的定义"
+    },
+    {
+      "start": "01:09:34",
+      "end": "01:09:37",
+      "text": "你也看到相似的语言"
+    },
+    {
+      "start": "01:09:37",
+      "end": "01:09:38",
+      "text": "所以它可以使用"
+    },
+    {
+      "start": "01:09:38",
+      "end": "01:09:40",
+      "text": "语言相似的语言"
+    },
+    {
+      "start": "01:09:41",
+      "end": "01:09:43",
+      "text": "但它更加远远地说"
+    },
+    {
+      "start": "01:09:43",
+      "end": "01:09:46",
+      "text": "为什么只有语言代表"
+    },
+    {
+      "start": "01:09:46",
+      "end": "01:09:48",
+      "text": "我们也有语言部分"
+    },
+    {
+      "start": "01:09:49",
+      "end": "01:09:52",
+      "text": "虽然我只是说了语言 语言 语言"
+    },
+    {
+      "start": "01:09:52",
+      "end": "01:09:55",
+      "text": "但在NLP的实际系统中"
+    },
+    {
+      "start": "01:09:56",
+      "end": "01:09:59",
+      "text": "语言部分的系统都比较细腻"
+    },
+    {
+      "start": "01:09:59",
+      "end": "01:10:01",
+      "text": "所以语言部分有不同的语言"
+    },
+    {
+      "start": "01:10:01",
+      "end": "01:10:04",
+      "text": "对于综合语言 vs 综合语言"
+    },
+    {
+      "start": "01:10:04",
+      "end": "01:10:06",
+      "text": "所以它们是不同的综合"
+    },
+    {
+      "start": "01:10:06",
+      "end": "01:10:07",
+      "text": "但它们都很相似"
+    },
+    {
+      "start": "01:10:08",
+      "end": "01:10:09",
+      "text": "所以我们可能会给它们"
+    },
+    {
+      "start": "01:10:09",
+      "end": "01:10:10",
+      "text": "分布的语言"
+    },
+    {
+      "start": "01:10:10",
+      "end": "01:10:12",
+      "text": "所以它们也相近"
+    },
+    {
+      "start": "01:10:12",
+      "end": "01:10:13",
+      "text": "与其他人相似"
+    },
+    {
+      "start": "01:10:13",
+      "end": "01:10:15",
+      "text": "同样是与我们的"
+    },
+    {
+      "start": "01:10:16",
+      "end": "01:10:18",
+      "text": "类似的参数的类型"
+    },
+    {
+      "start": "01:10:18",
+      "end": "01:10:20",
+      "text": "有些与我们相似的类型"
+    },
+    {
+      "start": "01:10:20",
+      "end": "01:10:20",
+      "text": "也相似"
+    },
+    {
+      "start": "01:10:20",
+      "end": "01:10:21",
+      "text": "所以所有这些"
+    },
+    {
+      "start": "01:10:21",
+      "end": "01:10:22",
+      "text": "都被设定为"
+    },
+    {
+      "start": "01:10:22",
+      "end": "01:10:25",
+      "text": "分布设定的设定"
+    },
+    {
+      "start": "01:10:25",
+      "end": "01:10:27",
+      "text": "然后以设定"
+    },
+    {
+      "start": "01:10:27",
+      "end": "01:10:29",
+      "text": "参数的状态"
+    },
+    {
+      "start": "01:10:29",
+      "end": "01:10:31",
+      "text": "来预测转变"
+    },
+    {
+      "start": "01:10:31",
+      "end": "01:10:33",
+      "text": "你所做的就是"
+    },
+    {
+      "start": "01:10:33",
+      "end": "01:10:35",
+      "text": "你拥有同样的"
+    },
+    {
+      "start": "01:10:35",
+      "end": "01:10:36",
+      "text": "组合和参数"
+    },
+    {
+      "start": "01:10:36",
+      "end": "01:10:38",
+      "text": "而你拥有"
+    },
+    {
+      "start": "01:10:38",
+      "end": "01:10:41",
+      "text": "组合和参数的"
+    },
+    {
+      "start": "01:10:41",
+      "end": "01:10:44",
+      "text": "which are essentially the first thing on the buffer"
+    },
+    {
+      "start": "01:10:44",
+      "end": "01:10:45",
+      "text": "the word that you would be shifting"
+    },
+    {
+      "start": "01:10:45",
+      "end": "01:10:47",
+      "text": "if you're going to do a shift"
+    },
+    {
+      "start": "01:10:47",
+      "end": "01:10:49",
+      "text": "and the two things at the top of the stack"
+    },
+    {
+      "start": "01:10:49",
+      "end": "01:10:51",
+      "text": "so these are the things"
+    },
+    {
+      "start": "01:10:51",
+      "end": "01:10:53",
+      "text": "that if you're either doing a left arc"
+    },
+    {
+      "start": "01:10:53",
+      "end": "01:10:54",
+      "text": "or a right arc"
+    },
+    {
+      "start": "01:10:54",
+      "end": "01:10:57",
+      "text": "they're the things that you're considering combining"
+    },
+    {
+      "start": "01:10:57",
+      "end": "01:10:58",
+      "text": "so for those"
+    },
+    {
+      "start": "01:10:58",
+      "end": "01:11:01",
+      "text": "you're going to be taking the distributed representations"
+    },
+    {
+      "start": "01:11:01",
+      "end": "01:11:05",
+      "text": "of the word and their parts of speech"
+    },
+    {
+      "start": "01:11:05",
+      "end": "01:11:07",
+      "text": "and also with a bit more complexity"
+    },
+    {
+      "start": "01:11:07",
+      "end": "01:11:10",
+      "text": "for dependencies you've already constructed"
+    },
+    {
+      "start": "01:11:10",
+      "end": "01:11:14",
+      "text": "如果某些东西在组织上已经进入了联系"
+    },
+    {
+      "start": "01:11:14",
+      "end": "01:11:18",
+      "text": "每个组织我们都会取得他们的分布设定"
+    },
+    {
+      "start": "01:11:18",
+      "end": "01:11:21",
+      "text": "然后我们就将它们组织在一起"
+    },
+    {
+      "start": "01:11:21",
+      "end": "01:11:24",
+      "text": "以组织成为一个大 vector"
+    },
+    {
+      "start": "01:11:24",
+      "end": "01:11:29",
+      "text": "同样的方式我们将五个语言组织在最后的课程中"
+    },
+    {
+      "start": "01:11:29",
+      "end": "01:11:32",
+      "text": "以预测如果某些东西是位置的"
+    },
+    {
+      "start": "01:11:32",
+      "end": "01:11:38",
+      "text": "然后我们就将它们转移到我们的组织上"
+    },
+    {
+      "start": "01:11:38",
+      "end": "01:11:44",
+      "text": "So our input layer is our concatenate distributed representations"
+    },
+    {
+      "start": "01:11:45",
+      "end": "01:11:48",
+      "text": "We are going to put that through a hidden layer"
+    },
+    {
+      "start": "01:11:48",
+      "end": "01:11:50",
+      "text": "which is like we were talking about last time"
+    },
+    {
+      "start": "01:11:50",
+      "end": "01:11:54",
+      "text": "Wx plus B then put through a value non-linearity"
+    },
+    {
+      "start": "01:11:54",
+      "end": "01:11:58",
+      "text": "And then we are going to put above that"
+    },
+    {
+      "start": "01:11:58",
+      "end": "01:12:03",
+      "text": "the same kind of another multiply by a matrix"
+    },
+    {
+      "start": "01:12:03",
+      "end": "01:12:05",
+      "text": "So we've got a second layer of neural network"
+    },
+    {
+      "start": "01:12:05",
+      "end": "01:12:06",
+      "text": "UH plus B2"
+    },
+    {
+      "start": "01:12:06",
+      "end": "01:12:09",
+      "text": "We're going to take the output of that,"
+    },
+    {
+      "start": "01:12:09",
+      "end": "01:12:11",
+      "text": "and then we're going to put that through"
+    },
+    {
+      "start": "01:12:11",
+      "end": "01:12:15",
+      "text": "a softmax that gives a probability distribution over"
+    },
+    {
+      "start": "01:12:15",
+      "end": "01:12:20",
+      "text": "whether to shift or do a left arc or a right arc operation."
+    },
+    {
+      "start": "01:12:21",
+      "end": "01:12:26",
+      "text": "So the other way that this crucially gave us more power is"
+    },
+    {
+      "start": "01:12:26",
+      "end": "01:12:30",
+      "text": "that other people's dependency parsers"
+    },
+    {
+      "start": "01:12:30",
+      "end": "01:12:32",
+      "text": "were still using linear classifiers,"
+    },
+    {
+      "start": "01:12:32",
+      "end": "01:12:37",
+      "text": "例如支援 vector 工具或选择选择"
+    },
+    {
+      "start": "01:12:37",
+      "end": "01:12:39",
+      "text": "我们有一个深入综合综合系统"
+    },
+    {
+      "start": "01:12:39",
+      "end": "01:12:42",
+      "text": "给我们一个非综合综合系统"
+    },
+    {
+      "start": "01:12:42",
+      "end": "01:12:45",
+      "text": "因此我们可以比其他"
+    },
+    {
+      "start": "01:12:45",
+      "end": "01:12:49",
+      "text": "之前的选择基础辨论辨论辨论辨论辨论辨论辨论辨论辨论"
+    },
+    {
+      "start": "01:12:49",
+      "end": "01:12:54",
+      "text": "这实际上显示我们可以建立"
+    },
+    {
+      "start": "01:12:54",
+      "end": "01:13:00",
+      "text": "非常精准的综合综合辨论辨论辨论辨论辨论"
+    },
+    {
+      "start": "01:13:00",
+      "end": "01:13:02",
+      "text": "变成了一个有象征性的"
+    },
+    {
+      "start": "01:13:03",
+      "end": "01:13:04",
+      "text": "代表性的设定"
+    },
+    {
+      "start": "01:13:04",
+      "end": "01:13:05",
+      "text": "基本上它是"
+    },
+    {
+      "start": "01:13:05",
+      "end": "01:13:08",
+      "text": "其他有限度的设定处理者"
+    },
+    {
+      "start": "01:13:08",
+      "end": "01:13:10",
+      "text": "所知的设定处理者"
+    },
+    {
+      "start": "01:13:10",
+      "end": "01:13:12",
+      "text": "一年多前"
+    },
+    {
+      "start": "01:13:12",
+      "end": "01:13:13",
+      "text": "这次是个大运动"
+    },
+    {
+      "start": "01:13:13",
+      "end": "01:13:15",
+      "text": "人们非常兴奋"
+    },
+    {
+      "start": "01:13:15",
+      "end": "01:13:18",
+      "text": "Google人们也非常兴奋"
+    },
+    {
+      "start": "01:13:18",
+      "end": "01:13:20",
+      "text": "因为这次"
+    },
+    {
+      "start": "01:13:20",
+      "end": "01:13:22",
+      "text": "给了人们一个有限度的方式"
+    },
+    {
+      "start": "01:13:22",
+      "end": "01:13:23",
+      "text": "记得这是一段线运动"
+    },
+    {
+      "start": "01:13:23",
+      "end": "01:13:24",
+      "text": "在这时你能够"
+    },
+    {
+      "start": "01:13:24",
+      "end": "01:13:28",
+      "text": "很快地去复杂整个网络"
+    },
+    {
+      "start": "01:13:28",
+      "end": "01:13:32",
+      "text": "所以他们做了更多的工作"
+    },
+    {
+      "start": "01:13:32",
+      "end": "01:13:34",
+      "text": "在那种模式上进行改善"
+    },
+    {
+      "start": "01:13:34",
+      "end": "01:13:37",
+      "text": "所以他们做了一个更深入的"
+    },
+    {
+      "start": "01:13:37",
+      "end": "01:13:39",
+      "text": "综合综合模式"
+    },
+    {
+      "start": "01:13:39",
+      "end": "01:13:40",
+      "text": "与更大的 vector"
+    },
+    {
+      "start": "01:13:40",
+      "end": "01:13:43",
+      "text": "和更好地调整的 hyperparameters"
+    },
+    {
+      "start": "01:13:43",
+      "end": "01:13:45",
+      "text": "然后他们添加了一个beam search"
+    },
+    {
+      "start": "01:13:45",
+      "end": "01:13:47",
+      "text": "我刚才介绍了"
+    },
+    {
+      "start": "01:13:47",
+      "end": "01:13:48",
+      "text": "那种愚蠢的模式"
+    },
+    {
+      "start": "01:13:48",
+      "end": "01:13:48",
+      "text": "在那里你总是"
+    },
+    {
+      "start": "01:13:48",
+      "end": "01:13:51",
+      "text": "立即做出最好选择"
+    },
+    {
+      "start": "01:13:51",
+      "end": "01:13:53",
+      "text": "但是你可以改善这些parsers"
+    },
+    {
+      "start": "01:13:53",
+      "end": "01:13:55",
+      "text": "by doing some amount of search"
+    },
+    {
+      "start": "01:13:55",
+      "end": "01:13:56",
+      "text": "that does help"
+    },
+    {
+      "start": "01:13:56",
+      "end": "01:14:00",
+      "text": "所以他们把这个提高了"
+    },
+    {
+      "start": "01:14:00",
+      "end": "01:14:04",
+      "text": "而我们的92UAS"
+    },
+    {
+      "start": "01:14:04",
+      "end": "01:14:09",
+      "text": "他们把这个提高到94、94.6"
+    },
+    {
+      "start": "01:14:09",
+      "end": "01:14:18",
+      "text": "你可能太年轻了"
+    },
+    {
+      "start": "01:14:18",
+      "end": "01:14:23",
+      "text": "但在2016年"
+    },
+    {
+      "start": "01:14:23",
+      "end": "01:14:27",
+      "text": "Google做了他们的一般的大PR"
+    },
+    {
+      "start": "01:14:27",
+      "end": "01:14:29",
+      "text": "PR的刺激"
+    },
+    {
+      "start": "01:14:29",
+      "end": "01:14:30",
+      "text": "以为是一个负面的Parser"
+    },
+    {
+      "start": "01:14:30",
+      "end": "01:14:31",
+      "text": "这点让我感到很不舒服"
+    },
+    {
+      "start": "01:14:31",
+      "end": "01:14:33",
+      "text": "因为我从来没有想过"
+    },
+    {
+      "start": "01:14:33",
+      "end": "01:14:35",
+      "text": "有人会写文章"
+    },
+    {
+      "start": "01:14:35",
+      "end": "01:14:38",
+      "text": "在Wired和VentureBeat"
+    },
+    {
+      "start": "01:14:38",
+      "end": "01:14:40",
+      "text": "和这种科技博客"
+    },
+    {
+      "start": "01:14:40",
+      "end": "01:14:43",
+      "text": "但是Google在所有地方都提到了"
+    },
+    {
+      "start": "01:14:43",
+      "end": "01:14:46",
+      "text": "世界上最有刺激的Parser"
+    },
+    {
+      "start": "01:14:46",
+      "end": "01:14:47",
+      "text": "他们给它一个可笑的名字"
+    },
+    {
+      "start": "01:14:47",
+      "end": "01:14:49",
+      "text": "Parsi McParsface"
+    },
+    {
+      "start": "01:14:49",
+      "end": "01:14:50",
+      "text": "这件事真的很成功"
+    },
+    {
+      "start": "01:14:50",
+      "end": "01:14:53",
+      "text": "也有很多媒体的取得"
+    },
+    {
+      "start": "01:14:54",
+      "end": "01:14:58",
+      "text": "所以那是一个很成功的编辑"
+    },
+    {
+      "start": "01:14:59",
+      "end": "01:15:02",
+      "text": "我还有几分钟"
+    },
+    {
+      "start": "01:15:02",
+      "end": "01:15:07",
+      "text": "所以让我做最后三个课程"
+    },
+    {
+      "start": "01:15:07",
+      "end": "01:15:10",
+      "text": "给大家看一个做事情的方式"
+    },
+    {
+      "start": "01:15:10",
+      "end": "01:15:13",
+      "text": "这也是一种很强的编辑方法"
+    },
+    {
+      "start": "01:15:13",
+      "end": "01:15:15",
+      "text": "通常使用的方法"
+    },
+    {
+      "start": "01:15:15",
+      "end": "01:15:18",
+      "text": "所以那是通过转换的编辑"
+    },
+    {
+      "start": "01:15:18",
+      "end": "01:15:19",
+      "text": "這就是你會使用的一項"
+    },
+    {
+      "start": "01:15:19",
+      "end": "01:15:24",
+      "text": "另一種可以用來做分辨的方法"
+    },
+    {
+      "start": "01:15:24",
+      "end": "01:15:26",
+      "text": "和分辨的方法"
+    },
+    {
+      "start": "01:15:26",
+      "end": "01:15:29",
+      "text": "是Graph-Based Dependency Parsers"
+    },
+    {
+      "start": "01:15:29",
+      "end": "01:15:33",
+      "text": "Graph-Based Dependency Parsers"
+    },
+    {
+      "start": "01:15:33",
+      "end": "01:15:37",
+      "text": "你會為每個字"
+    },
+    {
+      "start": "01:15:37",
+      "end": "01:15:40",
+      "text": "你會問每個字"
+    },
+    {
+      "start": "01:15:40",
+      "end": "01:15:43",
+      "text": "我是否有分辨力"
+    },
+    {
+      "start": "01:15:43",
+      "end": "01:15:45",
+      "text": "如果句子是"
+    },
+    {
+      "start": "01:15:45",
+      "end": "01:15:46",
+      "text": "The big cat sat"
+    },
+    {
+      "start": "01:15:46",
+      "end": "01:15:51",
+      "text": "each word for example big has to be a dependent of one of the"
+    },
+    {
+      "start": "01:15:51",
+      "end": "01:15:55",
+      "text": "other four words in this sentence including this possibility"
+    },
+    {
+      "start": "01:15:55",
+      "end": "01:15:55",
+      "text": "of root"
+    },
+    {
+      "start": "01:15:55",
+      "end": "01:16:00",
+      "text": "so we ask am I a dependent of that am I a dependent of root am"
+    },
+    {
+      "start": "01:16:00",
+      "end": "01:16:02",
+      "text": "I a dependent of cat am I a dependent of sat"
+    },
+    {
+      "start": "01:16:02",
+      "end": "01:16:05",
+      "text": "and we want to score each of those possibilities"
+    },
+    {
+      "start": "01:16:05",
+      "end": "01:16:10",
+      "text": "and so hopefully we decide the most likely one is that big is"
+    },
+    {
+      "start": "01:16:10",
+      "end": "01:16:11",
+      "text": "a dependent of cat"
+    },
+    {
+      "start": "01:16:11",
+      "end": "01:16:15",
+      "text": "and then we're going to do the same for every other word"
+    },
+    {
+      "start": "01:16:15",
+      "end": "01:16:19",
+      "text": "so you know sat could be a dependent of any of these words"
+    },
+    {
+      "start": "01:16:19",
+      "end": "01:16:21",
+      "text": "and so we could start asking okay"
+    },
+    {
+      "start": "01:16:21",
+      "end": "01:16:26",
+      "text": "which of these words is it most likely a dependent of"
+    },
+    {
+      "start": "01:16:26",
+      "end": "01:16:27",
+      "text": "l"
+    },
+    {
+      "start": "01:16:28",
+      "end": "01:16:30",
+      "text": "b to sat"
+    },
+    {
+      "start": "01:16:30",
+      "end": "01:16:31",
+      "text": "cat to sat"
+    },
+    {
+      "start": "01:16:31",
+      "end": "01:16:33",
+      "text": "sorry that's unreadable now"
+    },
+    {
+      "start": "01:16:33",
+      "end": "01:16:34",
+      "text": "but hopefully we decide"
+    },
+    {
+      "start": "01:16:34",
+      "end": "01:16:40",
+      "text": "that sat most likely as the verb is a dependent of root"
+    },
+    {
+      "start": "01:16:40",
+      "end": "01:16:44",
+      "text": "so we're sort of scoring the n squared possible"
+    },
+    {
+      "start": "01:16:44",
+      "end": "01:16:46",
+      "text": "可能的分辨性"
+    },
+    {
+      "start": "01:16:47",
+      "end": "01:16:49",
+      "text": "每个人都得到一个分数"
+    },
+    {
+      "start": "01:16:49",
+      "end": "01:16:51",
+      "text": "然后我们做完这个"
+    },
+    {
+      "start": "01:16:51",
+      "end": "01:16:53",
+      "text": "我们的工作是"
+    },
+    {
+      "start": "01:16:54",
+      "end": "01:16:55",
+      "text": "让我去这边"
+    },
+    {
+      "start": "01:16:55",
+      "end": "01:16:55",
+      "text": "这个比较清洁"
+    },
+    {
+      "start": "01:16:55",
+      "end": "01:16:56",
+      "text": "我们决定了一个好的"
+    },
+    {
+      "start": "01:16:56",
+      "end": "01:16:59",
+      "text": "所以我们会用"
+    },
+    {
+      "start": "01:16:59",
+      "end": "01:17:00",
+      "text": "我们所谈到的"
+    },
+    {
+      "start": "01:17:00",
+      "end": "01:17:01",
+      "text": "一些同样的功能"
+    },
+    {
+      "start": "01:17:01",
+      "end": "01:17:02",
+      "text": "在每个端子上"
+    },
+    {
+      "start": "01:17:02",
+      "end": "01:17:03",
+      "text": "看着语言"
+    },
+    {
+      "start": "01:17:04",
+      "end": "01:17:06",
+      "text": "看着它们之间的发生"
+    },
+    {
+      "start": "01:17:06",
+      "end": "01:17:08",
+      "text": "看着它们的周围"
+    },
+    {
+      "start": "01:17:08",
+      "end": "01:17:11",
+      "text": "思考的事情"
+    },
+    {
+      "start": "01:17:11",
+      "end": "01:17:13",
+      "text": "然后我们做完这个"
+    },
+    {
+      "start": "01:17:13",
+      "end": "01:17:16",
+      "text": "其中唯一的限制是"
+    },
+    {
+      "start": "01:17:16",
+      "end": "01:17:19",
+      "text": "我們想要分析器形成一棵樹"
+    },
+    {
+      "start": "01:17:19",
+      "end": "01:17:22",
+      "text": "因此我們必須做"
+    },
+    {
+      "start": "01:17:22",
+      "end": "01:17:25",
+      "text": "一些像是一種最低限度樹的"
+    },
+    {
+      "start": "01:17:25",
+      "end": "01:17:26",
+      "text": "測量方式"
+    },
+    {
+      "start": "01:17:26",
+      "end": "01:17:28",
+      "text": "以找出最低價值樹"
+    },
+    {
+      "start": "01:17:29",
+      "end": "01:17:31",
+      "text": "因為我們不想找出一個解決方案"
+    },
+    {
+      "start": "01:17:31",
+      "end": "01:17:32",
+      "text": "在其中有程序"
+    },
+    {
+      "start": "01:17:32",
+      "end": "01:17:34",
+      "text": "或是分析器的部分"
+    },
+    {
+      "start": "01:17:34",
+      "end": "01:17:36",
+      "text": "會與其他人無法接觸"
+    },
+    {
+      "start": "01:17:36",
+      "end": "01:17:39",
+      "text": "這就是分析器基礎的分析"
+    },
+    {
+      "start": "01:17:40",
+      "end": "01:17:43",
+      "text": "所以就像在古代的"
+    },
+    {
+      "start": "01:17:43",
+      "end": "01:17:44",
+      "text": "具有象徵性的研磨過程中"
+    },
+    {
+      "start": "01:17:44",
+      "end": "01:17:46",
+      "text": "那裡的 graph-based dependency parsers"
+    },
+    {
+      "start": "01:17:46",
+      "end": "01:17:51",
+      "text": "比 transition-based parsers 更精準"
+    },
+    {
+      "start": "01:17:51",
+      "end": "01:17:53",
+      "text": "我們就開始研究"
+    },
+    {
+      "start": "01:17:53",
+      "end": "01:17:56",
+      "text": "neural graph-based dependency parsing"
+    },
+    {
+      "start": "01:17:56",
+      "end": "01:17:57",
+      "text": "而這就是我們"
+    },
+    {
+      "start": "01:17:57",
+      "end": "01:17:59",
+      "text": "neural graph-based dependency parsing"
+    },
+    {
+      "start": "01:17:59",
+      "end": "01:18:00",
+      "text": "那裡的 neural graph-based dependency parsing"
+    },
+    {
+      "start": "01:18:00",
+      "end": "01:18:06",
+      "text": "是比Parsemic parse phase"
+    },
+    {
+      "start": "01:18:06",
+      "end": "01:18:06",
+      "text": "更精準的1%"
+    },
+    {
+      "start": "01:18:06",
+      "end": "01:18:09",
+      "text": "是世界上最好的dependency parser"
+    },
+    {
+      "start": "01:18:09",
+      "end": "01:18:12",
+      "text": "所以這讓我們來到2017年"
+    },
+    {
+      "start": "01:18:13",
+      "end": "01:18:15",
+      "text": "雖然這仍然是幾年前"
+    },
+    {
+      "start": "01:18:15",
+      "end": "01:18:20",
+      "text": "但是我們要進入最新的解析故事"
+    },
+    {
+      "start": "01:18:20",
+      "end": "01:18:23",
+      "text": "我們必須進入大型語言模式的時代"
+    },
+    {
+      "start": "01:18:23",
+      "end": "01:18:24",
+      "text": "但我現在還沒有進入"
+    },
+    {
+      "start": "01:18:24",
+      "end": "01:18:31",
+      "text": "但這就是Stanza開發解析"
+    },
+    {
+      "start": "01:18:31",
+      "end": "01:18:34",
+      "text": "我們開發的開發軟件"
+    },
+    {
+      "start": "01:18:34",
+      "end": "01:18:37",
+      "text": "你可以看到它使用這個 alg"
+    },
+    {
+      "start": "01:18:37",
+      "end": "01:18:39",
+      "text": "是比较确准的"
+    },
+    {
+      "start": "01:18:39",
+      "end": "01:18:40",
+      "text": "好，所以现在你希望知道"
+    },
+    {
+      "start": "01:18:40",
+      "end": "01:18:42",
+      "text": "所有关于"
+    },
+    {
+      "start": "01:18:42",
+      "end": "01:18:43",
+      "text": "选择结构、"
+    },
+    {
+      "start": "01:18:43",
+      "end": "01:18:44",
+      "text": "组织、"
+    },
+    {
+      "start": "01:18:44",
+      "end": "01:18:44",
+      "text": "隐约、"
+    },
+    {
+      "start": "01:18:44",
+      "end": "01:18:45",
+      "text": "编辑"
+    },
+    {
+      "start": "01:18:45",
+      "end": "01:18:47",
+      "text": "都能够做到"
+    },
+    {
+      "start": "01:18:47",
+      "end": "01:18:48",
+      "text": "2项课程"
+    },
+    {
+      "start": "01:18:48",
+      "end": "01:18:49",
+      "text": "所以祝你运气好"
+    },
+    {
+      "start": "01:18:49",
+      "end": "01:18:50",
+      "text": "谢谢"
+    }
+  ],
+  "asr": {
+    "model": "large-v3",
+    "device": "cuda",
+    "compute_type": "float16",
+    "language": "zh"
+  }
+}

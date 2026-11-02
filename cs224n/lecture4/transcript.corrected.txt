@@ -1,0 +1,1668 @@
+[00:00:05] OK, hi everyone!
+[00:00:07] OK, so for today we're going to do a 180 from where we were on
+[00:00:15] Tuesday.
+[00:00:16] And so today I'm going to talk about syntactic structure,
+[00:00:23] linguistic structure of human language sentences,
+[00:00:26] dependency parsing, dependency grammars,
+[00:00:30] and then how you go about building dependency parsers.
+[00:00:33] 所以我们今天很深入在语言层面上
+[00:00:38] 有多少人在观众中
+[00:00:42] 做过语言课程
+[00:00:44] 好 很多人做过语言课程
+[00:00:47] 好 很好
+[00:00:49] 而其他人
+[00:00:51] 这就是你们的机会
+[00:00:52] 看到一些人文语言的组织
+[00:00:54] 如果你们喜欢
+[00:00:55] 可以在语言课程上入学
+[00:01:05] 我们将在周二发布的计划中
+[00:01:08] 在第二半计划中
+[00:01:10] 您要做的工作是
+[00:01:13] 使用PyTorch来建立
+[00:01:13] 一种脉络分辨器
+[00:01:15] 以后我们将谈论
+[00:01:19] 您需要建立的部份
+[00:01:22] 就是机械学习的部份
+[00:01:24] 做决定的部份
+[00:01:26] 我们将给您
+[00:01:26] 其餘的分析程序
+[00:01:29] 但這也讓我們提醒大家
+[00:01:32] 第二半的 assignment 2
+[00:01:35] 使用了PyTorch
+[00:01:36] 一個最主要的深入學習模式
+[00:01:39] 如果你們不熟悉
+[00:01:40] 也很好的方法是
+[00:01:42] 參考Friday PyTorch的課程
+[00:01:47] 雖然我們也嘗試了assignment 2
+[00:01:50] 所以這個課程是很好的地方
+[00:01:51] 可以參考PyTorch
+[00:01:53] 我们将会更多谈论最后的项目
+[00:01:58] 但你肯定已经愿意
+[00:02:00] 与TAs或我一起讨论最后的项目
+[00:02:03] 我们将会提供TAs的资讯
+[00:02:06] 您可以在办公室的页面上
+[00:02:10] 知道更多关于他们的资讯
+[00:02:11] 好，我们直接进入
+[00:02:13] 和开始谈论文化的结构
+[00:02:16] 在人文语言的语言组织上
+[00:02:23] 人们认为的有两个主要方法
+[00:02:27] 一种方法是以语言的语言组织
+[00:02:35] 这种语言组织代表了
+[00:02:39] 电脑科学家通常认为的
+[00:02:43] 无语言语言
+[00:02:44] So I'm going to spend a couple of minutes going over that View
+[00:02:49] of things
+[00:02:50] But you know actually it's not the main one that I'm going to
+[00:02:53] talk about in this class
+[00:02:54] I'm going to spend most of this class talking about an alternative
+[00:02:58] way of thinking about things called dependency grammars
+[00:03:01] There are actually some correspondences you can make between
+[00:03:04] the two ways of thinking about things
+[00:03:06] But I'm not going to go through into those here today
+[00:03:09] So for the constituency grammar or phrase structure version of
+[00:03:15] things
+[00:03:15] the way that you go about thinking about the structure of human
+[00:03:19] languages
+[00:03:19] is well there are words
+[00:03:21] languages have lots of words
+[00:03:23] hundreds of thousands of words
+[00:03:25] but it seems like a lot of the words
+[00:03:28] nearly all the words in fact
+[00:03:30] fall into a few basic classes
+[00:03:34] that represent their nature
+[00:03:36] and how they behave in sentences
+[00:03:39] So for words like the examples here
+[00:03:42] we have nouns
+[00:03:44] so cat is a noun
+[00:03:45] door is a noun
+[00:03:47] but you know something like linguistics is also a noun
+[00:03:50] so we have nouns
+[00:03:52] and then we have other kinds of words
+[00:03:55] so something like cuddly is an adjective
+[00:03:58] a word that can modify nouns
+[00:04:00] and then we have the the for the cuddly cat
+[00:04:06] that is sort of a slightly more complex one as to how to name
+[00:04:12] normally in modern linguistics we refer to words like that as
+[00:04:16] a determiner
+[00:04:17] you might also see the name article
+[00:04:19] and when sometimes when people are trying to shoehorn human language
+[00:04:25] into eight part of speech categories
+[00:04:27] that they say it's an adjective
+[00:04:28] but it doesn't really behave like regular adjectives
+[00:04:31] 然後我們有說法如by、through、on、to、and ones like that
+[00:04:35] 所以它們都是 prepositions
+[00:04:37] 我們有這些classes
+[00:04:39] 有很多說法適用於每個class
+[00:04:42] 所以它們會被稱為conventionally as parts of speech
+[00:04:45] 但我們有了說法後
+[00:04:48] 我們開始將它們放進更大的組合
+[00:04:50] 例如Cuddly cat是某種組合
+[00:04:53] 所以這似乎是一種詞語的解釋
+[00:05:00] a cat
+[00:05:00] and so this gets referred to as a noun phrase
+[00:05:04] and then by the door
+[00:05:06] well this is a phrase
+[00:05:08] but actually it has inside this the door
+[00:05:11] and that's a noun phrase
+[00:05:14] but this bigger unit here of by the door
+[00:05:17] is then a prepositional phrase
+[00:05:20] and we can continue to build bigger units
+[00:05:24] so inside you know this
+[00:05:26] we have this phrase
+[00:05:28] that we've already looked at
+[00:05:29] 是用词词和词词
+[00:05:31] 然后我们可以用
+[00:05:33] 另一个词词
+[00:05:35] 叫做Cuddly Cat
+[00:05:36] 我们可以将它们放在一起
+[00:05:38] 建立一个更大的词词
+[00:05:41] 叫做The Cuddly Cat by the Door
+[00:05:44] 以此作为表达
+[00:05:46] 你可以开始写
+[00:05:47] 一个词词组织语言
+[00:05:49] 或者一个无语言语言
+[00:05:51] 代表什么可能性
+[00:05:54] 在英语中建立词词
+[00:05:55] 在英文中
+[00:05:57] 同樣類似的詞詞構成語言
+[00:05:59] 可以用於其他語言
+[00:06:01] 所以這是開始給你
+[00:06:04] 有可能的詞詞構成的方式
+[00:06:06] 所以你可以有
+[00:06:09] 詞詞是一種定義
+[00:06:12] 跟著是一種詞
+[00:06:14] 然後還有貓和狗
+[00:06:16] 你可以有大貓
+[00:06:19] 所以你可能會說
+[00:06:21] 好 除了這樣
+[00:06:22] 我可能會想要
+[00:06:23] 有一个比较好的例子
+[00:06:25] 就是一个语言词
+[00:06:26] 去一个定义
+[00:06:27] 一个选项语言
+[00:06:30] 然后一个语言
+[00:06:31] 如果你想
+[00:06:33] 你可以有不同的语言
+[00:06:36] 比如说
+[00:06:37] 大大的
+[00:06:40] 绿色的
+[00:06:41] 猫
+[00:06:42] 或是什么样的
+[00:06:44] 所以你可以有不同的语言
+[00:06:46] 听到的语言
+[00:06:48] 那种纯净的星
+[00:06:50] 你可以有很多的
+[00:06:52] 大小的小綠色的貓
+[00:06:55] 但是你可以把東西放在
+[00:06:58] 下一個詞句後
+[00:07:00] 所以你可以把這些
+[00:07:01] prepositional phrases
+[00:07:02] 放在一個盒子裡
+[00:07:03] 所以我們也可能想說
+[00:07:05] 一個詞句可以被
+[00:07:07] 重新寫成一個詞句
+[00:07:09] 跟著一個 prepositional phrase
+[00:07:11] 而一個 prepositional phrase
+[00:07:14] 可以被代表一個
+[00:07:16] preposition 跟著一個詞句
+[00:07:18] And somewhere we're also going to want to represent our parts
+[00:07:22] of speech membership
+[00:07:24] So a determiner can go to words like a or the
+[00:07:30] And an adjective can go to words like large,
+[00:07:36] cuddly or many other words that I'm not going to write down
+[00:07:40] and a preposition can go to words like in, on, under, etc.
+[00:07:50] After that, okay, so now I've got a little grammar here
+[00:07:55] and this little grammar here could sort of make everything I
+[00:08:00] 've got in these sentences
+[00:08:01] Well, I actually can do this one too
+[00:08:03] I can do the large barking one where there are multiple ones
+[00:08:06] But then if I start going beyond these noun phrases
+[00:08:10] and say think of sentences like
+[00:08:15] talk to the cat
+[00:08:16] or talk to the large cuddly dog by the door
+[00:08:22] well now I've got here a verb talk
+[00:08:25] and I've again got a preposition
+[00:08:27] so I might then have more rules
+[00:08:31] that says I can have a verb phrase
+[00:08:33] and the verb phrase can go to a verb
+[00:08:37] and then a prepositional phrase
+[00:08:39] and then that could explain these two sentences as well
+[00:08:43] and in this kind of way
+[00:08:45] I can start to build up a grammar
+[00:08:48] of the structure of English sentences
+[00:08:50] as a context-free grammar
+[00:08:52] make sense?
+[00:08:54] yeah, okay
+[00:08:57] and so that's what is being quite commonly done
+[00:09:03] in linguistics and elsewhere
+[00:09:05] swear um okay uh yeah uh
+[00:09:12] so let me just do that once more
+[00:09:15] but behind in this one
+[00:09:17] so one thing i can do here is say oh
+[00:09:21] i have i'm going to look at this
+[00:09:25] with its phrase structure
+[00:09:26] and if i write it upside down
+[00:09:28] to give myself some space for later
+[00:09:30] you know i could start um
+[00:09:35] making a phrase structure
+[00:09:36] structure that is of this sentence
+[00:09:39] and I'll start to run out of space
+[00:09:42] but I can sort of start to make this
+[00:09:47] phrase structure of the sentence
+[00:09:48] so that's phrase structure
+[00:09:51] but there's another form of representation
+[00:09:55] that has been fairly widely used in linguistics
+[00:09:58] and we're going
+[00:09:59] and it's been commonly used in NLP
+[00:10:01] and we're going to use for the parsers we built
+[00:10:04] and that's dependency structure
+[00:10:06] 所以依靠形式代表了一些
+[00:10:08] 稍微不一樣的東西
+[00:10:10] 它想到主要的詞或頭部或其他東西
+[00:10:15] 然後它們用哪些詞來改變或作出論點
+[00:10:20] 所以在大廳的大廳裡看著門
+[00:10:24] 這就是用看著的指令
+[00:10:28] 所以整個東西的頭部就是看著
+[00:10:32] and then looking is taking one or more arguments or modifiers
+[00:10:39] and well what the looking is saying here is
+[00:10:43] well what you want to do is look in the large crate
+[00:10:47] so we are looking in something
+[00:10:51] and then what we're looking in is a crate
+[00:10:54] and then the crate has some modifiers
+[00:10:57] it's a large crate
+[00:10:59] it's the large crate
+[00:11:01] and then the crate is also placed somewhere
+[00:11:07] it's placed in the kitchen
+[00:11:10] so that in the kitchen is also modifying crate
+[00:11:14] and then we've got over here the by the door
+[00:11:19] well the by the door is also modifying crate
+[00:11:25] so we've also got a link down over to here
+[00:11:28] and that gives us our piece of structure here
+[00:11:31] which having filled that in
+[00:11:33] makes me realize I actually got it wrong
+[00:11:35] when I was doing
+[00:11:37] the constituency representation
+[00:11:39] whoopsie
+[00:11:41] so I should get my
+[00:11:42] because in the constituency representation
+[00:11:45] I made the kitchen by the door
+[00:11:47] into a phrase and that was actually wrong
+[00:11:49] whoops bad me
+[00:11:51] so what I should have actually
+[00:11:53] had
+[00:11:55] was we had
+[00:11:57] another prepositional phrase
+[00:11:59] that went to a noun phrase of in the kitchen
+[00:12:03] and then both of those
+[00:12:05] were coming off a bigger noun phrase like that
+[00:12:12] whoopsie
+[00:12:13] okay
+[00:12:13] I git right most of the time
+[00:12:16] okay but so this idea of dependency structure
+[00:12:20] is that we're sort of finding
+[00:12:22] what is the head word
+[00:12:24] and then we're saying
+[00:12:25] which things modify the head word
+[00:12:27] and either of these representations
+[00:12:29] 我们可以使用来解决
+[00:12:34] 语言的结构
+[00:12:36] 在哪些语言结合
+[00:12:39] 哪些语言改变其他语言
+[00:12:41] 所以基本的理念是
+[00:12:43] 当人们交流
+[00:12:45] 我们交流在一条链的流程
+[00:12:49] 如果是
+[00:12:51] 经典的写字系统
+[00:12:53] 它是你读的一条链的语言
+[00:12:57] 如果是
+[00:12:58] 就像你現在聽我講的語言一樣
+[00:13:01] 它並不是一條正常的語言
+[00:13:04] 而是一條正常的聲音
+[00:13:07] 當人們在說話時
+[00:13:09] 人們在說話時
+[00:13:11] 不會有白色的空間
+[00:13:12] 有時候人們會在
+[00:13:16] 一個句子或一句話的結尾時停止
+[00:13:18] 但在大體上
+[00:13:19] 我只是在說持續的語言
+[00:13:21] 一對一的進行
+[00:13:27] 你必须这样做
+[00:13:30] 但如果你当时在想
+[00:13:32] 我可以实际上理解Chris在说话
+[00:13:38] 那你会有些程度上
+[00:13:41] 你将这一线运动
+[00:13:43] 转化成一个意义
+[00:13:46] 有些语言会改变其他语言
+[00:13:49] 你会有这些更大的组织
+[00:13:51] 例如同事
+[00:13:52] 他们会理解语言的意义
+[00:13:55] 人类听众需要研究什么改变什么
+[00:14:01] 才能够正确地理解语言
+[00:14:05] 同样地
+[00:14:07] 我们的模型需要能够
+[00:14:09] 正确地理解语言
+[00:14:10] 才能够正确地
+[00:14:13] 正确地解释语言
+[00:14:13] 所以我们将要做的
+[00:14:16] 是为了建立联系计划
+[00:14:18] 我们将要具体地
+[00:14:21] 建立一个综合计划模式
+[00:14:24] 讓我們找出這些文字的結構
+[00:14:28] 後來我們會改變這一點
+[00:14:31] 因為當我們進入轉換語言模式時
+[00:14:36] 它們只會進入文字的過程中
+[00:14:39] 但其實在 neural network 的規則之內
+[00:14:43] 它們在認識和建立同樣的結構
+[00:14:46] 我們稍後會討論這一點
+[00:14:48] 後期的課程
+[00:14:49] 以給大家更多的理解
+[00:14:53] 什麼改變什麼
+[00:14:55] 是對解的重要性
+[00:14:58] 這裡有幾個有趣的例子
+[00:15:00] 從報紙的主題
+[00:15:01] 這些有趣的例子是因為
+[00:15:04] 文字並不是只有一種解釋方法
+[00:15:10] 當你有一種語言的綜合
+[00:15:13] 通常在人文語中
+[00:15:16] 文字的循环是不明显的
+[00:15:18] 而它是依靠人类的解释
+[00:15:21] 所做的事和合作的意义
+[00:15:24] 来解决它们的问题
+[00:15:25] 这是第一个例子
+[00:15:29] 科学家将宇宙鸟数量
+[00:15:32] 那是不明显的
+[00:15:36] 你可以给这两个可能的评论
+[00:15:38] 你如何给这两个可能的评论
+[00:15:45] in space counting whales
+[00:15:48] and the other one is that they're whales from in space
+[00:15:51] so one possibility is
+[00:15:54] so we've got this prepositional phrase
+[00:15:56] this is a prepositional phrase here
+[00:15:58] one possibility is that this prepositional phrase
+[00:16:02] is modifying whales
+[00:16:10] so they're whales from space
+[00:16:12] and the other possibility is that it's the counting that's happening
+[00:16:17] from space
+[00:16:18] so the scientists are counting it from space
+[00:16:21] okay so that corresponds to my two pictures here
+[00:16:24] so in one picture it's the counting that is happening from space
+[00:16:32] which is actually the right interpretation of what the article
+[00:16:36] is about
+[00:16:36] but in the other interpretation we have space whales
+[00:16:40] and the scientists are counting the space whales
+[00:16:44] that are arriving or something like that
+[00:16:46] and so then we have the from space
+[00:16:50] that are modifying the whales
+[00:16:51] okay so what we have here right
+[00:16:55] is a prepositional phrase
+[00:16:58] which comes after a noun phrase
+[00:17:00] it's just a one word noun phrase here
+[00:17:01] whales that's fine
+[00:17:03] and then before that is a verb
+[00:17:05] and so the thing
+[00:17:07] So one place in English where you get a lot of ambiguities
+[00:17:12] is from these prepositional phrases
+[00:17:14] because whenever you get prepositional phrases
+[00:17:17] and prepositional phrases are really common in English
+[00:17:19] if you think about it
+[00:17:20] whenever you get them like this
+[00:17:22] it's always ambiguous as to
+[00:17:27] it's always ambiguous as to what earlier thing in the sentence
+[00:17:32] they're dependent of
+[00:17:34] um and so um you know you can sort of put in another prepositional
+[00:17:41] phrase in the morning or something like that and so then the
+[00:17:46] ambiguities just multiply
+[00:17:49] and so the important thing to notice here about human language
+[00:17:55] is human language is in syntactic terms globally ambiguous right
+[00:18:01] 所以在设计语言中
+[00:18:04] 有地区语言的解释
+[00:18:08] 有多少人做过综艺课程
+[00:18:10] 我认为最近很少
+[00:18:11] 有谁做过综艺课程
+[00:18:13] 看起来比较少人做过综艺课程
+[00:18:17] 比较少人做过语言课程
+[00:18:18] 那很有趣
+[00:18:19] 好吧
+[00:18:21] 我不会做太多
+[00:18:23] 综艺课程的解释
+[00:18:24] 当我年轻的时候
+[00:18:26] 那是以前的CS课程
+[00:18:30] 我们在写文章中 写文章中 写文章中
+[00:18:33] 我们被视为科学教育的主要职责
+[00:18:36] 但我认为没有其他
+[00:18:38] 所以在设计语言中
+[00:18:41] 你可以有一个地区的障碍
+[00:18:44] 但是障碍总是解决的
+[00:18:46] 所以我们有简单的规则
+[00:18:48] 在设计语言中
+[00:18:50] 其他语言是与最接近的
+[00:18:53] 如果
+[00:18:55] 在Python里面有点不一样
+[00:18:57] 因为它是障碍
+[00:18:58] 但是有的規則
+[00:18:59] 在計算語言中
+[00:19:00] 永遠不會有全球規則
+[00:19:04] 但是人類的語言
+[00:19:07] 並不是如此
+[00:19:09] 沒有任何解決
+[00:19:10] 這兩個讀法是正確的
+[00:19:14] 如果我用一個大字
+[00:19:15] 它仍然會有規則
+[00:19:17] 你只是用語言
+[00:19:19] 用內容和智慧
+[00:19:21] 來決定發生什麼
+[00:19:23] 所以要用一個
+[00:19:25] 这是一个比较实际的例子
+[00:19:30] 这是你平时早上在
+[00:19:32] 《华尔街日报》中
+[00:19:34] 认识的一种惨言
+[00:19:35] 这份认识是
+[00:19:37] 在每周会议中
+[00:19:37] 购买的Royal Trust Co. Ltd.
+[00:19:39] 购买的Royal Trust Co. Ltd.
+[00:19:42] 所以你能看到这句话
+[00:19:47] 是我们有一个词
+[00:19:49] 然后我们有一个词
+[00:19:50] 然后之后
+[00:19:53] We have four prepositional phrases in a row
+[00:19:57] Okay, so what do these prepositional phrases modify?
+[00:20:01] So what does by Royal Trust Co. Ltd. modify?
+[00:20:07] The acquisition, right?
+[00:20:09] So it's the acquisition by Royal Trust Co.
+[00:20:12] Then of Toronto modifies
+[00:20:17] So it's Royal Trust Co. Ltd. of Toronto
+[00:20:20] So yeah, later on
+[00:20:22] prepositional phrases can also modify
+[00:20:25] 早前的语言词
+[00:20:27] 或至少内容词
+[00:20:28] 中的Royal Trust Co. Ltd
+[00:20:31] $27一份
+[00:20:34] 是回到改变
+[00:20:37] 额外的额外
+[00:20:39] 在每个月的会议中
+[00:20:42] 是
+[00:20:43] 是的
+[00:20:43] 是批准
+[00:20:45] 所以它回到那里
+[00:20:47] 但是你知道
+[00:20:50] 是的
+[00:20:52] 所以你知道
+[00:20:53] 所以如果你开始
+[00:20:54] 你只要有一堆這個類似的
+[00:20:57] prepositional phrases的文章
+[00:20:59] 你就可以開始得到更多的
+[00:21:02] attachment 的 ambiguities
+[00:21:04] 你不會得到
+[00:21:05] 你不會得到
+[00:21:08] 一個完全自由選擇的
+[00:21:10] factorial number of attachment points
+[00:21:13] 因為有一個限制
+[00:21:15] 這些dependencies 不能接近
+[00:21:19] 所以你再往前走
+[00:21:21] 你必須要相同距離
+[00:21:23] 再往後走或再往後走
+[00:21:24] 但無論如何
+[00:21:26] 所以你得到的讀取數字
+[00:21:28] 就是Catalan系列
+[00:21:30] 這就是你看到的系列
+[00:21:31] 在其他地方
+[00:21:32] 如果你有做過圖表的學術
+[00:21:34] 或其他類似的
+[00:21:35] 如果你在做橫向計算
+[00:21:37] 你就得到Catalan
+[00:21:39] 因為你得到同樣的物理
+[00:21:41] 但事情不相通
+[00:21:43] 所以這是一個
+[00:21:44] 可能讀取的逐漸增長的系列
+[00:21:48] 所以它很快就會變得很大
+[00:21:51] 所以我认为如果你有四个语言词
+[00:21:56] 你会得到13个语言
+[00:21:57] 如果你有五个语言词
+[00:21:58] 你会得到27个语言
+[00:22:00] 然后从那里长大
+[00:22:01] 所以你会得到很多的误会
+[00:22:03] 但重要的事情是
+[00:22:06] 人类每天早上都会读这些词
+[00:22:10] 或者至少人们在银行工作时
+[00:22:13] 都会读这些词
+[00:22:13] 他们的脑子不会爆裂
+[00:22:18] 他们想着13个语言
+[00:22:20] and which one is correct, right?
+[00:22:23] We just sort of do this as we go along
+[00:22:25] and it's sort of obvious
+[00:22:27] Okay, let's just do a couple more examples
+[00:22:30] of where we get ambiguities in human language
+[00:22:35] So a different one you get is coordination scope ambiguity
+[00:22:39] So shuttle veteran and long time NASA executive
+[00:22:43] Fred Gregory appointed to board
+[00:22:45] How is this sentence ambiguous?
+[00:22:51] Yeah
+[00:22:52] Yeah, so there can either be one person Fred Gregory
+[00:22:56] and they're both a shuttle veteran and a NASA executive
+[00:23:01] or it can be that there are two people
+[00:23:05] there's a shuttle veteran
+[00:23:06] and there's a long time NASA executive Fred Gregory
+[00:23:12] Okay, yeah, so we'd be kind of capturing those
+[00:23:15] by having extra grammar rules
+[00:23:18] where a noun phrase can go to a noun phrase
+[00:23:20] a phrase, a conjunction, and a noun phrase
+[00:23:23] but then another thing that you get in English is apposition
+[00:23:29] so you can have a noun phrase that's a descriptive noun phrase
+[00:23:34] of another noun phrase like a name
+[00:23:36] you know, the author, Fred Gregory, or something like that
+[00:23:41] saying the word English again, I meant to comment
+[00:23:47] I'm only going to give English examples here
+[00:23:51] In different languages, you don't get all the same ambiguities
+[00:23:57] So if you're familiar with, say, Chinese
+[00:24:01] you might have thought about the prepositional phrase example
+[00:24:05] of wait a minute, we don't have that one
+[00:24:07] because the prepositional phrase modifying the verb
+[00:24:11] would appear before the verb
+[00:24:13] and the object noun would be afterwards
+[00:24:14] 我会完全不明显
+[00:24:16] 这是真的
+[00:24:17] 但这不意味着中国是不明显的
+[00:24:22] 中国有很多很坏的不明显
+[00:24:27] 只是不同语言
+[00:24:30] 有不同的逻辑
+[00:24:34] 所以在英文中
+[00:24:38] 尤其是在更简单的语言中
+[00:24:40] 而不是用明确的组织语言
+[00:24:44] 而是用组织语言的组织
+[00:24:48] 来解释组织的概念
+[00:24:52] 这里是特朗普总统的一个有趣的例子
+[00:24:58] 我们可以有组织构图的障碍
+[00:25:01] 医生，没有心脏，有心理问题
+[00:25:05] 好 再一次 這是同樣類似的
+[00:25:09] 心理規律規律
+[00:25:12] 也就是說 心理規律規律
+[00:25:14] 和心理問題不相同
+[00:25:17] 或是 心理規律規律不相同
+[00:25:25] 你選擇吧
+[00:25:30] 好 讓我看
+[00:25:34] 这个是我的最危险的一个，是一个不同的态度的态度警告，学生们得到第一手工作经验，
+[00:25:45] 所以这个也是一个态度，你知道，无论你是否有第一手，
+[00:25:55] and then both the job and the firsthand modifying experience
+[00:26:02] or there's this other reading if you have a smutty mind that
+[00:26:06] might come to you
+[00:26:08] OK one more fun one
+[00:26:10] OK mutilated body washes up on Rio Beach to be used for Olympics
+[00:26:16] beach volleyball
+[00:26:17] OK so what are the two possible readings of this sentence
+[00:26:22] you know these are real examples from quality newspapers
+[00:26:25] 在媒体上
+[00:26:26] 这两个词的评论是什么
+[00:26:37] 这里我们有一个
+[00:26:40] 无限的词词
+[00:26:44] 无限的词词
+[00:26:46] 用于乒乓球
+[00:26:48] 这些词词
+[00:26:53] 有同样的效果
+[00:26:57] 可以用来改变不同的东西
+[00:27:01] 所以它可以是
+[00:27:03] 纽约海岛
+[00:27:04] 用来参与
+[00:27:05] 奥林匹克海岛比赛
+[00:27:07] 或者是被殴护的身体
+[00:27:10] 用来参与海岛比赛
+[00:27:12] 好 这些就是我们想使用
+[00:27:19] 词词的结构
+[00:27:22] 来明白它们的意味
+[00:27:23] We also use it in lots of just sort of mundane practical ways
+[00:27:30] when we're building various kinds of natural language processing
+[00:27:34] systems
+[00:27:35] So a kind of thing that people often in practical systems do
+[00:27:40] is that they want to get out facts of various kinds
+[00:27:43] So for people who do stuff with bioinformatics
+[00:27:47] that they commonly want to get out things like protein-prote
+[00:27:50] in interaction facts
+[00:27:51] and so commonly you can get those kind of facts out
+[00:27:56] by looking for patterns
+[00:27:57] so you know have a verb interacts
+[00:28:00] that's going to be indicating
+[00:28:01] an interaction pattern
+[00:28:03] and well it's going to be taking arguments
+[00:28:06] so it's going to be taking a subject
+[00:28:08] and interacts with the prepositional argument
+[00:28:12] and so that will be an interaction
+[00:28:15] that Kaisi whatever that is interacts with sassay
+[00:28:19] but in this case the sassay
+[00:28:21] 是和Chi-A和Chi-B合作的
+[00:28:24] 所以它們也會跟其他兩種東西
+[00:28:28] 互動
+[00:28:28] 所以你可以使用
+[00:28:30] 這個類似的詞句構成的
+[00:28:31] Dependency Paths的模式
+[00:28:33] 以獲得你喜歡的事實和事件
+[00:28:37] 例如是一個事件理解系統
+[00:28:41] 人們會做這些類似的分析
+[00:28:46] 透過生物科學的文章
+[00:28:48] 以建立一種
+[00:28:48] 所謂的基礎資料
+[00:28:50] 所謂的基礎基礎合作
+[00:28:52] 以及類似的東西
+[00:28:55] 所以語言結構是有用的
+[00:29:00] 而它是很具形式的
+[00:29:04] 所以你應該想起人類
+[00:29:07] 作為活動的解釋者
+[00:29:09] 使用他們的概念知識
+[00:29:12] 包括在文章中的最早的東西
+[00:29:14] 他們周圍的世界知識
+[00:29:16] 他們的世界的運作
+[00:29:17] to work out the right structure
+[00:29:19] Yeah, so now I want to go on
+[00:29:22] and show you a bit more
+[00:29:24] about sort of dependency grammars
+[00:29:26] which is what we're going to be using
+[00:29:27] So for dependency syntax
+[00:29:31] that it postulates that you can
+[00:29:33] capture the structure of a sentence
+[00:29:36] by having these sort of asymmetric
+[00:29:40] dependent relations
+[00:29:42] which we might just call arrows
+[00:29:44] which are going from heads to dependents
+[00:29:47] So here the sentence is
+[00:29:49] bills on ports and immigration
+[00:29:51] were submitted by
+[00:29:52] Senator Brownback
+[00:29:54] Republican of Kansas
+[00:29:55] and we're sort of
+[00:29:56] picking out heads
+[00:29:57] and then we've got
+[00:30:00] things that depend on them
+[00:30:02] that modify them
+[00:30:06] So if you're on the
+[00:30:07] video audience
+[00:30:09] and you are educated
+[00:30:10] in the United States
+[00:30:12] and you're over the age of 50
+[00:30:14] 或者如果你去的那些公共学校
+[00:30:19] 他们也会学习中文
+[00:30:22] 你可能看过语言计算
+[00:30:25] 所以Reed Kellogg的语言计算
+[00:30:30] 是一个非常广泛的美国教育
+[00:30:34] 它真的是一个很语言的语言
+[00:30:39] 是一个很语气的语言语言
+[00:30:43] 你必须要在不同角度写出语言
+[00:30:46] 之类的
+[00:30:46] 但基本上
+[00:30:48] 你只写了他们的头部
+[00:30:49] 和他们的联系
+[00:30:50] 以不同的有趣形状的语言
+[00:30:54] 这也是联系语言
+[00:30:57] 所以这是联系语言的开始
+[00:31:01] 但就像有趣形状的语言
+[00:31:04] 通常人们想添加
+[00:31:07] 更多的资讯
+[00:31:10] 所以最普遍的方式是
+[00:31:13] 按照某些語言關係的名字
+[00:31:19] 所以某些東西可以是
+[00:31:20] 某個語言的主題
+[00:31:21] 或是某個項目
+[00:31:24] 或是某個文字改造
+[00:31:26] 或是某個項目
+[00:31:28] 或是一些類似的東西
+[00:31:32] 我只是想給大家
+[00:31:34] 一些獨立的語言
+[00:31:36] 概念
+[00:31:36] I'm not expecting you to master all of these names
+[00:31:40] and ways of doing things
+[00:31:43] and you know there are different systems
+[00:31:45] of deciding what's heads and dependents
+[00:31:47] and not all the details are important
+[00:31:51] what you should get into your head
+[00:31:53] is just sort of the basic idea
+[00:31:54] of what one of these does
+[00:31:56] and some sense of
+[00:31:58] oh it should be
+[00:31:59] at the phrase level
+[00:32:00] it should be representing
+[00:32:01] what's modifying what
+[00:32:03] so we do actually ask some questions
+[00:32:05] on the assignment
+[00:32:07] and so for the cases like
+[00:32:10] the prepositional phrase
+[00:32:11] what is it modifying
+[00:32:12] you should be able to give the right answer to that
+[00:32:17] okay
+[00:32:19] yeah
+[00:32:21] okay so
+[00:32:22] this is just a little bit more
+[00:32:25] vocabulary so yeah we have these
+[00:32:27] arrows or dependencies
+[00:32:29] and so I'm going to say that they connect
+[00:32:32] between a head and a dependent
+[00:32:33] but sometimes people use other words
+[00:32:35] 譬如說 governor 和 modifier 之類的
+[00:32:38] 因此 疑問通常會被視為成為一棵樹
+[00:32:46] 因此 你會看到有一個連接的東西
+[00:32:48] 有一個律動的東西
+[00:32:52] 所以我們的一個律動
+[00:32:53] 就是這篇文章的頂端
+[00:32:58] 所以 疑問
+[00:32:59] 即使你通常看到的
+[00:33:03] 通常在文学课程中
+[00:33:06] 或者在史丹佛学院学习的CS103课程中
+[00:33:10] 或者在数学院学习的
+[00:33:12] 你会看到的通常是
+[00:33:14] 无语言语言
+[00:33:16] 或无语言语言
+[00:33:17] 我说真的
+[00:33:19] 它是有很长的历史的
+[00:33:24] 所以实际上
+[00:33:25] 人文语言的组织
+[00:33:28] 是人文历史中
+[00:33:31] 是分类语言
+[00:33:33] 所以 语言学者们
+[00:33:35] 以分类语言为第一个
+[00:33:38] 或实际上是第一个
+[00:33:39] 语言人员读
+[00:33:41] 人文语言的语言语言
+[00:33:44] 是帕南尼
+[00:33:45] 帕南尼在业务中学习桑斯克语
+[00:33:48] 帕南尼生活了这么久
+[00:33:50] 其实人们不太知道他在哪里生活
+[00:33:53] 他在四十多年前的
+[00:33:55] 四十八世纪之间生活
+[00:33:58] 但是实际上没有人知道他在哪里
+[00:34:00] 他在現在的阿富汗居住的地方
+[00:34:07] 他為了為宗教的原因而受到激進
+[00:34:12] 他建立了一種桑菲勒語語言
+[00:34:16] 他用桑菲勒語語言來代表桑菲勒語言的形容詞
+[00:34:19] 在第一十年代，他們用桑菲勒語語言做了很多文化研究
+[00:34:30] 所謂的解釋無意義的語言
+[00:34:33] 是非常非常最近的
+[00:34:36] 所以最初的文字構造語言
+[00:34:39] 是在40年代開始
+[00:34:40] 然後被1950年代的
+[00:34:47] 磅礦工藝研究所描述的
+[00:34:47] 對於電腦科學者來說
+[00:34:52] 這是一個很重要的事
+[00:34:53] 所以各位電腦科學家們
+[00:34:56] 如果你們知道磅礦工藝研究所
+[00:34:58] 通常都知道兩件事
+[00:35:00] 一是他们讨厌
+[00:35:02] 在CS103或相同的课程中
+[00:35:08] 被迫学习的 Chomsky Hierarchy
+[00:35:08] 第二是他是一个非常左派的政治家
+[00:35:12] 但如果我只谈论
+[00:35:14] 现在的第一个两个人
+[00:35:15] Chomsky Hierarchy
+[00:35:19] 无论是为了伤害
+[00:35:21] 小学数学科学家
+[00:35:24] 或是为了解释
+[00:35:27] 正确的事实
+[00:35:28] 关于语言理论的事实
+[00:35:29] Chomsky的 Hierarchy
+[00:35:30] 是人文语言的设计
+[00:35:35] 因为当时
+[00:35:37] 而在更多时期的事情中
+[00:35:40] 人们经常模拟人文语言
+[00:35:46] 以正常的
+[00:35:48] 丰富的
+[00:35:49] 丰富的语言类型方式
+[00:35:53] 而Chomsky认为
+[00:35:55] 这完全不合适的
+[00:35:58] 形容詞來代表人文的複雜性
+[00:36:03] 所以他為了發展
+[00:36:04] 複雜性語言的論述
+[00:36:06] 就建立了複雜性語言
+[00:36:11] OK 無論如何
+[00:36:12] 這就夠了
+[00:36:13] 這是我用巴勒尼斯語言的畫面
+[00:36:18] 或者是其中一個版本
+[00:36:21] 其實這是非常非常誤會的
+[00:36:25] 因為其中一個非常驚人的事
+[00:36:27] 帕丹尼的文化
+[00:36:29] 而他生活的年代
+[00:36:30] 也不知何時
+[00:36:32] 帕丹尼的文化是從文字製作出來的
+[00:36:36] 這讓我感到有點驚訝
+[00:36:39] 有些西方有名的作品
+[00:36:46] 例如歐馬的作品
+[00:36:48] 《歷史奇蹟》和《伊利亞》
+[00:36:50] 原來這些作品是從文字製作出來的
+[00:36:54] 從文字製作出來的
+[00:36:56] 那是很难做的，但如果在高中做过演唱会，
+[00:37:02] 你可能会相信，
+[00:37:03] 那些人可能会记得《博士》。
+[00:37:07] 但我认为，
+[00:37:08] 人们可以记得语言语言的语言语言，
+[00:37:12] 然后把语言传播了百年，
+[00:37:16] 这让我感到很震撼。
+[00:37:18] 但这就是巴南尼语言的事。
+[00:37:24] 虽然这是一本传统的传统文章
+[00:37:28] 但这本文章可能是从潘恩尼写的约一百年后写出来的
+[00:37:34] 好 回到现代的事情
+[00:37:43] 我们不想让您拆开详细详细的详细详细详细的详细
+[00:37:52] 你可能会有疑惑的地方是
+[00:37:55] 人们做事情有不同的方式
+[00:37:59] 他们不同意的方式
+[00:38:01] 就是他们的手指
+[00:38:04] 有些人用手指
+[00:38:06] 从头部向下指向
+[00:38:09] 而有些人用手指
+[00:38:12] 从头部向下指向
+[00:38:14] 所以，现代的分别语言
+[00:38:18] Grammar largely follows
+[00:38:20] the work of Lucien Tenier
+[00:38:23] a French linguist
+[00:38:26] he did the arrows pointing from the head to the dependent
+[00:38:31] and so that's what I'm doing today
+[00:38:33] but you'll see both
+[00:38:35] we sort of said that you know
+[00:38:38] normally you assume that
+[00:38:39] you have a tree with a single root
+[00:38:41] it's kind of common
+[00:38:43] and it works out more easily for the parsing
+[00:38:46] If you sort of add to a sentence
+[00:38:48] a sort of a fake root node
+[00:38:50] so you know that that's going to be the starting point
+[00:38:52] and it's going to take one dependent
+[00:38:55] which is the word that's the head of the sentence
+[00:38:57] and then you're going to work down from there
+[00:39:01] OK
+[00:39:03] So before getting more into doing dependency parsing
+[00:39:07] I just wanted to sort of take a little detour
+[00:39:10] to tell you about the importance
+[00:39:16] 在自然语言复制中发生了重要的事情
+[00:39:24] 这是一个有趣的变化
+[00:39:27] 今天我们会从一个方向进行
+[00:39:31] 后期课程我们会从另一个方向进行
+[00:39:34] 在早期自然语言复制中
+[00:39:37] 人们开始看到
+[00:39:41] human languages have structure
+[00:39:43] so what we should do
+[00:39:46] is start writing rules
+[00:39:48] for the structure of human languages
+[00:39:50] and you know I start writing a few
+[00:39:52] context free grammar rules
+[00:39:54] for the structure of English
+[00:39:55] on that early slide
+[00:39:56] and you could also write
+[00:39:57] dependency grammar structure rules
+[00:39:59] so people tried to do
+[00:40:02] natural language processing
+[00:40:03] by having rules
+[00:40:05] grammar rules
+[00:40:06] dictionaries of parts of speech
+[00:40:08] and things like that
+[00:40:09] 而這就給了你Parser
+[00:40:12] 這在背景上
+[00:40:15] 是很難得的
+[00:40:18] 有很多原因都很難得
+[00:40:22] 其中一個原因是
+[00:40:24] 雖然有這些非常
+[00:40:26] 清晰的、很正常的
+[00:40:27] 人文語言的結構
+[00:40:29] 但是有一個很長的
+[00:40:30] 很複雜的故事
+[00:40:32] 所有的奇怪的用途
+[00:40:36] 都開始在人文語言中發生
+[00:40:39] 就是很难得到手写语言的证据
+[00:40:45] 因为人们用语言的创意
+[00:40:50] 所以你可能会想起一些东西
+[00:40:56] 我可能不太会用年轻人的语言
+[00:41:01] 但是你可能还是很熟悉的
+[00:41:07] 在《星球战争》中
+[00:41:08] 你会有尤德托克
+[00:41:09] 你把语言处理好
+[00:41:11] 但人们仍然不懂
+[00:41:12] 所以这就是改变语言的方式
+[00:41:15] 前面有个评论
+[00:41:20] 是说
+[00:41:20] 语言的结尾不是这样
+[00:41:23] 那是个很棒的想法
+[00:41:25] 不是
+[00:41:27] 人们学习了这一点
+[00:41:31] 但语言是不一样的
+[00:41:33] 所以是很难
+[00:41:36] 但是我所谈到的更大的原因
+[00:41:38] 实际上就是我所谈到的
+[00:41:41] 既然你只写了一篇文章
+[00:41:44] 我的文章里的
+[00:41:47] 代表词的词词
+[00:41:48] 有13个不同的词词
+[00:41:50] 而你没有选择
+[00:41:52] 其中的词词
+[00:41:53] 但你知道
+[00:41:54] 如果你有知道
+[00:41:55] 词词是如何改变其他词
+[00:41:58] 那你就可以
+[00:42:00] 得到一些数据
+[00:42:01] 然后开始预测
+[00:42:03] 在哪種程度 哪些東西可以改變其他東西
+[00:42:06] 所以人們想要開始做那種預測
+[00:42:10] 屬於機器學習模式的預測
+[00:42:14] 所以 能夠這樣做
+[00:42:16] 導致在60年代最早的反應
+[00:42:21] 但在80年代和90年代開始
+[00:42:25] 人們決定 無論是為了進行自然語言
+[00:42:31] 自然语言理解的设计
+[00:42:33] 是建立数据资源
+[00:42:36] 所以在90年代和2000年代
+[00:42:41] 自然语言理解的设计的名称
+[00:42:44] 是建立数据资源
+[00:42:47] 然后使用这些资源
+[00:42:48] 建立设计学习系统
+[00:42:52] 现在这些变化是反过来的
+[00:42:54] 再次被大型语言模式
+[00:42:56] 我们将在一个星期或多的时间内到达
+[00:42:59] 但是这里是一个例子
+[00:43:01] 所以这是全球联系的树枝
+[00:43:04] 我实际上有很大的参与
+[00:43:06] 它是一种很酷的资源
+[00:43:08] 为各种各样的用途
+[00:43:09] 因为它实际上是一个广泛的
+[00:43:12] 逻辑计划
+[00:43:14] 有超过100个不同的语言
+[00:43:17] 与语言复制
+[00:43:19] 与一种一样的联系形式
+[00:43:22] 所以它实际上是很好的
+[00:43:23] 为逻辑计划和
+[00:43:26] 和严格语言的作品
+[00:43:27] 但是这些是
+[00:43:31] 我认为Muramar是一位
+[00:43:33] 有名的狗训练员
+[00:43:34] 在这些语言中
+[00:43:36] 放了一个联系的结构
+[00:43:38] 这些都在那里写着
+[00:43:40] 很弱的
+[00:43:41] 人类都在
+[00:43:43] 制造这些联系的结构
+[00:43:46] 然后这些是给我们的数据
+[00:43:48] 让我们能从联系中
+[00:43:50] 学习一些类似联系派对的东西
+[00:43:56] 这就是我们将使用的
+[00:43:58] 是这种数据来建立的
+[00:44:00] 一个联络计算机
+[00:44:02] 它将学习
+[00:44:03] 你会有狗训练员
+[00:44:07] 你会有名训练员
+[00:44:09] 所以它将建立一些
+[00:44:10] 数据和资讯
+[00:44:12] 来证明什么样的事情是有可能的
+[00:44:17] 所以从开始
+[00:44:19] 建立一个这样的树枝链
+[00:44:21] 感觉就像
+[00:44:25] 就像是很慢的努力
+[00:44:27] 其實是很慢的努力
+[00:44:30] 但它顯然是一個非常有效的策略
+[00:44:34] 因為它提供了非常好的使用資源
+[00:44:38] 當人們做了一次
+[00:44:40] 各種各樣的人都可以使用它
+[00:44:42] 去建造Parser、Speech Taggers
+[00:44:46] 去做Psycho-linguistic Models
+[00:44:48] 以及各種各樣的東西
+[00:44:50] 你會得到一些
+[00:44:51] 儲存的頻率資訊
+[00:44:54] 它也提供了另一件重要的事情
+[00:44:59] 它提供了一種方法去評論系統
+[00:45:02] 去說它們有多好在製造Parser
+[00:45:07] 這可能對你來講有趣
+[00:45:11] 在現代機器學時期
+[00:45:14] 但事實是
+[00:45:15] 當人們在50年 60年 70年
+[00:45:20] 做自然語言處理的時候
+[00:45:23] evaluation methods
+[00:45:25] the way you showed people you had a good parser
+[00:45:28] is you ran the program
+[00:45:30] you said type in a sentence
+[00:45:32] look at what it
+[00:45:32] look look it's worked
+[00:45:33] it's a really good parser
+[00:45:35] you know there was no systematic evaluation
+[00:45:39] of NLP systems whatsoever
+[00:45:42] so actually saying look here's
+[00:45:45] a thousand hand parsed sentences
+[00:45:48] let's evaluate how well your parser does on those
+[00:45:51] 那是在80年代，尤其是在90年代發生的一個新發展
+[00:46:03] 現在我們有了所有這些知識
+[00:46:07] 我們要開始建立瀏覽模式
+[00:46:13] 我會展示一個特別的瀏覽模式
+[00:46:18] 你會在課程中使用的
+[00:46:22] 首先
+[00:46:23] 你應該想一想
+[00:46:26] 什麼樣的資訊
+[00:46:28] 應該用來決定
+[00:46:31] 這就是四個因素
+[00:46:35] 很明顯的因素
+[00:46:36] 可以用來決定
+[00:46:37] 首先
+[00:46:40] 想這兩句
+[00:46:43] 在橫額上的兩句
+[00:46:44] 是否合理
+[00:46:46] So that for discussion of the outstanding issues was completed
+[00:46:52] So to have discussion of issues
+[00:46:58] That's a plausible dependency
+[00:47:02] To have, you know, what's a silly one
+[00:47:06] To have something like the being a dependent of completed
+[00:47:11] That makes no sense at all
+[00:47:13] 所以你知道有什么语言在里面
+[00:47:18] 第二个是距离
+[00:47:19] 所以你可以有长距离的距离
+[00:47:23] 它们会长一段时间
+[00:47:25] 但大多数的距离是短距离
+[00:47:29] 很多语言的距离
+[00:47:31] 是在他们的邻居语言上
+[00:47:33] 在很短的距离里
+[00:47:34] 所以这是一个好选择
+[00:47:36] 除了距离
+[00:47:39] 知道之处之处的语言
+[00:47:44] 所以语言或判断是很少的
+[00:47:49] 然后还有一个最后的语言
+[00:47:53] 就是头部的细腻
+[00:47:55] 就是它们用了多少的语言
+[00:48:00] 如果有一个语言是破坏
+[00:48:05] well it probably has something to the left
+[00:48:10] because it probably has who did the breaking
+[00:48:13] and it probably has something to the right
+[00:48:17] because there might be the cup or something like that
+[00:48:21] but you know it doesn't have to be that
+[00:48:24] because it could be the cup broke
+[00:48:26] so you can have something to the left
+[00:48:30] but nothing to the right
+[00:48:31] but you sort of have to have something to the left
+[00:48:34] 而相反你不可以有任何的東西
+[00:48:37] 你不可以說他破了杯子 醬汁 鍋子
+[00:48:43] 所以它不需要很多的疑問
+[00:48:46] 所以你會有這樣的概念
+[00:48:49] 對 有另一個困難的小概念
+[00:48:54] 關於分辨性
+[00:48:55] 通常分辨性就像這個樣子
+[00:49:03] and nesting dependencies corresponds to a tree structure
+[00:49:07] as you'd have in a context-free grammar
+[00:49:10] so I will
+[00:49:34] fair enough
+[00:49:35] I will assert that this is
+[00:49:38] a sentence
+[00:49:42] and discussion is the subject of the verb completed
+[00:49:48] and you know normally for a sentence
+[00:49:52] we say the main thing in a sentence is its verb
+[00:49:55] and so yeah so that's why the root is heading to completed
+[00:49:59] and the subject of the verb is also an important thing
+[00:50:03] but the arguments of the verb
+[00:50:06] like the subject of the verb
+[00:50:07] the object of the verb
+[00:50:08] there is one prepositional phrase modifiers
+[00:50:10] 它们都被定义成语言
+[00:50:14] 是的
+[00:50:15] 除此之外 语言是否正确的
+[00:50:23] 你开始用的语言是否正确的
+[00:50:26] 如果你有这样的语言
+[00:50:30] 那总是答案
+[00:50:35] 我想说
+[00:50:36] 这里有些语言有关系
+[00:50:39] 但是有些语言
+[00:50:41] 你不需要用文字和文字
+[00:50:44] 你可以用很矛盾的方式
+[00:50:53] 用英文
+[00:50:55] 比如說
+[00:50:57] Easy as pie
+[00:50:58] 沒有文字
+[00:51:00] 所以你會說Easy
+[00:51:02] 這個詞彙的詞彙
+[00:51:05] 是文字的頭文
+[00:51:07] 這是一個問題
+[00:51:12] like what is the story
+[00:51:14] is that what it is
+[00:51:15] like we would still look at that as the
+[00:51:18] that one is complicated
+[00:51:19] some people would say it is
+[00:51:22] and some people would say it isn't
+[00:51:26] and in particular in universal dependency
+[00:51:28] we don't actually say that is is the head of the sentence
+[00:51:31] but I don't want to get too far into this
+[00:51:33] if you want you can sort of look more
+[00:51:35] at how things are done
+[00:51:37] but you know
+[00:51:38] I want to fully admit that you know
+[00:51:40] 所以分别语言并不是一个独特定义的理论
+[00:51:44] 人们有各种不同的想法
+[00:51:46] 以各种情况来定义自己的头脑
+[00:51:50] 而他们都在讨论这件事
+[00:51:52] 语言家们都在讨论
+[00:51:53] 什么是正确的组织
+[00:51:54] 可以用在各种语言中
+[00:51:56] 但是人们做事情不同的方式
+[00:51:59] 不意味着每个人都不同意
+[00:52:02] 那里面有组织
+[00:52:04] 里面有词词和改变
+[00:52:06] and ambiguities and so on between them
+[00:52:10] okay
+[00:52:11] yeah so normally we get this sort of nesting
+[00:52:13] that corresponds to what you can build
+[00:52:15] with context free grammar structure
+[00:52:17] but sometimes in human languages
+[00:52:20] you get dependencies that don't nest
+[00:52:24] so you get sentences like
+[00:52:26] I'll give a talk tomorrow on neural networks
+[00:52:29] where actually the on neural networks
+[00:52:33] is modifying the talk
+[00:52:35] where the yesterday is an argument of
+[00:52:39] sorry the tomorrow is an argument of give
+[00:52:42] and so you get these crossing dependencies
+[00:52:45] which are referred to as non-projective dependencies
+[00:52:49] you also get them when you form questions
+[00:52:53] so who did Bill buy the coffee from yesterday
+[00:52:57] that the who is the object of the preposition from
+[00:53:01] but it's been moved out the front
+[00:53:04] 所以这又给我们一个非凝固性的结构
+[00:53:09] 如果你想
+[00:53:11] 是的，你仍然可以说
+[00:53:16] 你有一个凝固性树
+[00:53:18] 但是它有不同的语言
+[00:53:21] 所以一个你必须处理的东西
+[00:53:25] 是完全凝固性的凝固性
+[00:53:27] 就是这种非凝固性的结构
+[00:53:29] 但是我说的
+[00:53:30] 其实我们现在没有办法凝固性的结构
+[00:53:34] Dependency Parsing
+[00:53:36] OK
+[00:53:36] 所以有很多不同的方法
+[00:53:39] 讓人們做Dependency Parsing
+[00:53:42] 有些人是透過
+[00:53:43] 動力計算
+[00:53:44] 有些人是用
+[00:53:47] Graph Algorithms
+[00:53:48] 如果我時間充足
+[00:53:50] 我可能再次提到
+[00:53:51] 有些人是用
+[00:53:53] 限制滿足的方法
+[00:53:54] 如果你有看過CS-221
+[00:53:57] 但最常見的方法
+[00:54:00] 在實習中
+[00:54:01] 出現的就是
+[00:54:03] 這個轉換基礎的計算
+[00:54:04] 這也有點有趣
+[00:54:10] 也給我們一個非常簡單的
+[00:54:13] 機器學習方法
+[00:54:15] 所以這也很適合
+[00:54:16] 任務二的用家
+[00:54:19] 所以這就是我們要
+[00:54:20] 在這裡探索的
+[00:54:21] 好，所以我們做的
+[00:54:27] 轉換基礎的計算
+[00:54:29] and transition based parsing is you know this is where it's unfortunate
+[00:54:34] that only two people in the class have done a compilers class
+[00:54:38] so a simple form of parsing that's also used in compilers class
+[00:54:44] is something called shift reduce parsing
+[00:54:47] where you start sort of bottom up and you start putting little
+[00:54:51] units together and build bigger constituents
+[00:54:54] 但如果很多人沒有看過
+[00:54:57] 這不一定很有幫助
+[00:55:01] 所以我會給你們一個具體的例子
+[00:55:03] 所以我們要知道的東西是
+[00:55:05] 我們有兩種資料結構
+[00:55:06] 我們有多於兩種
+[00:55:08] 我們有兩種資料結構
+[00:55:12] 我們有一個分析器
+[00:55:14] 有我們進口的文字
+[00:55:16] 然後我們開始建造
+[00:55:18] 一塊文字結構
+[00:55:21] 我們把它放在一塊
+[00:55:22] and the little trick to know that for the buffer
+[00:55:26] the top is written to the left
+[00:55:28] and for the stack the top is written to the right
+[00:55:30] and so we take actions which are like shift and reduce actions
+[00:55:36] and when we take arc building actions
+[00:55:39] we build up a set of dependency arcs
+[00:55:42] which are going to be the dependency structure of our sentence
+[00:55:45] and that's all incredibly abstract
+[00:55:48] and so I'm going to show an example
+[00:55:51] 我希望能给大家一些理解
+[00:55:55] 这是一个例子
+[00:55:58] 我想做一个非常简单的例子
+[00:56:02] 我吃了鱼
+[00:56:08] 我用的方式是
+[00:56:12] 我有我的组合
+[00:56:14] 我先把 root 字放在组合上
+[00:56:19] 然后我把整个词的词词都放在我的滑鼠里
+[00:56:23] 所以这是我写的开始状态
+[00:56:25] 在那里的非常小的印刷
+[00:56:27] 然后每个过程的每个步骤
+[00:56:30] 我会选择三个行动
+[00:56:33] 我可以选择转换
+[00:56:35] 就是把滑鼠的最高词移到滑鼠里
+[00:56:41] 或者我可以选择左轮或右轮
+[00:56:44] 而这两个行动是我的减少行动
+[00:56:47] that build a little bit of syntactic structure
+[00:56:49] by saying that one word is a dependent of another word
+[00:56:53] in either a left or a right direction
+[00:56:56] so here are sequence of operations I can take
+[00:56:59] and so starting off
+[00:57:02] the first thing I can do is shift
+[00:57:05] so then I've moved I onto the stack
+[00:57:08] I can decide that I want to shift again
+[00:57:12] and so then I'd take 8
+[00:57:14] and also move it onto
+[00:57:17] 所以我现在有三个东西在我的盘子上
+[00:57:22] 所以在这个情况下
+[00:57:24] 我可以做其他事情
+[00:57:27] 特别是左边的圈子会说
+[00:57:30] 我可以把前面两个东西放在盘子上
+[00:57:35] 然后把前面的东西放在盘子上
+[00:57:40] 而前面的东西放在盘子上
+[00:57:42] 都会有关系
+[00:57:43] 所以如果我做左边的圈子行动
+[00:57:47] I'm effectively saying that the i is a dependent of 8
+[00:57:51] and then I pop both of
+[00:57:53] then I pop the dependent off the stack
+[00:57:56] but I add on that I've built a dependency
+[00:58:00] that I made i a dependent of 8
+[00:58:03] I could then do another shift operation
+[00:58:06] so I shift fish from the buffer onto the stack
+[00:58:11] and then I can do a right arc which says
+[00:58:14] I'm going to have fish as a dependent of 8
+[00:58:18] so then fish disappears from the stack
+[00:58:21] and I add in this new dependency
+[00:58:24] saying fish is a dependent of 8
+[00:58:27] I then do right arc again
+[00:58:31] which is then saying that
+[00:58:34] 8 is a dependent of root
+[00:58:36] so I'm left with just root on my stack
+[00:58:39] and I've built a new dependent
+[00:58:41] saying 8 is a dependent of root
+[00:58:43] 而在这个时刻，我已经进入了结束的状态。
+[00:58:46] 我的结束状态是，我的分辨器是空的，
+[00:58:50] 而我的组合只是用了这个语言的根源。
+[00:58:55] 因此，这给了我一个组织的行动，
+[00:59:00] 称之为 transition-based parsing的转换。
+[00:59:03] 而通过做出这些不同的转换的项目，
+[00:59:07] 我可以建立语言结构。
+[00:59:09] I've got choices of when to shift and when to reduce
+[00:59:14] and whether to reduce left or reduce right
+[00:59:18] the arc left arc right
+[00:59:19] and so by making different ones of those choices
+[00:59:23] I could make any structure for the sentence that I wanted to
+[00:59:27] so if I somehow thought that this sentence should have a different
+[00:59:33] structure
+[00:59:33] and that I should be the head
+[00:59:35] and it's a dependent of that
+[00:59:38] and fishes are dependent of that
+[00:59:40] well I could achieve this
+[00:59:42] by making some different choices
+[00:59:45] as to I'd now be saying
+[00:59:47] I was doing a right arc operation
+[00:59:49] so that 8 would become a dependent of i
+[00:59:52] rather than the other way around
+[00:59:54] so the choices of which operations I take
+[00:59:57] determine the syntactic structure
+[00:59:59] the set of dependencies that I have built
+[01:00:02] which are my set of dependencies down here
+[01:00:05] 现在我建立的联系中心
+[01:00:08] 是正确的
+[01:00:10] 因为每个步骤
+[01:00:11] 我都做了正确的行动
+[01:00:15] 所以最重要的思维
+[01:00:18] 是通过逐渐逐渐地辨认
+[01:00:22] 它们达到哪里
+[01:00:25] 有一个人
+[01:00:29] 我猜他在哪里
+[01:00:32] 我猜他在哪里
+[01:00:36] 是一位瑞典NLP的人
+[01:00:38] 在2000年代
+[01:00:41] 他提出了一個想法
+[01:00:44] 而不是做那種
+[01:00:47] 經濟化計算
+[01:00:48] 或是圖表計算
+[01:00:50] 或是那些
+[01:00:50] 人們通常都會做的東西
+[01:00:54] 現在我們有機器學習
+[01:00:56] 所以我們可能可以建立
+[01:00:58] 一個快速有效的計算機
+[01:01:01] 我們要怎麼建立它
+[01:01:03] 就是在做一个转换的项目
+[01:01:07] 然后是机械学生的工作
+[01:01:11] 去预测每个时刻的正确转换
+[01:01:15] 所以如果你这样做
+[01:01:17] 每个时刻你都在解决一个东西
+[01:01:22] 所以你所做的几个动作
+[01:01:25] 来解决一个句子是一线的
+[01:01:27] 所以这是一个一线的解决程序
+[01:01:31] 而如果您在CS103中看过语言充满语言
+[01:01:39] 您想做任何你完全认为语言充满语言的
+[01:01:43] 语言充满语言的计算方式
+[01:01:46] 您就会得到一种语言充满语言的
+[01:01:47] 语言充满语言计算方式
+[01:01:49] 所以以最简单的计算方式来说
+[01:01:56] 您不需要任何搜索
+[01:01:58] 在每个步骤中你只是在预测下一个转换
+[01:02:02] 所以你在做这种转换的细节
+[01:02:05] 作为机器学习的行为
+[01:02:08] 而这细节带给你 sentence 的解决结构
+[01:02:12] 而NIVA能展示的主要结果是
+[01:02:16] 机器学习是足够好的
+[01:02:20] 让你能够做到这些
+[01:02:21] 而且获得非常准确的解决结果
+[01:02:24] 虽然它并没有任何搜索
+[01:02:27] 它只是这样做预测
+[01:02:36] 他在2005年做的
+[01:02:39] 那是在4年之前
+[01:02:42] 所以他做的方式是使用
+[01:02:46] 一种比较古典的
+[01:02:48] 有象征性的
+[01:02:50] 机器学习系统
+[01:02:52] 所以他有一个大级标签
+[01:02:54] 可能是一个
+[01:02:56] 选择选择标签
+[01:02:57] 或者像是一个
+[01:02:59] 支持 vector 机器
+[01:03:00] 所以他用的力量是
+[01:03:03] 使用指数功能
+[01:03:05] 所以你使用的技术是
+[01:03:07] 在标签上的词语
+[01:03:10] 是好语
+[01:03:11] 而词语是语言
+[01:03:13] 或者在标签上的词语
+[01:03:19] 是好语
+[01:03:20] but the word that's sort of second on the stack is the verb has
+[01:03:26] right you'd get these sort of combinations of matching functions
+[01:03:30] and they would be used as features in a machine learning system
+[01:03:34] to predict the paths
+[01:03:35] but the problem is that once you started building these features
+[01:03:41] that were conjunctions and multiple terms
+[01:03:43] you ended up with millions and millions of features right
+[01:03:47] because you're putting particular words and features
+[01:03:49] 然后你组合了多个语言的选择
+[01:03:53] 所以它们就是亿多亿多的功能
+[01:03:55] 所以你必须要处理亿多亿多的功能
+[01:03:58] 更加重要的是
+[01:04:00] 每个功能的功能都超过了
+[01:04:02] 你从来没有看到的
+[01:04:04] 你只能看到一个功能
+[01:04:06] 只有十次和一亿句子
+[01:04:10] 因为你用了这些非常精准的系统
+[01:04:13] 所以在一方面
+[01:04:14] 同时，在这些功能结合中，
+[01:04:18] 分辨方法更加明确，
+[01:04:20] 而且当时人们也有很明确的分辨方法。
+[01:04:24] 但是他们有这种不适合的特征。
+[01:04:29] 对，所以，
+[01:04:32] 再进一步，
+[01:04:33] 我应该解释一下如何我们
+[01:04:35] 测试分辨方法。
+[01:04:40] 所以我们在测试
+[01:04:42] 拥有拥有的拥有的拥有
+[01:04:43] 我们基本上在测试
+[01:04:45] 你对拥有的拥有
+[01:04:48] 是否正确的
+[01:04:51] 所以这里是一个拥有的拥有
+[01:04:54] 她看了视频课
+[01:05:00] 其实对不起
+[01:05:01] 那是金色的拥有
+[01:05:02] 那是正确的拥有
+[01:05:04] 她看了视频课
+[01:05:06] 那是正确的拥有
+[01:05:07] So you can write out what are the different dependencies
+[01:05:13] Right so one's head is two, two's head is zero
+[01:05:17] word three's head is five, word four's head is five
+[01:05:22] word five's head is two
+[01:05:23] So these pairs of numbers represent our dependencies
+[01:05:28] Then if someone proposes a parse of the sentence
+[01:05:32] you can literally say okay which of these did they get right
+[01:05:36] 所以它们没有这个正确
+[01:05:38] 它们把其余的正确了
+[01:05:41] 所以它们的确率是80%
+[01:05:43] 所以有时候人们只是
+[01:05:45] 不标准地测试项目
+[01:05:48] 所以这就被称为
+[01:05:49] 不标准的担忧确率
+[01:05:52] 但是有时候人们也想要
+[01:05:54] 用项目 定义 项目等来标准
+[01:06:00] 然后也说
+[01:06:00] 你能否把标准正确
+[01:06:03] 所以在这个情况下
+[01:06:04] 只有五个标准
+[01:06:06] 所以标准的确率是40%
+[01:06:13] 所以这就是人们在2010年期间做到的事
+[01:06:24] 我已经开始说了
+[01:06:27] 指示功能的问题是
+[01:06:30] 它们很粗糙
+[01:06:33] 你不经常看到
+[01:06:35] 很常見的
+[01:06:36] 它們是不完整的
+[01:06:37] 因為有些是你見過的
+[01:06:40] 有些是你見過的
+[01:06:41] 有些是你沒有見過的
+[01:06:42] 所以你會錯過一些功能
+[01:06:44] 但最後的問題是
+[01:06:46] 其實只要計算
+[01:06:48] 所有那些典型功能
+[01:06:51] 是很費用的
+[01:06:52] 結果如果你進行
+[01:06:53] 任務時間分析
+[01:06:55] 通常在計算
+[01:06:57] 不是在做
+[01:06:58] 機械學習的決定
+[01:07:00] 而是在簡單地
+[01:07:01] 在計算這些功能
+[01:07:02] 你把这种联系计算机放进去
+[01:07:05] 因此线组织开始显示
+[01:07:08] 它们是有成功性的
+[01:07:10] 这意味着你可能可以建立
+[01:07:13] 一个更好的联系计算机
+[01:07:15] 使用线组织的联系计算机
+[01:07:20] 这就能利用我们已经开始看到的
+[01:07:23] 严厚和细胀的图表
+[01:07:26] 我们已经开始看到的叙迦叙迦代表
+[01:07:30] 所以这就是我们开始探索的
+[01:07:34] 特别是
+[01:07:37] 我当时是一名专业大学生
+[01:07:39] 曾经在前几天叙迦叙迦代表2.24n
+[01:07:43] 实际上是两次
+[01:07:45] 她创建了
+[01:07:48] 一种脚转基础靠拥挤设计
+[01:07:52] 展示了这个方法的成功
+[01:07:56] So this was NIVRA's transition-based dependency parser
+[01:08:01] People had also explored other methods of dependency parsing
+[01:08:06] So these were two graph-based dependency parsers
+[01:08:08] And essentially for the kind of symbolic feature machine learning
+[01:08:16] methods
+[01:08:16] NIVRA's parser was really fast
+[01:08:20] because it was using this linear transition-based parsing idea
+[01:08:25] the dependent the graph-based dependency parsers
+[01:08:29] were way way slower
+[01:08:30] right you know they're about what
+[01:08:32] 50 times slower
+[01:08:33] but they were slightly more accurate
+[01:08:36] you can see here that
+[01:08:37] you're getting a bit better numbers
+[01:08:39] so essentially what
+[01:08:40] was able to show was
+[01:08:42] you could build something that was
+[01:08:45] basically as accurate as the best known
+[01:08:48] graph-based dependency parsers
+[01:08:50] but it was fast
+[01:08:52] 就像其他轉換基礎模式
+[01:08:55] 雖然雖然你可能會覺得
+[01:08:59] 我現在有真正的數字和數據
+[01:09:01] 肯定這會讓我變慢
+[01:09:03] 但事實上
+[01:09:06] 這類型模式花了這麼多時間
+[01:09:09] 在功能計算中
+[01:09:12] 其實你可以在同一時間
+[01:09:15] 使用電腦網絡做得更快
+[01:09:17] 好 那怎麼做
+[01:09:19] 那怎么办
+[01:09:20] 我们已经看到语言混合
+[01:09:23] 所以它会使用语言混合
+[01:09:25] 所以它可以使用语言代表
+[01:09:29] 这有利于
+[01:09:31] 即使你没有看到特别的语言
+[01:09:33] 或特别的定义
+[01:09:34] 你也看到相似的语言
+[01:09:37] 所以它可以使用
+[01:09:38] 语言相似的语言
+[01:09:41] 但它更加远远地说
+[01:09:43] 为什么只有语言代表
+[01:09:46] 我们也有语言部分
+[01:09:49] 虽然我只是说了语言 语言 语言
+[01:09:52] 但在NLP的实际系统中
+[01:09:56] 语言部分的系统都比较细腻
+[01:09:59] 所以语言部分有不同的语言
+[01:10:01] 对于综合语言 vs 综合语言
+[01:10:04] 所以它们是不同的综合
+[01:10:06] 但它们都很相似
+[01:10:08] 所以我们可能会给它们
+[01:10:09] 分布的语言
+[01:10:10] 所以它们也相近
+[01:10:12] 与其他人相似
+[01:10:13] 同样是与我们的
+[01:10:16] 类似的参数的类型
+[01:10:18] 有些与我们相似的类型
+[01:10:20] 也相似
+[01:10:20] 所以所有这些
+[01:10:21] 都被设定为
+[01:10:22] 分布设定的设定
+[01:10:25] 然后以设定
+[01:10:27] 参数的状态
+[01:10:29] 来预测转变
+[01:10:31] 你所做的就是
+[01:10:33] 你拥有同样的
+[01:10:35] 组合和参数
+[01:10:36] 而你拥有
+[01:10:38] 组合和参数的
+[01:10:41] which are essentially the first thing on the buffer
+[01:10:44] the word that you would be shifting
+[01:10:45] if you're going to do a shift
+[01:10:47] and the two things at the top of the stack
+[01:10:49] so these are the things
+[01:10:51] that if you're either doing a left arc
+[01:10:53] or a right arc
+[01:10:54] they're the things that you're considering combining
+[01:10:57] so for those
+[01:10:58] you're going to be taking the distributed representations
+[01:11:01] of the word and their parts of speech
+[01:11:05] and also with a bit more complexity
+[01:11:07] for dependencies you've already constructed
+[01:11:10] 如果某些东西在组织上已经进入了联系
+[01:11:14] 每个组织我们都会取得他们的分布设定
+[01:11:18] 然后我们就将它们组织在一起
+[01:11:21] 以组织成为一个大 vector
+[01:11:24] 同样的方式我们将五个语言组织在最后的课程中
+[01:11:29] 以预测如果某些东西是位置的
+[01:11:32] 然后我们就将它们转移到我们的组织上
+[01:11:38] So our input layer is our concatenate distributed representations
+[01:11:45] We are going to put that through a hidden layer
+[01:11:48] which is like we were talking about last time
+[01:11:50] Wx plus B then put through a value non-linearity
+[01:11:54] And then we are going to put above that
+[01:11:58] the same kind of another multiply by a matrix
+[01:12:03] So we've got a second layer of neural network
+[01:12:05] UH plus B2
+[01:12:06] We're going to take the output of that,
+[01:12:09] and then we're going to put that through
+[01:12:11] a softmax that gives a probability distribution over
+[01:12:15] whether to shift or do a left arc or a right arc operation.
+[01:12:21] So the other way that this crucially gave us more power is
+[01:12:26] that other people's dependency parsers
+[01:12:30] were still using linear classifiers,
+[01:12:32] 例如支援 vector 工具或选择选择
+[01:12:37] 我们有一个深入综合综合系统
+[01:12:39] 给我们一个非综合综合系统
+[01:12:42] 因此我们可以比其他
+[01:12:45] 之前的选择基础辨论辨论辨论辨论辨论辨论辨论辨论辨论
+[01:12:49] 这实际上显示我们可以建立
+[01:12:54] 非常精准的综合综合辨论辨论辨论辨论辨论
+[01:13:00] 变成了一个有象征性的
+[01:13:03] 代表性的设定
+[01:13:04] 基本上它是
+[01:13:05] 其他有限度的设定处理者
+[01:13:08] 所知的设定处理者
+[01:13:10] 一年多前
+[01:13:12] 这次是个大运动
+[01:13:13] 人们非常兴奋
+[01:13:15] Google人们也非常兴奋
+[01:13:18] 因为这次
+[01:13:20] 给了人们一个有限度的方式
+[01:13:22] 记得这是一段线运动
+[01:13:23] 在这时你能够
+[01:13:24] 很快地去复杂整个网络
+[01:13:28] 所以他们做了更多的工作
+[01:13:32] 在那种模式上进行改善
+[01:13:34] 所以他们做了一个更深入的
+[01:13:37] 综合综合模式
+[01:13:39] 与更大的 vector
+[01:13:40] 和更好地调整的 hyperparameters
+[01:13:43] 然后他们添加了一个beam search
+[01:13:45] 我刚才介绍了
+[01:13:47] 那种愚蠢的模式
+[01:13:48] 在那里你总是
+[01:13:48] 立即做出最好选择
+[01:13:51] 但是你可以改善这些parsers
+[01:13:53] by doing some amount of search
+[01:13:55] that does help
+[01:13:56] 所以他们把这个提高了
+[01:14:00] 而我们的92UAS
+[01:14:04] 他们把这个提高到94、94.6
+[01:14:09] 你可能太年轻了
+[01:14:18] 但在2016年
+[01:14:23] Google做了他们的一般的大PR
+[01:14:27] PR的刺激
+[01:14:29] 以为是一个负面的Parser
+[01:14:30] 这点让我感到很不舒服
+[01:14:31] 因为我从来没有想过
+[01:14:33] 有人会写文章
+[01:14:35] 在Wired和VentureBeat
+[01:14:38] 和这种科技博客
+[01:14:40] 但是Google在所有地方都提到了
+[01:14:43] 世界上最有刺激的Parser
+[01:14:46] 他们给它一个可笑的名字
+[01:14:47] Parsi McParsface
+[01:14:49] 这件事真的很成功
+[01:14:50] 也有很多媒体的取得
+[01:14:54] 所以那是一个很成功的编辑
+[01:14:59] 我还有几分钟
+[01:15:02] 所以让我做最后三个课程
+[01:15:07] 给大家看一个做事情的方式
+[01:15:10] 这也是一种很强的编辑方法
+[01:15:13] 通常使用的方法
+[01:15:15] 所以那是通过转换的编辑
+[01:15:18] 這就是你會使用的一項
+[01:15:19] 另一種可以用來做分辨的方法
+[01:15:24] 和分辨的方法
+[01:15:26] 是Graph-Based Dependency Parsers
+[01:15:29] Graph-Based Dependency Parsers
+[01:15:33] 你會為每個字
+[01:15:37] 你會問每個字
+[01:15:40] 我是否有分辨力
+[01:15:43] 如果句子是
+[01:15:45] The big cat sat
+[01:15:46] each word for example big has to be a dependent of one of the
+[01:15:51] other four words in this sentence including this possibility
+[01:15:55] of root
+[01:15:55] so we ask am I a dependent of that am I a dependent of root am
+[01:16:00] I a dependent of cat am I a dependent of sat
+[01:16:02] and we want to score each of those possibilities
+[01:16:05] and so hopefully we decide the most likely one is that big is
+[01:16:10] a dependent of cat
+[01:16:11] and then we're going to do the same for every other word
+[01:16:15] so you know sat could be a dependent of any of these words
+[01:16:19] and so we could start asking okay
+[01:16:21] which of these words is it most likely a dependent of
+[01:16:26] l
+[01:16:28] b to sat
+[01:16:30] cat to sat
+[01:16:31] sorry that's unreadable now
+[01:16:33] but hopefully we decide
+[01:16:34] that sat most likely as the verb is a dependent of root
+[01:16:40] so we're sort of scoring the n squared possible
+[01:16:44] 可能的分辨性
+[01:16:47] 每个人都得到一个分数
+[01:16:49] 然后我们做完这个
+[01:16:51] 我们的工作是
+[01:16:54] 让我去这边
+[01:16:55] 这个比较清洁
+[01:16:55] 我们决定了一个好的
+[01:16:56] 所以我们会用
+[01:16:59] 我们所谈到的
+[01:17:00] 一些同样的功能
+[01:17:01] 在每个端子上
+[01:17:02] 看着语言
+[01:17:04] 看着它们之间的发生
+[01:17:06] 看着它们的周围
+[01:17:08] 思考的事情
+[01:17:11] 然后我们做完这个
+[01:17:13] 其中唯一的限制是
+[01:17:16] 我們想要分析器形成一棵樹
+[01:17:19] 因此我們必須做
+[01:17:22] 一些像是一種最低限度樹的
+[01:17:25] 測量方式
+[01:17:26] 以找出最低價值樹
+[01:17:29] 因為我們不想找出一個解決方案
+[01:17:31] 在其中有程序
+[01:17:32] 或是分析器的部分
+[01:17:34] 會與其他人無法接觸
+[01:17:36] 這就是分析器基礎的分析
+[01:17:40] 所以就像在古代的
+[01:17:43] 具有象徵性的研磨過程中
+[01:17:44] 那裡的 graph-based dependency parsers
+[01:17:46] 比 transition-based parsers 更精準
+[01:17:51] 我們就開始研究
+[01:17:53] neural graph-based dependency parsing
+[01:17:56] 而這就是我們
+[01:17:57] neural graph-based dependency parsing
+[01:17:59] 那裡的 neural graph-based dependency parsing
+[01:18:00] 是比Parsemic parse phase
+[01:18:06] 更精準的1%
+[01:18:06] 是世界上最好的dependency parser
+[01:18:09] 所以這讓我們來到2017年
+[01:18:13] 雖然這仍然是幾年前
+[01:18:15] 但是我們要進入最新的解析故事
+[01:18:20] 我們必須進入大型語言模式的時代
+[01:18:23] 但我現在還沒有進入
+[01:18:24] 但這就是Stanza開發解析
+[01:18:31] 我們開發的開發軟件
+[01:18:34] 你可以看到它使用這個 alg
+[01:18:37] 是比较确准的
+[01:18:39] 好，所以现在你希望知道
+[01:18:40] 所有关于
+[01:18:42] 选择结构、
+[01:18:43] 组织、
+[01:18:44] 隐约、
+[01:18:44] 编辑
+[01:18:45] 都能够做到
+[01:18:47] 2项课程
+[01:18:48] 所以祝你运气好
+[01:18:49] 谢谢
