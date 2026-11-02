@@ -1,0 +1,1458 @@
+[00:00:05] Okay, I should try and get started.
+[00:00:09] Okay, so what we're going to do today is we're going to try
+[00:00:13] and do everything else that you need to know about
+[00:00:17] word vectors and start to learn a teeny bit about neural nets,
+[00:00:22] and then we'll get much further into doing
+[00:00:25] more with the math of neural nets next week.
+[00:00:28] So this is the general plan.
+[00:00:31] So I'm going to finish up from where I was last time with
+[00:00:35] the optimization basics then look a little bit more about word2vec
+[00:00:40] and
+[00:00:40] word vectors and then some of the variants of word2vec.
+[00:00:44] Um, and then I'm going to briefly consider alternatives sort
+[00:00:48] of like what can you
+[00:00:49] get from just counting words in different ways.
+[00:00:52] Um, then we're going to go on and talk a little bit about the
+[00:00:56] evaluation of word vectors.
+[00:00:58] Um, the topic of word sensors that already came up a couple of
+[00:01:02] times,
+[00:01:02] um, last time when people were asking questions.
+[00:01:06] And then towards the end, um,
+[00:01:08] start to introduce the idea of classification,
+[00:01:11] doing neural classification,
+[00:01:13] and, um, what neural networks are about,
+[00:01:16] which is something that we'll- that we'll then expand on more
+[00:01:19] in the second week.
+[00:01:21] Um, before I get into that,
+[00:01:23] just notes on course, um, organization.
+[00:01:26] Um, so remember the first assignment is already out,
+[00:01:29] and it's due before class next Tuesday so then our Python review
+[00:01:37] session is
+[00:01:38] going to be taught this Friday 3 30 to 4 20 it's not going to
+[00:01:43] be taught here it's
+[00:01:44] going to be taught in gits bo1 the gits basement and encourage
+[00:01:48] everyone
+[00:01:48] again to come to office hours and help sessions they've already
+[00:01:53] started they're
+[00:01:54] They're listed on the website.
+[00:01:56] We're having these sort of office hour help sessions
+[00:02:01] in classrooms with multiple TAs.
+[00:02:03] So just turn up if you're on campus and you can be helped.
+[00:02:07] And if you are on campus, we'd like you to just turn up,
+[00:02:10] though we do also have a Zoom option for Stanford Online students.
+[00:02:18] Finally, I have office hours, which I have not yet opened,
+[00:02:21] but
+[00:02:21] I will open sometime tonight.
+[00:02:23] night. They're going to be on Monday afternoons.
+[00:02:26] Now, obviously, given the number of people,
+[00:02:28] not everyone can make it into my office hours.
+[00:02:31] And I'm going to do these by appointment.
+[00:02:33] So they're by 15-minute appointments on Calendly.
+[00:02:37] But I'm very happy to talk to some people.
+[00:02:41] And I put this little note at the end saying,
+[00:02:45] don't hog the slots. Some people think it'd be
+[00:02:48] be a really good idea if they really work out how to sign up
+[00:02:52] every week for an office hour session with me,
+[00:02:55] and that's sort of a little bit antisocial.
+[00:02:58] Um, so, um, think about that.
+[00:03:01] Um, okay. So, at the end of last time,
+[00:03:05] I did a sort of bad job of trying to write on,
+[00:03:08] write on slides of working out the derivatives of Word2Vec,
+[00:03:13] um, and hopefully you could read it much more clearly in the,
+[00:03:17] the version that appears on the website where I was doing it
+[00:03:20] at home more carefully.
+[00:03:22] So that was saying that we had this LOX function and our job
+[00:03:27] was to work out its derivatives
+[00:03:29] which would tell us which direction to go to walk downhill.
+[00:03:35] And so I didn't really quite finish the loop here.
+[00:03:38] So, you know, we have some cost function that we want to minimize
+[00:03:42] and then we work out the
+[00:03:44] the gradients of that- the gradient of that function,
+[00:03:47] to work out which direction is downhill.
+[00:03:50] And then the simplest algorithm is then that we're- that we work
+[00:03:56] out the direction downhill,
+[00:03:58] we walk a little bit in that direction,
+[00:04:00] and then we repeat.
+[00:04:02] We work out the gradient at this point,
+[00:04:05] we walk downhill a little bit,
+[00:04:07] and we keep on going,
+[00:04:08] and we'll get to the minimum.
+[00:04:10] And with a sort of a one-dimensional function like this,
+[00:04:13] it's sort of very simple, we're just walking downhill.
+[00:04:16] But when we have a function of many, many dimensions,
+[00:04:19] when we calculate the gradient at different points,
+[00:04:22] we might be starting to, um,
+[00:04:24] walk in different directions.
+[00:04:26] And so that's why we need to do calculus and have gradients.
+[00:04:30] And so this gives us the basic algorithm of gradient descent.
+[00:04:35] Um, and so under the gradient descent algorithm,
+[00:04:39] um, what we're doing is that we've got,
+[00:04:42] um, our loss function j,
+[00:04:46] we're working out its gradient, um,
+[00:04:49] and then we're taking a little bit of- a little multiply of
+[00:04:53] the gradient so that alpha is our step size or learning rate.
+[00:04:57] Um, that's normally alpha is a very small number,
+[00:05:00] something like 10 to the minus 3 or 10 to the minus 4,
+[00:05:03] maybe even 10 to the minus 5.
+[00:05:05] So we're taking a really little bit of the gradient and then
+[00:05:08] we're subtracting it from
+[00:05:11] our parameters to get new parameters and as we do that we will
+[00:05:16] walk downhill and
+[00:05:18] the reason why we want to have a small learning rate is we don't
+[00:05:21] want to walk
+[00:05:22] too fast so if from here we worked out the gradient and said
+[00:05:25] it's in this
+[00:05:26] direction and we just kept on walking we sort of might what end
+[00:05:31] up way over here
+[00:05:32] or if we had a really big step size we might even end up at a
+[00:05:35] worse point than
+[00:05:36] than we started with.
+[00:05:37] So we want to take little steps to walk downhill.
+[00:05:41] And so that's the very basic gradient descent algorithm.
+[00:05:44] Now, the very basic gradient descent algorithm we never use.
+[00:05:50] What we actually use is the next thing up,
+[00:05:53] which is called stochastic gradient descent.
+[00:05:56] So the problem is, for the basic gradient descent algorithm,
+[00:06:00] we've worked out for an entire set of data what the
+[00:06:09] objective function is and
+[00:06:11] what the slope at the point of evaluation is and in general we've
+[00:06:19] got a
+[00:06:20] lot of data in which we're contributing.mdodels so simply trying
+[00:06:25] to calculate our
+[00:06:26] our objective function over all of our data for our model,
+[00:06:30] the training data for the model, would take us
+[00:06:33] a very, very long time.
+[00:06:35] And so that's very, very expensive to compute.
+[00:06:39] And so we'd wait a very long time
+[00:06:41] before we make even a single step of gradient update.
+[00:06:45] So for neural nets, what you're always doing
+[00:06:47] is using this variant that's called stochastic gradient
+[00:06:50] descent.
+[00:06:51] And so for stochastic gradient descent, what that means
+[00:06:54] is we pick a very small subset of our data,
+[00:06:57] like maybe we pick 16 or 32 data items,
+[00:07:01] and we pretend that's all of our data,
+[00:07:04] and we evaluate the function j based on that small subset,
+[00:07:08] and work out the gradient based on that small subset,
+[00:07:12] so it's a noisy, inaccurate estimate of the gradient,
+[00:07:15] and we use that to be the direction in which we walk.
+[00:07:20] So that's normally referred to,
+[00:07:23] to also having mini-batches or mini-batch gradient descent.
+[00:07:28] And in theory, working out
+[00:07:32] the gradient based on this small subset is an approximation.
+[00:07:38] But one of the interesting things and the way things have emerged
+[00:07:42] in
+[00:07:42] neural network land is it turns out that neural networks actually
+[00:07:45] often
+[00:07:46] work better when you throw some noise into the system.
+[00:07:49] that having this noise in the system gives you jiggle and moves
+[00:07:54] things around.
+[00:07:55] And so actually, stochastic gradient descent not only is way,
+[00:08:00] way,
+[00:08:00] way faster, but actually works better as a system for optimization
+[00:08:04] of neural networks.
+[00:08:08] Okay, so if you remember from last time for word2vec,
+[00:08:13] the idea was we started by just saying each word has a random
+[00:08:18] vector representing it.
+[00:08:20] So we will literally sort of just get random small numbers and
+[00:08:24] fill up the vectors with those random small numbers.
+[00:08:27] There's an important point there which is you do have to
+[00:08:31] initialize your vectors with random small numbers.
+[00:08:34] If you just leave all the vectors as zero,
+[00:08:37] then nothing works.
+[00:08:39] And that's because if everything starts off the same,
+[00:08:44] you get these sort of false symmetries,
+[00:08:46] which means that you can't learn.
+[00:08:48] So, you always do want to be initializing your vectors with random
+[00:08:53] numbers.
+[00:08:54] And then we're gonna go through each position in the corpus using
+[00:08:57] our estimates.
+[00:08:59] We're gonna try and predict the probability of words in
+[00:09:02] the context as we talked about last time.
+[00:09:05] Then we- so that gives us an objective function from which we
+[00:09:09] can then look at
+[00:09:10] our errors, look at our gradient, um,
+[00:09:13] and update the vectors so that they learn to predict surrounding
+[00:09:17] words better.
+[00:09:18] And so, the incredible thing is that we can do no more than that,
+[00:09:24] and we end up learning word vectors,
+[00:09:27] which actually capture quite a lot of the semantics,
+[00:09:31] the meaning and relationships between different words.
+[00:09:34] So, you know, when this was first discovered for these algorithms,
+[00:09:42] I mean, it really feels like magic that you can just sort of
+[00:09:45] do this math,
+[00:09:47] simple math over a lot of text and actually learn about the meanings
+[00:09:52] of
+[00:09:52] words that it's sort of just so surprising that something so
+[00:09:56] simple
+[00:09:57] could work but as time has gone on this same recipe has then
+[00:10:01] been for all kinds
+[00:10:02] of learning about the behavior of language from neural networks
+[00:10:08] so let's
+[00:10:10] let's just, um, go through a sense of how that is.
+[00:10:14] But before we do that,
+[00:10:15] so, um, let me just mention,
+[00:10:18] so for our word2vec algorithms,
+[00:10:21] the only parameters of the model are these word vectors.
+[00:10:25] They're the outside word vectors and the center word vectors,
+[00:10:29] which we actually treat as disjoint as I mentioned last time.
+[00:10:33] And when we do the computations,
+[00:10:35] we're considering the dot product between
+[00:10:38] between the various possible outside words with our center word,
+[00:10:45] and we're using those to get a probability distribution over
+[00:10:48] how likely the model thinks that different outside words were.
+[00:10:53] And then we're comparing that to the actual outside word in
+[00:10:57] the context and that gives us our source of error.
+[00:11:00] So as such, this is what's referred to in NLP as a bag of words
+[00:11:04] model,
+[00:11:05] that it doesn't actually know about the structure of sentences
+[00:11:08] and or even what's
+[00:11:10] to the left and what's to the right.
+[00:11:11] It's predicting exactly the same
+[00:11:13] probabilities at each position to the left or right,
+[00:11:17] but it's wanting to know
+[00:11:18] about what kind of words appear in the context of the center
+[00:11:22] word. So I just
+[00:11:25] wanted to stop this for a minute and let's see just give
+[00:11:40] you some kind of a
+[00:11:41] a sense that this really, um, does work.
+[00:11:44] Um, so this is a little Jupyter Notebook,
+[00:11:47] um, that I've got, um, for this, um, okay.
+[00:11:53] And so this is using- and here I'm using a package, um,
+[00:11:56] Gensim which we don't continue to use after that really, um,
+[00:12:02] but it's sort of one package that lets you load and play with
+[00:12:06] word vectors.
+[00:12:07] And the word vectors I'm gonna use here are,
+[00:12:11] uh, GloVe word vectors and actually I'm going to talk- um,
+[00:12:15] GloVe was a model we built at Stanford and I'm going to actually
+[00:12:18] talk about it a little bit later.
+[00:12:20] Um, so strictly speaking, um,
+[00:12:23] these aren't exactly word to ve- word vectors but they behave
+[00:12:27] in exactly the same way.
+[00:12:28] Um, and so, okay,
+[00:12:31] so now it's loaded up my word vectors because the word vectors
+[00:12:34] are a big data file.
+[00:12:36] And so, as we've discussed,
+[00:12:38] um, for a word, right,
+[00:12:41] that the representation of any word here is bread,
+[00:12:44] is just, um, a vector of real numbers, right?
+[00:12:48] So, um, I'm using a 100-dimensional word vectors to keep things
+[00:12:53] quicker,
+[00:12:54] um, for my class demo.
+[00:12:56] So this is the word bread, um,
+[00:12:58] and then I can say, well,
+[00:13:00] what's the representation for croissant?
+[00:13:03] Um, and, um, this is croissant.
+[00:13:08] and we can sort of get a visual sense of,
+[00:13:11] oh, they're at least a little bit similar, right?
+[00:13:13] So the first components are both negative,
+[00:13:16] the second components are both positive,
+[00:13:18] the third components are both negative and large,
+[00:13:22] the fourth components are both positive, right?
+[00:13:25] They, they seem like they're kind of similar vectors.
+[00:13:28] So that seems kind of hopeful because that means that it knows
+[00:13:32] that bread and croissant are a bit,
+[00:13:34] um, similar to each other.
+[00:13:36] Um, the- this package has a nice simple function where rather
+[00:13:41] than doing that by hand,
+[00:13:42] you can just ask it about all the word vectors and say which
+[00:13:46] ones are most similar.
+[00:13:48] So I can ask it, um,
+[00:13:49] what, um, words in its vocabulary are most similar to USA.
+[00:13:54] And in this model, everything's been lower-cased I should mention.
+[00:13:58] Um, and so if I do that,
+[00:14:00] it has Canada, America,
+[00:14:02] U.S.A, then United States,
+[00:14:05] Australia, well, they seem a fairly reasonable list of most similar
+[00:14:09] words.
+[00:14:10] Though you might think it's a little strange that Canada wins
+[00:14:13] out over
+[00:14:13] the USA with dots over it.
+[00:14:18] Similarly, I can ask of what's most similar to banana, and
+[00:14:21] I get coconut, mango, bananas, potato,
+[00:14:23] pineapple, fruit, etc.
+[00:14:25] Again, pretty sensible, a little bit of a bias to more tropical
+[00:14:29] fruits.
+[00:14:30] Or I can go to croissant and ask what's most similar to croissant.
+[00:14:34] on the most similar things to cross on isn't bread,
+[00:14:37] but it's things like brioche,
+[00:14:38] baguette, focaccia, um,
+[00:14:40] which sort of basically makes sense though here's pudding here.
+[00:14:43] Um, and I've got- well,
+[00:14:47] I'd already done- oh, sorry, yeah,
+[00:14:49] I remember what this is, right?
+[00:14:50] So, with this most similar,
+[00:14:53] you've got a positive word vector and you're saying,
+[00:14:56] what other words are most similar in position to that?
+[00:14:59] Um, there's something else you can do which you can say is,
+[00:15:03] this is- let me take the negative of that word vector and say,
+[00:15:07] what's most similar to the negative of it?
+[00:15:10] And you could possibly think,
+[00:15:12] oh, that might be useful to find antonyms or something like that.
+[00:15:16] I mean, the truth is it isn't.
+[00:15:18] If you ask for the things that are most similar to the negative
+[00:15:22] of
+[00:15:22] the banana vector and in most other vectors it's the same,
+[00:15:27] you get off- out these weirdo things that you're not really sure
+[00:15:30] if they're words at all,
+[00:15:31] or maybe they are in some other language,
+[00:15:34] or some of them are names, right?
+[00:15:35] Like Shunichi is a Japanese name.
+[00:15:37] Um, but not very useful stuff.
+[00:15:40] Don't, um, they're not,
+[00:15:41] don't really feel like a negative of banana.
+[00:15:44] But it turns out that from there,
+[00:15:47] we get this, um,
+[00:15:49] powerful ability of, um,
+[00:15:52] that was observed for Word2Vec,
+[00:15:54] which is that we could isolate semantic components,
+[00:15:58] um, and then put them
+[00:16:00] them together in interesting ways.
+[00:16:02] So, um, looking at this picture,
+[00:16:05] what we could do is start with a positive vector for king,
+[00:16:09] from the origin up the king,
+[00:16:12] then we could use the negation to say subtract out the vector
+[00:16:17] for man,
+[00:16:18] and then we could have another positive vector of add on the,
+[00:16:22] um,
+[00:16:22] vector for woman, and then we can ask the model is,
+[00:16:25] if you're over here in the space, um,
+[00:16:28] um, what is the nearest word to you over there?
+[00:16:32] And so, um, that's what this, um, next thing does, right?
+[00:16:37] It sort of says positive vector for king,
+[00:16:40] negative for man, also positive for queen.
+[00:16:43] Where does that get you to?
+[00:16:45] And that gets you to queen. Yay!
+[00:16:48] Um, and so this was the most celebrated property that was discovered
+[00:16:53] with
+[00:16:54] with these word vectors that they weren't only good for meaning
+[00:16:57] similarity,
+[00:16:58] but that they were good, um,
+[00:17:01] for doing these kind of meaning components,
+[00:17:05] and these got referred to as analogies,
+[00:17:07] because this- you can think of them as A is to B is C is to what?
+[00:17:12] So it's sort of like, um,
+[00:17:13] woman is to king- no, sorry, um,
+[00:17:16] man is to king or king is to man is,
+[00:17:20] um, oh, I'm saying this the wrong way around.
+[00:17:23] Man is to king as woman is to what, um, in the analogies.
+[00:17:27] And so here I've defined a little function that is now saying,
+[00:17:32] this little function just automates that and will compute analogies.
+[00:17:36] Um, and so now I can ask it in just this analogy format,
+[00:17:41] um, man is to king as woman is to queen.
+[00:17:44] And, um, that one was sort of the canonical example.
+[00:17:49] example, but you know you can actually sort of has have fun with
+[00:17:53] this and I mean, you know
+[00:17:56] This is pretty old-fashioned stuff
+[00:17:58] You know
+[00:17:59] I I feel like I'm maybe like now at this point an old guy
+[00:18:04] Talking about how much fun we used to have sitting around the
+[00:18:07] radio listening to radio plays
+[00:18:10] Because you know basically no one uses this stuff anymore and
+[00:18:14] there are much much better and fancier things like chat GPT
+[00:18:17] But, you know, back in the day when I was younger,
+[00:18:21] you know, it was really stunning already just how this very simple
+[00:18:27] model built on very simple data could just have quite good semantic
+[00:18:34] understanding and do quite good analogies.
+[00:18:37] So you can actually, you know, play with this quite a bit and
+[00:18:40] have a bit of fun.
+[00:18:42] so you can do something like analogy Australia comma beer France
+[00:18:50] okay what
+[00:18:52] people think the answer will be close the answer gives us champagne
+[00:18:58] but that
+[00:18:58] seems a pretty good answer I could then put in Russia what's
+[00:19:04] what
+[00:19:04] do people think vodka yeah it'll see you can get that vodka you
+[00:19:08] know this is
+[00:19:09] actually works kind of interestingly you know I could do a different
+[00:19:15] one I can do
+[00:19:16] the test something different I can do something like pencil is
+[00:19:21] to sketching as
+[00:19:26] camera is to photographing yeah that works quite well
+[00:19:34] so we built this model
+[00:19:39] in 2014 so it's a little bit out of date in politics so you know
+[00:19:45] we can't do the
+[00:19:46] last decade of politics which is maybe unfortunate but you know
+[00:19:50] we could try
+[00:19:51] out older politics questions so we could try Obama is to Clinton
+[00:20:00] as Reagan is to
+[00:20:07] to, if you remember your US world history class,
+[00:20:10] any guesses what it's going to say?
+[00:20:14] There's a Bush one.
+[00:20:16] Any other ideas?
+[00:20:18] Some people have different opinions of Bill Clinton.
+[00:20:21] Any?
+[00:20:24] What it answers is Nixon, which I think
+[00:20:27] is actually kind of fair.
+[00:20:32] You could also git to do some just sort of language
+[00:20:38] which syntactic facts, so you can do something like,
+[00:20:41] tallest to tallest as long it,
+[00:20:47] oops, as long is to, this one's easy.
+[00:20:54] Um, yeah, so, you know,
+[00:20:58] with this simple method of learning,
+[00:21:00] with this simple bag of words model,
+[00:21:03] it's enough to learn a lot about the semantics of words,
+[00:21:07] And, you know, stuff that's beyond conventional semantics,
+[00:21:12] right?
+[00:21:12] You know, like our examples with Australia is to beer as Russia
+[00:21:16] is to vodka.
+[00:21:17] I mean, that's sort of cultural world knowledge,
+[00:21:19] which goes a little bit beyond what people normally think of
+[00:21:23] as sort of word meaning semantics.
+[00:21:25] But it's also in there. Yes.
+[00:21:27] Perhaps the distance from let's say like man,
+[00:21:31] does that also like would that give you back like ruler or something
+[00:21:37] like that?
+[00:21:37] Where we're taking the distance like a difference between two
+[00:21:40] vectors does capture some concept.
+[00:21:41] Oh, right. The distance between man.
+[00:21:46] So, so man compared to king should be a ruler concept,
+[00:21:51] but isn't that what I'm using because then I'm taking that,
+[00:21:55] I'm taking the distance between man and king is what I'm adding
+[00:22:03] on to woman to
+[00:22:04] get the Queen right right yeah so I can depending on how if you
+[00:22:09] think of these
+[00:22:10] words depending on which thing you think of as the analogy you
+[00:22:14] can think of it
+[00:22:15] you've both got a vector a difference vector between words that
+[00:22:22] gives you a
+[00:22:23] a gender analogy and one that gives you a ruler analogy.
+[00:22:28] Yeah, absolutely.
+[00:22:30] Any other questions? Yeah.
+[00:22:34] Um, in the watch vec, um, algorithm,
+[00:22:37] we get two vectors, like the- the- for each one,
+[00:22:39] a- a U and a V.
+[00:22:41] Yeah.
+[00:22:41] But here you only have one vector.
+[00:22:43] So how do you go from two to one?
+[00:22:46] Yeah. Good question.
+[00:22:48] I mean, the commonest way in practice was you just average the
+[00:22:51] two of them.
+[00:22:52] and really you sort of find out that they end up very close,
+[00:22:58] you know,
+[00:23:01] because if you think of it, since you're going along every position
+[00:23:04] of the text,
+[00:23:05] you're both going to be the case where if the text is sort of,
+[00:23:08] you know,
+[00:23:08] the octopus has legs, you know, you're going to have octopus
+[00:23:12] in the center
+[00:23:13] with legs in the context, then a couple of time steps later
+[00:23:16] it's going to be legs in the center with octopus in the context.
+[00:23:19] So, you know, although they vary a bit for all the regions,
+[00:23:22] and so if the neural nets vary,
+[00:23:23] basically they end up very similar and people normally just average
+[00:23:26] them. Yeah.
+[00:23:30] So, use this, uh,
+[00:23:32] the answer of one to then be placed into the analogy function
+[00:23:36] of
+[00:23:36] the other and see how far away you can go before it starts to
+[00:23:38] break down?
+[00:23:41] I think you can. Um, so you- wait,
+[00:23:45] you're wanting to-
+[00:23:45] How far away? How distant are you?
+[00:23:56] Are you wanting to sort of make two steps from somewhere or?
+[00:24:00] Like two steps or-
+[00:24:10] So it doesn't always work.
+[00:24:12] I mean, and there are certainly examples that will fail.
+[00:24:14] Um, I'm sort of shy to try that now,
+[00:24:18] because I don't have a predefined function that did it,
+[00:24:20] and that might take me, um, too long.
+[00:24:22] But you could play with it at home,
+[00:24:24] and see how it works for you.
+[00:24:27] Okay.
+[00:24:30] Okay. As a clarification, why is it that we use
+[00:24:32] two separate sets of vectors for WordEvec?
+[00:24:34] Uh, is it just to get more parameters, or is there, uh-
+[00:24:37] Um, I'll get back to that.
+[00:24:40] Maybe I should go on at this point.
+[00:24:43] Let me move on and kind of just get through some more details
+[00:24:47] of the Word2Vec algorithm.
+[00:24:50] So just a technical point on this class so you don't make any
+[00:24:56] big mistakes and waste your weekend.
+[00:24:58] I mean for most instances of 224N we've actually had people implement
+[00:25:03] from scratch Word2Vec as
+[00:25:05] assignment 2 but you know for this quarter doing it in spring
+[00:25:11] quarter as
+[00:25:12] you probably know spring quarter is actually a little shorter
+[00:25:15] than the other
+[00:25:16] two quarters we decided to skip having people implement word2vec
+[00:25:20] so don't
+[00:25:22] look at the old assignment 2 that says implement word2vec or
+[00:25:25] else you'll be
+[00:25:25] misspending your time wait for the newest assignment 2 to come
+[00:25:29] out so that
+[00:25:31] But, you know, despite that, let me just sort of, um,
+[00:25:33] say a little bit more about some of the details, right?
+[00:25:38] Yeah. So, why two vectors?
+[00:25:40] Um, so, the two vectors is it just makes the math a little bit
+[00:25:45] easy, yeah.
+[00:25:46] So, if you think about the math, right?
+[00:25:49] If you have the same vectors for the center word and for the
+[00:25:53] outside words,
+[00:25:55] well, for whatever the center word is,
+[00:25:58] is, let's say it's octopus, that when you're
+[00:26:00] going through the trying out every possible context
+[00:26:05] word for the normalization, at some point
+[00:26:08] you'll hit octopus again.
+[00:26:10] And so at that point, you'll have a quadratic term, right?
+[00:26:13] You'll have the x squared of the octopus vector.
+[00:26:16] And that kind of messes up.
+[00:26:18] I mean, you're clever people.
+[00:26:20] You could work out the math of it.
+[00:26:22] But it makes the math more of a mess, right?
+[00:26:25] Because every other term, it's something different.
+[00:26:27] and it's just like AX,
+[00:26:29] and then at one position you've got an X squared.
+[00:26:31] Um, so it just makes the math messier,
+[00:26:34] and so they kept it really simple by just having them be disjoint
+[00:26:39] vectors.
+[00:26:39] But it, it doesn't make it better.
+[00:26:42] I mean, it actually turns out it works a fraction better if you,
+[00:26:46] um, do it right.
+[00:26:47] Um, but in practice people have usually just estimated them separately,
+[00:26:52] and then average them at the end.
+[00:26:54] Um, there, if, if you actually look at the paper,
+[00:26:57] here's Mikulov et al, you can find it,
+[00:26:59] 2013 paper, um, there's actually sort of a family of methods
+[00:27:05] that they describe.
+[00:27:06] Um, so, they describe two methods,
+[00:27:09] one of which, um, was that you have an inside word that's predicting
+[00:27:14] the words around it, and then the other one tried to predict
+[00:27:18] the center word from all the words in the context,
+[00:27:21] which was called continuous bag of words in their paper.
+[00:27:23] The one that I've described is Skip Graham,
+[00:27:26] which is simpler and works just great.
+[00:27:30] But then the other part of it is for working out
+[00:27:37] what loss function to be used for training.
+[00:27:40] And what I've presented so far is naive softmax
+[00:27:46] where we just consider every possible choice
+[00:27:48] of a context word and just run all the math.
+[00:27:53] You know that's totally doable and with our modern superfast
+[00:27:56] computers. That's not even that
+[00:27:58] Unreasonable to do we do things like this all the time,
+[00:28:01] but at least at the time that they wrote their paper
+[00:28:05] This seemed kind of expensive and they considered other alternatives
+[00:28:09] Like a hierarchical softmax, which I'm not going to explain right
+[00:28:13] now, but I do just want to explain negative sampling
+[00:28:18] Okay, so this is just to sort of see a bit of a different way
+[00:28:21] of doing things
+[00:28:22] So, for what we did last time,
+[00:28:25] we had this sort of straightforward softmax equation,
+[00:28:29] and so in the denominator,
+[00:28:31] you're summing over every word in the vocabulary.
+[00:28:35] Um, and so if you might have 400,000 words in your vocabulary,
+[00:28:39] a lot of words in human languages,
+[00:28:41] you know, that's kind of a,
+[00:28:43] a big sum especially when for each element of the sum,
+[00:28:47] you're taking a dot product between 100 dimensional or 300 dimensional
+[00:28:51] vectors,
+[00:28:52] vectors and then exponentiating it, right?
+[00:28:54] A lot of math going on somewhere in there.
+[00:28:57] So maybe we could short circuit that.
+[00:29:01] And so the idea of the negative sampling was to say, well,
+[00:29:06] rather than evaluating it for every single possible word,
+[00:29:10] maybe we could just sort of train some simpler logistic
+[00:29:15] regressions where they're going to say,
+[00:29:18] say, you should like the true word that's in the context.
+[00:29:21] And if we randomly pick a few other words,
+[00:29:25] you shouldn't like them very much.
+[00:29:27] And that's skip-gram negative sampling.
+[00:29:30] So that's what this looks like as an equation.
+[00:29:33] So we've got our center word and our actual context word.
+[00:29:39] And we're saying, well, let's work out
+[00:29:43] the term for the actual center word.
+[00:29:46] we'd like this to be high probability so since we're minimizing
+[00:29:53] we're going to
+[00:29:54] negit that and have it go down and then we're going to sample
+[00:29:58] some other words
+[00:29:59] and we'd like this to be the opposite but there's the other thing
+[00:30:03] that we've
+[00:30:03] changed here is now we're not using the softmax anymore we're
+[00:30:08] using this Sigma
+[00:30:09] which stands for the logistic function which is often called
+[00:30:13] the sigmoid and
+[00:30:15] Sigmoid just means S-shaped, but you can actually have an infinity
+[00:30:19] of S-shaped functions,
+[00:30:21] and the one that we actually use is the logistic function.
+[00:30:25] So the logistic function has this form and maps from any real
+[00:30:31] number to a probability between 0 and 1.
+[00:30:36] So what we're wanting to say at that point is for the real outside
+[00:30:41] world,
+[00:30:42] word. We're hoping that this dot product is large,
+[00:30:46] so its probability is near 1. And so
+[00:30:49] that will then sort of help with the minimization.
+[00:30:53] And for the other words, we'd like their
+[00:30:56] probability to be small. So we'd like them to appear sort of
+[00:31:02] over here. And that's what
+[00:31:05] this is calculating. But as written,
+[00:31:07] it's sort of sticking the minus sign on the inside
+[00:31:10] side there, which works because this is symmetric, right?
+[00:31:14] So you're wanting to be over here, which
+[00:31:17] means that if you negit it, you'll
+[00:31:18] be on this side, which will be large.
+[00:31:28] And so then the final bit of this, which is the asterisk,
+[00:31:32] is so we're going to pick a few words.
+[00:31:35] It might only be five or 10 that are our negative samples.
+[00:31:39] But for picking those words, what works well
+[00:31:43] well is not just to sort of pick sort of randomly uniformly from
+[00:31:49] all the 400,000 words in our
+[00:31:51] vocab.
+[00:31:52] What you basically want to do is sort of be paying attention
+[00:31:56] to how common the words are.
+[00:31:58] So something like that is a really common word.
+[00:32:00] And so we refer to that as the unigram distribution.
+[00:32:04] That means you're sort of just taking individual words independently,
+[00:32:07] how commonly they are.
+[00:32:09] So about 10% of the time you'd be choosing that
+[00:32:13] But so that's sort of roughly what you want to do for sampling
+[00:32:17] But people have found that you can actually do even a bit better
+[00:32:20] than that
+[00:32:21] So the standard thing that they presented for word2vec is you're
+[00:32:25] taking the unigram
+[00:32:27] Probability of the word and raising it to the power three quarters
+[00:32:32] What does that end up doing?
+[00:32:34] Question for the audience. If I take probabilities and raise
+[00:32:41] them to the 3 quarters.
+[00:32:43] So less frequent words become sampling more?
+[00:32:49] Correct. Yeah, so raising it to the 3 quarters means that you're
+[00:32:55] sort of somewhat upping the
+[00:32:57] probability of the less frequent words.
+[00:33:01] So you're sort of in between, you know,
+[00:33:04] between having every
+[00:33:06] word uniform and exactly using their relative frequencies in
+[00:33:10] the text you're
+[00:33:11] sort of moving a little bit in the direction of uniform and so
+[00:33:15] you get
+[00:33:15] better results by going somewhat in the distance of sampling
+[00:33:19] more uniformly but
+[00:33:21] you don't want to go all the way there which should correspond
+[00:33:24] to I guess
+[00:33:25] putting a zero in there rather than three quarters okay yeah
+[00:33:32] okay let's see
+[00:33:37] see, I had an aside here, but time rushes along.
+[00:33:40] So let's not bother with this side.
+[00:33:42] It's not that important.
+[00:33:44] OK, so that's the word2vec algorithm
+[00:33:48] that we've seen all of in its different forms.
+[00:33:54] A reasonable wonder that you could have at this point
+[00:33:59] is this seems a kind of a weird way
+[00:34:05] of doing what we're wanting to do, right?
+[00:34:07] The idea is, look, we have this text,
+[00:34:11] we have words, and we have words in the context of words.
+[00:34:15] It sort of seems like an obvious thing to do would be to say,
+[00:34:19] well, let's just count some statistics.
+[00:34:22] We have words, and there are other words that occur in their
+[00:34:24] context.
+[00:34:25] So let's just see how often the word swim occurs next to octopus
+[00:34:30] and how often the word fish occurs next to octopus.
+[00:34:33] Let's get some counts and see how often words occur in the context
+[00:34:39] of other words.
+[00:34:40] And maybe we could use that to calculate some form of word vectors.
+[00:34:46] And so that's something that people have already also considered.
+[00:34:51] So if we use the same kind of idea of a context window,
+[00:34:55] we could just make a matrix of how
+[00:34:57] often words occur in the context of other words.
+[00:35:00] And so, you know, here's a baby example.
+[00:35:03] My corpus is I like deep learning.
+[00:35:05] I like NLP. I enjoy flying
+[00:35:08] And my context window I'm using is just one word to the left
+[00:35:12] and the right and then I can make this kind of
+[00:35:15] co-occurrence count matrix
+[00:35:19] Where I'm putting in the counts of different words in every context
+[00:35:23] and you know because my corpus is so small
+[00:35:27] Every thing in the matrix is a zero or one except for right here
+[00:35:31] where I've got the twos because I have I like twice
+[00:35:34] Right, but in principle, I've got a matrix of counts for all
+[00:35:38] the different counts here
+[00:35:40] So maybe you know, this gives them this gives me a word vector,
+[00:35:45] right, you know, here's a word vector for deep
+[00:35:49] Is this long vector here and you know,
+[00:35:51] I could just say that is my word vector and indeed
+[00:35:54] Indeed, sometimes people have done that,
+[00:35:57] but they're kind of ungainly word vectors,
+[00:36:00] because
+[00:36:00] if we have 400,000 words in our vocabulary,
+[00:36:04] the size of this matrix is 400,000 by 400,000,
+[00:36:09] which is a lot worse than our word vectors,
+[00:36:12] because if we're making them only 100-dimensional,
+[00:36:15] we've only got 400,000 by 100, which is still a big number,
+[00:36:20] but it's a lot smaller than
+[00:36:21] than 400,000 times 400,000.
+[00:36:24] So that's inconvenient.
+[00:36:25] So when people have started with these kind of co-occurrence
+[00:36:30] matrix, the general thing that people have done is to say,
+[00:36:35] well, somehow we want to reduce the dimensionality
+[00:36:39] of that matrix so that we have a smaller matrix to deal with.
+[00:36:44] And so then how can we reduce the dimensionality
+[00:36:48] of the matrix?
+[00:36:49] And at this point, if you remember your linear algebra and stuff
+[00:36:53] like that, you should be
+[00:36:55] thinking of things like PCA.
+[00:36:57] And in particular, if you wanted to work for any matrix of any
+[00:37:00] shape, there's the singular
+[00:37:03] value decomposition.
+[00:37:04] So there's a classic singular value decomposition for any matrix.
+[00:37:09] You can rewrite it as a product of three matrices,
+[00:37:14] a U and a V, which are both orthonormal,
+[00:37:17] normal, which means that you get these independent vectors that
+[00:37:27] are orthogonal to each other.
+[00:37:29] And then in the middle, we have the singular vectors,
+[00:37:34] which are ordered in size.
+[00:37:36] This is the most important singular vector.
+[00:37:38] And these are sort of weighting terms on the different number
+[00:37:41] of the different dimensions.
+[00:37:44] And so this is sort of the full SVD
+[00:37:47] decomposition
+[00:37:49] But you know part of it is irrelevant because if I've got this
+[00:37:53] picture, you know
+[00:37:54] Nothing is happening on the part.
+[00:37:56] That's sort of shown in yellow there
+[00:37:59] But if you want, you know at the moment,
+[00:38:02] you know, this is just in the and a good full
+[00:38:07] Decomposition, but if we want to have sort of smaller low dimensional
+[00:38:10] vectors
+[00:38:11] Well, the next trick we pull is we say,
+[00:38:14] well, we know where the smallest singular vectors
+[00:38:17] are, so we could just set them to zero.
+[00:38:20] And if we did that, then more of this goes away,
+[00:38:23] and we end up with two-dimensional representations
+[00:38:28] of our words.
+[00:38:29] And so that gives us another way of forming low-dimensional word
+[00:38:36] representations.
+[00:38:36] And this had actually been explored before modern neural word
+[00:38:42] vectors and using algorithms
+[00:38:44] such as latent semantic analysis.
+[00:38:48] And it is sort of half worked, but it never worked very well.
+[00:38:54] But some people, especially in psychology,
+[00:38:57] had kept on working on it.
+[00:38:59] it. And among other people, in the early 2000s,
+[00:39:04] there was this grad student, Doug Rohde,
+[00:39:07] who
+[00:39:07] kept on working on it. And he came up with an algorithm that
+[00:39:12] he called Coles. And he'd
+[00:39:17] known as other people before him had known that just sort of
+[00:39:20] doing an SVD on raw counts
+[00:39:22] didn't seem to give you word vectors that worked very well.
+[00:39:26] But he had some ideas to
+[00:39:28] to do better than that.
+[00:39:29] So one thing that helps a lot is if you log the frequencies.
+[00:39:33] So you can put log frequencies in the cells.
+[00:39:37] But then he sort of used some other ideas, some of which
+[00:39:42] were also picked up in Word2Vec, one of which
+[00:39:45] is ramping the windows so that you count closer words more
+[00:39:48] than further away words.
+[00:39:51] He used Pearson correlations instead of counts, et cetera.
+[00:39:54] But he ended up coming up with a low dimensional version of word
+[00:39:59] vectors that are sort of ultimately
+[00:40:01] still based on an SVD.
+[00:40:04] And he got out these word vectors.
+[00:40:07] And interestingly, sort of no one really noticed at the time,
+[00:40:12] but Doug Rohde in his dissertation
+[00:40:15] effectively discovered this same property of having linear semantic
+[00:40:19] components.
+[00:40:20] So look, here we go.
+[00:40:22] So here's one of, so this is actually,
+[00:40:23] you know, a picture from his dissertation,
+[00:40:25] and
+[00:40:26] look here, you know, we've got this meaning component which is
+[00:40:29] doer of an event, and he's
+[00:40:31] essentially shown with the way he's processed his word vectors
+[00:40:35] that the doer of an event
+[00:40:37] is a linear meaning component that you can use to move between
+[00:40:41] a verb and the doer of
+[00:40:44] the verb.
+[00:40:44] Kind of cool, but he didn't become famous because no one was
+[00:40:49] paying attention to what
+[00:40:50] he had come up with.
+[00:40:50] So once Word2Vec became popular, that was something that I was
+[00:40:59] kind of interested in.
+[00:41:01] And so working together with a postdoc,
+[00:41:04] Jeffrey Pennington, we thought that there was interest in this
+[00:41:11] sort of space of doing things with matrices of counts.
+[00:41:16] And how do you then get them to work well as word vectors in
+[00:41:21] the same way that word2vec worked well as word vectors?
+[00:41:24] And so that's what led
+[00:41:26] Into the glove algorithm. That was what I was actually showing
+[00:41:29] you and so
+[00:41:32] What we wanted was to say look we want a model in which
+[00:41:39] Linear components sort of adding or subtracting a vector in a
+[00:41:43] vector space
+[00:41:43] correspond to a meaning difference how can we do that and Jeffrey
+[00:41:51] did good
+[00:41:53] thinking and math and thought about that for a bit and his solution
+[00:42:00] was to say
+[00:42:01] well if we think of that ratios of co-occurrence probabilities
+[00:42:07] can encode
+[00:42:08] meaning components so if we can make a ratio of co-occurrence
+[00:42:12] probabilities
+[00:42:12] into something linear in the vector space will get the kind of
+[00:42:17] result that
+[00:42:18] Word2Vec or Doug Rohde got. So what does that mean?
+[00:42:22] Well so if you start thinking
+[00:42:25] of words occurring in the context of ice you might think that
+[00:42:29] sort of solid and
+[00:42:30] water are likely to occur near ice and gas or a random word like
+[00:42:35] random aren't
+[00:42:36] aren't likely to occur near ice.
+[00:42:39] And similarly, for steam, you'd expect
+[00:42:44] that gas and water are likely to occur near steam,
+[00:42:48] but probably not solid or random.
+[00:42:50] And well, if you're just looking at one of these,
+[00:42:53] you don't really get meaning components,
+[00:42:55] because you get something that's large here or large here.
+[00:42:59] But if you then look at the ratio of two
+[00:43:03] of these co-occurrence probabilities,
+[00:43:05] then what you get out is that for solid it's going to be large
+[00:43:11] and for gas it's going to be small.
+[00:43:16] And so you're getting direction in the space which will correspond
+[00:43:20] to the solid-liquid-gas dimension of physics.
+[00:43:25] Whereas for the other words it will be about one.
+[00:43:28] this is just the wave your hands this was the conception of the
+[00:43:34] idea but if
+[00:43:35] you actually do the counts this actually works out so using real
+[00:43:39] data this is
+[00:43:40] what you get for co-occurrence and indeed you kind of get these
+[00:43:44] sort of
+[00:43:44] factors of 10 in both of these directions of these two and the
+[00:43:49] numbers
+[00:43:50] are over there are approximately one so Jeffrey's idea was well
+[00:43:56] we're going to
+[00:43:57] start with a co-occurrence count matrix and we want to make this
+[00:44:03] turn into a
+[00:44:05] linear component and well how do you do that well first of all
+[00:44:10] it sort of makes
+[00:44:11] sense immediately that you should be putting a log in right because
+[00:44:14] once you
+[00:44:15] put a log in this ratio will be being turned into something that's
+[00:44:19] subtracted
+[00:44:20] And so simply all you have to do is have a log bilinear model
+[00:44:25] where the dot product of two word vectors models this conditional
+[00:44:31] probability and then the difference between two vectors will
+[00:44:36] be corresponding to this log of the ratio of their co-occurrence
+[00:44:41] probabilities.
+[00:44:41] probabilities. So that was basically the GloVe model.
+[00:44:46] So you're wanting to, you know, model
+[00:44:50] this dot product such that it's being close to the log of the
+[00:44:56] co-occurrence probability,
+[00:44:58] but you sort of do a little bit of extra work to have some bias
+[00:45:01] terms and some frequency
+[00:45:04] thresholds which aren't very important.
+[00:45:07] So I'm going to skip past them. But I think that
+[00:45:10] that basic intuition as to what's the important thing
+[00:45:14] to get linear meaning components is a good one to know about.
+[00:45:20] OK, is everyone good to there?
+[00:45:24] Cool.
+[00:45:25] Yes?
+[00:45:26] Oh, I noticed the original x matrix you showed
+[00:45:30] was like 3 by 5 or something.
+[00:45:32] Shouldn't it be squared?
+[00:45:33] So yeah, I mean, if you're doing, sorry, yeah,
+[00:45:36] I maybe should have just shown you a square one.
+[00:45:39] If you're just doing vocabulary to vocabulary,
+[00:45:41] I very guess it should be square.
+[00:45:44] But there was a bit in the slides that I didn't mention
+[00:45:46] that there was another way you could do it
+[00:45:48] where you did it words versus documents
+[00:45:50] and then it would be non-square.
+[00:45:52] But yeah, you're right.
+[00:45:53] So we can just consider the square case.
+[00:46:00] Okay, so you know, hey, I showed you that demo
+[00:46:04] of the GloVe vectors and they were great, didn't they?
+[00:46:08] So you know, these are good vectors.
+[00:46:10] But in general, in NLP, we'd like to have things that we can
+[00:46:16] evaluate and know whether
+[00:46:18] things are really good.
+[00:46:19] And so everywhere through the course,
+[00:46:23] we're going to want to evaluate things and work
+[00:46:26] out how good they are and what's better and what's worse.
+[00:46:29] And so one of the fundmental notions of evaluation that will
+[00:46:34] come up again and again is intrinsic
+[00:46:36] and extrinsic evaluations.
+[00:46:37] So an intrinsic evaluation is where you are doing a very specific
+[00:46:44] internal sub-task and
+[00:46:46] you just try and score whether it's good or bad.
+[00:46:49] So normally intrinsic evaluations are fast to compute,
+[00:46:53] help you understand the component
+[00:46:55] you're building, but they are sort of distant from your downstream
+[00:47:00] task and improving the
+[00:47:02] numbers internally may or may not help you.
+[00:47:04] And that's the contrast with an extrinsic evaluation,
+[00:47:09] which is that you've got some
+[00:47:12] real task, you want to do question answering or document summarization
+[00:47:16] or machine translation,
+[00:47:19] and you want to know whether some clever bit of internal modeling
+[00:47:24] will help you on that
+[00:47:25] task.
+[00:47:26] So then you have to sort of run an entire system and work out
+[00:47:30] downstream accuracies
+[00:47:32] these and find out whether it actually helps you
+[00:47:35] at the end of the day.
+[00:47:36] But that often means it's kind of indirect,
+[00:47:40] so harder to see exactly what's happening in your task.
+[00:47:43] So for something like word vectors,
+[00:47:46] if we just sort of measure, are they modeling word similarity
+[00:47:50] well, that's an intrinsic evaluation.
+[00:47:54] But we'd probably like to know whether they model word
+[00:47:59] similarity well for some downstream task which might be doing
+[00:48:04] web search right
+[00:48:05] we'd like when you say you know cell phone or mobile phone that
+[00:48:10] it comes out
+[00:48:11] of about the same so that would then be web search might be our
+[00:48:15] extrinsic
+[00:48:16] evaluation okay so for word vectors to two intrinsic
+[00:48:24] evaluations the ones we've
+[00:48:26] already seen so there's the word vector analogies you know I
+[00:48:32] cheated when I
+[00:48:33] showed you the glove demo I only showed you ones that work but
+[00:48:37] if you play for
+[00:48:38] it yourself you can find some that don't work so what we can
+[00:48:42] do is sort of have a
+[00:48:44] set of word analogies and find out which ones work now you know
+[00:48:50] in general glove
+[00:48:51] does work you know here's a set of word vectors showing you the
+[00:48:56] sort of male
+[00:48:57] female distinction that's kind of good and linear but in general
+[00:49:01] for different
+[00:49:02] ones it's going to work and it's not work and you're going to
+[00:49:05] be able to
+[00:49:06] score what percentage of the time it works or we can do word
+[00:49:11] similarity how
+[00:49:13] we do word similarity is we actually use human judgments of similarity
+[00:49:18] so
+[00:49:18] So psychologists ask undergrads, and they say,
+[00:49:23] here is the word plane and car, how similar are they on a scale
+[00:49:28] of 1 to 10,
+[00:49:29] or 0 to 10 maybe, actually I think it's 0 to 10 here,
+[00:49:32] on a scale of 0 to 10, and the person says, hmm, 7.
+[00:49:38] And then they ask another person,
+[00:49:40] and they average what the undergrads say,
+[00:49:44] and they come out with these numbers.
+[00:49:46] So, you know, TigerTiger gets 10,
+[00:49:48] BookAndPaper got an average of 7.46,
+[00:49:53] PlaneAndCar got 5.77,
+[00:49:57] StockAndPhone got 1.62, and StockAndJaguar got 0.92.
+[00:50:02] Noisy process, but you roughly get to see how similar people
+[00:50:06] think words are. And so then we ask our models to also
+[00:50:11] score how similar they think words are,
+[00:50:14] and then we get models of
+[00:50:16] of how well the scores are correlated
+[00:50:21] between human judgments and our model's judgments.
+[00:50:25] And so here are sort of a big table of numbers
+[00:50:28] that we don't need to go through all of.
+[00:50:31] But it sort of shows that a plain SVD works terribly.
+[00:50:36] Simply doing SVD over log counts already
+[00:50:39] starts to work reasonably.
+[00:50:41] And then here's the two-word Dubeck algorithms,
+[00:50:45] SIBO and skip gram and here are numbers from our glove vectors
+[00:50:50] and so you get
+[00:50:51] these kind of scores that you can then score different models
+[00:50:54] as to how good
+[00:50:55] they are and well then you can also sorry yeah that's the only
+[00:51:01] thing I have
+[00:51:01] there but you know what can you do for downstream evaluation
+[00:51:06] well then you want
+[00:51:08] to pick some downstream tasks and so a simple downstream task
+[00:51:12] that's been used
+[00:51:13] a lot in NLP is what's called named entity recognition and so
+[00:51:19] that's
+[00:51:20] recognizing names of things and what type they are so if the
+[00:51:25] sentence is
+[00:51:25] Chris Manning lives in Palo Alto you want to say Chris and Manning
+[00:51:30] that's the
+[00:51:31] name of a person and Palo and Alto that's the name of a place
+[00:51:35] so that can
+[00:51:37] be the task and well that's the kind of task which you might
+[00:51:41] think word vectors
+[00:51:42] would help you with and it's indeed the case right so here what's
+[00:51:47] labels discrete
+[00:51:48] was a baseline symbolic probabilistic named entity recognition
+[00:51:54] task and by
+[00:51:56] putting word vectors into it you can make them the numbers go
+[00:52:00] up so these
+[00:52:01] numbers for glove are higher than the ones on the first line
+[00:52:05] and so I'm
+[00:52:06] I'm getting substantial improvements
+[00:52:09] from adding word vectors to my system.
+[00:52:11] Yay.
+[00:52:19] I'll pile ahead into the next thing.
+[00:52:21] This next one I think is interesting.
+[00:52:23] We should spend a minute on.
+[00:52:25] And it came up in your questions last time.
+[00:52:28] Words have lots of meanings.
+[00:52:31] Most words have a whole bunch of meanings.
+[00:52:36] Words that don't have a lot of different meanings
+[00:52:39] are only some very specialized scientific words.
+[00:52:42] Okay, so my example of a word with multiple meanings
+[00:52:46] is probably not the first one you think of all the time.
+[00:52:49] The most famous example of a word with a lot of meanings is bank,
+[00:52:52] which already came up last time.
+[00:52:54] And I use star, which is another one.
+[00:52:56] Here's a word that you probably don't use that often,
+[00:52:59] but it still has lots of meaning.
+[00:53:01] So the word pike, what are some things that the word pike can
+[00:53:04] mean?
+[00:53:06] A fish, yes, it's a kind of fish.
+[00:53:08] Okay, we've got one. What else can a pipe be? Yeah
+[00:53:12] Yeah for the Dungeons and Dragons crowd,
+[00:53:16] yeah, there's a long arm, right? Yep.
+[00:53:18] That's another one. Yeah a
+[00:53:21] Road, right? Yeah, so Pike is used as a shorthand
+[00:53:25] Shorthand for turnpike every why it's called a turnpike was yeah,
+[00:53:29] originally you had near the speary looking thing
+[00:53:32] At the start of it sort of count people.
+[00:53:35] Okay, we've got three other thing means the pipe
+[00:53:37] Yeah, it's also crap like a fraternity
+[00:53:44] I'll believe you. I can't say I know that one
+[00:53:48] Are the pikes sharpest like a needle?
+[00:53:55] sharp
+[00:53:57] Maybe I mean, I think it's really the so pike is the weapon
+[00:54:03] Any other scratch your head?
+[00:54:06] One that I think a lot of you will have seen I'm in diving and
+[00:54:11] swimming you can do a piker
+[00:54:15] olympics if you see olympic diving there are pikes anyone seen
+[00:54:19] those
+[00:54:21] trust me that's a pike um okay um and so we've sort of been doing
+[00:54:28] um the noun uses but you know
+[00:54:31] you can also use pike as a verb right you know like once you've
+[00:54:35] got your medieval weapon you can
+[00:54:37] can pike somebody and that's a usage of pike and you can do other
+[00:54:44] ones right so
+[00:54:45] here we go here's ones I got from a dictionary we got most of
+[00:54:53] those there
+[00:54:53] are sort of weirder usages right like coming down the pike that's
+[00:54:56] kind of a
+[00:54:57] metaphorical use that comes from the the road sense but it sort
+[00:55:02] of ends up
+[00:55:03] meaning the future yeah in Australia we also use pike to mean
+[00:55:09] sort of chicken
+[00:55:11] out of doing something but I don't think that usage is really
+[00:55:15] used in the US
+[00:55:15] anyway words have lots of meanings so how can you deal with that
+[00:55:19] well one way
+[00:55:20] you could deal with it is to say okay words have several meanings
+[00:55:26] and so we're
+[00:55:28] We're just going to say words have several meanings,
+[00:55:31] and then we're going to take instances of words in text.
+[00:55:35] We're going to cluster them based
+[00:55:37] on their similarity of occurrence
+[00:55:38] to decide which sense of the word to regard each token as.
+[00:55:44] And then we're going to learn word vectors
+[00:55:47] for those token clusters, which are our senses.
+[00:55:52] And you can do that.
+[00:55:53] we did it in 2012 before word defect came out so you see here
+[00:55:59] we have bank 1
+[00:56:00] and somewhere over here we have bank 2 and here we have jaguar
+[00:56:07] 1 jaguar 2 jaguar
+[00:56:10] 3 jaguar 4 and you know this really works out great right so
+[00:56:16] jaguar 1 picks
+[00:56:18] Picks out the sense of the kind of car, right?
+[00:56:22] And it's close to luxury and convertible.
+[00:56:25] Jaguar 2 comes right close to software and Microsoft.
+[00:56:29] And this one's a bit of a historical one.
+[00:56:32] But that's when most of you were five or whatever.
+[00:56:38] You might remember Apple used to use large cats for
+[00:56:43] versions of Mac OS, right?
+[00:56:46] So sort of Mac OS 10.3 or something like that a long time ago
+[00:56:51] was called Jaguar, right?
+[00:56:53] So it's software might close to Microsoft
+[00:56:56] Jaguar 3
+[00:56:59] Okay string keyboard solo musical drum bass that's because there's
+[00:57:04] a Jaguar keyboard
+[00:57:06] and
+[00:57:08] then finally
+[00:57:09] the sort of what we think of as the basic sense but turns out
+[00:57:13] turns up rather less now in text
+[00:57:16] corporate normally jaguar next to hunter is the animal right
+[00:57:20] so it's done a good job at learning
+[00:57:22] the different senses but you know that's not what's actually
+[00:57:26] usually done these days and instead
+[00:57:29] you know what's usually done is you do only have one vector for
+[00:57:34] jaguar and when you do that
+[00:57:37] or pike here the one vector you learn is a weighted a weighted
+[00:57:45] average of the
+[00:57:47] vectors that you would have learnt for the sensors it's often
+[00:57:51] referred to as a
+[00:57:53] superposition because somehow neural net math people like to
+[00:57:58] use physics terms
+[00:57:59] and so they call it a superposition but it's a weighted average
+[00:58:05] so you're taking
+[00:58:06] the relative frequency of the different sensors and
+[00:58:09] multiplying the vectors you would have learned if you'd had sense
+[00:58:12] vectors and that's what you get as the
+[00:58:15] representation as a whole
+[00:58:18] and
+[00:58:20] You know, I can make a sort of a linguistic argument as to why
+[00:58:24] you might want to do that
+[00:58:26] Which is you know, although this model of words have sensors
+[00:58:31] is you know
+[00:58:34] very long-standing and common.
+[00:58:36] I mean, it's essentially the way dictionaries are built,
+[00:58:39] right?
+[00:58:39] You look up a word in the dictionary and it says sense one,
+[00:58:42] sense two, sense three,
+[00:58:43] and you get them for things like bank or Jaguar,
+[00:58:47] as we're talking about.
+[00:58:48] I mean, it's sort of really a broken model, right?
+[00:58:52] That word meanings have a lot of nuance.
+[00:58:57] They're used in a lot of different contexts.
+[00:58:59] they're extreme examples like bank wherever it was where we have
+[00:59:05] finance bank and bank of a river
+[00:59:07] bank over here where it seems like the senses are this far apart
+[00:59:11] but you know most words have
+[00:59:14] sort of different meanings but they're not actually that far
+[00:59:16] apart and trying to cut them
+[00:59:19] into senses seems actually very artificial and you know there's
+[00:59:24] you know if you look up five
+[00:59:26] different dictionaries and you say how many senses does this
+[00:59:29] word have, pretty
+[00:59:30] much everyone will give you a different answer.
+[00:59:33] So the kind of situation you have
+[00:59:35] is a word like field. Well a field can be used for a place where
+[00:59:41] you grow a
+[00:59:42] crop. It can be used for sort of natural things like a rock field
+[00:59:48] or an ice field.
+[00:59:50] field. It can be used for a sporting field.
+[00:59:54] There's the mathematical sense of field.
+[00:59:56] Now
+[00:59:57] all of these things sort of have something to do with each other.
+[01:00:00] I mean, the math one's
+[01:00:01] further away, but the physical ones are sort of flat spaces.
+[01:00:05] But you know, the sense of
+[01:00:09] it being a sporting field is clearly kind of different from the
+[01:00:12] sense of it being an
+[01:00:14] an ice field.
+[01:00:15] Is the ice field and the rock field different?
+[01:00:18] Or am I just modifying them?
+[01:00:20] Are they different senses?
+[01:00:22] So really, you sort of have a kind of what a math person
+[01:00:28] would say is sort of like some probability density
+[01:00:31] distribution over things that can be
+[01:00:33] meant by the meaning of a word.
+[01:00:35] So it sort of maybe makes sense to more use this model where
+[01:00:39] you're just actually saying, we have
+[01:00:40] have a vector that's an average of all the contexts.
+[01:00:44] And we'll see more of that when we get to contextual word
+[01:00:47] vectors later on.
+[01:00:49] But one more surprising result on this
+[01:00:53] is since you have the vector for pike overall being
+[01:01:01] the sum of these different sense vectors,
+[01:01:06] vectors, you know, standard math would tell you that if you just
+[01:01:11] have the single vector,
+[01:01:12] there's no way that you can recover the individual sense vectors.
+[01:01:17] But higher math tells you that actually these vector spaces
+[01:01:25] are so high dimensional and
+[01:01:28] sparse that you can use ideas from sparse coding theory to reconstruct
+[01:01:34] the
+[01:01:35] sense vectors out of the whole vector and if you actually want
+[01:01:40] to understand
+[01:01:40] this some of the people in statistics David Donahoe I think is
+[01:01:45] one of them
+[01:01:45] teach courses on sparse coding theory but I'm not going to try
+[01:01:51] and teach that
+[01:01:52] but you know here's an example from this paper the Sanjeev Arora
+[01:01:56] et al where one
+[01:01:57] One of the et als is Tingyu Ma, who's now
+[01:02:00] a faculty in comcomputer science here,
+[01:02:03] where they are starting off with the word vector
+[01:02:06] and using sparse coding to divide out sense vectors
+[01:02:11] from one word vector.
+[01:02:14] And they work pretty well, right?
+[01:02:15] So here's one sense of tie, which is piece of clothing.
+[01:02:19] Another sense of tie, which is ties in a game.
+[01:02:24] This one is sort of similar to that one, and I'll admit.
+[01:02:26] But this sense of tie here is then a tie as sort of you put on
+[01:02:31] your electrical cables
+[01:02:33] Then you have the musical sense of tie right at least four out
+[01:02:37] of five
+[01:02:37] They've done a pretty good job of getting sensors out of this
+[01:02:41] single word vector by sparse coding
+[01:02:44] So sparse coding must be cool if you want to go off and learn
+[01:02:47] more about it
+[01:02:50] Okay
+[01:02:54] Okay, so that's everything I was going to say about words
+[01:02:58] vectors and words sensors
+[01:03:00] Is everyone good to there?
+[01:03:02] Any questions?
+[01:03:06] I'll rush ahead for the last two pieces.
+[01:03:09] Okay, so I just wanted to start to introduce in the last 15 minutes
+[01:03:14] the ideas of how we
+[01:03:17] can build neural classifiers and how we start to build in general
+[01:03:24] neural networks.
+[01:03:26] works? I mean, in a sense, we've already built a very simple
+[01:03:31] neural classifier, because our
+[01:03:34] word2vec model is predicting what words are likely to occur in
+[01:03:38] the context of another
+[01:03:40] word. And you can think of that as a classifier,
+[01:03:43] but let's look at a simple classifier like
+[01:03:45] our named entity recognizer that I mentioned before.
+[01:03:48] So for the named entity recognizer,
+[01:03:50] We want to label words with their class.
+[01:03:53] So we want to say these two words are a person but the same words
+[01:03:58] Paris and Hilton are then
+[01:04:01] locations in the second sentence so words can be ambiguous as
+[01:04:06] to what their class is and
+[01:04:09] The other state is that they're not a named entity at all.
+[01:04:13] They're just a word
+[01:04:14] there's some other word and this is something that's used in
+[01:04:18] lots of places
+[01:04:19] as a bit of understanding so if you've seen any of those web
+[01:04:24] pages where
+[01:04:26] they've served you know tag company names with a stock ticker
+[01:04:30] or there's
+[01:04:31] links on a Wikipedia page to a Wikipedia page or something like
+[01:04:36] that right you've
+[01:04:37] got named entities where commonly after finding the name entities
+[01:04:41] you're doing
+[01:04:42] this second stage of entity linking where you're then linking
+[01:04:46] the named
+[01:04:47] entity to some canonical form of it like a Wikipedia page but
+[01:04:51] we're not going to
+[01:04:52] talk about the second part of it for the rest of the day and
+[01:04:57] so we could say that
+[01:05:01] building with our word vectors we've got this simple task where
+[01:05:06] what we're going
+[01:05:07] to do is we're going to look at a word in context because sometimes
+[01:05:10] Paris is a
+[01:05:11] a name of a person, sometimes it's a location.
+[01:05:15] And so we're going to want to look at this word
+[01:05:17] in its context and say, aha, this
+[01:05:21] is the name of the location in this instance.
+[01:05:24] And so the way that we're going to do it
+[01:05:27] is we're going to form a window classifier.
+[01:05:32] So we're going to take a word with a couple of words
+[01:05:34] of context on each side.
+[01:05:36] And for the words in our context window,
+[01:05:39] We're going to use our word vectors because we want to show they're
+[01:05:42] useful for something and then we want to feed this
+[01:05:45] Into something that is a classifier and our classifier
+[01:05:50] It's actually going to be a really simple locates classifier.
+[01:05:54] We're only here going to do
+[01:05:56] Location or not a location. So this one here.
+[01:06:00] We're wanting to say for this
+[01:06:02] Window here. Yes. It's a location
+[01:06:06] and whereas if it had been
+[01:06:09] I, what, I love Paris Hilton greatly,
+[01:06:13] um, then we'd be saying no because Paris,
+[01:06:16] the word in the
+[01:06:17] middle of the context then isn't,
+[01:06:20] um, a location. So that's sort of the idea of a classification
+[01:06:24] or classifier. We're making, assigning some set of classes,
+[01:06:29] um, to things, right? So in general
+[01:06:33] for classifiers we do supervised learning which means we have
+[01:06:38] some labeled examples
+[01:06:39] our training data set so we have input items xi and for each
+[01:06:45] one we've got a class yi so i had
+[01:06:49] for my example training examples ones like i love paris hilton
+[01:06:54] greatly that was negative
+[01:06:58] not a location and I visit Paris every spring that's positive
+[01:07:04] that is a
+[01:07:04] location where I'm actually classifying the middle word okay
+[01:07:08] so inputs labels
+[01:07:10] and in general we've got labels are a set of classes so my set
+[01:07:15] here is simply
+[01:07:15] location not a location but I could get fancier and I could say
+[01:07:20] I've got five
+[01:07:22] classes I've got location person name whatever other ones there
+[01:07:29] are company
+[01:07:30] name drug name right I could be assigning a bunch of or other
+[01:07:34] not a name
+[01:07:35] a bunch of different classes but I'm going to be doing it with
+[01:07:39] only two
+[01:07:39] because I'm using this example on next Tuesday's lecture as well
+[01:07:44] and I'm
+[01:07:45] wanting to keep it simple so that's what we're going to do and
+[01:07:50] so what we're
+[01:07:51] we're going to be using in our class is neural classifiers.
+[01:07:57] And so I just wanted to sort of go through quickly
+[01:08:02] just the sort of food for thought as we go into it.
+[01:08:05] So for a typical stats machine learning classifier,
+[01:08:11] you can build classifiers like logistic regression or softmax
+[01:08:15] classifiers or other ones like support vector machines
+[01:08:19] machines or naive Bayes or whatever else you might have seen
+[01:08:24] the vast majority of these classifiers
+[01:08:27] linear classifiers meaning they have a linear decision boundary
+[01:08:31] and
+[01:08:32] When we're learning these classifiers,
+[01:08:35] we're learning parameters here w
+[01:08:37] but out the our inputs are fixed that our inputs are represented
+[01:08:42] by symbols like
+[01:08:44] or quantities so we have fixed inputs we learn parameters as
+[01:08:48] weights in that are
+[01:08:50] used to multiply the inputs and then we use a linear decision
+[01:08:55] boundary so when
+[01:08:57] we have our neural classifier we're kind of getting some more
+[01:09:01] power so first of
+[01:09:04] all we're not only learning weights W for our classifier we're
+[01:09:08] also learning
+[01:09:08] distributed representations for our words.
+[01:09:12] So our words can sort of re-represent,
+[01:09:15] our word vectors re-represent the actual words as symbols and
+[01:09:20] can move them
+[01:09:21] around in the space. So that in terms of the original space we've
+[01:09:27] got a nonlinear
+[01:09:28] classifier that can represent much more complex functions,
+[01:09:31] but we will then sort
+[01:09:34] sort of use the word vectors to re-represent those words
+[01:09:39] to do a final classification.
+[01:09:41] So at the end of our deep network, which
+[01:09:45] we're about to build, we will have a linear classifier
+[01:09:48] in terms of our re-represented vectors,
+[01:09:51] but not in terms of our original space.
+[01:09:54] Let me try and be concrete about that.
+[01:09:57] So here's what I'm going to use, and we'll
+[01:09:59] will use again next Tuesday as my little neural network.
+[01:10:05] And so I start with some words.
+[01:10:09] Museums in Paris are amazing.
+[01:10:11] I first of all come up with the word embedding of those
+[01:10:15] using my word vectors.
+[01:10:17] So now I've got this sort of high dimensional vector, which
+[01:10:22] is just a concatenation of five word vectors.
+[01:10:24] So if I have 100 dimensional word vectors,
+[01:10:27] this is 500 dimensional.
+[01:10:28] And then I'm going to put it through a neural network layer,
+[01:10:32] which is simply
+[01:10:34] Multiplying that vector by a matrix and adding on a bias
+[01:10:39] Vector and then I'm going to put it through some non linearity
+[01:10:43] Which might be for example a logistic function that we've already
+[01:10:47] seen so that'll give me a new
+[01:10:49] representation and in particular
+[01:10:51] So in particular, if the w is, say, 8 by 500,
+[01:10:58] I'll be reducing it to a much smaller vector.
+[01:11:06] So then I can do after that, I can multiply
+[01:11:10] my hidden representation in the middle of my neural network
+[01:11:14] by another vector, and that will give me a score.
+[01:11:17] And I'm going to put the score into the logistic function
+[01:11:21] that we saw earlier to say what's the probability this is the
+[01:11:24] location. So at
+[01:11:26] this point my classifier is going to be a linear classifier in
+[01:11:32] terms of this
+[01:11:33] internal representation that's used right at the end,
+[01:11:36] but it's going to be a
+[01:11:37] nonlinear classifier in terms of my word vectors.
+[01:11:46] Okay, great. Here's one other
+[01:11:53] thing this is just sort of a note for learn ahead since you want
+[01:11:59] to know this
+[01:12:00] when we start doing the next assignments I mean up until now
+[01:12:03] I presented
+[01:12:04] everything as you know doing log likelihood and negative log
+[01:12:09] likelihood
+[01:12:10] for building our models very soon now assignment two we're going
+[01:12:16] to be
+[01:12:16] be starting to do things with PyTorch.
+[01:12:20] And when you start working out your losses with PyTorch,
+[01:12:26] what you're going to be wanting to use is cross-entropy loss.
+[01:12:30] And so let me quickly say what cross-entropy loss is.
+[01:12:34] So cross-entropy is from information theory.
+[01:12:38] So if you have a true probability distribution p
+[01:12:42] p and you're computing a probability distribution q,
+[01:12:46] your cross entropy loss is like this.
+[01:12:49] So it's the log of your model probability,
+[01:12:55] the expectation of that under your true probability
+[01:13:00] distribution.
+[01:13:01] But there's sort of a special case,
+[01:13:04] whereas if you have ground truth or gold or target data
+[01:13:09] data where things are labeled 1, 0.
+[01:13:13] So like for examples of I love Paris when warm,
+[01:13:21] I'm just labeling it 1 for location.
+[01:13:24] Probability 1, it's the location.
+[01:13:26] Probability 0, it's not a location.
+[01:13:29] So if you're just labeling the right class as probability 1,
+[01:13:33] 1, then in this summation, every other term goes to 0.
+[01:13:39] And the only thing you're left with
+[01:13:41] is what probability is my model?
+[01:13:45] What log probability is my model giving to the right class?
+[01:13:50] And so that, then, is your log likelihood,
+[01:13:54] which we can use for the negative log likelihood.
+[01:14:00] A little bit of a complication here.
+[01:14:02] here, just remember that you'll want
+[01:14:04] to use cross-entropy loss in PyTorch when building the model.
+[01:14:08] OK, before we end today, here is my obligatory one
+[01:14:14] picture of human neurons.
+[01:14:16] Don't miss it, because I'm not going to show any more of these.
+[01:14:20] OK, these are human neurons, right?
+[01:14:23] Human neurons were the inspiration
+[01:14:28] for neural networks, right?
+[01:14:30] so human neurons have a single output which comes down this axon
+[01:14:36] and then when
+[01:14:39] you have these outputs they then feed into other neurons I
+[01:14:48] guess I don't
+[01:14:48] really have an example here but in general one output can feed
+[01:14:52] into
+[01:14:53] multiple different neurons you can see the different things hanging
+[01:14:56] into it so
+[01:14:57] So you have the output connecting to the input.
+[01:15:00] And where you make this connection,
+[01:15:03] that's the synapses that people talk about.
+[01:15:06] And so one neuron will normally have many, many inputs
+[01:15:10] where it picks things up from other neurons.
+[01:15:13] And they all go into the nucleus of the cell.
+[01:15:17] And the nucleus combines together all those inputs.
+[01:15:21] And what happens is, if there's enough positive activation
+[01:15:25] from all of these inputs it then sends signals down its output
+[01:15:33] now strictly how
+[01:15:35] neurons work is that they send spikes so the level of activations
+[01:15:41] and neuron is
+[01:15:42] its rate of spiking but that immediately got turned in artificial
+[01:15:47] neural networks
+[01:15:48] into just a real value as to what is its level of activation
+[01:15:52] and so it does this
+[01:15:55] So this was kind of the genuine inspiration of all of our neural
+[01:15:59] networks, right?
+[01:16:01] So a binary logistic regression is kind of a bit similar to a
+[01:16:06] neuron, right? It has multiple inputs
+[01:16:09] you're
+[01:16:10] working out your total level of
+[01:16:13] excitation where in particular you can have inputs that are both
+[01:16:18] exciting positive inputs and
+[01:16:21] inputs that are
+[01:16:22] are negative, which are then inhibitory inputs.
+[01:16:26] You combine them all together, and you
+[01:16:28] get an output that's your level of excitation.
+[01:16:33] And you're then sort of converting that
+[01:16:35] through some non-linearity.
+[01:16:37] And so this was proposed as a very simple model
+[01:16:41] of human neurons.
+[01:16:43] Now, human neurons are way more complex than this.
+[01:16:46] And some people, like neuroscientists,
+[01:16:49] think we maybe should be doing a better model of actual human
+[01:16:53] neurons but in
+[01:16:55] terms of what's being done in the current neural networks eat
+[01:16:59] the world
+[01:17:00] revolution everyone's forgotten about that and it's just sticking
+[01:17:04] with this
+[01:17:04] very very simple model which conveniently turns into linear algebra
+[01:17:10] in a very simple way so this gives us sort of like a single neuron
+[01:17:17] but then
+[01:17:18] precise right so this is which this single neuron if you use
+[01:17:24] the logistic
+[01:17:24] function is identical to logistic regression which you've probably
+[01:17:28] seen in
+[01:17:29] some stats class or something but the difference is that for
+[01:17:33] neural networks
+[01:17:33] we don't just have one logistic regression we have a bunch of
+[01:17:39] logistic
+[01:17:40] regressions at once and well that would be tricky if we had to
+[01:17:44] define what each
+[01:17:45] each of these logistic regressions was calculating.
+[01:17:49] But what we don't, what we do is we just
+[01:17:52] feed them into another logistic regression.
+[01:17:57] And so we have some eventual output
+[01:18:00] that we want to be something, like we
+[01:18:03] want it to say this is or isn't a location.
+[01:18:07] But then what will happen is by our machine learning,
+[01:18:11] these intermediate logistic regressions
+[01:18:14] will figure out all by themselves something useful to do.
+[01:18:18] That's the magic, right?
+[01:18:21] So that you get this sort of self-learning property
+[01:18:25] where the model has a lot of parameters
+[01:18:28] and internally will work out useful things to do.
+[01:18:32] So in general, we can get more magic
+[01:18:34] by having more layers in the neural network
+[01:18:36] and that we will build up functions.
+[01:18:40] So effectively, these intermediate layers
+[01:18:43] let us learn a model that re-represents the input data in ways
+[01:18:49] that will make it
+[01:18:50] easier to classify or easier to interpret and do things with
+[01:18:55] downstream
+[01:18:56] in our neural network and it's time so I should stop there thank
+[01:19:03] you

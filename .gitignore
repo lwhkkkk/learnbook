@@ -1,0 +1,30 @@
+# ── 大体积媒体文件（防止撑爆 Git 仓库）──
+*.m4a
+*.mp4
+*.webm
+*.opus
+*.mp3
+*.wav
+
+# ── 敏感凭据与密钥 ──
+*_cookies.txt
+*.cookie
+.env
+
+# ── 转写与抓取流水线临时中间产物 ──
+_asr_progress.jsonl
+_info.json
+_asr_prompt.txt
+*.tagged.md
+
+# ── 操作系统与编辑器临时文件 ──
+.DS_Store
+Thumbs.db
+desktop.ini
+*.tmp
+*.log
+
+# ── Python 缓存 ──
+__pycache__/
+*.pyc
+.venv/

@@ -1,0 +1,1049 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>斯坦福 CS224N 深度学习自然语言处理 | 第二讲：词向量进阶、多义性与神经网络分类器</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Serif+SC:wght@400;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        /* ── 基础重置 ── */
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            color-scheme: light;
+            --bg-primary: #f7f7f8;
+            --bg-secondary: #ffffff;
+            --bg-card: #eef0f3;
+            --bg-code: #f2f3f5;
+            --text-primary: #1f2328;
+            --text-secondary: #57606a;
+            --text-muted: #6e7781;
+            --accent: #2563eb;
+            --accent-glow: rgba(37, 99, 235, 0.08);
+            --border: #d9dce1;
+            --border-subtle: #e7e9ec;
+            --radius: 12px;
+            --shadow: 0 4px 24px rgba(15, 23, 42, 0.08);
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', 'Noto Serif SC', -apple-system, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.8;
+            font-size: 16px;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ── 文章容器 ── */
+        .book-content {
+            max-width: 780px;
+            margin: 0 auto;
+            padding: 60px 32px 120px;
+        }
+
+        /* ── 标题 ── */
+        h1 {
+            font-size: 2.2em;
+            font-weight: 700;
+            margin: 0 0 12px;
+            background: linear-gradient(135deg, #2563eb 0%, #7c3aed 50%, #db2777 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.02em;
+        }
+
+        h2 {
+            font-size: 1.5em;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin: 56px 0 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        h3 {
+            font-size: 1.2em;
+            font-weight: 600;
+            color: var(--accent);
+            margin: 36px 0 12px;
+        }
+
+        /* ── 段落与文字 ── */
+        p {
+            margin: 0 0 16px;
+            color: var(--text-primary);
+        }
+
+        strong {
+            color: #0f172a;
+            font-weight: 600;
+        }
+
+        em {
+            color: var(--text-secondary);
+            font-style: italic;
+        }
+
+        a {
+            color: var(--accent);
+            text-decoration: none;
+            border-bottom: 1px solid transparent;
+            transition: border-color 0.2s;
+        }
+        a:hover {
+            border-bottom-color: var(--accent);
+        }
+
+        /* ── 引用 ── */
+        blockquote {
+            margin: 24px 0;
+            padding: 16px 20px;
+            background: var(--bg-secondary);
+            border-left: 3px solid var(--accent);
+            border-radius: 0 var(--radius) var(--radius) 0;
+            color: var(--text-secondary);
+        }
+        blockquote p { margin: 0; }
+
+        /* ── 列表 ── */
+        ul, ol {
+            margin: 12px 0 20px 24px;
+            color: var(--text-primary);
+        }
+        li {
+            margin: 6px 0;
+        }
+
+        /* ── 分割线 ── */
+        hr {
+            border: none;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--border), transparent);
+            margin: 48px 0;
+        }
+
+        /* ── 表格 ── */
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin: 24px 0;
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+        thead {
+            background: var(--bg-card);
+        }
+        th {
+            padding: 12px 16px;
+            font-weight: 600;
+            text-align: left;
+            color: var(--accent);
+            font-size: 0.9em;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        td {
+            padding: 12px 16px;
+            border-top: 1px solid var(--border-subtle);
+        }
+        tbody tr {
+            background: var(--bg-secondary);
+            transition: background 0.15s;
+        }
+        tbody tr:hover {
+            background: var(--bg-card);
+        }
+
+        /* ── 代码 ── */
+        code {
+            font-family: 'JetBrains Mono', monospace;
+            background: var(--bg-code);
+            padding: 2px 7px;
+            border-radius: 5px;
+            font-size: 0.88em;
+            color: #6d28d9;
+        }
+
+        pre {
+            margin: 20px 0;
+            padding: 20px 24px;
+            background: var(--bg-code);
+            border-radius: var(--radius);
+            overflow-x: auto;
+            border: 1px solid var(--border);
+        }
+        pre code {
+            background: none;
+            padding: 0;
+            font-size: 0.9em;
+            color: var(--text-primary);
+        }
+
+        /* ── 视频嵌入卡片 ── */
+        .video-card {
+            margin: 32px 0;
+            border-radius: var(--radius);
+            overflow: hidden;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .video-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 32px rgba(15, 23, 42, 0.12);
+        }
+
+        .video-wrapper {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 */
+            height: 0;
+            overflow: hidden;
+        }
+        .video-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .video-card img {
+            width: 100%;
+            display: block;
+        }
+
+        .video-caption {
+            padding: 12px 16px;
+            font-size: 0.88em;
+            color: var(--text-secondary);
+            text-align: center;
+            line-height: 1.6;
+            margin: 0;
+        }
+        .video-caption a {
+            color: var(--accent);
+        }
+
+        .video-card.fallback {
+            padding: 20px;
+            text-align: center;
+        }
+
+        /* ── Lightbox：截图点击放大 ── */
+        .screenshot-card img { cursor: zoom-in; transition: opacity 0.15s; }
+        .screenshot-card img:hover { opacity: 0.9; }
+        .lightbox {
+            position: fixed; inset: 0; z-index: 999;
+            display: none; align-items: center; justify-content: center;
+            background: rgba(5, 5, 8, 0.92); backdrop-filter: blur(4px);
+            cursor: zoom-out; padding: 24px;
+        }
+        .lightbox.open { display: flex; }
+        .lightbox img {
+            max-width: 96vw; max-height: 90vh;
+            border-radius: 8px; box-shadow: 0 12px 60px rgba(0,0,0,0.7);
+        }
+        .lightbox-caption {
+            position: absolute; bottom: 14px; left: 0; right: 0;
+            text-align: center; color: var(--text-secondary); font-size: 0.85em;
+        }
+
+        /* ── 顶部信息栏 ── */
+        .book-content > blockquote:first-of-type {
+            background: var(--accent-glow);
+            border-left-color: var(--accent);
+            border-radius: var(--radius);
+            margin-bottom: 32px;
+        }
+
+        /* ── 图表居中 ── */
+        .mermaid {
+            display: flex;
+            justify-content: center;
+            margin: 32px 0;
+            overflow-x: auto;
+        }
+
+        /* ── 滚动条 ── */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
+
+        /* ── 数学公式美化 ── */
+        .katex-display, .MathJax_Display, mjx-container[display="true"] {
+            margin: 20px 0 !important;
+            overflow-x: auto;
+            overflow-y: hidden;
+            padding: 8px 0;
+        }
+        .katex {
+            font-size: 1.05em;
+        }
+
+        /* ── 响应式 ── */
+        @media (max-width: 640px) {
+            .book-content { padding: 32px 16px 80px; }
+            h1 { font-size: 1.7em; }
+            h2 { font-size: 1.3em; }
+        }
+    </style>
+</head>
+<body>
+    <article class="book-content">
+        <h1 id="cs224n">斯坦福 CS224N 深度学习自然语言处理 | 第二讲：词向量进阶、多义性与神经网络分类器</h1>
+<blockquote>
+<p><strong>课程名称</strong>：Stanford CS224N: Natural Language Processing with Deep Learning (Winter 2024)<br />
+<strong>主讲人</strong>：Prof. Christopher Manning (斯坦福大学)<br />
+<strong>参考材料</strong>：Lecture 2 Official Slides &amp; Lecture Notes (Word Vectors II &amp; Neural Classifiers)<br />
+<strong>视频溯源</strong>：<a href="https://www.bilibili.com/video/BV1U5RNYgEfp/?p=2">Bilibili BV1U5RNYgEfp (Part 2)</a><br />
+<strong>版权说明</strong>：课程原版讲义、幻灯片与视频版权归斯坦福大学及主讲教师所有，遵循 CC BY-NC 许可协议。</p>
+</blockquote>
+<h2 id="_1">目录</h2>
+<ol>
+<li><a href="#1">课程导言与知识全景</a></li>
+<li><a href="#2-word2vec-softmax">Word2Vec 优化深潜：从朴素 Softmax 到负采样</a></li>
+<li><a href="#3-gensim">词向量的几何性质与 Gensim 词类比实操</a></li>
+<li><a href="#4-svd">统计计数方法与奇异值分解（SVD）</a></li>
+<li><a href="#5-glove">GloVe 模型：全局对数双线性架构的终极融合</a></li>
+<li><a href="#6">词向量的科学评估范式</a></li>
+<li><a href="#7-polysemy">一词多义（Polysemy）与词义线性叠加定理</a></li>
+<li><a href="#8">深度学习分类器与前馈神经网络入门</a></li>
+<li><a href="#9">核心要点总结与技术对比矩阵</a></li>
+<li><a href="#_4">附：官方参考与延伸阅读</a></li>
+</ol>
+<hr />
+<h2 id="1">1. 课程导言与知识全景</h2>
+<p><em>(参考时间: 00:00:05)</em></p>
+<div class="video-card screenshot-card">
+  <img src="images/shot_00_00_15.png" alt="Lecture 2 课程大纲与知识路线" loading="lazy">
+  <p class="video-caption">📷 Lecture 2 课程大纲与知识路线<br><a href="https://www.bilibili.com/video/BV1U5RNYgEfp/?p=2&t=15" target="_blank" rel="noopener">回到原视频 (00:00:15)</a></p>
+</div>
+
+<p>在第一讲中，我们建立起了分布式词向量（Word Vectors / Word Embeddings）的基本直觉，并探讨了基于预测的 Word2Vec 基础架构（Skip-gram 模型）。本讲作为词向量与基础表征学习的承前启后之作，核心使命是彻底打通词表征的理论全链条，并自然过渡到深度学习的核心工具——神经网络分类器。</p>
+<p>本讲的核心脉络围绕以下四个核心问题展开：
+1. <strong>Word2Vec 是如何被高效训练的？</strong> 从朴素 Softmax 的归一化计算困境，到基于二元逻辑回归的<strong>负采样（Negative Sampling, SGNS）</strong>数学推导与稀疏梯度更新机制。
+2. <strong>预测与计数之争：能否更高效地利用全局统计信息？</strong> 从共现矩阵（Co-occurrence Matrix）与奇异值分解（SVD）的工程瓶颈，深入剖析 Stanford 自主研发的 <strong>GloVe（Global Vectors for Word Representation）</strong> 对数双线性模型及其优美推导。
+3. <strong>词向量该如何科学评估？多义词如何表征？</strong> 厘清内部评估（词类比、相似度关联）与外部下游任务评估的辩证关系；借助 Arora 等人（2018）的线性叠加定理，解答“一个向量如何编码多重词义”的高维几何本质。
+4. <strong>神经网络分类器如何诞生？</strong> 从上下文窗口分类（以命名实体识别 NER 为切入点），到人工神经元、前馈网络矩阵表达，以及激活函数为何是深层网络的“灵魂”。</p>
+<div class="highlight"><pre><span></span><code>flowchart TD
+    subgraph 词向量体系
+        A[Word2Vec Skip-gram] --&gt;|计算复杂度过高| B[负采样 Negative Sampling]
+        C[基于计数的共现矩阵] --&gt;|SVD 矩阵分解维度诅咒| D[工程截断与频次重缩放]
+        B --&gt;|统一局部预测与全局计数| E[GloVe 对数双线性模型]
+        D --&gt;|统一局部预测与全局计数| E
+    end
+
+    subgraph 评估与特性
+        E --&gt; F[评估体系: 内部词类比 vs 外部 NER]
+        E --&gt; G[一词多义性: 稀疏编码与线性叠加]
+    end
+
+    subgraph 神经网络分类
+        F --&gt; H[上下文窗口分类器: NER 任务]
+        H --&gt; I[多层前馈神经网络]
+        I --&gt; J[非线性激活函数的不可替代性]
+    end
+</code></pre></div>
+
+<hr />
+<h2 id="2-word2vec-softmax">2. Word2Vec 优化深潜：从朴素 Softmax 到负采样</h2>
+<h3 id="21-gradient-descent">2.1 梯度下降（Gradient Descent）与参数优化步幅</h3>
+<p><em>(参考时间: 00:03:08)</em></p>
+<div class="video-card screenshot-card">
+  <img src="images/shot_00_04_30.png" alt="梯度下降原理示意图" loading="lazy">
+  <p class="video-caption">📷 梯度下降原理示意图<br><a href="https://www.bilibili.com/video/BV1U5RNYgEfp/?p=2&t=270" target="_blank" rel="noopener">回到原视频 (00:04:30)</a></p>
+</div>
+
+<p>回顾第一讲，Word2Vec 的学习目标是寻找一组参数 $\theta$（即词表中的所有词向量矩阵），以最小化总体损失函数 $J(\theta)$。在最朴素的连续空间优化中，标准算法是<strong>梯度下降（Gradient Descent）</strong>：</p>
+<p>$$
+\theta^{\text{new}} = \theta^{\text{old}} - \alpha \nabla_{\theta} J(\theta)
+$$</p>
+<p>其中 $\alpha &gt; 0$ 表示步长（Step Size）或学习率（Learning Rate）。</p>
+<p>讲师在此强调了学习率选取的物理直觉：如果损失曲面类似凹凸不平的峡谷，过大的学习率会导致算法直接越过最优点甚至跳向更高梯度的发散区域；而极小但合理的学习率（例如 $10^{-3}$ 到 $10^{-5}$）能够确保参数沿着负梯度方向稳健地下坡。</p>
+<h3 id="22-sgd">2.2 随机梯度下降（SGD）与海量语料训练</h3>
+<p><em>(参考时间: 00:05:53)</em></p>
+<div class="video-card screenshot-card">
+  <img src="images/shot_00_06_45.png" alt="批量梯度下降与随机梯度下降对比" loading="lazy">
+  <p class="video-caption">📷 批量梯度下降与随机梯度下降对比<br><a href="https://www.bilibili.com/video/BV1U5RNYgEfp/?p=2&t=405" target="_blank" rel="noopener">回到原视频 (00:06:45)</a></p>
+</div>
+
+<p>在标准梯度下降（Batch Gradient Descent）中，目标函数 $J(\theta)$ 是全语料库中所有滑动窗口损失的算术平均值：</p>
+<p>$$
+J(\theta) = \frac{1}{T} \sum_{t=1}^T J_t(\theta)
+$$</p>
+<p>当语料库包含数十亿甚至数万亿词元（Tokens）时，计算一次精确的全量梯度 $\nabla_{\theta} J(\theta)$ 需要遍历整个语料库，这在大规模语言建模中是极其昂贵且不切实际的。</p>
+<p>因此，实际工程中无一例外采用<strong>随机梯度下降（Stochastic Gradient Descent, SGD）</strong>或<strong>小批量梯度下降（Mini-batch Gradient Descent）</strong>：</p>
+<div class="highlight"><pre><span></span><code>sequenceDiagram
+    autonumber
+    participant Corpus as 文本语料库 (Billions of Words)
+    participant Sampler as 采样器 (Sliding Window / Mini-batch)
+    participant Model as 词向量矩阵参数 Theta
+    participant Optimizer as 优化器 (SGD / Adam)
+
+    loop 持续迭代直到收敛
+        Corpus-&gt;&gt;Sampler: 随机抽取单窗口或小批量窗口 B
+        Sampler-&gt;&gt;Model: 前向计算当前窗口预测概率
+        Model--&gt;&gt;Optimizer: 计算局部损失梯度的无偏估计
+        Optimizer-&gt;&gt;Model: 极小步长即时更新参数 Theta
+    end
+</code></pre></div>
+
+<p>通过以局部窗口梯度的期望作为全局梯度的无偏估计，SGD 可以在遍历极少样本后立即更新参数，不仅极大地加速了收敛速度，更利用随机采样引入的轻微扰动帮助模型逃离局部劣质极小点。</p>
+<h3 id="23-softmax">2.3 朴素 Softmax 的归一化绝境</h3>
+<p><em>(参考时间: 00:08:30)</em></p>
+<p>在最原始的 Skip-gram 模型中，给定中心词 $c$ 时，出现上下文词 $o$ 的条件概率由<strong>朴素 Softmax（Naïve Softmax）</strong>给出：</p>
+<p>$$
+P(o \mid c) = \frac{\exp(u_o^T v_c)}{\sum_{w \in V} \exp(u_w^T v_c)}
+$$</p>
+<p>其中：
+- $v_c \in \mathbb{R}^d$ 表示词 $c$ 作为中心词（Center Word）时的表征向量；
+- $u_o \in \mathbb{R}^d$ 表示词 $o$ 作为上下文/外部词（Outside Context Word）时的表征向量；
+- $V$ 是词汇表（Vocabulary）。</p>
+<blockquote>
+<p><strong>计算瓶颈瓶颈所在</strong>：
+分母部分必须对词表 $V$ 中的<strong>每一个词</strong>计算内积并求和。当真实词表规模达到 $|V| \approx 10^5 \sim 10^7$ 时，单个窗口单次计算的开销是 $O(|V| \cdot d)$。在大规模语料训练时，这一归一化常数（Partition Function）将使得算法举步维艰。</p>
+</blockquote>
+<h3 id="24-negative-sampling-sgns">2.4 负采样（Negative Sampling, SGNS）的数学本质与推导</h3>
+<p><em>(参考时间: 00:28:13)</em></p>
+<div class="video-card screenshot-card">
+  <img src="images/shot_00_29_27.png" alt="负采样目标函数公式推导幻灯片" loading="lazy">
+  <p class="video-caption">📷 负采样目标函数公式推导幻灯片<br><a href="https://www.bilibili.com/video/BV1U5RNYgEfp/?p=2&t=1767" target="_blank" rel="noopener">回到原视频 (00:29:27)</a></p>
+</div>
+
+<p>为了彻底根除对整个词表求和的昂贵开销，Mikolov 等人（2013）在论文《Distributed Representations of Words and Phrases and their Compositionality》中提出了<strong>负采样（Negative Sampling, SGNS）</strong>。</p>
+<h4 id="_2">核心思想：二元逻辑回归分类器</h4>
+<p>负采样的核心直觉非常巧妙：将原来多分类（从 $|V|$ 个词中选出上下文词）的多项逻辑回归问题，转化为一系列相互独立的<strong>二元逻辑回归（Binary Logistic Regression）</strong>任务：
+- <strong>正样本（True Pair）</strong>：真实共现在当前上下文窗口中的词对 $(c, o)$，模型应当最大化其共现概率；
+- <strong>负样本（Noise Pairs）</strong>：从词表中随机挑选 $k$ 个与中心词 $c$ 并无实际共现的噪声词 $w_k \sim P_n(w)$，构造负词对 $(c, w_k)$，模型应当最小化其共现概率。</p>
+<p>定义标准的 Sigmoid 激活函数：</p>
+<p>$$
+\sigma(x) = \frac{1}{1 + \exp(-x)}
+$$</p>
+<p>其关键性质在于：$1 - \sigma(x) = \sigma(-x)$。</p>
+<h4 id="_3">目标函数推导</h4>
+<p>对于正词对 $(c, o)$，模型预测其为真实共现的概率为 $\sigma(u_o^T v_c)$；
+对于负词对 $(c, w_k)$，其不为真实共现的概率为 $1 - \sigma(u_{w_k}^T v_c) = \sigma(-u_{w_k}^T v_c)$。</p>
+<p>因此，单个上下文词预测的最大化对数似然目标为：</p>
+<p>$$
+\log P(D = 1 \mid c, o) + \sum_{k=1}^K \log P(D = 0 \mid c, w_k)
+$$</p>
+<p>改写为通常最小化的目标损失函数形式：</p>
+<p>$$
+J_{\text{SGNS}}(u_o, v_c, U) = -\log \sigma(u_o^T v_c) - \sum_{k=1}^K \log \sigma(-u_{w_k}^T v_c)
+$$</p>
+<div class="highlight"><pre><span></span><code>graph LR
+    C[中心词向量 vc] --&gt; DotPos[内积 u_o^T vc]
+    O[正上下文词 u_o] --&gt; DotPos
+    DotPos --&gt; SigPos[Sigmoid: 目标逼近 1]
+
+    C --&gt; DotNeg[内积 u_k^T vc]
+    NegWords[k 个随机负采样词 u_k] --&gt; DotNeg
+    DotNeg --&gt; SigNeg[Sigmoid(-u_k^T vc): 目标逼近 1]
+
+    SigPos --&gt; Loss[最小化 SGNS 目标损失]
+    SigNeg --&gt; Loss
+</code></pre></div>
+
+<h4 id="34">负采样分布：3/4 次方的数学直觉</h4>
+<p>负样本并非完全均匀随机抽取，而是按照经过平滑的单字分布（Unigram Distribution）采样：</p>
+<p>$$
+P_n(w) = \frac{U(w)^{3/4}}{Z} = \frac{U(w)^{3/4}}{\sum_{w' \in V} U(w')^{3/4}}
+$$</p>
+<blockquote>
+<p><strong>为什么是 $3/4$ 次方？</strong>
+在自然语言中，词频遵循经典的齐夫定律（Zipf's Law）：极少数高频虚词（the, of, and）占据了绝大部分频次，而绝大部分专业词汇处于长尾（罕见词）。
+- 若使用原始频次 $U(w)^1$，负样本中全都是虚词，长尾生僻词永远无法被负采样选到；
+- 若使用均匀分布 $U(w)^0$，罕见词被采样的概率过大，惩罚失真。
+- $3/4$ 次方是一剂极其优雅的经验调和剂：它轻微削弱了超高频词的权重，相对提升了低频长尾词被采样的概率（例如：频次为 $0.99$ 的词在 $3/4$ 次方后依然是 $\approx 0.992$，而频次为 $0.0001$ 的低频词提升到了 $0.001$，相对采样概率提升了整整一个数量级）。</p>
+</blockquote>
+<h3 id="25">2.5 稀疏梯度与分布式更新工程架构</h3>
+<p><em>(参考时间: 00:32:00)</em></p>
+<p>在每个局部窗口中，实际参与前向与反向传播的词极其有限：中心词 1 个，窗口上下文词最多 $2m$ 个，负采样词最多 $2km$ 个。总共涉及的词向量不超过数十个。
+这意味着，整个大小为 $|V| \times d$ 的全量嵌入矩阵的梯度 $\nabla_{\theta} J(\theta)$ 是<strong>极度稀疏（Extremely Sparse）</strong>的。</p>
+<p>在实际代码实现与大规模分布式训练（如 PyTorch、TensorFlow）中：
+- 不能将整个密集矩阵从 GPU/参数服务器来回搬运；
+- 必须使用稀疏梯度操作（Sparse Matrix Row Slice Update）或哈希映射表（Hash Map），仅将实际发生变化的特定词向量行写回主内存，从而实现百亿规模词表的高效扩展。</p>
+<hr />
+<h2 id="3-gensim">3. 词向量的几何性质与 Gensim 词类比实操</h2>
+<h3 id="31-word-analogies">3.1 线性语义偏移与词类比（Word Analogies）</h3>
+<p><em>(参考时间: 00:16:05)</em></p>
+<div class="video-card screenshot-card">
+  <img src="images/shot_00_17_41.png" alt="King - Man + Woman = Queen 词向量空间几何类比" loading="lazy">
+  <p class="video-caption">📷 King - Man + Woman = Queen 词向量空间几何类比<br><a href="https://www.bilibili.com/video/BV1U5RNYgEfp/?p=2&t=1061" target="_blank" rel="noopener">回到原视频 (00:17:41)</a></p>
+</div>
+
+<p>在 Word2Vec 学到的连续向量空间中，最令人着迷的特性莫过于其<strong>线性代数性质</strong>：两个词向量之间的差值向量往往编码了特定的语义或语法关系。</p>
+<p>最著名的经典范式即为<strong>词类比（Word Analogy）</strong>：</p>
+<blockquote>
+<p>$\text{man} : \text{king} :: \text{woman} : ?$<br />
+“男人之于国王，正如女人之于——女王（Queen）。”</p>
+</blockquote>
+<p>在向量空间中，这一推理直接对应于空间矢量的加减法：</p>
+<p>$$
+d = \arg\max_{x \in V \setminus {a, b, c}} \cos(v_x, v_b - v_a + v_c)
+$$</p>
+<p>在上述例子中：</p>
+<p>$$
+v_{\text{king}} - v_{\text{man}} + v_{\text{woman}} \approx v_{\text{queen}}
+$$</p>
+<div class="highlight"><pre><span></span><code>flowchart LR
+    Origin((原点)) --&gt;|v_king| King[King 向量]
+    Origin --&gt;|v_man| Man[Man 向量]
+    Origin --&gt;|v_woman| Woman[Woman 向量]
+
+    Man -.-&gt;|差向量: 皇室统治关系| King
+    Woman --&gt;|叠加相同差向量| Queen[Queen 向量]
+</code></pre></div>
+
+<h3 id="32">3.2 语法与语义维度的对齐性</h3>
+<p>通过在 Gensim 中探索词向量空间，可以发现大量类似的语义关系：
+- <strong>首都与国家</strong>：$v_{\text{Paris}} - v_{\text{France}} + v_{\text{Italy}} \approx v_{\text{Rome}}$
+- <strong>词态与语法</strong>：$v_{\text{walking}} - v_{\text{walk}} + v_{\text{swam}} \approx v_{\text{swimming}}$
+- <strong>比较级与最高级</strong>：$v_{\text{better}} - v_{\text{good}} + v_{\text{fast}} \approx v_{\text{faster}}$</p>
+<p>讲师提醒：在执行余弦相似度检索时，算法必须将原始输入的查询词（如 king, man, woman）从候选结果中剔除，否则由于输入词自身的极高相似度，最临近词可能直接返回输入词本身。</p>
+<hr />
+<h2 id="4-svd">4. 统计计数方法与奇异值分解（SVD）</h2>
+<h3 id="41">4.1 既然有全局共现，为何还要遍历语料？</h3>
+<p><em>(参考时间: 00:35:15)</em></p>
+<div class="video-card screenshot-card">
+  <img src="images/shot_00_36_25.png" alt="窗口共现矩阵构建示例" loading="lazy">
+  <p class="video-caption">📷 窗口共现矩阵构建示例<br><a href="https://www.bilibili.com/video/BV1U5RNYgEfp/?p=2&t=2185" target="_blank" rel="noopener">回到原视频 (00:36:25)</a></p>
+</div>
+
+<p>Word2Vec 的滑动窗口预测算法效果显著，但从计算视角看存在一种哲学上的反思：</p>
+<blockquote>
+<p>“我们为什么要开着小窗口，反反复复在几十亿词的文本上跑上一轮又一轮？为什么不直接统计全局语料中所有词之间的共现次数，一步到位？”</p>
+</blockquote>
+<h4 id="co-occurrence-matrix-x">共现矩阵（Co-occurrence Matrix $X$）的构建方式</h4>
+<ol>
+<li><strong>基于文档（Document-based）</strong>：统计词是否出现在同一篇文档中。这构成了经典的信息检索矩阵与潜在语义分析（LSA/LSI），其空间表征更偏向于宏观的“文档主题”（如体育、医疗）。</li>
+<li><strong>基于局部窗口（Window-based）</strong>：类似于 Word2Vec，设置滑动窗口（如左右 5 到 10 个词），统计两个词在窗口内共同出现的频次。这种矩阵能够敏锐捕获句法（Syntactic）与微观语义（Semantic）信息。</li>
+</ol>
+<p>假设语料库极小：
+- <code>I like deep learning.</code>
+- <code>I like NLP.</code>
+- <code>I enjoy flying.</code></p>
+<p>其窗口大小为 1 的对称共现矩阵即为一个对称方阵 $X \in \mathbb{R}^{|V| \times |V|}$。</p>
+<h3 id="42-svd-singular-value-decomposition">4.2 SVD 降维（Singular Value Decomposition）及其致命缺陷</h3>
+<p><em>(参考时间: 00:37:04)</em></p>
+<div class="video-card screenshot-card">
+  <img src="images/shot_00_37_44.png" alt="SVD 矩阵奇异值分解原理" loading="lazy">
+  <p class="video-caption">📷 SVD 矩阵奇异值分解原理<br><a href="https://www.bilibili.com/video/BV1U5RNYgEfp/?p=2&t=2264" target="_blank" rel="noopener">回到原视频 (00:37:44)</a></p>
+</div>
+
+<p>得到庞大的共现矩阵 $X$ 后，由于词表高达 $|V| \approx 10^5$，矩阵维度极高且极其稀疏。为了获得与 Word2Vec 类似的低维稠密向量（Dense Vectors，例如 100~300 维），经典的线性代数解法是执行<strong>奇异值分解（SVD）</strong>：</p>
+<p>$$
+X = U \Sigma V^T
+$$</p>
+<p>通过仅保留前 $k$ 个最大的奇异值及其对应的特征向量，可以将 $X$ 最佳截断为秩为 $k$ 的低秩近似矩阵 $\hat{X}$：</p>
+<p>$$
+\hat{X} = U_k \Sigma_k V_k^T
+$$</p>
+<p>此时 $U_k$ 的每一行即为相应词的 $k$ 维稠密词向量。</p>
+<blockquote>
+<p><strong>SVD 处理原始共现矩阵的致命工程痛点</strong>：
+1. <strong>计算复杂度极其恐怖</strong>：对 $|V| \times |V|$ 的方阵进行精确 SVD 分解，复杂度高达 $O(|V|^3)$，对于 10 万词表完全不可接受。
+2. <strong>高频虚词的毁灭性干扰</strong>：在原始计数矩阵中，超高频虚词（the, a, is）的共现频次呈指数级膨胀，主导了 SVD 的主要奇异值方向，使得词向量被语法停用词彻底污染。
+3. <strong>新词无法增量更新</strong>：一旦有新词或新语料进入，整个矩阵需要重新从头分解。</p>
+</blockquote>
+<h3 id="43-coals">4.3 工程补丁：COALS 模型与启发式变换</h3>
+<p><em>(参考时间: 00:39:20)</em></p>
+<div class="video-card screenshot-card">
+  <img src="images/shot_00_41_26.png" alt="COALS 模型词相似度聚类图表" loading="lazy">
+  <p class="video-caption">📷 COALS 模型词相似度聚类图表<br><a href="https://www.bilibili.com/video/BV1U5RNYgEfp/?p=2&t=2486" target="_blank" rel="noopener">回到原视频 (00:41:26)</a></p>
+</div>
+
+<p>在 2000 年代中期，Doug Rohde 等人提出了 <strong>COALS 模型（Correlated Occurrence Analogue to Lexical Semantics, 2005）</strong>，尝试为原始计数矩阵打上一系列工程“补丁”：
+- <strong>频次对数化或截断</strong>：将计数替换为 $\log(1 + X_{ij})$ 或设置阈值上限 $\min(X_{ij}, 100)$，防止虚词垄断；
+- <strong>距离衰减窗口（Ramped Window）</strong>：窗口内距离中心词越近的词赋予更高的权重（如 $1/d$），越远权重越低；
+- <strong>皮尔逊相关系数（Pearson Correlation）</strong>：使用相关性替代原始频次，并将负相关全部置零。</p>
+<p>虽然这些工程手段让基于计数的模型产生了一定语义结构，但它仍然缺乏统一的理论指导，直到 GloVe 的诞生。</p>
+<hr />
+<h2 id="5-glove">5. GloVe 模型：全局对数双线性架构的终极融合</h2>
+<h3 id="51-ratio-of-co-occurrence-probabilities">5.1 核心思想：概率比率（Ratio of Co-occurrence Probabilities）</h3>
+<p><em>(参考时间: 00:41:53)</em></p>
+<div class="video-card screenshot-card">
+  <img src="images/shot_00_43_40.png" alt="GloVe 论文共现概率比理论表格" loading="lazy">
+  <p class="video-caption">📷 GloVe 论文共现概率比理论表格<br><a href="https://www.bilibili.com/video/BV1U5RNYgEfp/?p=2&t=2620" target="_blank" rel="noopener">回到原视频 (00:43:40)</a></p>
+</div>
+
+<p>2014 年，Jeffrey Pennington、Richard Socher 与 Christopher Manning 共同发表了里程碑论文《GloVe: Global Vectors for Word Representation》。</p>
+<p>GloVe 的核心洞见在于：<strong>真正编码词汇深层语义信息的，不是单个共现计数的绝对值，而是不同词对之间共现概率的比率（Ratio of Co-occurrence Probabilities）！</strong></p>
+<p>考虑三个目标词：
+- 探测词 $i = \text{ice}$（冰）
+- 探测词 $j = \text{steam}$（蒸汽）
+- 比较词 $k$（如 solid, gas, water, fashion）</p>
+<p>设 $P(k \mid i) = \frac{X_{ik}}{X_i}$ 为词 $i$ 的上下文中出现词 $k$ 的条件概率。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">概率与比率</th>
+<th style="text-align: left;">$k = \text{solid}$ (固体)</th>
+<th style="text-align: left;">$k = \text{gas}$ (气体)</th>
+<th style="text-align: left;">$k = \text{water}$ (水)</th>
+<th style="text-align: left;">$k = \text{fashion}$ (时尚)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">$P(k \mid \text{ice})$</td>
+<td style="text-align: left;">较大 ($1.9 \times 10^{-4}$)</td>
+<td style="text-align: left;">极小 ($6.6 \times 10^{-5}$)</td>
+<td style="text-align: left;">极大 ($3.0 \times 10^{-3}$)</td>
+<td style="text-align: left;">极小 ($1.7 \times 10^{-5}$)</td>
+</tr>
+<tr>
+<td style="text-align: left;">$P(k \mid \text{steam})$</td>
+<td style="text-align: left;">极小 ($2.2 \times 10^{-5}$)</td>
+<td style="text-align: left;">较大 ($7.8 \times 10^{-4}$)</td>
+<td style="text-align: left;">极大 ($2.2 \times 10^{-3}$)</td>
+<td style="text-align: left;">极小 ($1.8 \times 10^{-5}$)</td>
+</tr>
+<tr>
+<td style="text-align: left;">$\frac{P(k \mid \text{ice})}{P(k \mid \text{steam})}$</td>
+<td style="text-align: left;"><strong>极大 (8.9)</strong></td>
+<td style="text-align: left;"><strong>极小 (0.085)</strong></td>
+<td style="text-align: left;"><strong>接近 1 (1.36)</strong></td>
+<td style="text-align: left;"><strong>接近 1 (0.96)</strong></td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>物理结论</strong>：
+- 当 $k$ 与 ice 强相关、与 steam 弱相关时（如 solid），比率远大于 1；
+- 当 $k$ 与 steam 强相关、与 ice 弱相关时（如 gas），比率远小于 1；
+- 当 $k$ 与两者都相关（如 water）或都无关（如 fashion）时，比率趋近于 1。</p>
+<p>这证明：<strong>共现概率的比率能够极其纯净地剥离背景噪声，精准刻画出词汇之间的相对差异维度！</strong></p>
+</blockquote>
+<h3 id="52">5.2 对数双线性模型数学推导</h3>
+<p><em>(参考时间: 00:44:36)</em></p>
+<p>GloVe 希望寻找一个函数 $F$，用词向量的线性差值来拟合这一比率：</p>
+<p>$$
+F(w_i, w_j, \tilde{w}_k) = \frac{P(k \mid i)}{P(k \mid j)}
+$$</p>
+<p>为了保持向量空间的线性结构，函数的自变量应当依赖于向量差 $(w_i - w_j)$；又因为输出是标量，最自然的运算是点积：</p>
+<p>$$
+F((w_i - w_j)^T \tilde{w}_k) = \frac{P(k \mid i)}{P(k \mid j)}
+$$</p>
+<p>进一步，考虑群同态性质：将减法同态映射为除法，最直接的函数形式是指数函数 $F = \exp$：</p>
+<p>$$
+\exp((w_i - w_j)^T \tilde{w}_k) = \frac{\exp(w_i^T \tilde{w}_k)}{\exp(w_j^T \tilde{w}_k)} = \frac{P(k \mid i)}{P(k \mid j)}
+$$</p>
+<p>因此，对分子分母分别成立：</p>
+<p>$$
+w_i^T \tilde{w}<em>k = \log P(k \mid i) = \log X</em>{ik} - \log X_i
+$$</p>
+<p>注意到左侧内积 $w_i^T \tilde{w}_k$ 是对称的，而右侧包含不对称的 $\log X_i$。为了保持对称性，将 $\log X_i$ 吸收进偏置项 $b_i$，并为上下文词引入独立的偏置项 $\tilde{b}_k$：</p>
+<p>$$
+w_i^T \tilde{w}_k + b_i + \tilde{b}<em>k = \log X</em>{ik}
+$$</p>
+<h3 id="53-glove">5.3 权重截断函数与 GloVe 损失函数</h3>
+<p><em>(参考时间: 00:46:04)</em></p>
+<div class="video-card screenshot-card">
+  <img src="images/shot_00_48_33.png" alt="GloVe 权重函数与目标损失推导" loading="lazy">
+  <p class="video-caption">📷 GloVe 权重函数与目标损失推导<br><a href="https://www.bilibili.com/video/BV1U5RNYgEfp/?p=2&t=2913" target="_blank" rel="noopener">回到原视频 (00:48:33)</a></p>
+</div>
+
+<p>直接拟合上述方程存在两个问题：
+1. 当 $X_{ik} = 0$ 时，$\log 0$ 无定义；
+2. 罕见词的噪声过大，而高频词的误差会被过度放大。</p>
+<p>GloVe 引入了一个加权最小二乘回归目标函数：</p>
+<p>$$
+J = \sum_{i,j=1}^V f(X_{ij}) \left( w_i^T \tilde{w}_j + b_i + \tilde{b}<em>j - \log X</em>{ij} \right)^2
+$$</p>
+<p>其中加权函数 $f(x)$ 满足三个关键条件：
+1. $f(0) = 0$（当两个词从未共现时，直接跳过计算，维持稀疏性）；
+2. $f(x)$ 随着 $x$ 单调递增，高频共现词拥有更大权重；
+3. 对极高频词设置上限平顶，防止被虚词主导。</p>
+<p>经典加权函数形式为：</p>
+<p>$$
+f(x) = \begin{cases} 
+\left( \frac{x}{x_{\max}} \right)^\alpha &amp; \text{if } x &lt; x_{\max} \
+1 &amp; \text{otherwise}
+\end{cases}
+$$</p>
+<p>在论文中，参数通常取 $x_{\max} = 100, \alpha = 0.75$。</p>
+<div class="highlight"><pre><span></span><code>graph TD
+    Cooc[全语料统计构建共现矩阵 X] --&gt; Filter[稀疏遍历非零元素 X_ij]
+    Filter --&gt; Weight[加权函数计算 f_X_ij]
+    Filter --&gt; LogTarget[计算目标值 log X_ij]
+
+    W[中心词向量 W + 偏置 b] --&gt; Dot[内积加偏置: wi^T w~j + bi + b~j]
+    W_tilde[上下文词向量 W~ + 偏置 b~] --&gt; Dot
+
+    Dot --&gt; Diff[求差值: 预测值 - log X_ij]
+    LogTarget --&gt; Diff
+    Diff --&gt; Squared[平方加权损失: f_X_ij * Diff^2]
+    Weight --&gt; Squared
+    Squared --&gt; Minimize[AdaGrad 梯度下降优化]
+</code></pre></div>
+
+<blockquote>
+<p><strong>最终词向量的选择细节</strong>：
+在训练结束时，模型为每个词输出了两个向量：中心词向量 $W$ 和上下文词向量 $\tilde{W}$。由于共现矩阵是对称的，理论上两者等价。在实践中，直接将两者相加作为最终的词向量：
+$$V_{\text{final}} = W + \tilde{W}$$
+实验表明，这种简单的相加操作能够有效平滑训练过程中的随机噪声，并在词类比和下游任务中获得稳定约 1% 的性能提升。</p>
+</blockquote>
+<hr />
+<h2 id="6">6. 词向量的科学评估范式</h2>
+<h3 id="61-intrinsicvs-extrinsic">6.1 内部评估（Intrinsic）vs 外部评估（Extrinsic）</h3>
+<p><em>(参考时间: 00:46:34)</em></p>
+<div class="video-card screenshot-card">
+  <img src="images/shot_00_50_31.png" alt="内部与外部评估体系对比幻灯片" loading="lazy">
+  <p class="video-caption">📷 内部与外部评估体系对比幻灯片<br><a href="https://www.bilibili.com/video/BV1U5RNYgEfp/?p=2&t=3031" target="_blank" rel="noopener">回到原视频 (00:50:31)</a></p>
+</div>
+
+<p>在自然语言处理中，表征模型的评价指标可分为两大家族：</p>
+<div class="highlight"><pre><span></span><code>flowchart TD
+    subgraph 内部评估 Intrinsic
+        A[具体中间任务 / 隔离验证] --&gt; B[词类比任务 Word Analogies]
+        A --&gt; C[词汇相似度相关性 WordSim-353]
+        B --&gt; D[计算飞快，利于快速调试]
+        C --&gt; D
+        D --&gt; E[局限: 内部提升不必然直接转化为下游提升]
+    end
+
+    subgraph 外部评估 Extrinsic
+        F[实际落地生产任务] --&gt; G[命名实体识别 NER]
+        F --&gt; H[文本分类 / 问答系统 / 机器翻译]
+        G --&gt; I[耗时极长，端到端调试困难]
+        H --&gt; I
+        I --&gt; J[优势: 最终产品价值的黄金标准]
+    end
+</code></pre></div>
+
+<h3 id="62-wordsim-353">6.2 经典内部基准：词类比与 WordSim-353</h3>
+<ol>
+<li><strong>词类比任务（Word Analogies）</strong>：包含句法类比（如 quick:quicker :: fast:faster）与语义类比（如 Athens:Greece :: Oslo:Norway）。</li>
+<li><strong>人类判断相似度相关系数（WordSim-353）</strong>：让人类对词对的语义亲疏给出 0~10 分的打分（例如 <code>tiger</code> 与 <code>cat</code> 得 7.35 分，<code>stock</code> 与 <code>jaguar</code> 得 0.92 分），然后计算词向量余弦相似度与人类评分的斯皮尔曼等级相关系数（Spearman Rank Correlation $\rho$）。</li>
+</ol>
+<h3 id="63-glove">6.3 超参数敏感性实验结论（GloVe 论文消融实验）</h3>
+<p><em>(参考时间: 00:51:13)</em></p>
+<div class="video-card screenshot-card">
+  <img src="images/shot_00_52_01.png" alt="GloVe 超参数实验与下游 NER 评测数据" loading="lazy">
+  <p class="video-caption">📷 GloVe 超参数实验与下游 NER 评测数据<br><a href="https://www.bilibili.com/video/BV1U5RNYgEfp/?p=2&t=3121" target="_blank" rel="noopener">回到原视频 (00:52:01)</a></p>
+</div>
+
+<p>讲师深度拆解了 GloVe 论文中的核心消融实验数据，给出了宝贵的工程实战结论：
+1. <strong>向量维度（Dimension）</strong>：随着维度从 50 提升到 200~300，模型性能稳步提升；但超过 300 维后，边际效用迅速递减（Diminishing Returns）。绝大多数应用中 300 维是最佳性价比之选。
+2. <strong>窗口大小（Window Size）与对称性</strong>：
+   - <strong>小窗口（1~3）与单向非对称窗口</strong>：极度利于捕获<strong>句法（Syntactic）特征</strong>（语法角色、词性等依附于局部紧邻词序）；
+   - <strong>大窗口（8~10）与双向对称窗口</strong>：能够广泛收集全局语境，显著提升<strong>语义（Semantic）特征</strong>的表征质量。
+3. <strong>语料库规模与性质</strong>：语料越多通常效果越好（如 42B Common Crawl 优于 6B Wikipedia），但语料质量与时效性至关重要——维基百科由于其高质量百科事实结构，在地理与实体类比上往往超越陈旧过时的新闻语料（如 Gigaword）。</p>
+<hr />
+<h2 id="7-polysemy">7. 一词多义（Polysemy）与词义线性叠加定理</h2>
+<h3 id="71-pike">7.1 一词多义的直觉危机：以 “Pike” 为例</h3>
+<p><em>(参考时间: 00:53:01)</em></p>
+<div class="video-card screenshot-card">
+  <img src="images/shot_00_53_25.png" alt="Pike 多义词语义发散示意" loading="lazy">
+  <p class="video-caption">📷 Pike 多义词语义发散示意<br><a href="https://www.bilibili.com/video/BV1U5RNYgEfp/?p=2&t=3205" target="_blank" rel="noopener">回到原视频 (00:53:25)</a></p>
+</div>
+
+<p>传统词向量模型的一个巨大隐忧在于：<strong>每个词仅分配了一个固定的向量</strong>。但在自然语言中，一词多义现象极其普遍，越是常见的高频词，含义往往越发散。</p>
+<p>讲师以英文单词 <strong>“pike”</strong> 为例，在课堂上展开了趣味互动：
+- 尖锐的长矛/冷兵器（A sharp spear or staff）；
+- 某种淡水肉食鱼（A type of elongated fish）；
+- 高速收费公路（Turnpike 的简称，源于古代横在路上的长矛路障）；
+- 奥运会跳水与体操中的“屈体”姿势（A pike position in diving）；
+- 动词“刺穿”或“赶路”；
+- 澳大利亚俚语：“临阵退缩/放鸽子”（To back out or chicken out of something: <em>"He piked!"</em>）。</p>
+<blockquote>
+<p><strong>灵魂发问</strong>：将所有这些风马牛不相及的词义粗暴地压缩在同一个 300 维向量里，得到的是一个毫无意义的“语义大杂烩”，还是具有某种深刻的数学规律？</p>
+</blockquote>
+<h3 id="72-arora-linear-superposition-theorem">7.2 Arora 线性叠加定理（Linear Superposition Theorem）</h3>
+<p><em>(参考时间: 00:57:37)</em></p>
+<div class="video-card screenshot-card">
+  <img src="images/shot_01_01_52.png" alt="Arora 2018 论文词义线性叠加与稀疏编码分解" loading="lazy">
+  <p class="video-caption">📷 Arora 2018 论文词义线性叠加与稀疏编码分解<br><a href="https://www.bilibili.com/video/BV1U5RNYgEfp/?p=2&t=3712" target="_blank" rel="noopener">回到原视频 (01:01:52)</a></p>
+</div>
+
+<p>早期学者（如 Huang et al., 2012）曾试图对词的上下文聚类，为不同词义训练不同的向量（如 $\text{bank}_1, \text{bank}_2$），但工程极其繁琐，且在没有上下文时难以分配。</p>
+<p>2018 年，Sanjeev Arora、Yuanzhi Li、Tengyu Ma 等人在 TACL 上发表了一篇极富震撼力的理论论文《Linear Algebraic Structure of Word Senses, with Applications to Polysemy》，彻底颠覆了人们的认知：</p>
+<p>$$
+v_{\text{pike}} = \sum_{i} \alpha_i v_{\text{pike}, i}
+$$</p>
+<p>其中：
+- $v_{\text{pike}, i}$ 表示词的第 $i$ 个具体明确词义的纯净向量；
+- 权重系数 $\alpha_i = \frac{f_i}{\sum_j f_j}$，直接正比于该词义在语料库中出现的经验频次！</p>
+<blockquote>
+<p><strong>为什么可以在不丢失信息的前提下直接线性相加？</strong>
+这一反直觉现象由<strong>高维几何（High-Dimensional Geometry）与压缩感知/稀疏编码（Sparse Coding）</strong>共同保证：
+1. 在一个高达 300 维的空间中，存在着天文数字般的“几乎相互正交”（Nearly Orthogonal）的方向；
+2. 真实语言概念在语义空间中是极度稀疏的；
+3. 当多个不相干的独立概念向量线性相加后，由于高维正交性，它们彼此之间的相互干扰（Cross-talk）极微弱。利用字典学习（Dictionary Learning）或稀疏自编码技术，我们完全可以<strong>无损地将一个混合词向量精准分解回它的各个孤立词义分量！</strong></p>
+</blockquote>
+<hr />
+<h2 id="8">8. 深度学习分类器与前馈神经网络入门</h2>
+<h3 id="81-ner">8.1 命名实体识别（NER）与上下文窗口分类范式</h3>
+<p><em>(参考时间: 01:03:48)</em></p>
+<div class="video-card screenshot-card">
+  <img src="images/shot_01_06_24.png" alt="命名实体识别上下文窗口分类架构" loading="lazy">
+  <p class="video-caption">📷 命名实体识别上下文窗口分类架构<br><a href="https://www.bilibili.com/video/BV1U5RNYgEfp/?p=2&t=3984" target="_blank" rel="noopener">回到原视频 (01:06:24)</a></p>
+</div>
+
+<p>为了将词向量赋能于实际下游任务，讲师引入了经典任务——<strong>命名实体识别（Named Entity Recognition, NER）</strong>：从连续文本中定位并分类专有名词（人名 PER、地点 LOC、机构 ORG、时间 DATE 等）。
+- 示例：<code>Last night, Paris Hilton wowed in a sequin gown.</code>（此处的 Paris Hilton 是人名 PER）；
+- 示例：<code>...in the Hilton Hotel in Paris in April 1989.</code>（此处的 Hilton Hotel 是机构/建筑，Paris 是地点 LOC）。</p>
+<h4 id="window-classifier">窗口分类器（Window Classifier）机制</h4>
+<p>为了区分多义实体，必须结合中心词周围的上下文。构建一个跨度为 $2m+1$ 的滑动窗口，将窗口内所有词向量首尾拼接成一个超长特征向量：</p>
+<p>$$
+x_{\text{window}} = \begin{bmatrix} x_{t-m} \ \vdots \ x_t \ \vdots \ x_{t+m} \end{bmatrix} \in \mathbb{R}^{(2m+1)d}
+$$</p>
+<p>例如，当窗口半径 $m=2$，维度 $d=300$ 时，$x_{\text{window}} \in \mathbb{R}^{1500}$。直接将其送入分类器判断中心词 $x_t$ 的实体标签。</p>
+<h3 id="82-mlp">8.2 从人工神经元到多层感知机（MLP）</h3>
+<p><em>(参考时间: 01:15:35)</em></p>
+<div class="video-card screenshot-card">
+  <img src="images/shot_01_16_10.png" alt="神经元计算模型与多层逻辑回归级联" loading="lazy">
+  <p class="video-caption">📷 神经元计算模型与多层逻辑回归级联<br><a href="https://www.bilibili.com/video/BV1U5RNYgEfp/?p=2&t=4570" target="_blank" rel="noopener">回到原视频 (01:16:10)</a></p>
+</div>
+
+<p>经典的二元逻辑回归单元本质上就是一个最简单的<strong>人工神经元（Artificial Neuron）</strong>：</p>
+<p>$$
+h_{w,b}(x) = f(w^T x + b)
+$$</p>
+<p>其中 $w$ 为权重向量，$b$ 为偏置标量（代表类别先验），$f$ 为非线性激活函数（如 Sigmoid）。</p>
+<p>如果我们并行运行一组（例如 $H$ 个）逻辑回归单元，就得到了神经网络的一个<strong>隐层（Hidden Layer）</strong>。用紧凑的矩阵记号表达：</p>
+<p>$$
+z = W x + b
+$$</p>
+<p>$$
+a = f(z) = f(W x + b)
+$$</p>
+<p>其中 $W \in \mathbb{R}^{H \times D}, b \in \mathbb{R}^H$，激活函数 $f$ 逐元素（Element-wise）应用。</p>
+<div class="highlight"><pre><span></span><code>graph LR
+    subgraph 输入层: 上下文拼接向量
+        X1[x_museums]
+        X2[x_in]
+        X3[x_Paris 中心词]
+        X4[x_are]
+        X5[x_amazing]
+    end
+
+    subgraph 隐层: 多组神经元提取抽象模式
+        H1((h1))
+        H2((h2))
+        H3((h3))
+        H4((...))
+    end
+
+    subgraph 输出层: 实体概率
+        Score[实体打分 s = U^T a] --&gt; Sig[Sigmoid / Softmax] --&gt; Out[LOC 类别预测]
+    end
+
+    X1 --&gt; H1 &amp; H2 &amp; H3 &amp; H4
+    X2 --&gt; H1 &amp; H2 &amp; H3 &amp; H4
+    X3 --&gt; H1 &amp; H2 &amp; H3 &amp; H4
+    X4 --&gt; H1 &amp; H2 &amp; H3 &amp; H4
+    X5 --&gt; H1 &amp; H2 &amp; H3 &amp; H4
+
+    H1 &amp; H2 &amp; H3 &amp; H4 --&gt; Score
+</code></pre></div>
+
+<h3 id="83">8.3 为什么必须存在非线性激活函数？</h3>
+<p><em>(参考时间: 01:17:24)</em></p>
+<div class="video-card screenshot-card">
+  <img src="images/shot_01_18_11.png" alt="非线性激活函数的数学必要性说明" loading="lazy">
+  <p class="video-caption">📷 非线性激活函数的数学必要性说明<br><a href="https://www.bilibili.com/video/BV1U5RNYgEfp/?p=2&t=4691" target="_blank" rel="noopener">回到原视频 (01:18:11)</a></p>
+</div>
+
+<p>在全课的尾声，讲师提出了一个奠基性的理论命题：<strong>为什么神经网络不能只进行矩阵乘法？为什么必须在层与层之间插入非线性激活函数 $f$？</strong></p>
+<h4 id="linear-collapse">线性折叠定理（Linear Collapse）</h4>
+<p>假设我们构建了一个没有激活函数（即 $f(z) = z$）的深层前馈神经网络：</p>
+<p>$$
+z_1 = W_1 x + b_1
+$$</p>
+<p>$$
+z_2 = W_2 z_1 + b_2
+$$</p>
+<p>$$
+y = W_3 z_2 + b_3
+$$</p>
+<p>展开两层复合：</p>
+<p>$$
+y = W_3 (W_2 (W_1 x + b_1) + b_2) + b_3 = (W_3 W_2 W_1) x + (W_3 W_2 b_1 + W_3 b_2 + b_3)
+$$</p>
+<p>定义复合权重 $W^* = W_3 W_2 W_1$ 和复合偏置 $b^* = W_3 W_2 b_1 + W_3 b_2 + b_3$，则：</p>
+<p>$$
+y = W^* x + b^*
+$$</p>
+<blockquote>
+<p><strong>关键推论</strong>：
+无论你堆叠了 10 层、100 层还是 1000 层纯线性变换，整个复杂的深层网络在数学上<strong>完全等价于一个单层的线性变换</strong>！
+- 纯线性变换只能学习线性超平面，无法解决哪怕最简单的异或（XOR）问题，更不可能拟合人类语言中错综复杂的非线性逻辑；
+- 唯有引入非线性激活函数（Sigmoid, Tanh, ReLU, GELU），网络才拥有了万能逼近能力（Universal Approximation Theorem），才能在更高维度的隐层空间中层层剥离语义，实现高度抽象的概念表征！</p>
+</blockquote>
+<hr />
+<h2 id="9">9. 核心要点总结与技术对比矩阵</h2>
+<p>为方便快速复习，下表归纳了本讲讨论的三大词表征技术路线的本质异同：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">维度 / 特性</th>
+<th style="text-align: left;">原始 SVD 分解</th>
+<th style="text-align: left;">Word2Vec (SGNS)</th>
+<th style="text-align: left;">GloVe</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>基础算法类型</strong></td>
+<td style="text-align: left;">全局矩阵分解 (Matrix Factorization)</td>
+<td style="text-align: left;">局部滑动窗口预测 (Local Context Prediction)</td>
+<td style="text-align: left;">全局加权对数双线性回归 (Global Log-bilinear Regression)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>利用的数据信息</strong></td>
+<td style="text-align: left;">全局词汇-词汇共现计数</td>
+<td style="text-align: left;">局部窗口词对样本点</td>
+<td style="text-align: left;">全局非零共现计数矩阵</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>计算复杂度</strong></td>
+<td style="text-align: left;">$O(|V|^3)$，极难扩展到超大词表</td>
+<td style="text-align: left;">$O(T \cdot K)$，随全语料长度 $T$ 线性增长</td>
+<td style="text-align: left;">$O(|X|)$，随非零共现对数量增长，快且可高度并行</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>高频词处理策略</strong></td>
+<td style="text-align: left;">启发式截断或取对数 (COALS)</td>
+<td style="text-align: left;">负采样加权采样分布 $U(w)^{3/4}$</td>
+<td style="text-align: left;">平滑加权函数 $f(X_{ij}) = (X/X_{\max})^{0.75}$</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>可解释性与性质</strong></td>
+<td style="text-align: left;">几何正交奇异向量</td>
+<td style="text-align: left;">局部方向向量，支持线性词类比</td>
+<td style="text-align: left;">直接建模共现概率比，向量差值具备极强语义可解释性</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>多义词处理表现</strong></td>
+<td style="text-align: left;">奇异向量平均混合</td>
+<td style="text-align: left;">隐式线性叠加态（Arora 定理）</td>
+<td style="text-align: left;">隐式线性叠加态，支持稀疏分解</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="_4">附：官方参考与延伸阅读</h2>
+<p>本讲内容高度浓缩了过去十年自然语言处理与表征学习领域的经典突破，推荐研读以下权威文献以获取更深入的理论推导：</p>
+<ol>
+<li><strong>Word2Vec 负采样奠基作</strong>：</li>
+<li>Mikolov, T., Sutskever, I., Chen, K., Corrado, G. S., &amp; Dean, J. (2013). <em>Distributed representations of words and phrases and their compositionality</em>. In Advances in Neural Information Processing Systems (NeurIPS 2013), pp. 3111–3119.</li>
+<li><strong>GloVe 官方论文</strong>：</li>
+<li>Pennington, J., Socher, R., &amp; Manning, C. D. (2014). <em>GloVe: Global vectors for word representation</em>. In Proceedings of the 2014 Conference on Empirical Methods in Natural Language Processing (EMNLP 2014), pp. 1532–1543.</li>
+<li><strong>基于计数的语义空间与 COALS 模型</strong>：</li>
+<li>Rohde, D. L., Gonnerman, L. M., &amp; Plaut, D. C. (2005). <em>An improved model of semantic similarity based on lexical co-occurrence</em>. Communications of the ACM.</li>
+<li><strong>一词多义与多义词线性代数叠加定理</strong>：</li>
+<li>Arora, S., Li, Y., Liang, Y., Ma, T., &amp; Risteski, A. (2018). <em>Linear algebraic structure of word senses, with applications to polysemy</em>. Transactions of the Association for Computational Linguistics (TACL), 6, 483–495.</li>
+<li><strong>斯坦福 CS224N 课程官方讲义</strong>：</li>
+<li>Stanford University. <em>CS224N: Natural Language Processing with Deep Learning - Lecture Notes: Part II (Word Vectors II and Neural Classifiers)</em>.</li>
+</ol>
+<hr />
+<p><em>本电子书由 <a href="https://github.com/Luke-Evan/videobook">videobook</a> 流水线生成。课程讲义与幻灯片版权归讲师所有，依 <a href="http://creativecommons.org/licenses/by-nc/4.0/">CC BY-NC 4.0</a> 发布。</em></p>
+    </article>
+
+    <!-- KaTeX & MathJax 数学公式渲染引擎 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true,
+                processEnvironments: true
+            },
+            options: {
+                skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+            }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            function renderMath() {
+                if (typeof renderMathInElement === 'function') {
+                    renderMathInElement(document.body, {
+                        delimiters: [
+                            {left: '$$', right: '$$', display: true},
+                            {left: '$', right: '$', display: false},
+                            {left: '\\[', right: '\\]', display: true},
+                            {left: '\\(', right: '\\)', display: false}
+                        ],
+                        throwOnError: false
+                    });
+                }
+            }
+            renderMath();
+            setTimeout(renderMath, 600);
+            setTimeout(renderMath, 1500);
+        });
+    </script>
+
+    <!-- Mermaid 图表引擎初始化 -->
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10.6.1/dist/mermaid.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            mermaid.initialize({ startOnLoad: false, theme: 'default' });
+            
+            // 兼容普通代码块以及丢失 language-mermaid 类名的情况 (CodeHilite 干扰)
+            const codeNodes = document.querySelectorAll('pre code, .highlight code');
+            codeNodes.forEach(function(node) {
+                const text = node.textContent.trim();
+                // 匹配常见的 mermaid 图表前缀
+                if (text.startsWith('graph ') || text.startsWith('flowchart ') || text.startsWith('flowchart\n') || text.startsWith('sequenceDiagram') || text.startsWith('gantt') || text.startsWith('pie') || text.startsWith('classDiagram') || text.startsWith('stateDiagram') || text.startsWith('mindmap')) {
+                    const tempDiv = document.createElement('div');
+                    tempDiv.className = 'mermaid';
+                    tempDiv.textContent = text;
+                    
+                    // 获取需要替换的最外层父节点 (比如 div.highlight 或者 pre)
+                    const wrapper = node.closest('.highlight') || node.parentNode;
+                    wrapper.replaceWith(tempDiv); 
+                }
+            });
+            
+            // 所有节点转换完成，统一进行图表动态绘制
+            mermaid.run();
+        });
+    </script>
+    <!-- Lightbox：截图点击放大 -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const lightbox = document.createElement('div');
+            lightbox.className = 'lightbox';
+            lightbox.innerHTML = '<img alt=""><div class="lightbox-caption"></div>';
+            document.body.appendChild(lightbox);
+            const lbImg = lightbox.querySelector('img');
+            const lbCap = lightbox.querySelector('.lightbox-caption');
+            function openLightbox(src, alt) {
+                lbImg.src = src; lbImg.alt = alt || '';
+                lbCap.textContent = alt || '';
+                lightbox.classList.add('open');
+                document.body.style.overflow = 'hidden';
+            }
+            function closeLightbox() {
+                lightbox.classList.remove('open');
+                lbImg.src = '';
+                document.body.style.overflow = '';
+            }
+            document.querySelectorAll('.screenshot-card img').forEach(function(img) {
+                img.addEventListener('click', function() { openLightbox(img.src, img.alt); });
+            });
+            lightbox.addEventListener('click', closeLightbox);
+            document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeLightbox(); });
+        });
+    </script>
+</body>
+</html>

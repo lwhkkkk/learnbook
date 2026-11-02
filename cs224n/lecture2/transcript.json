@@ -1,0 +1,7305 @@
+{
+  "video_url": "https://www.bilibili.com/video/BV1U5RNYgEfp/?p=2",
+  "title": "斯坦福大学《深度学习自然语言处理|Stanford CS224N NLP with Deep Learning 2024》中英字幕（deepseek-R1 p02 [02]Lecture 2 - Word Vectors and Language Models.zh_en",
+  "video_id": "BV1U5RNYgEfp_p2",
+  "duration": 4751.53,
+  "chapters": [],
+  "segments": [
+    {
+      "start": "00:00:05",
+      "end": "00:00:08",
+      "text": "Okay, I should try and get started."
+    },
+    {
+      "start": "00:00:09",
+      "end": "00:00:13",
+      "text": "Okay, so what we're going to do today is we're going to try"
+    },
+    {
+      "start": "00:00:13",
+      "end": "00:00:17",
+      "text": "and do everything else that you need to know about"
+    },
+    {
+      "start": "00:00:17",
+      "end": "00:00:21",
+      "text": "word vectors and start to learn a teeny bit about neural nets,"
+    },
+    {
+      "start": "00:00:22",
+      "end": "00:00:25",
+      "text": "and then we'll get much further into doing"
+    },
+    {
+      "start": "00:00:25",
+      "end": "00:00:28",
+      "text": "more with the math of neural nets next week."
+    },
+    {
+      "start": "00:00:28",
+      "end": "00:00:29",
+      "text": "So this is the general plan."
+    },
+    {
+      "start": "00:00:31",
+      "end": "00:00:35",
+      "text": "So I'm going to finish up from where I was last time with"
+    },
+    {
+      "start": "00:00:35",
+      "end": "00:00:40",
+      "text": "the optimization basics then look a little bit more about word2vec"
+    },
+    {
+      "start": "00:00:40",
+      "end": "00:00:40",
+      "text": "and"
+    },
+    {
+      "start": "00:00:40",
+      "end": "00:00:44",
+      "text": "word vectors and then some of the variants of word2vec."
+    },
+    {
+      "start": "00:00:44",
+      "end": "00:00:48",
+      "text": "Um, and then I'm going to briefly consider alternatives sort"
+    },
+    {
+      "start": "00:00:48",
+      "end": "00:00:49",
+      "text": "of like what can you"
+    },
+    {
+      "start": "00:00:49",
+      "end": "00:00:52",
+      "text": "get from just counting words in different ways."
+    },
+    {
+      "start": "00:00:52",
+      "end": "00:00:56",
+      "text": "Um, then we're going to go on and talk a little bit about the"
+    },
+    {
+      "start": "00:00:56",
+      "end": "00:00:57",
+      "text": "evaluation of word vectors."
+    },
+    {
+      "start": "00:00:58",
+      "end": "00:01:02",
+      "text": "Um, the topic of word sensors that already came up a couple of"
+    },
+    {
+      "start": "00:01:02",
+      "end": "00:01:02",
+      "text": "times,"
+    },
+    {
+      "start": "00:01:02",
+      "end": "00:01:05",
+      "text": "um, last time when people were asking questions."
+    },
+    {
+      "start": "00:01:06",
+      "end": "00:01:08",
+      "text": "And then towards the end, um,"
+    },
+    {
+      "start": "00:01:08",
+      "end": "00:01:10",
+      "text": "start to introduce the idea of classification,"
+    },
+    {
+      "start": "00:01:11",
+      "end": "00:01:13",
+      "text": "doing neural classification,"
+    },
+    {
+      "start": "00:01:13",
+      "end": "00:01:16",
+      "text": "and, um, what neural networks are about,"
+    },
+    {
+      "start": "00:01:16",
+      "end": "00:01:19",
+      "text": "which is something that we'll- that we'll then expand on more"
+    },
+    {
+      "start": "00:01:19",
+      "end": "00:01:20",
+      "text": "in the second week."
+    },
+    {
+      "start": "00:01:21",
+      "end": "00:01:23",
+      "text": "Um, before I get into that,"
+    },
+    {
+      "start": "00:01:23",
+      "end": "00:01:25",
+      "text": "just notes on course, um, organization."
+    },
+    {
+      "start": "00:01:26",
+      "end": "00:01:29",
+      "text": "Um, so remember the first assignment is already out,"
+    },
+    {
+      "start": "00:01:29",
+      "end": "00:01:37",
+      "text": "and it's due before class next Tuesday so then our Python review"
+    },
+    {
+      "start": "00:01:37",
+      "end": "00:01:38",
+      "text": "session is"
+    },
+    {
+      "start": "00:01:38",
+      "end": "00:01:43",
+      "text": "going to be taught this Friday 3 30 to 4 20 it's not going to"
+    },
+    {
+      "start": "00:01:43",
+      "end": "00:01:44",
+      "text": "be taught here it's"
+    },
+    {
+      "start": "00:01:44",
+      "end": "00:01:48",
+      "text": "going to be taught in gates bo1 the gates basement and encourage"
+    },
+    {
+      "start": "00:01:48",
+      "end": "00:01:48",
+      "text": "everyone"
+    },
+    {
+      "start": "00:01:48",
+      "end": "00:01:53",
+      "text": "again to come to office hours and help sessions they've already"
+    },
+    {
+      "start": "00:01:53",
+      "end": "00:01:54",
+      "text": "started they're"
+    },
+    {
+      "start": "00:01:54",
+      "end": "00:01:55",
+      "text": "They're listed on the website."
+    },
+    {
+      "start": "00:01:56",
+      "end": "00:02:00",
+      "text": "We're having these sort of office hour help sessions"
+    },
+    {
+      "start": "00:02:01",
+      "end": "00:02:03",
+      "text": "in classrooms with multiple TAs."
+    },
+    {
+      "start": "00:02:03",
+      "end": "00:02:06",
+      "text": "So just turn up if you're on campus and you can be helped."
+    },
+    {
+      "start": "00:02:07",
+      "end": "00:02:10",
+      "text": "And if you are on campus, we'd like you to just turn up,"
+    },
+    {
+      "start": "00:02:10",
+      "end": "00:02:15",
+      "text": "though we do also have a Zoom option for Stanford Online students."
+    },
+    {
+      "start": "00:02:18",
+      "end": "00:02:21",
+      "text": "Finally, I have office hours, which I have not yet opened,"
+    },
+    {
+      "start": "00:02:21",
+      "end": "00:02:21",
+      "text": "but"
+    },
+    {
+      "start": "00:02:21",
+      "end": "00:02:23",
+      "text": "I will open sometime tonight."
+    },
+    {
+      "start": "00:02:23",
+      "end": "00:02:26",
+      "text": "night. They're going to be on Monday afternoons."
+    },
+    {
+      "start": "00:02:26",
+      "end": "00:02:28",
+      "text": "Now, obviously, given the number of people,"
+    },
+    {
+      "start": "00:02:28",
+      "end": "00:02:31",
+      "text": "not everyone can make it into my office hours."
+    },
+    {
+      "start": "00:02:31",
+      "end": "00:02:33",
+      "text": "And I'm going to do these by appointment."
+    },
+    {
+      "start": "00:02:33",
+      "end": "00:02:36",
+      "text": "So they're by 15-minute appointments on Calendly."
+    },
+    {
+      "start": "00:02:37",
+      "end": "00:02:40",
+      "text": "But I'm very happy to talk to some people."
+    },
+    {
+      "start": "00:02:41",
+      "end": "00:02:45",
+      "text": "And I put this little note at the end saying,"
+    },
+    {
+      "start": "00:02:45",
+      "end": "00:02:48",
+      "text": "don't hog the slots. Some people think it'd be"
+    },
+    {
+      "start": "00:02:48",
+      "end": "00:02:52",
+      "text": "be a really good idea if they really work out how to sign up"
+    },
+    {
+      "start": "00:02:52",
+      "end": "00:02:54",
+      "text": "every week for an office hour session with me,"
+    },
+    {
+      "start": "00:02:55",
+      "end": "00:02:57",
+      "text": "and that's sort of a little bit antisocial."
+    },
+    {
+      "start": "00:02:58",
+      "end": "00:03:01",
+      "text": "Um, so, um, think about that."
+    },
+    {
+      "start": "00:03:01",
+      "end": "00:03:05",
+      "text": "Um, okay. So, at the end of last time,"
+    },
+    {
+      "start": "00:03:05",
+      "end": "00:03:08",
+      "text": "I did a sort of bad job of trying to write on,"
+    },
+    {
+      "start": "00:03:08",
+      "end": "00:03:13",
+      "text": "write on slides of working out the derivatives of Word2Vec,"
+    },
+    {
+      "start": "00:03:13",
+      "end": "00:03:17",
+      "text": "um, and hopefully you could read it much more clearly in the,"
+    },
+    {
+      "start": "00:03:17",
+      "end": "00:03:20",
+      "text": "the version that appears on the website where I was doing it"
+    },
+    {
+      "start": "00:03:20",
+      "end": "00:03:21",
+      "text": "at home more carefully."
+    },
+    {
+      "start": "00:03:22",
+      "end": "00:03:27",
+      "text": "So that was saying that we had this LOX function and our job"
+    },
+    {
+      "start": "00:03:27",
+      "end": "00:03:29",
+      "text": "was to work out its derivatives"
+    },
+    {
+      "start": "00:03:29",
+      "end": "00:03:34",
+      "text": "which would tell us which direction to go to walk downhill."
+    },
+    {
+      "start": "00:03:35",
+      "end": "00:03:38",
+      "text": "And so I didn't really quite finish the loop here."
+    },
+    {
+      "start": "00:03:38",
+      "end": "00:03:42",
+      "text": "So, you know, we have some cost function that we want to minimize"
+    },
+    {
+      "start": "00:03:42",
+      "end": "00:03:44",
+      "text": "and then we work out the"
+    },
+    {
+      "start": "00:03:44",
+      "end": "00:03:47",
+      "text": "the gradients of that- the gradient of that function,"
+    },
+    {
+      "start": "00:03:47",
+      "end": "00:03:50",
+      "text": "to work out which direction is downhill."
+    },
+    {
+      "start": "00:03:50",
+      "end": "00:03:56",
+      "text": "And then the simplest algorithm is then that we're- that we work"
+    },
+    {
+      "start": "00:03:56",
+      "end": "00:03:57",
+      "text": "out the direction downhill,"
+    },
+    {
+      "start": "00:03:58",
+      "end": "00:04:00",
+      "text": "we walk a little bit in that direction,"
+    },
+    {
+      "start": "00:04:00",
+      "end": "00:04:02",
+      "text": "and then we repeat."
+    },
+    {
+      "start": "00:04:02",
+      "end": "00:04:05",
+      "text": "We work out the gradient at this point,"
+    },
+    {
+      "start": "00:04:05",
+      "end": "00:04:06",
+      "text": "we walk downhill a little bit,"
+    },
+    {
+      "start": "00:04:07",
+      "end": "00:04:08",
+      "text": "and we keep on going,"
+    },
+    {
+      "start": "00:04:08",
+      "end": "00:04:09",
+      "text": "and we'll get to the minimum."
+    },
+    {
+      "start": "00:04:10",
+      "end": "00:04:13",
+      "text": "And with a sort of a one-dimensional function like this,"
+    },
+    {
+      "start": "00:04:13",
+      "end": "00:04:16",
+      "text": "it's sort of very simple, we're just walking downhill."
+    },
+    {
+      "start": "00:04:16",
+      "end": "00:04:19",
+      "text": "But when we have a function of many, many dimensions,"
+    },
+    {
+      "start": "00:04:19",
+      "end": "00:04:22",
+      "text": "when we calculate the gradient at different points,"
+    },
+    {
+      "start": "00:04:22",
+      "end": "00:04:24",
+      "text": "we might be starting to, um,"
+    },
+    {
+      "start": "00:04:24",
+      "end": "00:04:25",
+      "text": "walk in different directions."
+    },
+    {
+      "start": "00:04:26",
+      "end": "00:04:29",
+      "text": "And so that's why we need to do calculus and have gradients."
+    },
+    {
+      "start": "00:04:30",
+      "end": "00:04:34",
+      "text": "And so this gives us the basic algorithm of gradient descent."
+    },
+    {
+      "start": "00:04:35",
+      "end": "00:04:38",
+      "text": "Um, and so under the gradient descent algorithm,"
+    },
+    {
+      "start": "00:04:39",
+      "end": "00:04:42",
+      "text": "um, what we're doing is that we've got,"
+    },
+    {
+      "start": "00:04:42",
+      "end": "00:04:46",
+      "text": "um, our loss function j,"
+    },
+    {
+      "start": "00:04:46",
+      "end": "00:04:49",
+      "text": "we're working out its gradient, um,"
+    },
+    {
+      "start": "00:04:49",
+      "end": "00:04:53",
+      "text": "and then we're taking a little bit of- a little multiply of"
+    },
+    {
+      "start": "00:04:53",
+      "end": "00:04:57",
+      "text": "the gradient so that alpha is our step size or learning rate."
+    },
+    {
+      "start": "00:04:57",
+      "end": "00:05:00",
+      "text": "Um, that's normally alpha is a very small number,"
+    },
+    {
+      "start": "00:05:00",
+      "end": "00:05:03",
+      "text": "something like 10 to the minus 3 or 10 to the minus 4,"
+    },
+    {
+      "start": "00:05:03",
+      "end": "00:05:04",
+      "text": "maybe even 10 to the minus 5."
+    },
+    {
+      "start": "00:05:05",
+      "end": "00:05:08",
+      "text": "So we're taking a really little bit of the gradient and then"
+    },
+    {
+      "start": "00:05:08",
+      "end": "00:05:11",
+      "text": "we're subtracting it from"
+    },
+    {
+      "start": "00:05:11",
+      "end": "00:05:16",
+      "text": "our parameters to get new parameters and as we do that we will"
+    },
+    {
+      "start": "00:05:16",
+      "end": "00:05:18",
+      "text": "walk downhill and"
+    },
+    {
+      "start": "00:05:18",
+      "end": "00:05:21",
+      "text": "the reason why we want to have a small learning rate is we don't"
+    },
+    {
+      "start": "00:05:21",
+      "end": "00:05:22",
+      "text": "want to walk"
+    },
+    {
+      "start": "00:05:22",
+      "end": "00:05:25",
+      "text": "too fast so if from here we worked out the gradient and said"
+    },
+    {
+      "start": "00:05:25",
+      "end": "00:05:26",
+      "text": "it's in this"
+    },
+    {
+      "start": "00:05:26",
+      "end": "00:05:31",
+      "text": "direction and we just kept on walking we sort of might what end"
+    },
+    {
+      "start": "00:05:31",
+      "end": "00:05:32",
+      "text": "up way over here"
+    },
+    {
+      "start": "00:05:32",
+      "end": "00:05:35",
+      "text": "or if we had a really big step size we might even end up at a"
+    },
+    {
+      "start": "00:05:35",
+      "end": "00:05:36",
+      "text": "worse point than"
+    },
+    {
+      "start": "00:05:36",
+      "end": "00:05:37",
+      "text": "than we started with."
+    },
+    {
+      "start": "00:05:37",
+      "end": "00:05:40",
+      "text": "So we want to take little steps to walk downhill."
+    },
+    {
+      "start": "00:05:41",
+      "end": "00:05:44",
+      "text": "And so that's the very basic gradient descent algorithm."
+    },
+    {
+      "start": "00:05:44",
+      "end": "00:05:49",
+      "text": "Now, the very basic gradient descent algorithm we never use."
+    },
+    {
+      "start": "00:05:50",
+      "end": "00:05:53",
+      "text": "What we actually use is the next thing up,"
+    },
+    {
+      "start": "00:05:53",
+      "end": "00:05:56",
+      "text": "which is called stochastic gradient descent."
+    },
+    {
+      "start": "00:05:56",
+      "end": "00:06:00",
+      "text": "So the problem is, for the basic gradient descent algorithm,"
+    },
+    {
+      "start": "00:06:00",
+      "end": "00:06:09",
+      "text": "we've worked out for an entire set of data what the"
+    },
+    {
+      "start": "00:06:09",
+      "end": "00:06:11",
+      "text": "objective function is and"
+    },
+    {
+      "start": "00:06:11",
+      "end": "00:06:19",
+      "text": "what the slope at the point of evaluation is and in general we've"
+    },
+    {
+      "start": "00:06:19",
+      "end": "00:06:20",
+      "text": "got a"
+    },
+    {
+      "start": "00:06:20",
+      "end": "00:06:25",
+      "text": "lot of data in which we're computing models so simply trying"
+    },
+    {
+      "start": "00:06:25",
+      "end": "00:06:26",
+      "text": "to calculate our"
+    },
+    {
+      "start": "00:06:26",
+      "end": "00:06:30",
+      "text": "our objective function over all of our data for our model,"
+    },
+    {
+      "start": "00:06:30",
+      "end": "00:06:33",
+      "text": "the training data for the model, would take us"
+    },
+    {
+      "start": "00:06:33",
+      "end": "00:06:34",
+      "text": "a very, very long time."
+    },
+    {
+      "start": "00:06:35",
+      "end": "00:06:39",
+      "text": "And so that's very, very expensive to compute."
+    },
+    {
+      "start": "00:06:39",
+      "end": "00:06:41",
+      "text": "And so we'd wait a very long time"
+    },
+    {
+      "start": "00:06:41",
+      "end": "00:06:44",
+      "text": "before we make even a single step of gradient update."
+    },
+    {
+      "start": "00:06:45",
+      "end": "00:06:47",
+      "text": "So for neural nets, what you're always doing"
+    },
+    {
+      "start": "00:06:47",
+      "end": "00:06:50",
+      "text": "is using this variant that's called stochastic gradient"
+    },
+    {
+      "start": "00:06:50",
+      "end": "00:06:50",
+      "text": "descent."
+    },
+    {
+      "start": "00:06:51",
+      "end": "00:06:54",
+      "text": "And so for stochastic gradient descent, what that means"
+    },
+    {
+      "start": "00:06:54",
+      "end": "00:06:57",
+      "text": "is we pick a very small subset of our data,"
+    },
+    {
+      "start": "00:06:57",
+      "end": "00:07:01",
+      "text": "like maybe we pick 16 or 32 data items,"
+    },
+    {
+      "start": "00:07:01",
+      "end": "00:07:04",
+      "text": "and we pretend that's all of our data,"
+    },
+    {
+      "start": "00:07:04",
+      "end": "00:07:08",
+      "text": "and we evaluate the function j based on that small subset,"
+    },
+    {
+      "start": "00:07:08",
+      "end": "00:07:12",
+      "text": "and work out the gradient based on that small subset,"
+    },
+    {
+      "start": "00:07:12",
+      "end": "00:07:15",
+      "text": "so it's a noisy, inaccurate estimate of the gradient,"
+    },
+    {
+      "start": "00:07:15",
+      "end": "00:07:20",
+      "text": "and we use that to be the direction in which we walk."
+    },
+    {
+      "start": "00:07:20",
+      "end": "00:07:23",
+      "text": "So that's normally referred to,"
+    },
+    {
+      "start": "00:07:23",
+      "end": "00:07:26",
+      "text": "to also having mini-batches or mini-batch gradient descent."
+    },
+    {
+      "start": "00:07:28",
+      "end": "00:07:32",
+      "text": "And in theory, working out"
+    },
+    {
+      "start": "00:07:32",
+      "end": "00:07:37",
+      "text": "the gradient based on this small subset is an approximation."
+    },
+    {
+      "start": "00:07:38",
+      "end": "00:07:42",
+      "text": "But one of the interesting things and the way things have emerged"
+    },
+    {
+      "start": "00:07:42",
+      "end": "00:07:42",
+      "text": "in"
+    },
+    {
+      "start": "00:07:42",
+      "end": "00:07:45",
+      "text": "neural network land is it turns out that neural networks actually"
+    },
+    {
+      "start": "00:07:45",
+      "end": "00:07:46",
+      "text": "often"
+    },
+    {
+      "start": "00:07:46",
+      "end": "00:07:49",
+      "text": "work better when you throw some noise into the system."
+    },
+    {
+      "start": "00:07:49",
+      "end": "00:07:54",
+      "text": "that having this noise in the system gives you jiggle and moves"
+    },
+    {
+      "start": "00:07:54",
+      "end": "00:07:54",
+      "text": "things around."
+    },
+    {
+      "start": "00:07:55",
+      "end": "00:07:59",
+      "text": "And so actually, stochastic gradient descent not only is way,"
+    },
+    {
+      "start": "00:08:00",
+      "end": "00:08:00",
+      "text": "way,"
+    },
+    {
+      "start": "00:08:00",
+      "end": "00:08:04",
+      "text": "way faster, but actually works better as a system for optimization"
+    },
+    {
+      "start": "00:08:04",
+      "end": "00:08:05",
+      "text": "of neural networks."
+    },
+    {
+      "start": "00:08:08",
+      "end": "00:08:13",
+      "text": "Okay, so if you remember from last time for word2vec,"
+    },
+    {
+      "start": "00:08:13",
+      "end": "00:08:18",
+      "text": "the idea was we started by just saying each word has a random"
+    },
+    {
+      "start": "00:08:18",
+      "end": "00:08:20",
+      "text": "vector representing it."
+    },
+    {
+      "start": "00:08:20",
+      "end": "00:08:24",
+      "text": "So we will literally sort of just get random small numbers and"
+    },
+    {
+      "start": "00:08:24",
+      "end": "00:08:27",
+      "text": "fill up the vectors with those random small numbers."
+    },
+    {
+      "start": "00:08:27",
+      "end": "00:08:30",
+      "text": "There's an important point there which is you do have to"
+    },
+    {
+      "start": "00:08:31",
+      "end": "00:08:34",
+      "text": "initialize your vectors with random small numbers."
+    },
+    {
+      "start": "00:08:34",
+      "end": "00:08:36",
+      "text": "If you just leave all the vectors as zero,"
+    },
+    {
+      "start": "00:08:37",
+      "end": "00:08:38",
+      "text": "then nothing works."
+    },
+    {
+      "start": "00:08:39",
+      "end": "00:08:43",
+      "text": "And that's because if everything starts off the same,"
+    },
+    {
+      "start": "00:08:44",
+      "end": "00:08:46",
+      "text": "you get these sort of false symmetries,"
+    },
+    {
+      "start": "00:08:46",
+      "end": "00:08:48",
+      "text": "which means that you can't learn."
+    },
+    {
+      "start": "00:08:48",
+      "end": "00:08:53",
+      "text": "So, you always do want to be initializing your vectors with random"
+    },
+    {
+      "start": "00:08:53",
+      "end": "00:08:53",
+      "text": "numbers."
+    },
+    {
+      "start": "00:08:54",
+      "end": "00:08:57",
+      "text": "And then we're gonna go through each position in the corpus using"
+    },
+    {
+      "start": "00:08:57",
+      "end": "00:08:58",
+      "text": "our estimates."
+    },
+    {
+      "start": "00:08:59",
+      "end": "00:09:02",
+      "text": "We're gonna try and predict the probability of words in"
+    },
+    {
+      "start": "00:09:02",
+      "end": "00:09:04",
+      "text": "the context as we talked about last time."
+    },
+    {
+      "start": "00:09:05",
+      "end": "00:09:09",
+      "text": "Then we- so that gives us an objective function from which we"
+    },
+    {
+      "start": "00:09:09",
+      "end": "00:09:10",
+      "text": "can then look at"
+    },
+    {
+      "start": "00:09:10",
+      "end": "00:09:13",
+      "text": "our errors, look at our gradient, um,"
+    },
+    {
+      "start": "00:09:13",
+      "end": "00:09:17",
+      "text": "and update the vectors so that they learn to predict surrounding"
+    },
+    {
+      "start": "00:09:17",
+      "end": "00:09:18",
+      "text": "words better."
+    },
+    {
+      "start": "00:09:18",
+      "end": "00:09:23",
+      "text": "And so, the incredible thing is that we can do no more than that,"
+    },
+    {
+      "start": "00:09:24",
+      "end": "00:09:26",
+      "text": "and we end up learning word vectors,"
+    },
+    {
+      "start": "00:09:27",
+      "end": "00:09:31",
+      "text": "which actually capture quite a lot of the semantics,"
+    },
+    {
+      "start": "00:09:31",
+      "end": "00:09:34",
+      "text": "the meaning and relationships between different words."
+    },
+    {
+      "start": "00:09:34",
+      "end": "00:09:42",
+      "text": "So, you know, when this was first discovered for these algorithms,"
+    },
+    {
+      "start": "00:09:42",
+      "end": "00:09:45",
+      "text": "I mean, it really feels like magic that you can just sort of"
+    },
+    {
+      "start": "00:09:45",
+      "end": "00:09:47",
+      "text": "do this math,"
+    },
+    {
+      "start": "00:09:47",
+      "end": "00:09:52",
+      "text": "simple math over a lot of text and actually learn about the meanings"
+    },
+    {
+      "start": "00:09:52",
+      "end": "00:09:52",
+      "text": "of"
+    },
+    {
+      "start": "00:09:52",
+      "end": "00:09:56",
+      "text": "words that it's sort of just so surprising that something so"
+    },
+    {
+      "start": "00:09:56",
+      "end": "00:09:57",
+      "text": "simple"
+    },
+    {
+      "start": "00:09:57",
+      "end": "00:10:01",
+      "text": "could work but as time has gone on this same recipe has then"
+    },
+    {
+      "start": "00:10:01",
+      "end": "00:10:02",
+      "text": "been for all kinds"
+    },
+    {
+      "start": "00:10:02",
+      "end": "00:10:08",
+      "text": "of learning about the behavior of language from neural networks"
+    },
+    {
+      "start": "00:10:08",
+      "end": "00:10:10",
+      "text": "so let's"
+    },
+    {
+      "start": "00:10:10",
+      "end": "00:10:14",
+      "text": "let's just, um, go through a sense of how that is."
+    },
+    {
+      "start": "00:10:14",
+      "end": "00:10:15",
+      "text": "But before we do that,"
+    },
+    {
+      "start": "00:10:15",
+      "end": "00:10:18",
+      "text": "so, um, let me just mention,"
+    },
+    {
+      "start": "00:10:18",
+      "end": "00:10:21",
+      "text": "so for our word2vec algorithms,"
+    },
+    {
+      "start": "00:10:21",
+      "end": "00:10:25",
+      "text": "the only parameters of the model are these word vectors."
+    },
+    {
+      "start": "00:10:25",
+      "end": "00:10:28",
+      "text": "They're the outside word vectors and the center word vectors,"
+    },
+    {
+      "start": "00:10:29",
+      "end": "00:10:33",
+      "text": "which we actually treat as disjoint as I mentioned last time."
+    },
+    {
+      "start": "00:10:33",
+      "end": "00:10:35",
+      "text": "And when we do the computations,"
+    },
+    {
+      "start": "00:10:35",
+      "end": "00:10:38",
+      "text": "we're considering the dot product between"
+    },
+    {
+      "start": "00:10:38",
+      "end": "00:10:44",
+      "text": "between the various possible outside words with our center word,"
+    },
+    {
+      "start": "00:10:45",
+      "end": "00:10:48",
+      "text": "and we're using those to get a probability distribution over"
+    },
+    {
+      "start": "00:10:48",
+      "end": "00:10:53",
+      "text": "how likely the model thinks that different outside words were."
+    },
+    {
+      "start": "00:10:53",
+      "end": "00:10:57",
+      "text": "And then we're comparing that to the actual outside word in"
+    },
+    {
+      "start": "00:10:57",
+      "end": "00:10:59",
+      "text": "the context and that gives us our source of error."
+    },
+    {
+      "start": "00:11:00",
+      "end": "00:11:04",
+      "text": "So as such, this is what's referred to in NLP as a bag of words"
+    },
+    {
+      "start": "00:11:04",
+      "end": "00:11:05",
+      "text": "model,"
+    },
+    {
+      "start": "00:11:05",
+      "end": "00:11:08",
+      "text": "that it doesn't actually know about the structure of sentences"
+    },
+    {
+      "start": "00:11:08",
+      "end": "00:11:10",
+      "text": "and or even what's"
+    },
+    {
+      "start": "00:11:10",
+      "end": "00:11:11",
+      "text": "to the left and what's to the right."
+    },
+    {
+      "start": "00:11:11",
+      "end": "00:11:13",
+      "text": "It's predicting exactly the same"
+    },
+    {
+      "start": "00:11:13",
+      "end": "00:11:17",
+      "text": "probabilities at each position to the left or right,"
+    },
+    {
+      "start": "00:11:17",
+      "end": "00:11:18",
+      "text": "but it's wanting to know"
+    },
+    {
+      "start": "00:11:18",
+      "end": "00:11:22",
+      "text": "about what kind of words appear in the context of the center"
+    },
+    {
+      "start": "00:11:22",
+      "end": "00:11:25",
+      "text": "word. So I just"
+    },
+    {
+      "start": "00:11:25",
+      "end": "00:11:34",
+      "text": "wanted to stop this for a minute and let's see just give"
+    },
+    {
+      "start": "00:11:40",
+      "end": "00:11:41",
+      "text": "you some kind of a"
+    },
+    {
+      "start": "00:11:41",
+      "end": "00:11:44",
+      "text": "a sense that this really, um, does work."
+    },
+    {
+      "start": "00:11:44",
+      "end": "00:11:47",
+      "text": "Um, so this is a little Jupyter Notebook,"
+    },
+    {
+      "start": "00:11:47",
+      "end": "00:11:52",
+      "text": "um, that I've got, um, for this, um, okay."
+    },
+    {
+      "start": "00:11:53",
+      "end": "00:11:56",
+      "text": "And so this is using- and here I'm using a package, um,"
+    },
+    {
+      "start": "00:11:56",
+      "end": "00:12:02",
+      "text": "Gensim which we don't continue to use after that really, um,"
+    },
+    {
+      "start": "00:12:02",
+      "end": "00:12:06",
+      "text": "but it's sort of one package that lets you load and play with"
+    },
+    {
+      "start": "00:12:06",
+      "end": "00:12:07",
+      "text": "word vectors."
+    },
+    {
+      "start": "00:12:07",
+      "end": "00:12:11",
+      "text": "And the word vectors I'm gonna use here are,"
+    },
+    {
+      "start": "00:12:11",
+      "end": "00:12:15",
+      "text": "uh, GloVe word vectors and actually I'm going to talk- um,"
+    },
+    {
+      "start": "00:12:15",
+      "end": "00:12:18",
+      "text": "GloVe was a model we built at Stanford and I'm going to actually"
+    },
+    {
+      "start": "00:12:18",
+      "end": "00:12:20",
+      "text": "talk about it a little bit later."
+    },
+    {
+      "start": "00:12:20",
+      "end": "00:12:23",
+      "text": "Um, so strictly speaking, um,"
+    },
+    {
+      "start": "00:12:23",
+      "end": "00:12:27",
+      "text": "these aren't exactly word to ve- word vectors but they behave"
+    },
+    {
+      "start": "00:12:27",
+      "end": "00:12:28",
+      "text": "in exactly the same way."
+    },
+    {
+      "start": "00:12:28",
+      "end": "00:12:31",
+      "text": "Um, and so, okay,"
+    },
+    {
+      "start": "00:12:31",
+      "end": "00:12:34",
+      "text": "so now it's loaded up my word vectors because the word vectors"
+    },
+    {
+      "start": "00:12:34",
+      "end": "00:12:35",
+      "text": "are a big data file."
+    },
+    {
+      "start": "00:12:36",
+      "end": "00:12:38",
+      "text": "And so, as we've discussed,"
+    },
+    {
+      "start": "00:12:38",
+      "end": "00:12:40",
+      "text": "um, for a word, right,"
+    },
+    {
+      "start": "00:12:41",
+      "end": "00:12:44",
+      "text": "that the representation of any word here is bread,"
+    },
+    {
+      "start": "00:12:44",
+      "end": "00:12:48",
+      "text": "is just, um, a vector of real numbers, right?"
+    },
+    {
+      "start": "00:12:48",
+      "end": "00:12:53",
+      "text": "So, um, I'm using a 100-dimensional word vectors to keep things"
+    },
+    {
+      "start": "00:12:53",
+      "end": "00:12:54",
+      "text": "quicker,"
+    },
+    {
+      "start": "00:12:54",
+      "end": "00:12:55",
+      "text": "um, for my class demo."
+    },
+    {
+      "start": "00:12:56",
+      "end": "00:12:58",
+      "text": "So this is the word bread, um,"
+    },
+    {
+      "start": "00:12:58",
+      "end": "00:13:00",
+      "text": "and then I can say, well,"
+    },
+    {
+      "start": "00:13:00",
+      "end": "00:13:02",
+      "text": "what's the representation for croissant?"
+    },
+    {
+      "start": "00:13:03",
+      "end": "00:13:08",
+      "text": "Um, and, um, this is croissant."
+    },
+    {
+      "start": "00:13:08",
+      "end": "00:13:11",
+      "text": "and we can sort of get a visual sense of,"
+    },
+    {
+      "start": "00:13:11",
+      "end": "00:13:13",
+      "text": "oh, they're at least a little bit similar, right?"
+    },
+    {
+      "start": "00:13:13",
+      "end": "00:13:16",
+      "text": "So the first components are both negative,"
+    },
+    {
+      "start": "00:13:16",
+      "end": "00:13:18",
+      "text": "the second components are both positive,"
+    },
+    {
+      "start": "00:13:18",
+      "end": "00:13:22",
+      "text": "the third components are both negative and large,"
+    },
+    {
+      "start": "00:13:22",
+      "end": "00:13:25",
+      "text": "the fourth components are both positive, right?"
+    },
+    {
+      "start": "00:13:25",
+      "end": "00:13:28",
+      "text": "They, they seem like they're kind of similar vectors."
+    },
+    {
+      "start": "00:13:28",
+      "end": "00:13:32",
+      "text": "So that seems kind of hopeful because that means that it knows"
+    },
+    {
+      "start": "00:13:32",
+      "end": "00:13:34",
+      "text": "that bread and croissant are a bit,"
+    },
+    {
+      "start": "00:13:34",
+      "end": "00:13:36",
+      "text": "um, similar to each other."
+    },
+    {
+      "start": "00:13:36",
+      "end": "00:13:41",
+      "text": "Um, the- this package has a nice simple function where rather"
+    },
+    {
+      "start": "00:13:41",
+      "end": "00:13:42",
+      "text": "than doing that by hand,"
+    },
+    {
+      "start": "00:13:42",
+      "end": "00:13:46",
+      "text": "you can just ask it about all the word vectors and say which"
+    },
+    {
+      "start": "00:13:46",
+      "end": "00:13:48",
+      "text": "ones are most similar."
+    },
+    {
+      "start": "00:13:48",
+      "end": "00:13:49",
+      "text": "So I can ask it, um,"
+    },
+    {
+      "start": "00:13:49",
+      "end": "00:13:54",
+      "text": "what, um, words in its vocabulary are most similar to USA."
+    },
+    {
+      "start": "00:13:54",
+      "end": "00:13:58",
+      "text": "And in this model, everything's been lower-cased I should mention."
+    },
+    {
+      "start": "00:13:58",
+      "end": "00:14:00",
+      "text": "Um, and so if I do that,"
+    },
+    {
+      "start": "00:14:00",
+      "end": "00:14:02",
+      "text": "it has Canada, America,"
+    },
+    {
+      "start": "00:14:02",
+      "end": "00:14:05",
+      "text": "U.S.A, then United States,"
+    },
+    {
+      "start": "00:14:05",
+      "end": "00:14:09",
+      "text": "Australia, well, they seem a fairly reasonable list of most similar"
+    },
+    {
+      "start": "00:14:09",
+      "end": "00:14:09",
+      "text": "words."
+    },
+    {
+      "start": "00:14:10",
+      "end": "00:14:13",
+      "text": "Though you might think it's a little strange that Canada wins"
+    },
+    {
+      "start": "00:14:13",
+      "end": "00:14:13",
+      "text": "out over"
+    },
+    {
+      "start": "00:14:13",
+      "end": "00:14:15",
+      "text": "the USA with dots over it."
+    },
+    {
+      "start": "00:14:18",
+      "end": "00:14:21",
+      "text": "Similarly, I can ask of what's most similar to banana, and"
+    },
+    {
+      "start": "00:14:21",
+      "end": "00:14:23",
+      "text": "I get coconut, mango, bananas, potato,"
+    },
+    {
+      "start": "00:14:23",
+      "end": "00:14:25",
+      "text": "pineapple, fruit, etc."
+    },
+    {
+      "start": "00:14:25",
+      "end": "00:14:29",
+      "text": "Again, pretty sensible, a little bit of a bias to more tropical"
+    },
+    {
+      "start": "00:14:29",
+      "end": "00:14:29",
+      "text": "fruits."
+    },
+    {
+      "start": "00:14:30",
+      "end": "00:14:34",
+      "text": "Or I can go to croissant and ask what's most similar to croissant."
+    },
+    {
+      "start": "00:14:34",
+      "end": "00:14:37",
+      "text": "on the most similar things to cross on isn't bread,"
+    },
+    {
+      "start": "00:14:37",
+      "end": "00:14:38",
+      "text": "but it's things like brioche,"
+    },
+    {
+      "start": "00:14:38",
+      "end": "00:14:40",
+      "text": "baguette, focaccia, um,"
+    },
+    {
+      "start": "00:14:40",
+      "end": "00:14:43",
+      "text": "which sort of basically makes sense though here's pudding here."
+    },
+    {
+      "start": "00:14:43",
+      "end": "00:14:47",
+      "text": "Um, and I've got- well,"
+    },
+    {
+      "start": "00:14:47",
+      "end": "00:14:49",
+      "text": "I'd already done- oh, sorry, yeah,"
+    },
+    {
+      "start": "00:14:49",
+      "end": "00:14:50",
+      "text": "I remember what this is, right?"
+    },
+    {
+      "start": "00:14:50",
+      "end": "00:14:52",
+      "text": "So, with this most similar,"
+    },
+    {
+      "start": "00:14:53",
+      "end": "00:14:56",
+      "text": "you've got a positive word vector and you're saying,"
+    },
+    {
+      "start": "00:14:56",
+      "end": "00:14:59",
+      "text": "what other words are most similar in position to that?"
+    },
+    {
+      "start": "00:14:59",
+      "end": "00:15:03",
+      "text": "Um, there's something else you can do which you can say is,"
+    },
+    {
+      "start": "00:15:03",
+      "end": "00:15:07",
+      "text": "this is- let me take the negative of that word vector and say,"
+    },
+    {
+      "start": "00:15:07",
+      "end": "00:15:10",
+      "text": "what's most similar to the negative of it?"
+    },
+    {
+      "start": "00:15:10",
+      "end": "00:15:12",
+      "text": "And you could possibly think,"
+    },
+    {
+      "start": "00:15:12",
+      "end": "00:15:16",
+      "text": "oh, that might be useful to find antonyms or something like that."
+    },
+    {
+      "start": "00:15:16",
+      "end": "00:15:18",
+      "text": "I mean, the truth is it isn't."
+    },
+    {
+      "start": "00:15:18",
+      "end": "00:15:22",
+      "text": "If you ask for the things that are most similar to the negative"
+    },
+    {
+      "start": "00:15:22",
+      "end": "00:15:22",
+      "text": "of"
+    },
+    {
+      "start": "00:15:22",
+      "end": "00:15:26",
+      "text": "the banana vector and in most other vectors it's the same,"
+    },
+    {
+      "start": "00:15:27",
+      "end": "00:15:30",
+      "text": "you get off- out these weirdo things that you're not really sure"
+    },
+    {
+      "start": "00:15:30",
+      "end": "00:15:31",
+      "text": "if they're words at all,"
+    },
+    {
+      "start": "00:15:31",
+      "end": "00:15:34",
+      "text": "or maybe they are in some other language,"
+    },
+    {
+      "start": "00:15:34",
+      "end": "00:15:35",
+      "text": "or some of them are names, right?"
+    },
+    {
+      "start": "00:15:35",
+      "end": "00:15:37",
+      "text": "Like Shunichi is a Japanese name."
+    },
+    {
+      "start": "00:15:37",
+      "end": "00:15:39",
+      "text": "Um, but not very useful stuff."
+    },
+    {
+      "start": "00:15:40",
+      "end": "00:15:41",
+      "text": "Don't, um, they're not,"
+    },
+    {
+      "start": "00:15:41",
+      "end": "00:15:44",
+      "text": "don't really feel like a negative of banana."
+    },
+    {
+      "start": "00:15:44",
+      "end": "00:15:47",
+      "text": "But it turns out that from there,"
+    },
+    {
+      "start": "00:15:47",
+      "end": "00:15:49",
+      "text": "we get this, um,"
+    },
+    {
+      "start": "00:15:49",
+      "end": "00:15:52",
+      "text": "powerful ability of, um,"
+    },
+    {
+      "start": "00:15:52",
+      "end": "00:15:54",
+      "text": "that was observed for Word2Vec,"
+    },
+    {
+      "start": "00:15:54",
+      "end": "00:15:57",
+      "text": "which is that we could isolate semantic components,"
+    },
+    {
+      "start": "00:15:58",
+      "end": "00:16:00",
+      "text": "um, and then put them"
+    },
+    {
+      "start": "00:16:00",
+      "end": "00:16:02",
+      "text": "them together in interesting ways."
+    },
+    {
+      "start": "00:16:02",
+      "end": "00:16:05",
+      "text": "So, um, looking at this picture,"
+    },
+    {
+      "start": "00:16:05",
+      "end": "00:16:09",
+      "text": "what we could do is start with a positive vector for king,"
+    },
+    {
+      "start": "00:16:09",
+      "end": "00:16:11",
+      "text": "from the origin up the king,"
+    },
+    {
+      "start": "00:16:12",
+      "end": "00:16:17",
+      "text": "then we could use the negation to say subtract out the vector"
+    },
+    {
+      "start": "00:16:17",
+      "end": "00:16:17",
+      "text": "for man,"
+    },
+    {
+      "start": "00:16:18",
+      "end": "00:16:22",
+      "text": "and then we could have another positive vector of add on the,"
+    },
+    {
+      "start": "00:16:22",
+      "end": "00:16:22",
+      "text": "um,"
+    },
+    {
+      "start": "00:16:22",
+      "end": "00:16:25",
+      "text": "vector for woman, and then we can ask the model is,"
+    },
+    {
+      "start": "00:16:25",
+      "end": "00:16:28",
+      "text": "if you're over here in the space, um,"
+    },
+    {
+      "start": "00:16:28",
+      "end": "00:16:32",
+      "text": "um, what is the nearest word to you over there?"
+    },
+    {
+      "start": "00:16:32",
+      "end": "00:16:36",
+      "text": "And so, um, that's what this, um, next thing does, right?"
+    },
+    {
+      "start": "00:16:37",
+      "end": "00:16:39",
+      "text": "It sort of says positive vector for king,"
+    },
+    {
+      "start": "00:16:40",
+      "end": "00:16:43",
+      "text": "negative for man, also positive for queen."
+    },
+    {
+      "start": "00:16:43",
+      "end": "00:16:44",
+      "text": "Where does that get you to?"
+    },
+    {
+      "start": "00:16:45",
+      "end": "00:16:47",
+      "text": "And that gets you to queen. Yay!"
+    },
+    {
+      "start": "00:16:48",
+      "end": "00:16:53",
+      "text": "Um, and so this was the most celebrated property that was discovered"
+    },
+    {
+      "start": "00:16:53",
+      "end": "00:16:54",
+      "text": "with"
+    },
+    {
+      "start": "00:16:54",
+      "end": "00:16:57",
+      "text": "with these word vectors that they weren't only good for meaning"
+    },
+    {
+      "start": "00:16:57",
+      "end": "00:16:58",
+      "text": "similarity,"
+    },
+    {
+      "start": "00:16:58",
+      "end": "00:17:01",
+      "text": "but that they were good, um,"
+    },
+    {
+      "start": "00:17:01",
+      "end": "00:17:04",
+      "text": "for doing these kind of meaning components,"
+    },
+    {
+      "start": "00:17:05",
+      "end": "00:17:07",
+      "text": "and these got referred to as analogies,"
+    },
+    {
+      "start": "00:17:07",
+      "end": "00:17:12",
+      "text": "because this- you can think of them as A is to B is C is to what?"
+    },
+    {
+      "start": "00:17:12",
+      "end": "00:17:13",
+      "text": "So it's sort of like, um,"
+    },
+    {
+      "start": "00:17:13",
+      "end": "00:17:16",
+      "text": "woman is to king- no, sorry, um,"
+    },
+    {
+      "start": "00:17:16",
+      "end": "00:17:20",
+      "text": "man is to king or king is to man is,"
+    },
+    {
+      "start": "00:17:20",
+      "end": "00:17:23",
+      "text": "um, oh, I'm saying this the wrong way around."
+    },
+    {
+      "start": "00:17:23",
+      "end": "00:17:27",
+      "text": "Man is to king as woman is to what, um, in the analogies."
+    },
+    {
+      "start": "00:17:27",
+      "end": "00:17:31",
+      "text": "And so here I've defined a little function that is now saying,"
+    },
+    {
+      "start": "00:17:32",
+      "end": "00:17:36",
+      "text": "this little function just automates that and will compute analogies."
+    },
+    {
+      "start": "00:17:36",
+      "end": "00:17:41",
+      "text": "Um, and so now I can ask it in just this analogy format,"
+    },
+    {
+      "start": "00:17:41",
+      "end": "00:17:44",
+      "text": "um, man is to king as woman is to queen."
+    },
+    {
+      "start": "00:17:44",
+      "end": "00:17:49",
+      "text": "And, um, that one was sort of the canonical example."
+    },
+    {
+      "start": "00:17:49",
+      "end": "00:17:53",
+      "text": "example, but you know you can actually sort of has have fun with"
+    },
+    {
+      "start": "00:17:53",
+      "end": "00:17:56",
+      "text": "this and I mean, you know"
+    },
+    {
+      "start": "00:17:56",
+      "end": "00:17:58",
+      "text": "This is pretty old-fashioned stuff"
+    },
+    {
+      "start": "00:17:58",
+      "end": "00:17:59",
+      "text": "You know"
+    },
+    {
+      "start": "00:17:59",
+      "end": "00:18:04",
+      "text": "I I feel like I'm maybe like now at this point an old guy"
+    },
+    {
+      "start": "00:18:04",
+      "end": "00:18:07",
+      "text": "Talking about how much fun we used to have sitting around the"
+    },
+    {
+      "start": "00:18:07",
+      "end": "00:18:10",
+      "text": "radio listening to radio plays"
+    },
+    {
+      "start": "00:18:10",
+      "end": "00:18:14",
+      "text": "Because you know basically no one uses this stuff anymore and"
+    },
+    {
+      "start": "00:18:14",
+      "end": "00:18:17",
+      "text": "there are much much better and fancier things like chat GPT"
+    },
+    {
+      "start": "00:18:17",
+      "end": "00:18:21",
+      "text": "But, you know, back in the day when I was younger,"
+    },
+    {
+      "start": "00:18:21",
+      "end": "00:18:27",
+      "text": "you know, it was really stunning already just how this very simple"
+    },
+    {
+      "start": "00:18:27",
+      "end": "00:18:34",
+      "text": "model built on very simple data could just have quite good semantic"
+    },
+    {
+      "start": "00:18:34",
+      "end": "00:18:37",
+      "text": "understanding and do quite good analogies."
+    },
+    {
+      "start": "00:18:37",
+      "end": "00:18:40",
+      "text": "So you can actually, you know, play with this quite a bit and"
+    },
+    {
+      "start": "00:18:40",
+      "end": "00:18:42",
+      "text": "have a bit of fun."
+    },
+    {
+      "start": "00:18:42",
+      "end": "00:18:50",
+      "text": "so you can do something like analogy Australia comma beer France"
+    },
+    {
+      "start": "00:18:50",
+      "end": "00:18:52",
+      "text": "okay what"
+    },
+    {
+      "start": "00:18:52",
+      "end": "00:18:58",
+      "text": "people think the answer will be close the answer gives us champagne"
+    },
+    {
+      "start": "00:18:58",
+      "end": "00:18:58",
+      "text": "but that"
+    },
+    {
+      "start": "00:18:58",
+      "end": "00:19:04",
+      "text": "seems a pretty good answer I could then put in Russia what's"
+    },
+    {
+      "start": "00:19:04",
+      "end": "00:19:04",
+      "text": "what"
+    },
+    {
+      "start": "00:19:04",
+      "end": "00:19:08",
+      "text": "do people think vodka yeah it'll see you can get that vodka you"
+    },
+    {
+      "start": "00:19:08",
+      "end": "00:19:09",
+      "text": "know this is"
+    },
+    {
+      "start": "00:19:09",
+      "end": "00:19:15",
+      "text": "actually works kind of interestingly you know I could do a different"
+    },
+    {
+      "start": "00:19:15",
+      "end": "00:19:16",
+      "text": "one I can do"
+    },
+    {
+      "start": "00:19:16",
+      "end": "00:19:21",
+      "text": "the test something different I can do something like pencil is"
+    },
+    {
+      "start": "00:19:21",
+      "end": "00:19:26",
+      "text": "to sketching as"
+    },
+    {
+      "start": "00:19:26",
+      "end": "00:19:34",
+      "text": "camera is to photographing yeah that works quite well"
+    },
+    {
+      "start": "00:19:34",
+      "end": "00:19:39",
+      "text": "so we built this model"
+    },
+    {
+      "start": "00:19:39",
+      "end": "00:19:45",
+      "text": "in 2014 so it's a little bit out of date in politics so you know"
+    },
+    {
+      "start": "00:19:45",
+      "end": "00:19:46",
+      "text": "we can't do the"
+    },
+    {
+      "start": "00:19:46",
+      "end": "00:19:50",
+      "text": "last decade of politics which is maybe unfortunate but you know"
+    },
+    {
+      "start": "00:19:50",
+      "end": "00:19:51",
+      "text": "we could try"
+    },
+    {
+      "start": "00:19:51",
+      "end": "00:20:00",
+      "text": "out older politics questions so we could try Obama is to Clinton"
+    },
+    {
+      "start": "00:20:00",
+      "end": "00:20:07",
+      "text": "as Reagan is to"
+    },
+    {
+      "start": "00:20:07",
+      "end": "00:20:10",
+      "text": "to, if you remember your US world history class,"
+    },
+    {
+      "start": "00:20:10",
+      "end": "00:20:12",
+      "text": "any guesses what it's going to say?"
+    },
+    {
+      "start": "00:20:14",
+      "end": "00:20:15",
+      "text": "There's a Bush one."
+    },
+    {
+      "start": "00:20:16",
+      "end": "00:20:17",
+      "text": "Any other ideas?"
+    },
+    {
+      "start": "00:20:18",
+      "end": "00:20:21",
+      "text": "Some people have different opinions of Bill Clinton."
+    },
+    {
+      "start": "00:20:21",
+      "end": "00:20:21",
+      "text": "Any?"
+    },
+    {
+      "start": "00:20:24",
+      "end": "00:20:27",
+      "text": "What it answers is Nixon, which I think"
+    },
+    {
+      "start": "00:20:27",
+      "end": "00:20:28",
+      "text": "is actually kind of fair."
+    },
+    {
+      "start": "00:20:32",
+      "end": "00:20:38",
+      "text": "You could also get it to do some just sort of language"
+    },
+    {
+      "start": "00:20:38",
+      "end": "00:20:40",
+      "text": "which syntactic facts, so you can do something like,"
+    },
+    {
+      "start": "00:20:41",
+      "end": "00:20:47",
+      "text": "tallest to tallest as long it,"
+    },
+    {
+      "start": "00:20:47",
+      "end": "00:20:53",
+      "text": "oops, as long is to, this one's easy."
+    },
+    {
+      "start": "00:20:54",
+      "end": "00:20:57",
+      "text": "Um, yeah, so, you know,"
+    },
+    {
+      "start": "00:20:58",
+      "end": "00:21:00",
+      "text": "with this simple method of learning,"
+    },
+    {
+      "start": "00:21:00",
+      "end": "00:21:02",
+      "text": "with this simple bag of words model,"
+    },
+    {
+      "start": "00:21:03",
+      "end": "00:21:07",
+      "text": "it's enough to learn a lot about the semantics of words,"
+    },
+    {
+      "start": "00:21:07",
+      "end": "00:21:12",
+      "text": "And, you know, stuff that's beyond conventional semantics,"
+    },
+    {
+      "start": "00:21:12",
+      "end": "00:21:12",
+      "text": "right?"
+    },
+    {
+      "start": "00:21:12",
+      "end": "00:21:16",
+      "text": "You know, like our examples with Australia is to beer as Russia"
+    },
+    {
+      "start": "00:21:16",
+      "end": "00:21:17",
+      "text": "is to vodka."
+    },
+    {
+      "start": "00:21:17",
+      "end": "00:21:19",
+      "text": "I mean, that's sort of cultural world knowledge,"
+    },
+    {
+      "start": "00:21:19",
+      "end": "00:21:23",
+      "text": "which goes a little bit beyond what people normally think of"
+    },
+    {
+      "start": "00:21:23",
+      "end": "00:21:25",
+      "text": "as sort of word meaning semantics."
+    },
+    {
+      "start": "00:21:25",
+      "end": "00:21:26",
+      "text": "But it's also in there. Yes."
+    },
+    {
+      "start": "00:21:27",
+      "end": "00:21:30",
+      "text": "Perhaps the distance from let's say like man,"
+    },
+    {
+      "start": "00:21:31",
+      "end": "00:21:37",
+      "text": "does that also like would that give you back like ruler or something"
+    },
+    {
+      "start": "00:21:37",
+      "end": "00:21:37",
+      "text": "like that?"
+    },
+    {
+      "start": "00:21:37",
+      "end": "00:21:40",
+      "text": "Where we're taking the distance like a difference between two"
+    },
+    {
+      "start": "00:21:40",
+      "end": "00:21:41",
+      "text": "vectors does capture some concept."
+    },
+    {
+      "start": "00:21:41",
+      "end": "00:21:46",
+      "text": "Oh, right. The distance between man."
+    },
+    {
+      "start": "00:21:46",
+      "end": "00:21:51",
+      "text": "So, so man compared to king should be a ruler concept,"
+    },
+    {
+      "start": "00:21:51",
+      "end": "00:21:55",
+      "text": "but isn't that what I'm using because then I'm taking that,"
+    },
+    {
+      "start": "00:21:55",
+      "end": "00:22:03",
+      "text": "I'm taking the distance between man and king is what I'm adding"
+    },
+    {
+      "start": "00:22:03",
+      "end": "00:22:04",
+      "text": "on to woman to"
+    },
+    {
+      "start": "00:22:04",
+      "end": "00:22:09",
+      "text": "get the Queen right right yeah so I can depending on how if you"
+    },
+    {
+      "start": "00:22:09",
+      "end": "00:22:10",
+      "text": "think of these"
+    },
+    {
+      "start": "00:22:10",
+      "end": "00:22:14",
+      "text": "words depending on which thing you think of as the analogy you"
+    },
+    {
+      "start": "00:22:14",
+      "end": "00:22:15",
+      "text": "can think of it"
+    },
+    {
+      "start": "00:22:15",
+      "end": "00:22:22",
+      "text": "you've both got a vector a difference vector between words that"
+    },
+    {
+      "start": "00:22:22",
+      "end": "00:22:23",
+      "text": "gives you a"
+    },
+    {
+      "start": "00:22:23",
+      "end": "00:22:27",
+      "text": "a gender analogy and one that gives you a ruler analogy."
+    },
+    {
+      "start": "00:22:28",
+      "end": "00:22:28",
+      "text": "Yeah, absolutely."
+    },
+    {
+      "start": "00:22:30",
+      "end": "00:22:33",
+      "text": "Any other questions? Yeah."
+    },
+    {
+      "start": "00:22:34",
+      "end": "00:22:36",
+      "text": "Um, in the watch vec, um, algorithm,"
+    },
+    {
+      "start": "00:22:37",
+      "end": "00:22:39",
+      "text": "we get two vectors, like the- the- for each one,"
+    },
+    {
+      "start": "00:22:39",
+      "end": "00:22:40",
+      "text": "a- a U and a V."
+    },
+    {
+      "start": "00:22:41",
+      "end": "00:22:41",
+      "text": "Yeah."
+    },
+    {
+      "start": "00:22:41",
+      "end": "00:22:43",
+      "text": "But here you only have one vector."
+    },
+    {
+      "start": "00:22:43",
+      "end": "00:22:46",
+      "text": "So how do you go from two to one?"
+    },
+    {
+      "start": "00:22:46",
+      "end": "00:22:47",
+      "text": "Yeah. Good question."
+    },
+    {
+      "start": "00:22:48",
+      "end": "00:22:51",
+      "text": "I mean, the commonest way in practice was you just average the"
+    },
+    {
+      "start": "00:22:51",
+      "end": "00:22:52",
+      "text": "two of them."
+    },
+    {
+      "start": "00:22:52",
+      "end": "00:22:58",
+      "text": "and really you sort of find out that they end up very close,"
+    },
+    {
+      "start": "00:22:58",
+      "end": "00:22:59",
+      "text": "you know,"
+    },
+    {
+      "start": "00:23:01",
+      "end": "00:23:04",
+      "text": "because if you think of it, since you're going along every position"
+    },
+    {
+      "start": "00:23:04",
+      "end": "00:23:05",
+      "text": "of the text,"
+    },
+    {
+      "start": "00:23:05",
+      "end": "00:23:08",
+      "text": "you're both going to be the case where if the text is sort of,"
+    },
+    {
+      "start": "00:23:08",
+      "end": "00:23:08",
+      "text": "you know,"
+    },
+    {
+      "start": "00:23:08",
+      "end": "00:23:12",
+      "text": "the octopus has legs, you know, you're going to have octopus"
+    },
+    {
+      "start": "00:23:12",
+      "end": "00:23:13",
+      "text": "in the center"
+    },
+    {
+      "start": "00:23:13",
+      "end": "00:23:16",
+      "text": "with legs in the context, then a couple of time steps later"
+    },
+    {
+      "start": "00:23:16",
+      "end": "00:23:19",
+      "text": "it's going to be legs in the center with octopus in the context."
+    },
+    {
+      "start": "00:23:19",
+      "end": "00:23:22",
+      "text": "So, you know, although they vary a bit for all the regions,"
+    },
+    {
+      "start": "00:23:22",
+      "end": "00:23:23",
+      "text": "and so if the neural nets vary,"
+    },
+    {
+      "start": "00:23:23",
+      "end": "00:23:26",
+      "text": "basically they end up very similar and people normally just average"
+    },
+    {
+      "start": "00:23:26",
+      "end": "00:23:27",
+      "text": "them. Yeah."
+    },
+    {
+      "start": "00:23:30",
+      "end": "00:23:31",
+      "text": "So, use this, uh,"
+    },
+    {
+      "start": "00:23:32",
+      "end": "00:23:36",
+      "text": "the answer of one to then be placed into the analogy function"
+    },
+    {
+      "start": "00:23:36",
+      "end": "00:23:36",
+      "text": "of"
+    },
+    {
+      "start": "00:23:36",
+      "end": "00:23:38",
+      "text": "the other and see how far away you can go before it starts to"
+    },
+    {
+      "start": "00:23:38",
+      "end": "00:23:39",
+      "text": "break down?"
+    },
+    {
+      "start": "00:23:41",
+      "end": "00:23:44",
+      "text": "I think you can. Um, so you- wait,"
+    },
+    {
+      "start": "00:23:45",
+      "end": "00:23:45",
+      "text": "you're wanting to-"
+    },
+    {
+      "start": "00:23:45",
+      "end": "00:23:47",
+      "text": "How far away? How distant are you?"
+    },
+    {
+      "start": "00:23:56",
+      "end": "00:24:00",
+      "text": "Are you wanting to sort of make two steps from somewhere or?"
+    },
+    {
+      "start": "00:24:00",
+      "end": "00:24:02",
+      "text": "Like two steps or-"
+    },
+    {
+      "start": "00:24:10",
+      "end": "00:24:12",
+      "text": "So it doesn't always work."
+    },
+    {
+      "start": "00:24:12",
+      "end": "00:24:14",
+      "text": "I mean, and there are certainly examples that will fail."
+    },
+    {
+      "start": "00:24:14",
+      "end": "00:24:18",
+      "text": "Um, I'm sort of shy to try that now,"
+    },
+    {
+      "start": "00:24:18",
+      "end": "00:24:20",
+      "text": "because I don't have a predefined function that did it,"
+    },
+    {
+      "start": "00:24:20",
+      "end": "00:24:22",
+      "text": "and that might take me, um, too long."
+    },
+    {
+      "start": "00:24:22",
+      "end": "00:24:24",
+      "text": "But you could play with it at home,"
+    },
+    {
+      "start": "00:24:24",
+      "end": "00:24:26",
+      "text": "and see how it works for you."
+    },
+    {
+      "start": "00:24:27",
+      "end": "00:24:27",
+      "text": "Okay."
+    },
+    {
+      "start": "00:24:30",
+      "end": "00:24:32",
+      "text": "Okay. As a clarification, why is it that we use"
+    },
+    {
+      "start": "00:24:32",
+      "end": "00:24:34",
+      "text": "two separate sets of vectors for WordEvec?"
+    },
+    {
+      "start": "00:24:34",
+      "end": "00:24:37",
+      "text": "Uh, is it just to get more parameters, or is there, uh-"
+    },
+    {
+      "start": "00:24:37",
+      "end": "00:24:39",
+      "text": "Um, I'll get back to that."
+    },
+    {
+      "start": "00:24:40",
+      "end": "00:24:42",
+      "text": "Maybe I should go on at this point."
+    },
+    {
+      "start": "00:24:43",
+      "end": "00:24:47",
+      "text": "Let me move on and kind of just get through some more details"
+    },
+    {
+      "start": "00:24:47",
+      "end": "00:24:49",
+      "text": "of the Word2Vec algorithm."
+    },
+    {
+      "start": "00:24:50",
+      "end": "00:24:56",
+      "text": "So just a technical point on this class so you don't make any"
+    },
+    {
+      "start": "00:24:56",
+      "end": "00:24:57",
+      "text": "big mistakes and waste your weekend."
+    },
+    {
+      "start": "00:24:58",
+      "end": "00:25:03",
+      "text": "I mean for most instances of 224N we've actually had people implement"
+    },
+    {
+      "start": "00:25:03",
+      "end": "00:25:05",
+      "text": "from scratch Word2Vec as"
+    },
+    {
+      "start": "00:25:05",
+      "end": "00:25:11",
+      "text": "assignment 2 but you know for this quarter doing it in spring"
+    },
+    {
+      "start": "00:25:11",
+      "end": "00:25:12",
+      "text": "quarter as"
+    },
+    {
+      "start": "00:25:12",
+      "end": "00:25:15",
+      "text": "you probably know spring quarter is actually a little shorter"
+    },
+    {
+      "start": "00:25:15",
+      "end": "00:25:16",
+      "text": "than the other"
+    },
+    {
+      "start": "00:25:16",
+      "end": "00:25:20",
+      "text": "two quarters we decided to skip having people implement word2vec"
+    },
+    {
+      "start": "00:25:20",
+      "end": "00:25:22",
+      "text": "so don't"
+    },
+    {
+      "start": "00:25:22",
+      "end": "00:25:25",
+      "text": "look at the old assignment 2 that says implement word2vec or"
+    },
+    {
+      "start": "00:25:25",
+      "end": "00:25:25",
+      "text": "else you'll be"
+    },
+    {
+      "start": "00:25:25",
+      "end": "00:25:29",
+      "text": "misspending your time wait for the newest assignment 2 to come"
+    },
+    {
+      "start": "00:25:29",
+      "end": "00:25:31",
+      "text": "out so that"
+    },
+    {
+      "start": "00:25:31",
+      "end": "00:25:33",
+      "text": "But, you know, despite that, let me just sort of, um,"
+    },
+    {
+      "start": "00:25:33",
+      "end": "00:25:37",
+      "text": "say a little bit more about some of the details, right?"
+    },
+    {
+      "start": "00:25:38",
+      "end": "00:25:39",
+      "text": "Yeah. So, why two vectors?"
+    },
+    {
+      "start": "00:25:40",
+      "end": "00:25:45",
+      "text": "Um, so, the two vectors is it just makes the math a little bit"
+    },
+    {
+      "start": "00:25:45",
+      "end": "00:25:45",
+      "text": "easy, yeah."
+    },
+    {
+      "start": "00:25:46",
+      "end": "00:25:48",
+      "text": "So, if you think about the math, right?"
+    },
+    {
+      "start": "00:25:49",
+      "end": "00:25:53",
+      "text": "If you have the same vectors for the center word and for the"
+    },
+    {
+      "start": "00:25:53",
+      "end": "00:25:55",
+      "text": "outside words,"
+    },
+    {
+      "start": "00:25:55",
+      "end": "00:25:58",
+      "text": "well, for whatever the center word is,"
+    },
+    {
+      "start": "00:25:58",
+      "end": "00:26:00",
+      "text": "is, let's say it's octopus, that when you're"
+    },
+    {
+      "start": "00:26:00",
+      "end": "00:26:05",
+      "text": "going through the trying out every possible context"
+    },
+    {
+      "start": "00:26:05",
+      "end": "00:26:08",
+      "text": "word for the normalization, at some point"
+    },
+    {
+      "start": "00:26:08",
+      "end": "00:26:09",
+      "text": "you'll hit octopus again."
+    },
+    {
+      "start": "00:26:10",
+      "end": "00:26:13",
+      "text": "And so at that point, you'll have a quadratic term, right?"
+    },
+    {
+      "start": "00:26:13",
+      "end": "00:26:15",
+      "text": "You'll have the x squared of the octopus vector."
+    },
+    {
+      "start": "00:26:16",
+      "end": "00:26:18",
+      "text": "And that kind of messes up."
+    },
+    {
+      "start": "00:26:18",
+      "end": "00:26:20",
+      "text": "I mean, you're clever people."
+    },
+    {
+      "start": "00:26:20",
+      "end": "00:26:22",
+      "text": "You could work out the math of it."
+    },
+    {
+      "start": "00:26:22",
+      "end": "00:26:25",
+      "text": "But it makes the math more of a mess, right?"
+    },
+    {
+      "start": "00:26:25",
+      "end": "00:26:27",
+      "text": "Because every other term, it's something different."
+    },
+    {
+      "start": "00:26:27",
+      "end": "00:26:28",
+      "text": "and it's just like AX,"
+    },
+    {
+      "start": "00:26:29",
+      "end": "00:26:31",
+      "text": "and then at one position you've got an X squared."
+    },
+    {
+      "start": "00:26:31",
+      "end": "00:26:34",
+      "text": "Um, so it just makes the math messier,"
+    },
+    {
+      "start": "00:26:34",
+      "end": "00:26:39",
+      "text": "and so they kept it really simple by just having them be disjoint"
+    },
+    {
+      "start": "00:26:39",
+      "end": "00:26:39",
+      "text": "vectors."
+    },
+    {
+      "start": "00:26:39",
+      "end": "00:26:41",
+      "text": "But it, it doesn't make it better."
+    },
+    {
+      "start": "00:26:42",
+      "end": "00:26:46",
+      "text": "I mean, it actually turns out it works a fraction better if you,"
+    },
+    {
+      "start": "00:26:46",
+      "end": "00:26:47",
+      "text": "um, do it right."
+    },
+    {
+      "start": "00:26:47",
+      "end": "00:26:52",
+      "text": "Um, but in practice people have usually just estimated them separately,"
+    },
+    {
+      "start": "00:26:52",
+      "end": "00:26:54",
+      "text": "and then average them at the end."
+    },
+    {
+      "start": "00:26:54",
+      "end": "00:26:57",
+      "text": "Um, there, if, if you actually look at the paper,"
+    },
+    {
+      "start": "00:26:57",
+      "end": "00:26:59",
+      "text": "here's Mikulov et al, you can find it,"
+    },
+    {
+      "start": "00:26:59",
+      "end": "00:27:05",
+      "text": "2013 paper, um, there's actually sort of a family of methods"
+    },
+    {
+      "start": "00:27:05",
+      "end": "00:27:06",
+      "text": "that they describe."
+    },
+    {
+      "start": "00:27:06",
+      "end": "00:27:09",
+      "text": "Um, so, they describe two methods,"
+    },
+    {
+      "start": "00:27:09",
+      "end": "00:27:14",
+      "text": "one of which, um, was that you have an inside word that's predicting"
+    },
+    {
+      "start": "00:27:14",
+      "end": "00:27:18",
+      "text": "the words around it, and then the other one tried to predict"
+    },
+    {
+      "start": "00:27:18",
+      "end": "00:27:21",
+      "text": "the center word from all the words in the context,"
+    },
+    {
+      "start": "00:27:21",
+      "end": "00:27:23",
+      "text": "which was called continuous bag of words in their paper."
+    },
+    {
+      "start": "00:27:23",
+      "end": "00:27:26",
+      "text": "The one that I've described is Skip Graham,"
+    },
+    {
+      "start": "00:27:26",
+      "end": "00:27:29",
+      "text": "which is simpler and works just great."
+    },
+    {
+      "start": "00:27:30",
+      "end": "00:27:36",
+      "text": "But then the other part of it is for working out"
+    },
+    {
+      "start": "00:27:37",
+      "end": "00:27:39",
+      "text": "what loss function to be used for training."
+    },
+    {
+      "start": "00:27:40",
+      "end": "00:27:46",
+      "text": "And what I've presented so far is naive softmax"
+    },
+    {
+      "start": "00:27:46",
+      "end": "00:27:48",
+      "text": "where we just consider every possible choice"
+    },
+    {
+      "start": "00:27:48",
+      "end": "00:27:52",
+      "text": "of a context word and just run all the math."
+    },
+    {
+      "start": "00:27:53",
+      "end": "00:27:56",
+      "text": "You know that's totally doable and with our modern superfast"
+    },
+    {
+      "start": "00:27:56",
+      "end": "00:27:58",
+      "text": "computers. That's not even that"
+    },
+    {
+      "start": "00:27:58",
+      "end": "00:28:01",
+      "text": "Unreasonable to do we do things like this all the time,"
+    },
+    {
+      "start": "00:28:01",
+      "end": "00:28:05",
+      "text": "but at least at the time that they wrote their paper"
+    },
+    {
+      "start": "00:28:05",
+      "end": "00:28:09",
+      "text": "This seemed kind of expensive and they considered other alternatives"
+    },
+    {
+      "start": "00:28:09",
+      "end": "00:28:13",
+      "text": "Like a hierarchical softmax, which I'm not going to explain right"
+    },
+    {
+      "start": "00:28:13",
+      "end": "00:28:16",
+      "text": "now, but I do just want to explain negative sampling"
+    },
+    {
+      "start": "00:28:18",
+      "end": "00:28:21",
+      "text": "Okay, so this is just to sort of see a bit of a different way"
+    },
+    {
+      "start": "00:28:21",
+      "end": "00:28:22",
+      "text": "of doing things"
+    },
+    {
+      "start": "00:28:22",
+      "end": "00:28:25",
+      "text": "So, for what we did last time,"
+    },
+    {
+      "start": "00:28:25",
+      "end": "00:28:29",
+      "text": "we had this sort of straightforward softmax equation,"
+    },
+    {
+      "start": "00:28:29",
+      "end": "00:28:31",
+      "text": "and so in the denominator,"
+    },
+    {
+      "start": "00:28:31",
+      "end": "00:28:34",
+      "text": "you're summing over every word in the vocabulary."
+    },
+    {
+      "start": "00:28:35",
+      "end": "00:28:39",
+      "text": "Um, and so if you might have 400,000 words in your vocabulary,"
+    },
+    {
+      "start": "00:28:39",
+      "end": "00:28:40",
+      "text": "a lot of words in human languages,"
+    },
+    {
+      "start": "00:28:41",
+      "end": "00:28:43",
+      "text": "you know, that's kind of a,"
+    },
+    {
+      "start": "00:28:43",
+      "end": "00:28:46",
+      "text": "a big sum especially when for each element of the sum,"
+    },
+    {
+      "start": "00:28:47",
+      "end": "00:28:51",
+      "text": "you're taking a dot product between 100 dimensional or 300 dimensional"
+    },
+    {
+      "start": "00:28:51",
+      "end": "00:28:52",
+      "text": "vectors,"
+    },
+    {
+      "start": "00:28:52",
+      "end": "00:28:53",
+      "text": "vectors and then exponentiating it, right?"
+    },
+    {
+      "start": "00:28:54",
+      "end": "00:28:56",
+      "text": "A lot of math going on somewhere in there."
+    },
+    {
+      "start": "00:28:57",
+      "end": "00:29:01",
+      "text": "So maybe we could short circuit that."
+    },
+    {
+      "start": "00:29:01",
+      "end": "00:29:05",
+      "text": "And so the idea of the negative sampling was to say, well,"
+    },
+    {
+      "start": "00:29:06",
+      "end": "00:29:10",
+      "text": "rather than evaluating it for every single possible word,"
+    },
+    {
+      "start": "00:29:10",
+      "end": "00:29:15",
+      "text": "maybe we could just sort of train some simpler logistic"
+    },
+    {
+      "start": "00:29:15",
+      "end": "00:29:18",
+      "text": "regressions where they're going to say,"
+    },
+    {
+      "start": "00:29:18",
+      "end": "00:29:21",
+      "text": "say, you should like the true word that's in the context."
+    },
+    {
+      "start": "00:29:21",
+      "end": "00:29:24",
+      "text": "And if we randomly pick a few other words,"
+    },
+    {
+      "start": "00:29:25",
+      "end": "00:29:26",
+      "text": "you shouldn't like them very much."
+    },
+    {
+      "start": "00:29:27",
+      "end": "00:29:30",
+      "text": "And that's skip-gram negative sampling."
+    },
+    {
+      "start": "00:29:30",
+      "end": "00:29:32",
+      "text": "So that's what this looks like as an equation."
+    },
+    {
+      "start": "00:29:33",
+      "end": "00:29:38",
+      "text": "So we've got our center word and our actual context word."
+    },
+    {
+      "start": "00:29:39",
+      "end": "00:29:43",
+      "text": "And we're saying, well, let's work out"
+    },
+    {
+      "start": "00:29:43",
+      "end": "00:29:46",
+      "text": "the term for the actual center word."
+    },
+    {
+      "start": "00:29:46",
+      "end": "00:29:53",
+      "text": "we'd like this to be high probability so since we're minimizing"
+    },
+    {
+      "start": "00:29:53",
+      "end": "00:29:54",
+      "text": "we're going to"
+    },
+    {
+      "start": "00:29:54",
+      "end": "00:29:58",
+      "text": "negate that and have it go down and then we're going to sample"
+    },
+    {
+      "start": "00:29:58",
+      "end": "00:29:59",
+      "text": "some other words"
+    },
+    {
+      "start": "00:29:59",
+      "end": "00:30:03",
+      "text": "and we'd like this to be the opposite but there's the other thing"
+    },
+    {
+      "start": "00:30:03",
+      "end": "00:30:03",
+      "text": "that we've"
+    },
+    {
+      "start": "00:30:03",
+      "end": "00:30:08",
+      "text": "changed here is now we're not using the softmax anymore we're"
+    },
+    {
+      "start": "00:30:08",
+      "end": "00:30:09",
+      "text": "using this Sigma"
+    },
+    {
+      "start": "00:30:09",
+      "end": "00:30:13",
+      "text": "which stands for the logistic function which is often called"
+    },
+    {
+      "start": "00:30:13",
+      "end": "00:30:15",
+      "text": "the sigmoid and"
+    },
+    {
+      "start": "00:30:15",
+      "end": "00:30:19",
+      "text": "Sigmoid just means S-shaped, but you can actually have an infinity"
+    },
+    {
+      "start": "00:30:19",
+      "end": "00:30:21",
+      "text": "of S-shaped functions,"
+    },
+    {
+      "start": "00:30:21",
+      "end": "00:30:24",
+      "text": "and the one that we actually use is the logistic function."
+    },
+    {
+      "start": "00:30:25",
+      "end": "00:30:31",
+      "text": "So the logistic function has this form and maps from any real"
+    },
+    {
+      "start": "00:30:31",
+      "end": "00:30:34",
+      "text": "number to a probability between 0 and 1."
+    },
+    {
+      "start": "00:30:36",
+      "end": "00:30:41",
+      "text": "So what we're wanting to say at that point is for the real outside"
+    },
+    {
+      "start": "00:30:41",
+      "end": "00:30:42",
+      "text": "world,"
+    },
+    {
+      "start": "00:30:42",
+      "end": "00:30:45",
+      "text": "word. We're hoping that this dot product is large,"
+    },
+    {
+      "start": "00:30:46",
+      "end": "00:30:49",
+      "text": "so its probability is near 1. And so"
+    },
+    {
+      "start": "00:30:49",
+      "end": "00:30:52",
+      "text": "that will then sort of help with the minimization."
+    },
+    {
+      "start": "00:30:53",
+      "end": "00:30:56",
+      "text": "And for the other words, we'd like their"
+    },
+    {
+      "start": "00:30:56",
+      "end": "00:31:02",
+      "text": "probability to be small. So we'd like them to appear sort of"
+    },
+    {
+      "start": "00:31:02",
+      "end": "00:31:05",
+      "text": "over here. And that's what"
+    },
+    {
+      "start": "00:31:05",
+      "end": "00:31:07",
+      "text": "this is calculating. But as written,"
+    },
+    {
+      "start": "00:31:07",
+      "end": "00:31:10",
+      "text": "it's sort of sticking the minus sign on the inside"
+    },
+    {
+      "start": "00:31:10",
+      "end": "00:31:13",
+      "text": "side there, which works because this is symmetric, right?"
+    },
+    {
+      "start": "00:31:14",
+      "end": "00:31:17",
+      "text": "So you're wanting to be over here, which"
+    },
+    {
+      "start": "00:31:17",
+      "end": "00:31:18",
+      "text": "means that if you negate it, you'll"
+    },
+    {
+      "start": "00:31:18",
+      "end": "00:31:21",
+      "text": "be on this side, which will be large."
+    },
+    {
+      "start": "00:31:28",
+      "end": "00:31:32",
+      "text": "And so then the final bit of this, which is the asterisk,"
+    },
+    {
+      "start": "00:31:32",
+      "end": "00:31:34",
+      "text": "is so we're going to pick a few words."
+    },
+    {
+      "start": "00:31:35",
+      "end": "00:31:38",
+      "text": "It might only be five or 10 that are our negative samples."
+    },
+    {
+      "start": "00:31:39",
+      "end": "00:31:43",
+      "text": "But for picking those words, what works well"
+    },
+    {
+      "start": "00:31:43",
+      "end": "00:31:49",
+      "text": "well is not just to sort of pick sort of randomly uniformly from"
+    },
+    {
+      "start": "00:31:49",
+      "end": "00:31:51",
+      "text": "all the 400,000 words in our"
+    },
+    {
+      "start": "00:31:51",
+      "end": "00:31:51",
+      "text": "vocab."
+    },
+    {
+      "start": "00:31:52",
+      "end": "00:31:56",
+      "text": "What you basically want to do is sort of be paying attention"
+    },
+    {
+      "start": "00:31:56",
+      "end": "00:31:57",
+      "text": "to how common the words are."
+    },
+    {
+      "start": "00:31:58",
+      "end": "00:32:00",
+      "text": "So something like that is a really common word."
+    },
+    {
+      "start": "00:32:00",
+      "end": "00:32:04",
+      "text": "And so we refer to that as the unigram distribution."
+    },
+    {
+      "start": "00:32:04",
+      "end": "00:32:07",
+      "text": "That means you're sort of just taking individual words independently,"
+    },
+    {
+      "start": "00:32:07",
+      "end": "00:32:09",
+      "text": "how commonly they are."
+    },
+    {
+      "start": "00:32:09",
+      "end": "00:32:12",
+      "text": "So about 10% of the time you'd be choosing that"
+    },
+    {
+      "start": "00:32:13",
+      "end": "00:32:17",
+      "text": "But so that's sort of roughly what you want to do for sampling"
+    },
+    {
+      "start": "00:32:17",
+      "end": "00:32:20",
+      "text": "But people have found that you can actually do even a bit better"
+    },
+    {
+      "start": "00:32:20",
+      "end": "00:32:21",
+      "text": "than that"
+    },
+    {
+      "start": "00:32:21",
+      "end": "00:32:25",
+      "text": "So the standard thing that they presented for word2vec is you're"
+    },
+    {
+      "start": "00:32:25",
+      "end": "00:32:27",
+      "text": "taking the unigram"
+    },
+    {
+      "start": "00:32:27",
+      "end": "00:32:31",
+      "text": "Probability of the word and raising it to the power three quarters"
+    },
+    {
+      "start": "00:32:32",
+      "end": "00:32:34",
+      "text": "What does that end up doing?"
+    },
+    {
+      "start": "00:32:34",
+      "end": "00:32:41",
+      "text": "Question for the audience. If I take probabilities and raise"
+    },
+    {
+      "start": "00:32:41",
+      "end": "00:32:43",
+      "text": "them to the 3 quarters."
+    },
+    {
+      "start": "00:32:43",
+      "end": "00:32:48",
+      "text": "So less frequent words become sampling more?"
+    },
+    {
+      "start": "00:32:49",
+      "end": "00:32:55",
+      "text": "Correct. Yeah, so raising it to the 3 quarters means that you're"
+    },
+    {
+      "start": "00:32:55",
+      "end": "00:32:57",
+      "text": "sort of somewhat upping the"
+    },
+    {
+      "start": "00:32:57",
+      "end": "00:33:01",
+      "text": "probability of the less frequent words."
+    },
+    {
+      "start": "00:33:01",
+      "end": "00:33:04",
+      "text": "So you're sort of in between, you know,"
+    },
+    {
+      "start": "00:33:04",
+      "end": "00:33:06",
+      "text": "between having every"
+    },
+    {
+      "start": "00:33:06",
+      "end": "00:33:10",
+      "text": "word uniform and exactly using their relative frequencies in"
+    },
+    {
+      "start": "00:33:10",
+      "end": "00:33:11",
+      "text": "the text you're"
+    },
+    {
+      "start": "00:33:11",
+      "end": "00:33:15",
+      "text": "sort of moving a little bit in the direction of uniform and so"
+    },
+    {
+      "start": "00:33:15",
+      "end": "00:33:15",
+      "text": "you get"
+    },
+    {
+      "start": "00:33:15",
+      "end": "00:33:19",
+      "text": "better results by going somewhat in the distance of sampling"
+    },
+    {
+      "start": "00:33:19",
+      "end": "00:33:21",
+      "text": "more uniformly but"
+    },
+    {
+      "start": "00:33:21",
+      "end": "00:33:24",
+      "text": "you don't want to go all the way there which should correspond"
+    },
+    {
+      "start": "00:33:24",
+      "end": "00:33:25",
+      "text": "to I guess"
+    },
+    {
+      "start": "00:33:25",
+      "end": "00:33:32",
+      "text": "putting a zero in there rather than three quarters okay yeah"
+    },
+    {
+      "start": "00:33:32",
+      "end": "00:33:37",
+      "text": "okay let's see"
+    },
+    {
+      "start": "00:33:37",
+      "end": "00:33:40",
+      "text": "see, I had an aside here, but time rushes along."
+    },
+    {
+      "start": "00:33:40",
+      "end": "00:33:42",
+      "text": "So let's not bother with this side."
+    },
+    {
+      "start": "00:33:42",
+      "end": "00:33:43",
+      "text": "It's not that important."
+    },
+    {
+      "start": "00:33:44",
+      "end": "00:33:48",
+      "text": "OK, so that's the word2vec algorithm"
+    },
+    {
+      "start": "00:33:48",
+      "end": "00:33:52",
+      "text": "that we've seen all of in its different forms."
+    },
+    {
+      "start": "00:33:54",
+      "end": "00:33:59",
+      "text": "A reasonable wonder that you could have at this point"
+    },
+    {
+      "start": "00:33:59",
+      "end": "00:34:05",
+      "text": "is this seems a kind of a weird way"
+    },
+    {
+      "start": "00:34:05",
+      "end": "00:34:07",
+      "text": "of doing what we're wanting to do, right?"
+    },
+    {
+      "start": "00:34:07",
+      "end": "00:34:10",
+      "text": "The idea is, look, we have this text,"
+    },
+    {
+      "start": "00:34:11",
+      "end": "00:34:15",
+      "text": "we have words, and we have words in the context of words."
+    },
+    {
+      "start": "00:34:15",
+      "end": "00:34:19",
+      "text": "It sort of seems like an obvious thing to do would be to say,"
+    },
+    {
+      "start": "00:34:19",
+      "end": "00:34:21",
+      "text": "well, let's just count some statistics."
+    },
+    {
+      "start": "00:34:22",
+      "end": "00:34:24",
+      "text": "We have words, and there are other words that occur in their"
+    },
+    {
+      "start": "00:34:24",
+      "end": "00:34:25",
+      "text": "context."
+    },
+    {
+      "start": "00:34:25",
+      "end": "00:34:30",
+      "text": "So let's just see how often the word swim occurs next to octopus"
+    },
+    {
+      "start": "00:34:30",
+      "end": "00:34:33",
+      "text": "and how often the word fish occurs next to octopus."
+    },
+    {
+      "start": "00:34:33",
+      "end": "00:34:39",
+      "text": "Let's get some counts and see how often words occur in the context"
+    },
+    {
+      "start": "00:34:39",
+      "end": "00:34:40",
+      "text": "of other words."
+    },
+    {
+      "start": "00:34:40",
+      "end": "00:34:45",
+      "text": "And maybe we could use that to calculate some form of word vectors."
+    },
+    {
+      "start": "00:34:46",
+      "end": "00:34:51",
+      "text": "And so that's something that people have already also considered."
+    },
+    {
+      "start": "00:34:51",
+      "end": "00:34:54",
+      "text": "So if we use the same kind of idea of a context window,"
+    },
+    {
+      "start": "00:34:55",
+      "end": "00:34:57",
+      "text": "we could just make a matrix of how"
+    },
+    {
+      "start": "00:34:57",
+      "end": "00:35:00",
+      "text": "often words occur in the context of other words."
+    },
+    {
+      "start": "00:35:00",
+      "end": "00:35:03",
+      "text": "And so, you know, here's a baby example."
+    },
+    {
+      "start": "00:35:03",
+      "end": "00:35:05",
+      "text": "My corpus is I like deep learning."
+    },
+    {
+      "start": "00:35:05",
+      "end": "00:35:07",
+      "text": "I like NLP. I enjoy flying"
+    },
+    {
+      "start": "00:35:08",
+      "end": "00:35:12",
+      "text": "And my context window I'm using is just one word to the left"
+    },
+    {
+      "start": "00:35:12",
+      "end": "00:35:15",
+      "text": "and the right and then I can make this kind of"
+    },
+    {
+      "start": "00:35:15",
+      "end": "00:35:18",
+      "text": "co-occurrence count matrix"
+    },
+    {
+      "start": "00:35:19",
+      "end": "00:35:23",
+      "text": "Where I'm putting in the counts of different words in every context"
+    },
+    {
+      "start": "00:35:23",
+      "end": "00:35:26",
+      "text": "and you know because my corpus is so small"
+    },
+    {
+      "start": "00:35:27",
+      "end": "00:35:31",
+      "text": "Every thing in the matrix is a zero or one except for right here"
+    },
+    {
+      "start": "00:35:31",
+      "end": "00:35:34",
+      "text": "where I've got the twos because I have I like twice"
+    },
+    {
+      "start": "00:35:34",
+      "end": "00:35:38",
+      "text": "Right, but in principle, I've got a matrix of counts for all"
+    },
+    {
+      "start": "00:35:38",
+      "end": "00:35:39",
+      "text": "the different counts here"
+    },
+    {
+      "start": "00:35:40",
+      "end": "00:35:45",
+      "text": "So maybe you know, this gives them this gives me a word vector,"
+    },
+    {
+      "start": "00:35:45",
+      "end": "00:35:48",
+      "text": "right, you know, here's a word vector for deep"
+    },
+    {
+      "start": "00:35:49",
+      "end": "00:35:51",
+      "text": "Is this long vector here and you know,"
+    },
+    {
+      "start": "00:35:51",
+      "end": "00:35:54",
+      "text": "I could just say that is my word vector and indeed"
+    },
+    {
+      "start": "00:35:54",
+      "end": "00:35:56",
+      "text": "Indeed, sometimes people have done that,"
+    },
+    {
+      "start": "00:35:57",
+      "end": "00:36:00",
+      "text": "but they're kind of ungainly word vectors,"
+    },
+    {
+      "start": "00:36:00",
+      "end": "00:36:00",
+      "text": "because"
+    },
+    {
+      "start": "00:36:00",
+      "end": "00:36:04",
+      "text": "if we have 400,000 words in our vocabulary,"
+    },
+    {
+      "start": "00:36:04",
+      "end": "00:36:08",
+      "text": "the size of this matrix is 400,000 by 400,000,"
+    },
+    {
+      "start": "00:36:09",
+      "end": "00:36:12",
+      "text": "which is a lot worse than our word vectors,"
+    },
+    {
+      "start": "00:36:12",
+      "end": "00:36:14",
+      "text": "because if we're making them only 100-dimensional,"
+    },
+    {
+      "start": "00:36:15",
+      "end": "00:36:20",
+      "text": "we've only got 400,000 by 100, which is still a big number,"
+    },
+    {
+      "start": "00:36:20",
+      "end": "00:36:21",
+      "text": "but it's a lot smaller than"
+    },
+    {
+      "start": "00:36:21",
+      "end": "00:36:24",
+      "text": "than 400,000 times 400,000."
+    },
+    {
+      "start": "00:36:24",
+      "end": "00:36:25",
+      "text": "So that's inconvenient."
+    },
+    {
+      "start": "00:36:25",
+      "end": "00:36:30",
+      "text": "So when people have started with these kind of co-occurrence"
+    },
+    {
+      "start": "00:36:30",
+      "end": "00:36:35",
+      "text": "matrix, the general thing that people have done is to say,"
+    },
+    {
+      "start": "00:36:35",
+      "end": "00:36:39",
+      "text": "well, somehow we want to reduce the dimensionality"
+    },
+    {
+      "start": "00:36:39",
+      "end": "00:36:43",
+      "text": "of that matrix so that we have a smaller matrix to deal with."
+    },
+    {
+      "start": "00:36:44",
+      "end": "00:36:48",
+      "text": "And so then how can we reduce the dimensionality"
+    },
+    {
+      "start": "00:36:48",
+      "end": "00:36:49",
+      "text": "of the matrix?"
+    },
+    {
+      "start": "00:36:49",
+      "end": "00:36:53",
+      "text": "And at this point, if you remember your linear algebra and stuff"
+    },
+    {
+      "start": "00:36:53",
+      "end": "00:36:55",
+      "text": "like that, you should be"
+    },
+    {
+      "start": "00:36:55",
+      "end": "00:36:57",
+      "text": "thinking of things like PCA."
+    },
+    {
+      "start": "00:36:57",
+      "end": "00:37:00",
+      "text": "And in particular, if you wanted to work for any matrix of any"
+    },
+    {
+      "start": "00:37:00",
+      "end": "00:37:03",
+      "text": "shape, there's the singular"
+    },
+    {
+      "start": "00:37:03",
+      "end": "00:37:04",
+      "text": "value decomposition."
+    },
+    {
+      "start": "00:37:04",
+      "end": "00:37:09",
+      "text": "So there's a classic singular value decomposition for any matrix."
+    },
+    {
+      "start": "00:37:09",
+      "end": "00:37:13",
+      "text": "You can rewrite it as a product of three matrices,"
+    },
+    {
+      "start": "00:37:14",
+      "end": "00:37:17",
+      "text": "a U and a V, which are both orthonormal,"
+    },
+    {
+      "start": "00:37:17",
+      "end": "00:37:27",
+      "text": "normal, which means that you get these independent vectors that"
+    },
+    {
+      "start": "00:37:27",
+      "end": "00:37:28",
+      "text": "are orthogonal to each other."
+    },
+    {
+      "start": "00:37:29",
+      "end": "00:37:34",
+      "text": "And then in the middle, we have the singular vectors,"
+    },
+    {
+      "start": "00:37:34",
+      "end": "00:37:35",
+      "text": "which are ordered in size."
+    },
+    {
+      "start": "00:37:36",
+      "end": "00:37:38",
+      "text": "This is the most important singular vector."
+    },
+    {
+      "start": "00:37:38",
+      "end": "00:37:41",
+      "text": "And these are sort of weighting terms on the different number"
+    },
+    {
+      "start": "00:37:41",
+      "end": "00:37:44",
+      "text": "of the different dimensions."
+    },
+    {
+      "start": "00:37:44",
+      "end": "00:37:47",
+      "text": "And so this is sort of the full SVD"
+    },
+    {
+      "start": "00:37:47",
+      "end": "00:37:48",
+      "text": "decomposition"
+    },
+    {
+      "start": "00:37:49",
+      "end": "00:37:53",
+      "text": "But you know part of it is irrelevant because if I've got this"
+    },
+    {
+      "start": "00:37:53",
+      "end": "00:37:54",
+      "text": "picture, you know"
+    },
+    {
+      "start": "00:37:54",
+      "end": "00:37:56",
+      "text": "Nothing is happening on the part."
+    },
+    {
+      "start": "00:37:56",
+      "end": "00:37:58",
+      "text": "That's sort of shown in yellow there"
+    },
+    {
+      "start": "00:37:59",
+      "end": "00:38:02",
+      "text": "But if you want, you know at the moment,"
+    },
+    {
+      "start": "00:38:02",
+      "end": "00:38:06",
+      "text": "you know, this is just in the and a good full"
+    },
+    {
+      "start": "00:38:07",
+      "end": "00:38:10",
+      "text": "Decomposition, but if we want to have sort of smaller low dimensional"
+    },
+    {
+      "start": "00:38:10",
+      "end": "00:38:11",
+      "text": "vectors"
+    },
+    {
+      "start": "00:38:11",
+      "end": "00:38:14",
+      "text": "Well, the next trick we pull is we say,"
+    },
+    {
+      "start": "00:38:14",
+      "end": "00:38:17",
+      "text": "well, we know where the smallest singular vectors"
+    },
+    {
+      "start": "00:38:17",
+      "end": "00:38:19",
+      "text": "are, so we could just set them to zero."
+    },
+    {
+      "start": "00:38:20",
+      "end": "00:38:23",
+      "text": "And if we did that, then more of this goes away,"
+    },
+    {
+      "start": "00:38:23",
+      "end": "00:38:27",
+      "text": "and we end up with two-dimensional representations"
+    },
+    {
+      "start": "00:38:28",
+      "end": "00:38:29",
+      "text": "of our words."
+    },
+    {
+      "start": "00:38:29",
+      "end": "00:38:36",
+      "text": "And so that gives us another way of forming low-dimensional word"
+    },
+    {
+      "start": "00:38:36",
+      "end": "00:38:36",
+      "text": "representations."
+    },
+    {
+      "start": "00:38:36",
+      "end": "00:38:42",
+      "text": "And this had actually been explored before modern neural word"
+    },
+    {
+      "start": "00:38:42",
+      "end": "00:38:44",
+      "text": "vectors and using algorithms"
+    },
+    {
+      "start": "00:38:44",
+      "end": "00:38:46",
+      "text": "such as latent semantic analysis."
+    },
+    {
+      "start": "00:38:48",
+      "end": "00:38:54",
+      "text": "And it is sort of half worked, but it never worked very well."
+    },
+    {
+      "start": "00:38:54",
+      "end": "00:38:57",
+      "text": "But some people, especially in psychology,"
+    },
+    {
+      "start": "00:38:57",
+      "end": "00:38:59",
+      "text": "had kept on working on it."
+    },
+    {
+      "start": "00:38:59",
+      "end": "00:39:04",
+      "text": "it. And among other people, in the early 2000s,"
+    },
+    {
+      "start": "00:39:04",
+      "end": "00:39:06",
+      "text": "there was this grad student, Doug Rohde,"
+    },
+    {
+      "start": "00:39:07",
+      "end": "00:39:07",
+      "text": "who"
+    },
+    {
+      "start": "00:39:07",
+      "end": "00:39:12",
+      "text": "kept on working on it. And he came up with an algorithm that"
+    },
+    {
+      "start": "00:39:12",
+      "end": "00:39:16",
+      "text": "he called Coles. And he'd"
+    },
+    {
+      "start": "00:39:17",
+      "end": "00:39:20",
+      "text": "known as other people before him had known that just sort of"
+    },
+    {
+      "start": "00:39:20",
+      "end": "00:39:22",
+      "text": "doing an SVD on raw counts"
+    },
+    {
+      "start": "00:39:22",
+      "end": "00:39:26",
+      "text": "didn't seem to give you word vectors that worked very well."
+    },
+    {
+      "start": "00:39:26",
+      "end": "00:39:28",
+      "text": "But he had some ideas to"
+    },
+    {
+      "start": "00:39:28",
+      "end": "00:39:29",
+      "text": "to do better than that."
+    },
+    {
+      "start": "00:39:29",
+      "end": "00:39:33",
+      "text": "So one thing that helps a lot is if you log the frequencies."
+    },
+    {
+      "start": "00:39:33",
+      "end": "00:39:36",
+      "text": "So you can put log frequencies in the cells."
+    },
+    {
+      "start": "00:39:37",
+      "end": "00:39:42",
+      "text": "But then he sort of used some other ideas, some of which"
+    },
+    {
+      "start": "00:39:42",
+      "end": "00:39:45",
+      "text": "were also picked up in Word2Vec, one of which"
+    },
+    {
+      "start": "00:39:45",
+      "end": "00:39:48",
+      "text": "is ramping the windows so that you count closer words more"
+    },
+    {
+      "start": "00:39:48",
+      "end": "00:39:50",
+      "text": "than further away words."
+    },
+    {
+      "start": "00:39:51",
+      "end": "00:39:54",
+      "text": "He used Pearson correlations instead of counts, et cetera."
+    },
+    {
+      "start": "00:39:54",
+      "end": "00:39:59",
+      "text": "But he ended up coming up with a low dimensional version of word"
+    },
+    {
+      "start": "00:39:59",
+      "end": "00:40:01",
+      "text": "vectors that are sort of ultimately"
+    },
+    {
+      "start": "00:40:01",
+      "end": "00:40:03",
+      "text": "still based on an SVD."
+    },
+    {
+      "start": "00:40:04",
+      "end": "00:40:07",
+      "text": "And he got out these word vectors."
+    },
+    {
+      "start": "00:40:07",
+      "end": "00:40:12",
+      "text": "And interestingly, sort of no one really noticed at the time,"
+    },
+    {
+      "start": "00:40:12",
+      "end": "00:40:14",
+      "text": "but Doug Rohde in his dissertation"
+    },
+    {
+      "start": "00:40:15",
+      "end": "00:40:19",
+      "text": "effectively discovered this same property of having linear semantic"
+    },
+    {
+      "start": "00:40:19",
+      "end": "00:40:20",
+      "text": "components."
+    },
+    {
+      "start": "00:40:20",
+      "end": "00:40:22",
+      "text": "So look, here we go."
+    },
+    {
+      "start": "00:40:22",
+      "end": "00:40:23",
+      "text": "So here's one of, so this is actually,"
+    },
+    {
+      "start": "00:40:23",
+      "end": "00:40:25",
+      "text": "you know, a picture from his dissertation,"
+    },
+    {
+      "start": "00:40:25",
+      "end": "00:40:26",
+      "text": "and"
+    },
+    {
+      "start": "00:40:26",
+      "end": "00:40:29",
+      "text": "look here, you know, we've got this meaning component which is"
+    },
+    {
+      "start": "00:40:29",
+      "end": "00:40:31",
+      "text": "doer of an event, and he's"
+    },
+    {
+      "start": "00:40:31",
+      "end": "00:40:35",
+      "text": "essentially shown with the way he's processed his word vectors"
+    },
+    {
+      "start": "00:40:35",
+      "end": "00:40:37",
+      "text": "that the doer of an event"
+    },
+    {
+      "start": "00:40:37",
+      "end": "00:40:41",
+      "text": "is a linear meaning component that you can use to move between"
+    },
+    {
+      "start": "00:40:41",
+      "end": "00:40:44",
+      "text": "a verb and the doer of"
+    },
+    {
+      "start": "00:40:44",
+      "end": "00:40:44",
+      "text": "the verb."
+    },
+    {
+      "start": "00:40:44",
+      "end": "00:40:49",
+      "text": "Kind of cool, but he didn't become famous because no one was"
+    },
+    {
+      "start": "00:40:49",
+      "end": "00:40:50",
+      "text": "paying attention to what"
+    },
+    {
+      "start": "00:40:50",
+      "end": "00:40:50",
+      "text": "he had come up with."
+    },
+    {
+      "start": "00:40:50",
+      "end": "00:40:59",
+      "text": "So once Word2Vec became popular, that was something that I was"
+    },
+    {
+      "start": "00:40:59",
+      "end": "00:41:00",
+      "text": "kind of interested in."
+    },
+    {
+      "start": "00:41:01",
+      "end": "00:41:04",
+      "text": "And so working together with a postdoc,"
+    },
+    {
+      "start": "00:41:04",
+      "end": "00:41:11",
+      "text": "Jeffrey Pennington, we thought that there was interest in this"
+    },
+    {
+      "start": "00:41:11",
+      "end": "00:41:16",
+      "text": "sort of space of doing things with matrices of counts."
+    },
+    {
+      "start": "00:41:16",
+      "end": "00:41:21",
+      "text": "And how do you then get them to work well as word vectors in"
+    },
+    {
+      "start": "00:41:21",
+      "end": "00:41:23",
+      "text": "the same way that word2vec worked well as word vectors?"
+    },
+    {
+      "start": "00:41:24",
+      "end": "00:41:25",
+      "text": "And so that's what led"
+    },
+    {
+      "start": "00:41:26",
+      "end": "00:41:29",
+      "text": "Into the glove algorithm. That was what I was actually showing"
+    },
+    {
+      "start": "00:41:29",
+      "end": "00:41:31",
+      "text": "you and so"
+    },
+    {
+      "start": "00:41:32",
+      "end": "00:41:37",
+      "text": "What we wanted was to say look we want a model in which"
+    },
+    {
+      "start": "00:41:39",
+      "end": "00:41:43",
+      "text": "Linear components sort of adding or subtracting a vector in a"
+    },
+    {
+      "start": "00:41:43",
+      "end": "00:41:43",
+      "text": "vector space"
+    },
+    {
+      "start": "00:41:43",
+      "end": "00:41:51",
+      "text": "correspond to a meaning difference how can we do that and Jeffrey"
+    },
+    {
+      "start": "00:41:51",
+      "end": "00:41:53",
+      "text": "did good"
+    },
+    {
+      "start": "00:41:53",
+      "end": "00:42:00",
+      "text": "thinking and math and thought about that for a bit and his solution"
+    },
+    {
+      "start": "00:42:00",
+      "end": "00:42:01",
+      "text": "was to say"
+    },
+    {
+      "start": "00:42:01",
+      "end": "00:42:07",
+      "text": "well if we think of that ratios of co-occurrence probabilities"
+    },
+    {
+      "start": "00:42:07",
+      "end": "00:42:08",
+      "text": "can encode"
+    },
+    {
+      "start": "00:42:08",
+      "end": "00:42:12",
+      "text": "meaning components so if we can make a ratio of co-occurrence"
+    },
+    {
+      "start": "00:42:12",
+      "end": "00:42:12",
+      "text": "probabilities"
+    },
+    {
+      "start": "00:42:12",
+      "end": "00:42:17",
+      "text": "into something linear in the vector space will get the kind of"
+    },
+    {
+      "start": "00:42:17",
+      "end": "00:42:18",
+      "text": "result that"
+    },
+    {
+      "start": "00:42:18",
+      "end": "00:42:22",
+      "text": "Word2Vec or Doug Rohde got. So what does that mean?"
+    },
+    {
+      "start": "00:42:22",
+      "end": "00:42:25",
+      "text": "Well so if you start thinking"
+    },
+    {
+      "start": "00:42:25",
+      "end": "00:42:29",
+      "text": "of words occurring in the context of ice you might think that"
+    },
+    {
+      "start": "00:42:29",
+      "end": "00:42:30",
+      "text": "sort of solid and"
+    },
+    {
+      "start": "00:42:30",
+      "end": "00:42:35",
+      "text": "water are likely to occur near ice and gas or a random word like"
+    },
+    {
+      "start": "00:42:35",
+      "end": "00:42:36",
+      "text": "random aren't"
+    },
+    {
+      "start": "00:42:36",
+      "end": "00:42:38",
+      "text": "aren't likely to occur near ice."
+    },
+    {
+      "start": "00:42:39",
+      "end": "00:42:42",
+      "text": "And similarly, for steam, you'd expect"
+    },
+    {
+      "start": "00:42:44",
+      "end": "00:42:47",
+      "text": "that gas and water are likely to occur near steam,"
+    },
+    {
+      "start": "00:42:48",
+      "end": "00:42:50",
+      "text": "but probably not solid or random."
+    },
+    {
+      "start": "00:42:50",
+      "end": "00:42:53",
+      "text": "And well, if you're just looking at one of these,"
+    },
+    {
+      "start": "00:42:53",
+      "end": "00:42:55",
+      "text": "you don't really get meaning components,"
+    },
+    {
+      "start": "00:42:55",
+      "end": "00:42:59",
+      "text": "because you get something that's large here or large here."
+    },
+    {
+      "start": "00:42:59",
+      "end": "00:43:03",
+      "text": "But if you then look at the ratio of two"
+    },
+    {
+      "start": "00:43:03",
+      "end": "00:43:05",
+      "text": "of these co-occurrence probabilities,"
+    },
+    {
+      "start": "00:43:05",
+      "end": "00:43:11",
+      "text": "then what you get out is that for solid it's going to be large"
+    },
+    {
+      "start": "00:43:11",
+      "end": "00:43:15",
+      "text": "and for gas it's going to be small."
+    },
+    {
+      "start": "00:43:16",
+      "end": "00:43:20",
+      "text": "And so you're getting direction in the space which will correspond"
+    },
+    {
+      "start": "00:43:20",
+      "end": "00:43:24",
+      "text": "to the solid-liquid-gas dimension of physics."
+    },
+    {
+      "start": "00:43:25",
+      "end": "00:43:28",
+      "text": "Whereas for the other words it will be about one."
+    },
+    {
+      "start": "00:43:28",
+      "end": "00:43:34",
+      "text": "this is just the wave your hands this was the conception of the"
+    },
+    {
+      "start": "00:43:34",
+      "end": "00:43:35",
+      "text": "idea but if"
+    },
+    {
+      "start": "00:43:35",
+      "end": "00:43:39",
+      "text": "you actually do the counts this actually works out so using real"
+    },
+    {
+      "start": "00:43:39",
+      "end": "00:43:40",
+      "text": "data this is"
+    },
+    {
+      "start": "00:43:40",
+      "end": "00:43:44",
+      "text": "what you get for co-occurrence and indeed you kind of get these"
+    },
+    {
+      "start": "00:43:44",
+      "end": "00:43:44",
+      "text": "sort of"
+    },
+    {
+      "start": "00:43:44",
+      "end": "00:43:49",
+      "text": "factors of 10 in both of these directions of these two and the"
+    },
+    {
+      "start": "00:43:49",
+      "end": "00:43:50",
+      "text": "numbers"
+    },
+    {
+      "start": "00:43:50",
+      "end": "00:43:56",
+      "text": "are over there are approximately one so Jeffrey's idea was well"
+    },
+    {
+      "start": "00:43:56",
+      "end": "00:43:57",
+      "text": "we're going to"
+    },
+    {
+      "start": "00:43:57",
+      "end": "00:44:03",
+      "text": "start with a co-occurrence count matrix and we want to make this"
+    },
+    {
+      "start": "00:44:03",
+      "end": "00:44:05",
+      "text": "turn into a"
+    },
+    {
+      "start": "00:44:05",
+      "end": "00:44:10",
+      "text": "linear component and well how do you do that well first of all"
+    },
+    {
+      "start": "00:44:10",
+      "end": "00:44:11",
+      "text": "it sort of makes"
+    },
+    {
+      "start": "00:44:11",
+      "end": "00:44:14",
+      "text": "sense immediately that you should be putting a log in right because"
+    },
+    {
+      "start": "00:44:14",
+      "end": "00:44:15",
+      "text": "once you"
+    },
+    {
+      "start": "00:44:15",
+      "end": "00:44:19",
+      "text": "put a log in this ratio will be being turned into something that's"
+    },
+    {
+      "start": "00:44:19",
+      "end": "00:44:20",
+      "text": "subtracted"
+    },
+    {
+      "start": "00:44:20",
+      "end": "00:44:25",
+      "text": "And so simply all you have to do is have a log bilinear model"
+    },
+    {
+      "start": "00:44:25",
+      "end": "00:44:31",
+      "text": "where the dot product of two word vectors models this conditional"
+    },
+    {
+      "start": "00:44:31",
+      "end": "00:44:36",
+      "text": "probability and then the difference between two vectors will"
+    },
+    {
+      "start": "00:44:36",
+      "end": "00:44:41",
+      "text": "be corresponding to this log of the ratio of their co-occurrence"
+    },
+    {
+      "start": "00:44:41",
+      "end": "00:44:41",
+      "text": "probabilities."
+    },
+    {
+      "start": "00:44:41",
+      "end": "00:44:45",
+      "text": "probabilities. So that was basically the GloVe model."
+    },
+    {
+      "start": "00:44:46",
+      "end": "00:44:50",
+      "text": "So you're wanting to, you know, model"
+    },
+    {
+      "start": "00:44:50",
+      "end": "00:44:56",
+      "text": "this dot product such that it's being close to the log of the"
+    },
+    {
+      "start": "00:44:56",
+      "end": "00:44:58",
+      "text": "co-occurrence probability,"
+    },
+    {
+      "start": "00:44:58",
+      "end": "00:45:01",
+      "text": "but you sort of do a little bit of extra work to have some bias"
+    },
+    {
+      "start": "00:45:01",
+      "end": "00:45:04",
+      "text": "terms and some frequency"
+    },
+    {
+      "start": "00:45:04",
+      "end": "00:45:06",
+      "text": "thresholds which aren't very important."
+    },
+    {
+      "start": "00:45:07",
+      "end": "00:45:10",
+      "text": "So I'm going to skip past them. But I think that"
+    },
+    {
+      "start": "00:45:10",
+      "end": "00:45:14",
+      "text": "that basic intuition as to what's the important thing"
+    },
+    {
+      "start": "00:45:14",
+      "end": "00:45:17",
+      "text": "to get linear meaning components is a good one to know about."
+    },
+    {
+      "start": "00:45:20",
+      "end": "00:45:22",
+      "text": "OK, is everyone good to there?"
+    },
+    {
+      "start": "00:45:24",
+      "end": "00:45:24",
+      "text": "Cool."
+    },
+    {
+      "start": "00:45:25",
+      "end": "00:45:26",
+      "text": "Yes?"
+    },
+    {
+      "start": "00:45:26",
+      "end": "00:45:30",
+      "text": "Oh, I noticed the original x matrix you showed"
+    },
+    {
+      "start": "00:45:30",
+      "end": "00:45:32",
+      "text": "was like 3 by 5 or something."
+    },
+    {
+      "start": "00:45:32",
+      "end": "00:45:33",
+      "text": "Shouldn't it be squared?"
+    },
+    {
+      "start": "00:45:33",
+      "end": "00:45:36",
+      "text": "So yeah, I mean, if you're doing, sorry, yeah,"
+    },
+    {
+      "start": "00:45:36",
+      "end": "00:45:39",
+      "text": "I maybe should have just shown you a square one."
+    },
+    {
+      "start": "00:45:39",
+      "end": "00:45:41",
+      "text": "If you're just doing vocabulary to vocabulary,"
+    },
+    {
+      "start": "00:45:41",
+      "end": "00:45:43",
+      "text": "I very guess it should be square."
+    },
+    {
+      "start": "00:45:44",
+      "end": "00:45:46",
+      "text": "But there was a bit in the slides that I didn't mention"
+    },
+    {
+      "start": "00:45:46",
+      "end": "00:45:48",
+      "text": "that there was another way you could do it"
+    },
+    {
+      "start": "00:45:48",
+      "end": "00:45:50",
+      "text": "where you did it words versus documents"
+    },
+    {
+      "start": "00:45:50",
+      "end": "00:45:51",
+      "text": "and then it would be non-square."
+    },
+    {
+      "start": "00:45:52",
+      "end": "00:45:53",
+      "text": "But yeah, you're right."
+    },
+    {
+      "start": "00:45:53",
+      "end": "00:45:58",
+      "text": "So we can just consider the square case."
+    },
+    {
+      "start": "00:46:00",
+      "end": "00:46:04",
+      "text": "Okay, so you know, hey, I showed you that demo"
+    },
+    {
+      "start": "00:46:04",
+      "end": "00:46:07",
+      "text": "of the GloVe vectors and they were great, didn't they?"
+    },
+    {
+      "start": "00:46:08",
+      "end": "00:46:10",
+      "text": "So you know, these are good vectors."
+    },
+    {
+      "start": "00:46:10",
+      "end": "00:46:16",
+      "text": "But in general, in NLP, we'd like to have things that we can"
+    },
+    {
+      "start": "00:46:16",
+      "end": "00:46:18",
+      "text": "evaluate and know whether"
+    },
+    {
+      "start": "00:46:18",
+      "end": "00:46:19",
+      "text": "things are really good."
+    },
+    {
+      "start": "00:46:19",
+      "end": "00:46:23",
+      "text": "And so everywhere through the course,"
+    },
+    {
+      "start": "00:46:23",
+      "end": "00:46:26",
+      "text": "we're going to want to evaluate things and work"
+    },
+    {
+      "start": "00:46:26",
+      "end": "00:46:29",
+      "text": "out how good they are and what's better and what's worse."
+    },
+    {
+      "start": "00:46:29",
+      "end": "00:46:34",
+      "text": "And so one of the fundamental notions of evaluation that will"
+    },
+    {
+      "start": "00:46:34",
+      "end": "00:46:36",
+      "text": "come up again and again is intrinsic"
+    },
+    {
+      "start": "00:46:36",
+      "end": "00:46:37",
+      "text": "and extrinsic evaluations."
+    },
+    {
+      "start": "00:46:37",
+      "end": "00:46:44",
+      "text": "So an intrinsic evaluation is where you are doing a very specific"
+    },
+    {
+      "start": "00:46:44",
+      "end": "00:46:46",
+      "text": "internal sub-task and"
+    },
+    {
+      "start": "00:46:46",
+      "end": "00:46:49",
+      "text": "you just try and score whether it's good or bad."
+    },
+    {
+      "start": "00:46:49",
+      "end": "00:46:53",
+      "text": "So normally intrinsic evaluations are fast to compute,"
+    },
+    {
+      "start": "00:46:53",
+      "end": "00:46:55",
+      "text": "help you understand the component"
+    },
+    {
+      "start": "00:46:55",
+      "end": "00:47:00",
+      "text": "you're building, but they are sort of distant from your downstream"
+    },
+    {
+      "start": "00:47:00",
+      "end": "00:47:02",
+      "text": "task and improving the"
+    },
+    {
+      "start": "00:47:02",
+      "end": "00:47:04",
+      "text": "numbers internally may or may not help you."
+    },
+    {
+      "start": "00:47:04",
+      "end": "00:47:09",
+      "text": "And that's the contrast with an extrinsic evaluation,"
+    },
+    {
+      "start": "00:47:09",
+      "end": "00:47:12",
+      "text": "which is that you've got some"
+    },
+    {
+      "start": "00:47:12",
+      "end": "00:47:16",
+      "text": "real task, you want to do question answering or document summarization"
+    },
+    {
+      "start": "00:47:16",
+      "end": "00:47:18",
+      "text": "or machine translation,"
+    },
+    {
+      "start": "00:47:19",
+      "end": "00:47:24",
+      "text": "and you want to know whether some clever bit of internal modeling"
+    },
+    {
+      "start": "00:47:24",
+      "end": "00:47:25",
+      "text": "will help you on that"
+    },
+    {
+      "start": "00:47:25",
+      "end": "00:47:26",
+      "text": "task."
+    },
+    {
+      "start": "00:47:26",
+      "end": "00:47:30",
+      "text": "So then you have to sort of run an entire system and work out"
+    },
+    {
+      "start": "00:47:30",
+      "end": "00:47:32",
+      "text": "downstream accuracies"
+    },
+    {
+      "start": "00:47:32",
+      "end": "00:47:35",
+      "text": "these and find out whether it actually helps you"
+    },
+    {
+      "start": "00:47:35",
+      "end": "00:47:36",
+      "text": "at the end of the day."
+    },
+    {
+      "start": "00:47:36",
+      "end": "00:47:39",
+      "text": "But that often means it's kind of indirect,"
+    },
+    {
+      "start": "00:47:40",
+      "end": "00:47:42",
+      "text": "so harder to see exactly what's happening in your task."
+    },
+    {
+      "start": "00:47:43",
+      "end": "00:47:46",
+      "text": "So for something like word vectors,"
+    },
+    {
+      "start": "00:47:46",
+      "end": "00:47:50",
+      "text": "if we just sort of measure, are they modeling word similarity"
+    },
+    {
+      "start": "00:47:50",
+      "end": "00:47:53",
+      "text": "well, that's an intrinsic evaluation."
+    },
+    {
+      "start": "00:47:54",
+      "end": "00:47:59",
+      "text": "But we'd probably like to know whether they model word"
+    },
+    {
+      "start": "00:47:59",
+      "end": "00:48:04",
+      "text": "similarity well for some downstream task which might be doing"
+    },
+    {
+      "start": "00:48:04",
+      "end": "00:48:05",
+      "text": "web search right"
+    },
+    {
+      "start": "00:48:05",
+      "end": "00:48:10",
+      "text": "we'd like when you say you know cell phone or mobile phone that"
+    },
+    {
+      "start": "00:48:10",
+      "end": "00:48:11",
+      "text": "it comes out"
+    },
+    {
+      "start": "00:48:11",
+      "end": "00:48:15",
+      "text": "of about the same so that would then be web search might be our"
+    },
+    {
+      "start": "00:48:15",
+      "end": "00:48:16",
+      "text": "extrinsic"
+    },
+    {
+      "start": "00:48:16",
+      "end": "00:48:24",
+      "text": "evaluation okay so for word vectors to two intrinsic"
+    },
+    {
+      "start": "00:48:24",
+      "end": "00:48:26",
+      "text": "evaluations the ones we've"
+    },
+    {
+      "start": "00:48:26",
+      "end": "00:48:32",
+      "text": "already seen so there's the word vector analogies you know I"
+    },
+    {
+      "start": "00:48:32",
+      "end": "00:48:33",
+      "text": "cheated when I"
+    },
+    {
+      "start": "00:48:33",
+      "end": "00:48:37",
+      "text": "showed you the glove demo I only showed you ones that work but"
+    },
+    {
+      "start": "00:48:37",
+      "end": "00:48:38",
+      "text": "if you play for"
+    },
+    {
+      "start": "00:48:38",
+      "end": "00:48:42",
+      "text": "it yourself you can find some that don't work so what we can"
+    },
+    {
+      "start": "00:48:42",
+      "end": "00:48:44",
+      "text": "do is sort of have a"
+    },
+    {
+      "start": "00:48:44",
+      "end": "00:48:50",
+      "text": "set of word analogies and find out which ones work now you know"
+    },
+    {
+      "start": "00:48:50",
+      "end": "00:48:51",
+      "text": "in general glove"
+    },
+    {
+      "start": "00:48:51",
+      "end": "00:48:56",
+      "text": "does work you know here's a set of word vectors showing you the"
+    },
+    {
+      "start": "00:48:56",
+      "end": "00:48:57",
+      "text": "sort of male"
+    },
+    {
+      "start": "00:48:57",
+      "end": "00:49:01",
+      "text": "female distinction that's kind of good and linear but in general"
+    },
+    {
+      "start": "00:49:01",
+      "end": "00:49:02",
+      "text": "for different"
+    },
+    {
+      "start": "00:49:02",
+      "end": "00:49:05",
+      "text": "ones it's going to work and it's not work and you're going to"
+    },
+    {
+      "start": "00:49:05",
+      "end": "00:49:06",
+      "text": "be able to"
+    },
+    {
+      "start": "00:49:06",
+      "end": "00:49:11",
+      "text": "score what percentage of the time it works or we can do word"
+    },
+    {
+      "start": "00:49:11",
+      "end": "00:49:13",
+      "text": "similarity how"
+    },
+    {
+      "start": "00:49:13",
+      "end": "00:49:18",
+      "text": "we do word similarity is we actually use human judgments of similarity"
+    },
+    {
+      "start": "00:49:18",
+      "end": "00:49:18",
+      "text": "so"
+    },
+    {
+      "start": "00:49:18",
+      "end": "00:49:23",
+      "text": "So psychologists ask undergrads, and they say,"
+    },
+    {
+      "start": "00:49:23",
+      "end": "00:49:28",
+      "text": "here is the word plane and car, how similar are they on a scale"
+    },
+    {
+      "start": "00:49:28",
+      "end": "00:49:29",
+      "text": "of 1 to 10,"
+    },
+    {
+      "start": "00:49:29",
+      "end": "00:49:32",
+      "text": "or 0 to 10 maybe, actually I think it's 0 to 10 here,"
+    },
+    {
+      "start": "00:49:32",
+      "end": "00:49:37",
+      "text": "on a scale of 0 to 10, and the person says, hmm, 7."
+    },
+    {
+      "start": "00:49:38",
+      "end": "00:49:39",
+      "text": "And then they ask another person,"
+    },
+    {
+      "start": "00:49:40",
+      "end": "00:49:44",
+      "text": "and they average what the undergrads say,"
+    },
+    {
+      "start": "00:49:44",
+      "end": "00:49:46",
+      "text": "and they come out with these numbers."
+    },
+    {
+      "start": "00:49:46",
+      "end": "00:49:48",
+      "text": "So, you know, TigerTiger gets 10,"
+    },
+    {
+      "start": "00:49:48",
+      "end": "00:49:52",
+      "text": "BookAndPaper got an average of 7.46,"
+    },
+    {
+      "start": "00:49:53",
+      "end": "00:49:55",
+      "text": "PlaneAndCar got 5.77,"
+    },
+    {
+      "start": "00:49:57",
+      "end": "00:50:01",
+      "text": "StockAndPhone got 1.62, and StockAndJaguar got 0.92."
+    },
+    {
+      "start": "00:50:02",
+      "end": "00:50:06",
+      "text": "Noisy process, but you roughly get to see how similar people"
+    },
+    {
+      "start": "00:50:06",
+      "end": "00:50:10",
+      "text": "think words are. And so then we ask our models to also"
+    },
+    {
+      "start": "00:50:11",
+      "end": "00:50:13",
+      "text": "score how similar they think words are,"
+    },
+    {
+      "start": "00:50:14",
+      "end": "00:50:16",
+      "text": "and then we get models of"
+    },
+    {
+      "start": "00:50:16",
+      "end": "00:50:19",
+      "text": "of how well the scores are correlated"
+    },
+    {
+      "start": "00:50:21",
+      "end": "00:50:24",
+      "text": "between human judgments and our model's judgments."
+    },
+    {
+      "start": "00:50:25",
+      "end": "00:50:28",
+      "text": "And so here are sort of a big table of numbers"
+    },
+    {
+      "start": "00:50:28",
+      "end": "00:50:31",
+      "text": "that we don't need to go through all of."
+    },
+    {
+      "start": "00:50:31",
+      "end": "00:50:35",
+      "text": "But it sort of shows that a plain SVD works terribly."
+    },
+    {
+      "start": "00:50:36",
+      "end": "00:50:39",
+      "text": "Simply doing SVD over log counts already"
+    },
+    {
+      "start": "00:50:39",
+      "end": "00:50:40",
+      "text": "starts to work reasonably."
+    },
+    {
+      "start": "00:50:41",
+      "end": "00:50:45",
+      "text": "And then here's the two-word Dubeck algorithms,"
+    },
+    {
+      "start": "00:50:45",
+      "end": "00:50:50",
+      "text": "SIBO and skip gram and here are numbers from our glove vectors"
+    },
+    {
+      "start": "00:50:50",
+      "end": "00:50:51",
+      "text": "and so you get"
+    },
+    {
+      "start": "00:50:51",
+      "end": "00:50:54",
+      "text": "these kind of scores that you can then score different models"
+    },
+    {
+      "start": "00:50:54",
+      "end": "00:50:55",
+      "text": "as to how good"
+    },
+    {
+      "start": "00:50:55",
+      "end": "00:51:01",
+      "text": "they are and well then you can also sorry yeah that's the only"
+    },
+    {
+      "start": "00:51:01",
+      "end": "00:51:01",
+      "text": "thing I have"
+    },
+    {
+      "start": "00:51:01",
+      "end": "00:51:06",
+      "text": "there but you know what can you do for downstream evaluation"
+    },
+    {
+      "start": "00:51:06",
+      "end": "00:51:08",
+      "text": "well then you want"
+    },
+    {
+      "start": "00:51:08",
+      "end": "00:51:12",
+      "text": "to pick some downstream tasks and so a simple downstream task"
+    },
+    {
+      "start": "00:51:12",
+      "end": "00:51:13",
+      "text": "that's been used"
+    },
+    {
+      "start": "00:51:13",
+      "end": "00:51:19",
+      "text": "a lot in NLP is what's called named entity recognition and so"
+    },
+    {
+      "start": "00:51:19",
+      "end": "00:51:20",
+      "text": "that's"
+    },
+    {
+      "start": "00:51:20",
+      "end": "00:51:25",
+      "text": "recognizing names of things and what type they are so if the"
+    },
+    {
+      "start": "00:51:25",
+      "end": "00:51:25",
+      "text": "sentence is"
+    },
+    {
+      "start": "00:51:25",
+      "end": "00:51:30",
+      "text": "Chris Manning lives in Palo Alto you want to say Chris and Manning"
+    },
+    {
+      "start": "00:51:30",
+      "end": "00:51:31",
+      "text": "that's the"
+    },
+    {
+      "start": "00:51:31",
+      "end": "00:51:35",
+      "text": "name of a person and Palo and Alto that's the name of a place"
+    },
+    {
+      "start": "00:51:35",
+      "end": "00:51:37",
+      "text": "so that can"
+    },
+    {
+      "start": "00:51:37",
+      "end": "00:51:41",
+      "text": "be the task and well that's the kind of task which you might"
+    },
+    {
+      "start": "00:51:41",
+      "end": "00:51:42",
+      "text": "think word vectors"
+    },
+    {
+      "start": "00:51:42",
+      "end": "00:51:47",
+      "text": "would help you with and it's indeed the case right so here what's"
+    },
+    {
+      "start": "00:51:47",
+      "end": "00:51:48",
+      "text": "labels discrete"
+    },
+    {
+      "start": "00:51:48",
+      "end": "00:51:54",
+      "text": "was a baseline symbolic probabilistic named entity recognition"
+    },
+    {
+      "start": "00:51:54",
+      "end": "00:51:56",
+      "text": "task and by"
+    },
+    {
+      "start": "00:51:56",
+      "end": "00:52:00",
+      "text": "putting word vectors into it you can make them the numbers go"
+    },
+    {
+      "start": "00:52:00",
+      "end": "00:52:01",
+      "text": "up so these"
+    },
+    {
+      "start": "00:52:01",
+      "end": "00:52:05",
+      "text": "numbers for glove are higher than the ones on the first line"
+    },
+    {
+      "start": "00:52:05",
+      "end": "00:52:06",
+      "text": "and so I'm"
+    },
+    {
+      "start": "00:52:06",
+      "end": "00:52:08",
+      "text": "I'm getting substantial improvements"
+    },
+    {
+      "start": "00:52:09",
+      "end": "00:52:11",
+      "text": "from adding word vectors to my system."
+    },
+    {
+      "start": "00:52:11",
+      "end": "00:52:12",
+      "text": "Yay."
+    },
+    {
+      "start": "00:52:19",
+      "end": "00:52:21",
+      "text": "I'll pile ahead into the next thing."
+    },
+    {
+      "start": "00:52:21",
+      "end": "00:52:23",
+      "text": "This next one I think is interesting."
+    },
+    {
+      "start": "00:52:23",
+      "end": "00:52:25",
+      "text": "We should spend a minute on."
+    },
+    {
+      "start": "00:52:25",
+      "end": "00:52:27",
+      "text": "And it came up in your questions last time."
+    },
+    {
+      "start": "00:52:28",
+      "end": "00:52:30",
+      "text": "Words have lots of meanings."
+    },
+    {
+      "start": "00:52:31",
+      "end": "00:52:35",
+      "text": "Most words have a whole bunch of meanings."
+    },
+    {
+      "start": "00:52:36",
+      "end": "00:52:39",
+      "text": "Words that don't have a lot of different meanings"
+    },
+    {
+      "start": "00:52:39",
+      "end": "00:52:42",
+      "text": "are only some very specialized scientific words."
+    },
+    {
+      "start": "00:52:42",
+      "end": "00:52:46",
+      "text": "Okay, so my example of a word with multiple meanings"
+    },
+    {
+      "start": "00:52:46",
+      "end": "00:52:49",
+      "text": "is probably not the first one you think of all the time."
+    },
+    {
+      "start": "00:52:49",
+      "end": "00:52:52",
+      "text": "The most famous example of a word with a lot of meanings is bank,"
+    },
+    {
+      "start": "00:52:52",
+      "end": "00:52:54",
+      "text": "which already came up last time."
+    },
+    {
+      "start": "00:52:54",
+      "end": "00:52:56",
+      "text": "And I use star, which is another one."
+    },
+    {
+      "start": "00:52:56",
+      "end": "00:52:59",
+      "text": "Here's a word that you probably don't use that often,"
+    },
+    {
+      "start": "00:52:59",
+      "end": "00:53:01",
+      "text": "but it still has lots of meaning."
+    },
+    {
+      "start": "00:53:01",
+      "end": "00:53:04",
+      "text": "So the word pike, what are some things that the word pike can"
+    },
+    {
+      "start": "00:53:04",
+      "end": "00:53:04",
+      "text": "mean?"
+    },
+    {
+      "start": "00:53:06",
+      "end": "00:53:08",
+      "text": "A fish, yes, it's a kind of fish."
+    },
+    {
+      "start": "00:53:08",
+      "end": "00:53:12",
+      "text": "Okay, we've got one. What else can a pipe be? Yeah"
+    },
+    {
+      "start": "00:53:12",
+      "end": "00:53:16",
+      "text": "Yeah for the Dungeons and Dragons crowd,"
+    },
+    {
+      "start": "00:53:16",
+      "end": "00:53:18",
+      "text": "yeah, there's a long arm, right? Yep."
+    },
+    {
+      "start": "00:53:18",
+      "end": "00:53:20",
+      "text": "That's another one. Yeah a"
+    },
+    {
+      "start": "00:53:21",
+      "end": "00:53:25",
+      "text": "Road, right? Yeah, so Pike is used as a shorthand"
+    },
+    {
+      "start": "00:53:25",
+      "end": "00:53:29",
+      "text": "Shorthand for turnpike every why it's called a turnpike was yeah,"
+    },
+    {
+      "start": "00:53:29",
+      "end": "00:53:32",
+      "text": "originally you had near the speary looking thing"
+    },
+    {
+      "start": "00:53:32",
+      "end": "00:53:35",
+      "text": "At the start of it sort of count people."
+    },
+    {
+      "start": "00:53:35",
+      "end": "00:53:37",
+      "text": "Okay, we've got three other thing means the pipe"
+    },
+    {
+      "start": "00:53:37",
+      "end": "00:53:40",
+      "text": "Yeah, it's also crap like a fraternity"
+    },
+    {
+      "start": "00:53:44",
+      "end": "00:53:46",
+      "text": "I'll believe you. I can't say I know that one"
+    },
+    {
+      "start": "00:53:48",
+      "end": "00:53:54",
+      "text": "Are the pikes sharpest like a needle?"
+    },
+    {
+      "start": "00:53:55",
+      "end": "00:53:55",
+      "text": "sharp"
+    },
+    {
+      "start": "00:53:57",
+      "end": "00:54:00",
+      "text": "Maybe I mean, I think it's really the so pike is the weapon"
+    },
+    {
+      "start": "00:54:03",
+      "end": "00:54:05",
+      "text": "Any other scratch your head?"
+    },
+    {
+      "start": "00:54:06",
+      "end": "00:54:11",
+      "text": "One that I think a lot of you will have seen I'm in diving and"
+    },
+    {
+      "start": "00:54:11",
+      "end": "00:54:13",
+      "text": "swimming you can do a piker"
+    },
+    {
+      "start": "00:54:15",
+      "end": "00:54:19",
+      "text": "olympics if you see olympic diving there are pikes anyone seen"
+    },
+    {
+      "start": "00:54:19",
+      "end": "00:54:19",
+      "text": "those"
+    },
+    {
+      "start": "00:54:21",
+      "end": "00:54:28",
+      "text": "trust me that's a pike um okay um and so we've sort of been doing"
+    },
+    {
+      "start": "00:54:28",
+      "end": "00:54:31",
+      "text": "um the noun uses but you know"
+    },
+    {
+      "start": "00:54:31",
+      "end": "00:54:35",
+      "text": "you can also use pike as a verb right you know like once you've"
+    },
+    {
+      "start": "00:54:35",
+      "end": "00:54:37",
+      "text": "got your medieval weapon you can"
+    },
+    {
+      "start": "00:54:37",
+      "end": "00:54:44",
+      "text": "can pike somebody and that's a usage of pike and you can do other"
+    },
+    {
+      "start": "00:54:44",
+      "end": "00:54:45",
+      "text": "ones right so"
+    },
+    {
+      "start": "00:54:45",
+      "end": "00:54:53",
+      "text": "here we go here's ones I got from a dictionary we got most of"
+    },
+    {
+      "start": "00:54:53",
+      "end": "00:54:53",
+      "text": "those there"
+    },
+    {
+      "start": "00:54:53",
+      "end": "00:54:56",
+      "text": "are sort of weirder usages right like coming down the pike that's"
+    },
+    {
+      "start": "00:54:56",
+      "end": "00:54:57",
+      "text": "kind of a"
+    },
+    {
+      "start": "00:54:57",
+      "end": "00:55:02",
+      "text": "metaphorical use that comes from the the road sense but it sort"
+    },
+    {
+      "start": "00:55:02",
+      "end": "00:55:03",
+      "text": "of ends up"
+    },
+    {
+      "start": "00:55:03",
+      "end": "00:55:09",
+      "text": "meaning the future yeah in Australia we also use pike to mean"
+    },
+    {
+      "start": "00:55:09",
+      "end": "00:55:11",
+      "text": "sort of chicken"
+    },
+    {
+      "start": "00:55:11",
+      "end": "00:55:15",
+      "text": "out of doing something but I don't think that usage is really"
+    },
+    {
+      "start": "00:55:15",
+      "end": "00:55:15",
+      "text": "used in the US"
+    },
+    {
+      "start": "00:55:15",
+      "end": "00:55:19",
+      "text": "anyway words have lots of meanings so how can you deal with that"
+    },
+    {
+      "start": "00:55:19",
+      "end": "00:55:20",
+      "text": "well one way"
+    },
+    {
+      "start": "00:55:20",
+      "end": "00:55:26",
+      "text": "you could deal with it is to say okay words have several meanings"
+    },
+    {
+      "start": "00:55:26",
+      "end": "00:55:28",
+      "text": "and so we're"
+    },
+    {
+      "start": "00:55:28",
+      "end": "00:55:30",
+      "text": "We're just going to say words have several meanings,"
+    },
+    {
+      "start": "00:55:31",
+      "end": "00:55:34",
+      "text": "and then we're going to take instances of words in text."
+    },
+    {
+      "start": "00:55:35",
+      "end": "00:55:37",
+      "text": "We're going to cluster them based"
+    },
+    {
+      "start": "00:55:37",
+      "end": "00:55:38",
+      "text": "on their similarity of occurrence"
+    },
+    {
+      "start": "00:55:38",
+      "end": "00:55:44",
+      "text": "to decide which sense of the word to regard each token as."
+    },
+    {
+      "start": "00:55:44",
+      "end": "00:55:47",
+      "text": "And then we're going to learn word vectors"
+    },
+    {
+      "start": "00:55:47",
+      "end": "00:55:51",
+      "text": "for those token clusters, which are our senses."
+    },
+    {
+      "start": "00:55:52",
+      "end": "00:55:53",
+      "text": "And you can do that."
+    },
+    {
+      "start": "00:55:53",
+      "end": "00:55:59",
+      "text": "we did it in 2012 before word defect came out so you see here"
+    },
+    {
+      "start": "00:55:59",
+      "end": "00:56:00",
+      "text": "we have bank 1"
+    },
+    {
+      "start": "00:56:00",
+      "end": "00:56:07",
+      "text": "and somewhere over here we have bank 2 and here we have jaguar"
+    },
+    {
+      "start": "00:56:07",
+      "end": "00:56:10",
+      "text": "1 jaguar 2 jaguar"
+    },
+    {
+      "start": "00:56:10",
+      "end": "00:56:16",
+      "text": "3 jaguar 4 and you know this really works out great right so"
+    },
+    {
+      "start": "00:56:16",
+      "end": "00:56:18",
+      "text": "jaguar 1 picks"
+    },
+    {
+      "start": "00:56:18",
+      "end": "00:56:22",
+      "text": "Picks out the sense of the kind of car, right?"
+    },
+    {
+      "start": "00:56:22",
+      "end": "00:56:24",
+      "text": "And it's close to luxury and convertible."
+    },
+    {
+      "start": "00:56:25",
+      "end": "00:56:29",
+      "text": "Jaguar 2 comes right close to software and Microsoft."
+    },
+    {
+      "start": "00:56:29",
+      "end": "00:56:32",
+      "text": "And this one's a bit of a historical one."
+    },
+    {
+      "start": "00:56:32",
+      "end": "00:56:37",
+      "text": "But that's when most of you were five or whatever."
+    },
+    {
+      "start": "00:56:38",
+      "end": "00:56:43",
+      "text": "You might remember Apple used to use large cats for"
+    },
+    {
+      "start": "00:56:43",
+      "end": "00:56:46",
+      "text": "versions of Mac OS, right?"
+    },
+    {
+      "start": "00:56:46",
+      "end": "00:56:51",
+      "text": "So sort of Mac OS 10.3 or something like that a long time ago"
+    },
+    {
+      "start": "00:56:51",
+      "end": "00:56:53",
+      "text": "was called Jaguar, right?"
+    },
+    {
+      "start": "00:56:53",
+      "end": "00:56:55",
+      "text": "So it's software might close to Microsoft"
+    },
+    {
+      "start": "00:56:56",
+      "end": "00:56:57",
+      "text": "Jaguar 3"
+    },
+    {
+      "start": "00:56:59",
+      "end": "00:57:04",
+      "text": "Okay string keyboard solo musical drum bass that's because there's"
+    },
+    {
+      "start": "00:57:04",
+      "end": "00:57:05",
+      "text": "a Jaguar keyboard"
+    },
+    {
+      "start": "00:57:06",
+      "end": "00:57:07",
+      "text": "and"
+    },
+    {
+      "start": "00:57:08",
+      "end": "00:57:09",
+      "text": "then finally"
+    },
+    {
+      "start": "00:57:09",
+      "end": "00:57:13",
+      "text": "the sort of what we think of as the basic sense but turns out"
+    },
+    {
+      "start": "00:57:13",
+      "end": "00:57:16",
+      "text": "turns up rather less now in text"
+    },
+    {
+      "start": "00:57:16",
+      "end": "00:57:20",
+      "text": "corporate normally jaguar next to hunter is the animal right"
+    },
+    {
+      "start": "00:57:20",
+      "end": "00:57:22",
+      "text": "so it's done a good job at learning"
+    },
+    {
+      "start": "00:57:22",
+      "end": "00:57:26",
+      "text": "the different senses but you know that's not what's actually"
+    },
+    {
+      "start": "00:57:26",
+      "end": "00:57:29",
+      "text": "usually done these days and instead"
+    },
+    {
+      "start": "00:57:29",
+      "end": "00:57:34",
+      "text": "you know what's usually done is you do only have one vector for"
+    },
+    {
+      "start": "00:57:34",
+      "end": "00:57:37",
+      "text": "jaguar and when you do that"
+    },
+    {
+      "start": "00:57:37",
+      "end": "00:57:45",
+      "text": "or pike here the one vector you learn is a weighted a weighted"
+    },
+    {
+      "start": "00:57:45",
+      "end": "00:57:47",
+      "text": "average of the"
+    },
+    {
+      "start": "00:57:47",
+      "end": "00:57:51",
+      "text": "vectors that you would have learnt for the sensors it's often"
+    },
+    {
+      "start": "00:57:51",
+      "end": "00:57:53",
+      "text": "referred to as a"
+    },
+    {
+      "start": "00:57:53",
+      "end": "00:57:58",
+      "text": "superposition because somehow neural net math people like to"
+    },
+    {
+      "start": "00:57:58",
+      "end": "00:57:59",
+      "text": "use physics terms"
+    },
+    {
+      "start": "00:57:59",
+      "end": "00:58:05",
+      "text": "and so they call it a superposition but it's a weighted average"
+    },
+    {
+      "start": "00:58:05",
+      "end": "00:58:06",
+      "text": "so you're taking"
+    },
+    {
+      "start": "00:58:06",
+      "end": "00:58:09",
+      "text": "the relative frequency of the different sensors and"
+    },
+    {
+      "start": "00:58:09",
+      "end": "00:58:12",
+      "text": "multiplying the vectors you would have learned if you'd had sense"
+    },
+    {
+      "start": "00:58:12",
+      "end": "00:58:14",
+      "text": "vectors and that's what you get as the"
+    },
+    {
+      "start": "00:58:15",
+      "end": "00:58:17",
+      "text": "representation as a whole"
+    },
+    {
+      "start": "00:58:18",
+      "end": "00:58:19",
+      "text": "and"
+    },
+    {
+      "start": "00:58:20",
+      "end": "00:58:24",
+      "text": "You know, I can make a sort of a linguistic argument as to why"
+    },
+    {
+      "start": "00:58:24",
+      "end": "00:58:26",
+      "text": "you might want to do that"
+    },
+    {
+      "start": "00:58:26",
+      "end": "00:58:31",
+      "text": "Which is you know, although this model of words have sensors"
+    },
+    {
+      "start": "00:58:31",
+      "end": "00:58:33",
+      "text": "is you know"
+    },
+    {
+      "start": "00:58:34",
+      "end": "00:58:36",
+      "text": "very long-standing and common."
+    },
+    {
+      "start": "00:58:36",
+      "end": "00:58:39",
+      "text": "I mean, it's essentially the way dictionaries are built,"
+    },
+    {
+      "start": "00:58:39",
+      "end": "00:58:39",
+      "text": "right?"
+    },
+    {
+      "start": "00:58:39",
+      "end": "00:58:42",
+      "text": "You look up a word in the dictionary and it says sense one,"
+    },
+    {
+      "start": "00:58:42",
+      "end": "00:58:43",
+      "text": "sense two, sense three,"
+    },
+    {
+      "start": "00:58:43",
+      "end": "00:58:47",
+      "text": "and you get them for things like bank or Jaguar,"
+    },
+    {
+      "start": "00:58:47",
+      "end": "00:58:48",
+      "text": "as we're talking about."
+    },
+    {
+      "start": "00:58:48",
+      "end": "00:58:52",
+      "text": "I mean, it's sort of really a broken model, right?"
+    },
+    {
+      "start": "00:58:52",
+      "end": "00:58:57",
+      "text": "That word meanings have a lot of nuance."
+    },
+    {
+      "start": "00:58:57",
+      "end": "00:58:59",
+      "text": "They're used in a lot of different contexts."
+    },
+    {
+      "start": "00:58:59",
+      "end": "00:59:05",
+      "text": "they're extreme examples like bank wherever it was where we have"
+    },
+    {
+      "start": "00:59:05",
+      "end": "00:59:07",
+      "text": "finance bank and bank of a river"
+    },
+    {
+      "start": "00:59:07",
+      "end": "00:59:11",
+      "text": "bank over here where it seems like the senses are this far apart"
+    },
+    {
+      "start": "00:59:11",
+      "end": "00:59:14",
+      "text": "but you know most words have"
+    },
+    {
+      "start": "00:59:14",
+      "end": "00:59:16",
+      "text": "sort of different meanings but they're not actually that far"
+    },
+    {
+      "start": "00:59:16",
+      "end": "00:59:19",
+      "text": "apart and trying to cut them"
+    },
+    {
+      "start": "00:59:19",
+      "end": "00:59:24",
+      "text": "into senses seems actually very artificial and you know there's"
+    },
+    {
+      "start": "00:59:24",
+      "end": "00:59:26",
+      "text": "you know if you look up five"
+    },
+    {
+      "start": "00:59:26",
+      "end": "00:59:29",
+      "text": "different dictionaries and you say how many senses does this"
+    },
+    {
+      "start": "00:59:29",
+      "end": "00:59:30",
+      "text": "word have, pretty"
+    },
+    {
+      "start": "00:59:30",
+      "end": "00:59:33",
+      "text": "much everyone will give you a different answer."
+    },
+    {
+      "start": "00:59:33",
+      "end": "00:59:35",
+      "text": "So the kind of situation you have"
+    },
+    {
+      "start": "00:59:35",
+      "end": "00:59:41",
+      "text": "is a word like field. Well a field can be used for a place where"
+    },
+    {
+      "start": "00:59:41",
+      "end": "00:59:42",
+      "text": "you grow a"
+    },
+    {
+      "start": "00:59:42",
+      "end": "00:59:48",
+      "text": "crop. It can be used for sort of natural things like a rock field"
+    },
+    {
+      "start": "00:59:48",
+      "end": "00:59:50",
+      "text": "or an ice field."
+    },
+    {
+      "start": "00:59:50",
+      "end": "00:59:53",
+      "text": "field. It can be used for a sporting field."
+    },
+    {
+      "start": "00:59:54",
+      "end": "00:59:56",
+      "text": "There's the mathematical sense of field."
+    },
+    {
+      "start": "00:59:56",
+      "end": "00:59:57",
+      "text": "Now"
+    },
+    {
+      "start": "00:59:57",
+      "end": "01:00:00",
+      "text": "all of these things sort of have something to do with each other."
+    },
+    {
+      "start": "01:00:00",
+      "end": "01:00:01",
+      "text": "I mean, the math one's"
+    },
+    {
+      "start": "01:00:01",
+      "end": "01:00:05",
+      "text": "further away, but the physical ones are sort of flat spaces."
+    },
+    {
+      "start": "01:00:05",
+      "end": "01:00:09",
+      "text": "But you know, the sense of"
+    },
+    {
+      "start": "01:00:09",
+      "end": "01:00:12",
+      "text": "it being a sporting field is clearly kind of different from the"
+    },
+    {
+      "start": "01:00:12",
+      "end": "01:00:14",
+      "text": "sense of it being an"
+    },
+    {
+      "start": "01:00:14",
+      "end": "01:00:15",
+      "text": "an ice field."
+    },
+    {
+      "start": "01:00:15",
+      "end": "01:00:18",
+      "text": "Is the ice field and the rock field different?"
+    },
+    {
+      "start": "01:00:18",
+      "end": "01:00:20",
+      "text": "Or am I just modifying them?"
+    },
+    {
+      "start": "01:00:20",
+      "end": "01:00:22",
+      "text": "Are they different senses?"
+    },
+    {
+      "start": "01:00:22",
+      "end": "01:00:28",
+      "text": "So really, you sort of have a kind of what a math person"
+    },
+    {
+      "start": "01:00:28",
+      "end": "01:00:31",
+      "text": "would say is sort of like some probability density"
+    },
+    {
+      "start": "01:00:31",
+      "end": "01:00:33",
+      "text": "distribution over things that can be"
+    },
+    {
+      "start": "01:00:33",
+      "end": "01:00:35",
+      "text": "meant by the meaning of a word."
+    },
+    {
+      "start": "01:00:35",
+      "end": "01:00:39",
+      "text": "So it sort of maybe makes sense to more use this model where"
+    },
+    {
+      "start": "01:00:39",
+      "end": "01:00:40",
+      "text": "you're just actually saying, we have"
+    },
+    {
+      "start": "01:00:40",
+      "end": "01:00:43",
+      "text": "have a vector that's an average of all the contexts."
+    },
+    {
+      "start": "01:00:44",
+      "end": "01:00:47",
+      "text": "And we'll see more of that when we get to contextual word"
+    },
+    {
+      "start": "01:00:47",
+      "end": "01:00:48",
+      "text": "vectors later on."
+    },
+    {
+      "start": "01:00:49",
+      "end": "01:00:52",
+      "text": "But one more surprising result on this"
+    },
+    {
+      "start": "01:00:53",
+      "end": "01:01:01",
+      "text": "is since you have the vector for pike overall being"
+    },
+    {
+      "start": "01:01:01",
+      "end": "01:01:06",
+      "text": "the sum of these different sense vectors,"
+    },
+    {
+      "start": "01:01:06",
+      "end": "01:01:11",
+      "text": "vectors, you know, standard math would tell you that if you just"
+    },
+    {
+      "start": "01:01:11",
+      "end": "01:01:12",
+      "text": "have the single vector,"
+    },
+    {
+      "start": "01:01:12",
+      "end": "01:01:16",
+      "text": "there's no way that you can recover the individual sense vectors."
+    },
+    {
+      "start": "01:01:17",
+      "end": "01:01:25",
+      "text": "But higher math tells you that actually these vector spaces"
+    },
+    {
+      "start": "01:01:25",
+      "end": "01:01:28",
+      "text": "are so high dimensional and"
+    },
+    {
+      "start": "01:01:28",
+      "end": "01:01:34",
+      "text": "sparse that you can use ideas from sparse coding theory to reconstruct"
+    },
+    {
+      "start": "01:01:34",
+      "end": "01:01:35",
+      "text": "the"
+    },
+    {
+      "start": "01:01:35",
+      "end": "01:01:40",
+      "text": "sense vectors out of the whole vector and if you actually want"
+    },
+    {
+      "start": "01:01:40",
+      "end": "01:01:40",
+      "text": "to understand"
+    },
+    {
+      "start": "01:01:40",
+      "end": "01:01:45",
+      "text": "this some of the people in statistics David Donahoe I think is"
+    },
+    {
+      "start": "01:01:45",
+      "end": "01:01:45",
+      "text": "one of them"
+    },
+    {
+      "start": "01:01:45",
+      "end": "01:01:51",
+      "text": "teach courses on sparse coding theory but I'm not going to try"
+    },
+    {
+      "start": "01:01:51",
+      "end": "01:01:52",
+      "text": "and teach that"
+    },
+    {
+      "start": "01:01:52",
+      "end": "01:01:56",
+      "text": "but you know here's an example from this paper the Sanjeev Arora"
+    },
+    {
+      "start": "01:01:56",
+      "end": "01:01:57",
+      "text": "et al where one"
+    },
+    {
+      "start": "01:01:57",
+      "end": "01:02:00",
+      "text": "One of the et als is Tingyu Ma, who's now"
+    },
+    {
+      "start": "01:02:00",
+      "end": "01:02:02",
+      "text": "a faculty in computer science here,"
+    },
+    {
+      "start": "01:02:03",
+      "end": "01:02:06",
+      "text": "where they are starting off with the word vector"
+    },
+    {
+      "start": "01:02:06",
+      "end": "01:02:11",
+      "text": "and using sparse coding to divide out sense vectors"
+    },
+    {
+      "start": "01:02:11",
+      "end": "01:02:13",
+      "text": "from one word vector."
+    },
+    {
+      "start": "01:02:14",
+      "end": "01:02:15",
+      "text": "And they work pretty well, right?"
+    },
+    {
+      "start": "01:02:15",
+      "end": "01:02:18",
+      "text": "So here's one sense of tie, which is piece of clothing."
+    },
+    {
+      "start": "01:02:19",
+      "end": "01:02:22",
+      "text": "Another sense of tie, which is ties in a game."
+    },
+    {
+      "start": "01:02:24",
+      "end": "01:02:26",
+      "text": "This one is sort of similar to that one, and I'll admit."
+    },
+    {
+      "start": "01:02:26",
+      "end": "01:02:31",
+      "text": "But this sense of tie here is then a tie as sort of you put on"
+    },
+    {
+      "start": "01:02:31",
+      "end": "01:02:32",
+      "text": "your electrical cables"
+    },
+    {
+      "start": "01:02:33",
+      "end": "01:02:37",
+      "text": "Then you have the musical sense of tie right at least four out"
+    },
+    {
+      "start": "01:02:37",
+      "end": "01:02:37",
+      "text": "of five"
+    },
+    {
+      "start": "01:02:37",
+      "end": "01:02:41",
+      "text": "They've done a pretty good job of getting sensors out of this"
+    },
+    {
+      "start": "01:02:41",
+      "end": "01:02:44",
+      "text": "single word vector by sparse coding"
+    },
+    {
+      "start": "01:02:44",
+      "end": "01:02:47",
+      "text": "So sparse coding must be cool if you want to go off and learn"
+    },
+    {
+      "start": "01:02:47",
+      "end": "01:02:48",
+      "text": "more about it"
+    },
+    {
+      "start": "01:02:50",
+      "end": "01:02:50",
+      "text": "Okay"
+    },
+    {
+      "start": "01:02:54",
+      "end": "01:02:57",
+      "text": "Okay, so that's everything I was going to say about words"
+    },
+    {
+      "start": "01:02:58",
+      "end": "01:02:59",
+      "text": "vectors and words sensors"
+    },
+    {
+      "start": "01:03:00",
+      "end": "01:03:02",
+      "text": "Is everyone good to there?"
+    },
+    {
+      "start": "01:03:02",
+      "end": "01:03:03",
+      "text": "Any questions?"
+    },
+    {
+      "start": "01:03:06",
+      "end": "01:03:09",
+      "text": "I'll rush ahead for the last two pieces."
+    },
+    {
+      "start": "01:03:09",
+      "end": "01:03:14",
+      "text": "Okay, so I just wanted to start to introduce in the last 15 minutes"
+    },
+    {
+      "start": "01:03:14",
+      "end": "01:03:17",
+      "text": "the ideas of how we"
+    },
+    {
+      "start": "01:03:17",
+      "end": "01:03:24",
+      "text": "can build neural classifiers and how we start to build in general"
+    },
+    {
+      "start": "01:03:24",
+      "end": "01:03:26",
+      "text": "neural networks."
+    },
+    {
+      "start": "01:03:26",
+      "end": "01:03:31",
+      "text": "works? I mean, in a sense, we've already built a very simple"
+    },
+    {
+      "start": "01:03:31",
+      "end": "01:03:33",
+      "text": "neural classifier, because our"
+    },
+    {
+      "start": "01:03:34",
+      "end": "01:03:38",
+      "text": "word2vec model is predicting what words are likely to occur in"
+    },
+    {
+      "start": "01:03:38",
+      "end": "01:03:40",
+      "text": "the context of another"
+    },
+    {
+      "start": "01:03:40",
+      "end": "01:03:42",
+      "text": "word. And you can think of that as a classifier,"
+    },
+    {
+      "start": "01:03:43",
+      "end": "01:03:45",
+      "text": "but let's look at a simple classifier like"
+    },
+    {
+      "start": "01:03:45",
+      "end": "01:03:47",
+      "text": "our named entity recognizer that I mentioned before."
+    },
+    {
+      "start": "01:03:48",
+      "end": "01:03:50",
+      "text": "So for the named entity recognizer,"
+    },
+    {
+      "start": "01:03:50",
+      "end": "01:03:52",
+      "text": "We want to label words with their class."
+    },
+    {
+      "start": "01:03:53",
+      "end": "01:03:58",
+      "text": "So we want to say these two words are a person but the same words"
+    },
+    {
+      "start": "01:03:58",
+      "end": "01:04:00",
+      "text": "Paris and Hilton are then"
+    },
+    {
+      "start": "01:04:01",
+      "end": "01:04:06",
+      "text": "locations in the second sentence so words can be ambiguous as"
+    },
+    {
+      "start": "01:04:06",
+      "end": "01:04:09",
+      "text": "to what their class is and"
+    },
+    {
+      "start": "01:04:09",
+      "end": "01:04:13",
+      "text": "The other state is that they're not a named entity at all."
+    },
+    {
+      "start": "01:04:13",
+      "end": "01:04:14",
+      "text": "They're just a word"
+    },
+    {
+      "start": "01:04:14",
+      "end": "01:04:18",
+      "text": "there's some other word and this is something that's used in"
+    },
+    {
+      "start": "01:04:18",
+      "end": "01:04:19",
+      "text": "lots of places"
+    },
+    {
+      "start": "01:04:19",
+      "end": "01:04:24",
+      "text": "as a bit of understanding so if you've seen any of those web"
+    },
+    {
+      "start": "01:04:24",
+      "end": "01:04:26",
+      "text": "pages where"
+    },
+    {
+      "start": "01:04:26",
+      "end": "01:04:30",
+      "text": "they've served you know tag company names with a stock ticker"
+    },
+    {
+      "start": "01:04:30",
+      "end": "01:04:31",
+      "text": "or there's"
+    },
+    {
+      "start": "01:04:31",
+      "end": "01:04:36",
+      "text": "links on a Wikipedia page to a Wikipedia page or something like"
+    },
+    {
+      "start": "01:04:36",
+      "end": "01:04:37",
+      "text": "that right you've"
+    },
+    {
+      "start": "01:04:37",
+      "end": "01:04:41",
+      "text": "got named entities where commonly after finding the name entities"
+    },
+    {
+      "start": "01:04:41",
+      "end": "01:04:42",
+      "text": "you're doing"
+    },
+    {
+      "start": "01:04:42",
+      "end": "01:04:46",
+      "text": "this second stage of entity linking where you're then linking"
+    },
+    {
+      "start": "01:04:46",
+      "end": "01:04:47",
+      "text": "the named"
+    },
+    {
+      "start": "01:04:47",
+      "end": "01:04:51",
+      "text": "entity to some canonical form of it like a Wikipedia page but"
+    },
+    {
+      "start": "01:04:51",
+      "end": "01:04:52",
+      "text": "we're not going to"
+    },
+    {
+      "start": "01:04:52",
+      "end": "01:04:57",
+      "text": "talk about the second part of it for the rest of the day and"
+    },
+    {
+      "start": "01:04:57",
+      "end": "01:05:01",
+      "text": "so we could say that"
+    },
+    {
+      "start": "01:05:01",
+      "end": "01:05:06",
+      "text": "building with our word vectors we've got this simple task where"
+    },
+    {
+      "start": "01:05:06",
+      "end": "01:05:07",
+      "text": "what we're going"
+    },
+    {
+      "start": "01:05:07",
+      "end": "01:05:10",
+      "text": "to do is we're going to look at a word in context because sometimes"
+    },
+    {
+      "start": "01:05:10",
+      "end": "01:05:11",
+      "text": "Paris is a"
+    },
+    {
+      "start": "01:05:11",
+      "end": "01:05:14",
+      "text": "a name of a person, sometimes it's a location."
+    },
+    {
+      "start": "01:05:15",
+      "end": "01:05:17",
+      "text": "And so we're going to want to look at this word"
+    },
+    {
+      "start": "01:05:17",
+      "end": "01:05:21",
+      "text": "in its context and say, aha, this"
+    },
+    {
+      "start": "01:05:21",
+      "end": "01:05:23",
+      "text": "is the name of the location in this instance."
+    },
+    {
+      "start": "01:05:24",
+      "end": "01:05:26",
+      "text": "And so the way that we're going to do it"
+    },
+    {
+      "start": "01:05:27",
+      "end": "01:05:32",
+      "text": "is we're going to form a window classifier."
+    },
+    {
+      "start": "01:05:32",
+      "end": "01:05:34",
+      "text": "So we're going to take a word with a couple of words"
+    },
+    {
+      "start": "01:05:34",
+      "end": "01:05:36",
+      "text": "of context on each side."
+    },
+    {
+      "start": "01:05:36",
+      "end": "01:05:39",
+      "text": "And for the words in our context window,"
+    },
+    {
+      "start": "01:05:39",
+      "end": "01:05:42",
+      "text": "We're going to use our word vectors because we want to show they're"
+    },
+    {
+      "start": "01:05:42",
+      "end": "01:05:45",
+      "text": "useful for something and then we want to feed this"
+    },
+    {
+      "start": "01:05:45",
+      "end": "01:05:50",
+      "text": "Into something that is a classifier and our classifier"
+    },
+    {
+      "start": "01:05:50",
+      "end": "01:05:54",
+      "text": "It's actually going to be a really simple locates classifier."
+    },
+    {
+      "start": "01:05:54",
+      "end": "01:05:55",
+      "text": "We're only here going to do"
+    },
+    {
+      "start": "01:05:56",
+      "end": "01:06:00",
+      "text": "Location or not a location. So this one here."
+    },
+    {
+      "start": "01:06:00",
+      "end": "01:06:01",
+      "text": "We're wanting to say for this"
+    },
+    {
+      "start": "01:06:02",
+      "end": "01:06:05",
+      "text": "Window here. Yes. It's a location"
+    },
+    {
+      "start": "01:06:06",
+      "end": "01:06:08",
+      "text": "and whereas if it had been"
+    },
+    {
+      "start": "01:06:09",
+      "end": "01:06:12",
+      "text": "I, what, I love Paris Hilton greatly,"
+    },
+    {
+      "start": "01:06:13",
+      "end": "01:06:16",
+      "text": "um, then we'd be saying no because Paris,"
+    },
+    {
+      "start": "01:06:16",
+      "end": "01:06:17",
+      "text": "the word in the"
+    },
+    {
+      "start": "01:06:17",
+      "end": "01:06:20",
+      "text": "middle of the context then isn't,"
+    },
+    {
+      "start": "01:06:20",
+      "end": "01:06:24",
+      "text": "um, a location. So that's sort of the idea of a classification"
+    },
+    {
+      "start": "01:06:24",
+      "end": "01:06:29",
+      "text": "or classifier. We're making, assigning some set of classes,"
+    },
+    {
+      "start": "01:06:29",
+      "end": "01:06:33",
+      "text": "um, to things, right? So in general"
+    },
+    {
+      "start": "01:06:33",
+      "end": "01:06:38",
+      "text": "for classifiers we do supervised learning which means we have"
+    },
+    {
+      "start": "01:06:38",
+      "end": "01:06:39",
+      "text": "some labeled examples"
+    },
+    {
+      "start": "01:06:39",
+      "end": "01:06:45",
+      "text": "our training data set so we have input items xi and for each"
+    },
+    {
+      "start": "01:06:45",
+      "end": "01:06:49",
+      "text": "one we've got a class yi so i had"
+    },
+    {
+      "start": "01:06:49",
+      "end": "01:06:54",
+      "text": "for my example training examples ones like i love paris hilton"
+    },
+    {
+      "start": "01:06:54",
+      "end": "01:06:58",
+      "text": "greatly that was negative"
+    },
+    {
+      "start": "01:06:58",
+      "end": "01:07:04",
+      "text": "not a location and I visit Paris every spring that's positive"
+    },
+    {
+      "start": "01:07:04",
+      "end": "01:07:04",
+      "text": "that is a"
+    },
+    {
+      "start": "01:07:04",
+      "end": "01:07:08",
+      "text": "location where I'm actually classifying the middle word okay"
+    },
+    {
+      "start": "01:07:08",
+      "end": "01:07:10",
+      "text": "so inputs labels"
+    },
+    {
+      "start": "01:07:10",
+      "end": "01:07:15",
+      "text": "and in general we've got labels are a set of classes so my set"
+    },
+    {
+      "start": "01:07:15",
+      "end": "01:07:15",
+      "text": "here is simply"
+    },
+    {
+      "start": "01:07:15",
+      "end": "01:07:20",
+      "text": "location not a location but I could get fancier and I could say"
+    },
+    {
+      "start": "01:07:20",
+      "end": "01:07:22",
+      "text": "I've got five"
+    },
+    {
+      "start": "01:07:22",
+      "end": "01:07:29",
+      "text": "classes I've got location person name whatever other ones there"
+    },
+    {
+      "start": "01:07:29",
+      "end": "01:07:30",
+      "text": "are company"
+    },
+    {
+      "start": "01:07:30",
+      "end": "01:07:34",
+      "text": "name drug name right I could be assigning a bunch of or other"
+    },
+    {
+      "start": "01:07:34",
+      "end": "01:07:35",
+      "text": "not a name"
+    },
+    {
+      "start": "01:07:35",
+      "end": "01:07:39",
+      "text": "a bunch of different classes but I'm going to be doing it with"
+    },
+    {
+      "start": "01:07:39",
+      "end": "01:07:39",
+      "text": "only two"
+    },
+    {
+      "start": "01:07:39",
+      "end": "01:07:44",
+      "text": "because I'm using this example on next Tuesday's lecture as well"
+    },
+    {
+      "start": "01:07:44",
+      "end": "01:07:45",
+      "text": "and I'm"
+    },
+    {
+      "start": "01:07:45",
+      "end": "01:07:50",
+      "text": "wanting to keep it simple so that's what we're going to do and"
+    },
+    {
+      "start": "01:07:50",
+      "end": "01:07:51",
+      "text": "so what we're"
+    },
+    {
+      "start": "01:07:51",
+      "end": "01:07:56",
+      "text": "we're going to be using in our class is neural classifiers."
+    },
+    {
+      "start": "01:07:57",
+      "end": "01:08:02",
+      "text": "And so I just wanted to sort of go through quickly"
+    },
+    {
+      "start": "01:08:02",
+      "end": "01:08:05",
+      "text": "just the sort of food for thought as we go into it."
+    },
+    {
+      "start": "01:08:05",
+      "end": "01:08:11",
+      "text": "So for a typical stats machine learning classifier,"
+    },
+    {
+      "start": "01:08:11",
+      "end": "01:08:15",
+      "text": "you can build classifiers like logistic regression or softmax"
+    },
+    {
+      "start": "01:08:15",
+      "end": "01:08:19",
+      "text": "classifiers or other ones like support vector machines"
+    },
+    {
+      "start": "01:08:19",
+      "end": "01:08:24",
+      "text": "machines or naive Bayes or whatever else you might have seen"
+    },
+    {
+      "start": "01:08:24",
+      "end": "01:08:27",
+      "text": "the vast majority of these classifiers"
+    },
+    {
+      "start": "01:08:27",
+      "end": "01:08:31",
+      "text": "linear classifiers meaning they have a linear decision boundary"
+    },
+    {
+      "start": "01:08:31",
+      "end": "01:08:32",
+      "text": "and"
+    },
+    {
+      "start": "01:08:32",
+      "end": "01:08:34",
+      "text": "When we're learning these classifiers,"
+    },
+    {
+      "start": "01:08:35",
+      "end": "01:08:37",
+      "text": "we're learning parameters here w"
+    },
+    {
+      "start": "01:08:37",
+      "end": "01:08:42",
+      "text": "but out the our inputs are fixed that our inputs are represented"
+    },
+    {
+      "start": "01:08:42",
+      "end": "01:08:43",
+      "text": "by symbols like"
+    },
+    {
+      "start": "01:08:44",
+      "end": "01:08:48",
+      "text": "or quantities so we have fixed inputs we learn parameters as"
+    },
+    {
+      "start": "01:08:48",
+      "end": "01:08:50",
+      "text": "weights in that are"
+    },
+    {
+      "start": "01:08:50",
+      "end": "01:08:55",
+      "text": "used to multiply the inputs and then we use a linear decision"
+    },
+    {
+      "start": "01:08:55",
+      "end": "01:08:57",
+      "text": "boundary so when"
+    },
+    {
+      "start": "01:08:57",
+      "end": "01:09:01",
+      "text": "we have our neural classifier we're kind of getting some more"
+    },
+    {
+      "start": "01:09:01",
+      "end": "01:09:04",
+      "text": "power so first of"
+    },
+    {
+      "start": "01:09:04",
+      "end": "01:09:08",
+      "text": "all we're not only learning weights W for our classifier we're"
+    },
+    {
+      "start": "01:09:08",
+      "end": "01:09:08",
+      "text": "also learning"
+    },
+    {
+      "start": "01:09:08",
+      "end": "01:09:11",
+      "text": "distributed representations for our words."
+    },
+    {
+      "start": "01:09:12",
+      "end": "01:09:15",
+      "text": "So our words can sort of re-represent,"
+    },
+    {
+      "start": "01:09:15",
+      "end": "01:09:20",
+      "text": "our word vectors re-represent the actual words as symbols and"
+    },
+    {
+      "start": "01:09:20",
+      "end": "01:09:21",
+      "text": "can move them"
+    },
+    {
+      "start": "01:09:21",
+      "end": "01:09:27",
+      "text": "around in the space. So that in terms of the original space we've"
+    },
+    {
+      "start": "01:09:27",
+      "end": "01:09:28",
+      "text": "got a nonlinear"
+    },
+    {
+      "start": "01:09:28",
+      "end": "01:09:31",
+      "text": "classifier that can represent much more complex functions,"
+    },
+    {
+      "start": "01:09:31",
+      "end": "01:09:34",
+      "text": "but we will then sort"
+    },
+    {
+      "start": "01:09:34",
+      "end": "01:09:39",
+      "text": "sort of use the word vectors to re-represent those words"
+    },
+    {
+      "start": "01:09:39",
+      "end": "01:09:41",
+      "text": "to do a final classification."
+    },
+    {
+      "start": "01:09:41",
+      "end": "01:09:45",
+      "text": "So at the end of our deep network, which"
+    },
+    {
+      "start": "01:09:45",
+      "end": "01:09:48",
+      "text": "we're about to build, we will have a linear classifier"
+    },
+    {
+      "start": "01:09:48",
+      "end": "01:09:51",
+      "text": "in terms of our re-represented vectors,"
+    },
+    {
+      "start": "01:09:51",
+      "end": "01:09:53",
+      "text": "but not in terms of our original space."
+    },
+    {
+      "start": "01:09:54",
+      "end": "01:09:55",
+      "text": "Let me try and be concrete about that."
+    },
+    {
+      "start": "01:09:57",
+      "end": "01:09:59",
+      "text": "So here's what I'm going to use, and we'll"
+    },
+    {
+      "start": "01:09:59",
+      "end": "01:10:04",
+      "text": "will use again next Tuesday as my little neural network."
+    },
+    {
+      "start": "01:10:05",
+      "end": "01:10:08",
+      "text": "And so I start with some words."
+    },
+    {
+      "start": "01:10:09",
+      "end": "01:10:10",
+      "text": "Museums in Paris are amazing."
+    },
+    {
+      "start": "01:10:11",
+      "end": "01:10:15",
+      "text": "I first of all come up with the word embedding of those"
+    },
+    {
+      "start": "01:10:15",
+      "end": "01:10:17",
+      "text": "using my word vectors."
+    },
+    {
+      "start": "01:10:17",
+      "end": "01:10:22",
+      "text": "So now I've got this sort of high dimensional vector, which"
+    },
+    {
+      "start": "01:10:22",
+      "end": "01:10:24",
+      "text": "is just a concatenation of five word vectors."
+    },
+    {
+      "start": "01:10:24",
+      "end": "01:10:27",
+      "text": "So if I have 100 dimensional word vectors,"
+    },
+    {
+      "start": "01:10:27",
+      "end": "01:10:28",
+      "text": "this is 500 dimensional."
+    },
+    {
+      "start": "01:10:28",
+      "end": "01:10:32",
+      "text": "And then I'm going to put it through a neural network layer,"
+    },
+    {
+      "start": "01:10:32",
+      "end": "01:10:33",
+      "text": "which is simply"
+    },
+    {
+      "start": "01:10:34",
+      "end": "01:10:38",
+      "text": "Multiplying that vector by a matrix and adding on a bias"
+    },
+    {
+      "start": "01:10:39",
+      "end": "01:10:43",
+      "text": "Vector and then I'm going to put it through some non linearity"
+    },
+    {
+      "start": "01:10:43",
+      "end": "01:10:47",
+      "text": "Which might be for example a logistic function that we've already"
+    },
+    {
+      "start": "01:10:47",
+      "end": "01:10:49",
+      "text": "seen so that'll give me a new"
+    },
+    {
+      "start": "01:10:49",
+      "end": "01:10:51",
+      "text": "representation and in particular"
+    },
+    {
+      "start": "01:10:51",
+      "end": "01:10:57",
+      "text": "So in particular, if the w is, say, 8 by 500,"
+    },
+    {
+      "start": "01:10:58",
+      "end": "01:11:05",
+      "text": "I'll be reducing it to a much smaller vector."
+    },
+    {
+      "start": "01:11:06",
+      "end": "01:11:10",
+      "text": "So then I can do after that, I can multiply"
+    },
+    {
+      "start": "01:11:10",
+      "end": "01:11:14",
+      "text": "my hidden representation in the middle of my neural network"
+    },
+    {
+      "start": "01:11:14",
+      "end": "01:11:17",
+      "text": "by another vector, and that will give me a score."
+    },
+    {
+      "start": "01:11:17",
+      "end": "01:11:21",
+      "text": "And I'm going to put the score into the logistic function"
+    },
+    {
+      "start": "01:11:21",
+      "end": "01:11:24",
+      "text": "that we saw earlier to say what's the probability this is the"
+    },
+    {
+      "start": "01:11:24",
+      "end": "01:11:26",
+      "text": "location. So at"
+    },
+    {
+      "start": "01:11:26",
+      "end": "01:11:32",
+      "text": "this point my classifier is going to be a linear classifier in"
+    },
+    {
+      "start": "01:11:32",
+      "end": "01:11:33",
+      "text": "terms of this"
+    },
+    {
+      "start": "01:11:33",
+      "end": "01:11:36",
+      "text": "internal representation that's used right at the end,"
+    },
+    {
+      "start": "01:11:36",
+      "end": "01:11:37",
+      "text": "but it's going to be a"
+    },
+    {
+      "start": "01:11:37",
+      "end": "01:11:41",
+      "text": "nonlinear classifier in terms of my word vectors."
+    },
+    {
+      "start": "01:11:46",
+      "end": "01:11:53",
+      "text": "Okay, great. Here's one other"
+    },
+    {
+      "start": "01:11:53",
+      "end": "01:11:59",
+      "text": "thing this is just sort of a note for learn ahead since you want"
+    },
+    {
+      "start": "01:11:59",
+      "end": "01:12:00",
+      "text": "to know this"
+    },
+    {
+      "start": "01:12:00",
+      "end": "01:12:03",
+      "text": "when we start doing the next assignments I mean up until now"
+    },
+    {
+      "start": "01:12:03",
+      "end": "01:12:04",
+      "text": "I presented"
+    },
+    {
+      "start": "01:12:04",
+      "end": "01:12:09",
+      "text": "everything as you know doing log likelihood and negative log"
+    },
+    {
+      "start": "01:12:09",
+      "end": "01:12:10",
+      "text": "likelihood"
+    },
+    {
+      "start": "01:12:10",
+      "end": "01:12:16",
+      "text": "for building our models very soon now assignment two we're going"
+    },
+    {
+      "start": "01:12:16",
+      "end": "01:12:16",
+      "text": "to be"
+    },
+    {
+      "start": "01:12:16",
+      "end": "01:12:19",
+      "text": "be starting to do things with PyTorch."
+    },
+    {
+      "start": "01:12:20",
+      "end": "01:12:25",
+      "text": "And when you start working out your losses with PyTorch,"
+    },
+    {
+      "start": "01:12:26",
+      "end": "01:12:30",
+      "text": "what you're going to be wanting to use is cross-entropy loss."
+    },
+    {
+      "start": "01:12:30",
+      "end": "01:12:34",
+      "text": "And so let me quickly say what cross-entropy loss is."
+    },
+    {
+      "start": "01:12:34",
+      "end": "01:12:38",
+      "text": "So cross-entropy is from information theory."
+    },
+    {
+      "start": "01:12:38",
+      "end": "01:12:42",
+      "text": "So if you have a true probability distribution p"
+    },
+    {
+      "start": "01:12:42",
+      "end": "01:12:45",
+      "text": "p and you're computing a probability distribution q,"
+    },
+    {
+      "start": "01:12:46",
+      "end": "01:12:49",
+      "text": "your cross entropy loss is like this."
+    },
+    {
+      "start": "01:12:49",
+      "end": "01:12:55",
+      "text": "So it's the log of your model probability,"
+    },
+    {
+      "start": "01:12:55",
+      "end": "01:13:00",
+      "text": "the expectation of that under your true probability"
+    },
+    {
+      "start": "01:13:00",
+      "end": "01:13:01",
+      "text": "distribution."
+    },
+    {
+      "start": "01:13:01",
+      "end": "01:13:04",
+      "text": "But there's sort of a special case,"
+    },
+    {
+      "start": "01:13:04",
+      "end": "01:13:09",
+      "text": "whereas if you have ground truth or gold or target data"
+    },
+    {
+      "start": "01:13:09",
+      "end": "01:13:12",
+      "text": "data where things are labeled 1, 0."
+    },
+    {
+      "start": "01:13:13",
+      "end": "01:13:20",
+      "text": "So like for examples of I love Paris when warm,"
+    },
+    {
+      "start": "01:13:21",
+      "end": "01:13:24",
+      "text": "I'm just labeling it 1 for location."
+    },
+    {
+      "start": "01:13:24",
+      "end": "01:13:26",
+      "text": "Probability 1, it's the location."
+    },
+    {
+      "start": "01:13:26",
+      "end": "01:13:29",
+      "text": "Probability 0, it's not a location."
+    },
+    {
+      "start": "01:13:29",
+      "end": "01:13:33",
+      "text": "So if you're just labeling the right class as probability 1,"
+    },
+    {
+      "start": "01:13:33",
+      "end": "01:13:38",
+      "text": "1, then in this summation, every other term goes to 0."
+    },
+    {
+      "start": "01:13:39",
+      "end": "01:13:41",
+      "text": "And the only thing you're left with"
+    },
+    {
+      "start": "01:13:41",
+      "end": "01:13:44",
+      "text": "is what probability is my model?"
+    },
+    {
+      "start": "01:13:45",
+      "end": "01:13:49",
+      "text": "What log probability is my model giving to the right class?"
+    },
+    {
+      "start": "01:13:50",
+      "end": "01:13:53",
+      "text": "And so that, then, is your log likelihood,"
+    },
+    {
+      "start": "01:13:54",
+      "end": "01:13:58",
+      "text": "which we can use for the negative log likelihood."
+    },
+    {
+      "start": "01:14:00",
+      "end": "01:14:02",
+      "text": "A little bit of a complication here."
+    },
+    {
+      "start": "01:14:02",
+      "end": "01:14:04",
+      "text": "here, just remember that you'll want"
+    },
+    {
+      "start": "01:14:04",
+      "end": "01:14:07",
+      "text": "to use cross-entropy loss in PyTorch when building the model."
+    },
+    {
+      "start": "01:14:08",
+      "end": "01:14:14",
+      "text": "OK, before we end today, here is my obligatory one"
+    },
+    {
+      "start": "01:14:14",
+      "end": "01:14:16",
+      "text": "picture of human neurons."
+    },
+    {
+      "start": "01:14:16",
+      "end": "01:14:19",
+      "text": "Don't miss it, because I'm not going to show any more of these."
+    },
+    {
+      "start": "01:14:20",
+      "end": "01:14:23",
+      "text": "OK, these are human neurons, right?"
+    },
+    {
+      "start": "01:14:23",
+      "end": "01:14:27",
+      "text": "Human neurons were the inspiration"
+    },
+    {
+      "start": "01:14:28",
+      "end": "01:14:30",
+      "text": "for neural networks, right?"
+    },
+    {
+      "start": "01:14:30",
+      "end": "01:14:36",
+      "text": "so human neurons have a single output which comes down this axon"
+    },
+    {
+      "start": "01:14:36",
+      "end": "01:14:39",
+      "text": "and then when"
+    },
+    {
+      "start": "01:14:39",
+      "end": "01:14:48",
+      "text": "you have these outputs they then feed into other neurons I"
+    },
+    {
+      "start": "01:14:48",
+      "end": "01:14:48",
+      "text": "guess I don't"
+    },
+    {
+      "start": "01:14:48",
+      "end": "01:14:52",
+      "text": "really have an example here but in general one output can feed"
+    },
+    {
+      "start": "01:14:52",
+      "end": "01:14:53",
+      "text": "into"
+    },
+    {
+      "start": "01:14:53",
+      "end": "01:14:56",
+      "text": "multiple different neurons you can see the different things hanging"
+    },
+    {
+      "start": "01:14:56",
+      "end": "01:14:57",
+      "text": "into it so"
+    },
+    {
+      "start": "01:14:57",
+      "end": "01:14:59",
+      "text": "So you have the output connecting to the input."
+    },
+    {
+      "start": "01:15:00",
+      "end": "01:15:02",
+      "text": "And where you make this connection,"
+    },
+    {
+      "start": "01:15:03",
+      "end": "01:15:05",
+      "text": "that's the synapses that people talk about."
+    },
+    {
+      "start": "01:15:06",
+      "end": "01:15:10",
+      "text": "And so one neuron will normally have many, many inputs"
+    },
+    {
+      "start": "01:15:10",
+      "end": "01:15:12",
+      "text": "where it picks things up from other neurons."
+    },
+    {
+      "start": "01:15:13",
+      "end": "01:15:16",
+      "text": "And they all go into the nucleus of the cell."
+    },
+    {
+      "start": "01:15:17",
+      "end": "01:15:21",
+      "text": "And the nucleus combines together all those inputs."
+    },
+    {
+      "start": "01:15:21",
+      "end": "01:15:25",
+      "text": "And what happens is, if there's enough positive activation"
+    },
+    {
+      "start": "01:15:25",
+      "end": "01:15:33",
+      "text": "from all of these inputs it then sends signals down its output"
+    },
+    {
+      "start": "01:15:33",
+      "end": "01:15:35",
+      "text": "now strictly how"
+    },
+    {
+      "start": "01:15:35",
+      "end": "01:15:41",
+      "text": "neurons work is that they send spikes so the level of activations"
+    },
+    {
+      "start": "01:15:41",
+      "end": "01:15:42",
+      "text": "and neuron is"
+    },
+    {
+      "start": "01:15:42",
+      "end": "01:15:47",
+      "text": "its rate of spiking but that immediately got turned in artificial"
+    },
+    {
+      "start": "01:15:47",
+      "end": "01:15:48",
+      "text": "neural networks"
+    },
+    {
+      "start": "01:15:48",
+      "end": "01:15:52",
+      "text": "into just a real value as to what is its level of activation"
+    },
+    {
+      "start": "01:15:52",
+      "end": "01:15:55",
+      "text": "and so it does this"
+    },
+    {
+      "start": "01:15:55",
+      "end": "01:15:59",
+      "text": "So this was kind of the genuine inspiration of all of our neural"
+    },
+    {
+      "start": "01:15:59",
+      "end": "01:16:00",
+      "text": "networks, right?"
+    },
+    {
+      "start": "01:16:01",
+      "end": "01:16:06",
+      "text": "So a binary logistic regression is kind of a bit similar to a"
+    },
+    {
+      "start": "01:16:06",
+      "end": "01:16:08",
+      "text": "neuron, right? It has multiple inputs"
+    },
+    {
+      "start": "01:16:09",
+      "end": "01:16:09",
+      "text": "you're"
+    },
+    {
+      "start": "01:16:10",
+      "end": "01:16:12",
+      "text": "working out your total level of"
+    },
+    {
+      "start": "01:16:13",
+      "end": "01:16:18",
+      "text": "excitation where in particular you can have inputs that are both"
+    },
+    {
+      "start": "01:16:18",
+      "end": "01:16:21",
+      "text": "exciting positive inputs and"
+    },
+    {
+      "start": "01:16:21",
+      "end": "01:16:22",
+      "text": "inputs that are"
+    },
+    {
+      "start": "01:16:22",
+      "end": "01:16:26",
+      "text": "are negative, which are then inhibitory inputs."
+    },
+    {
+      "start": "01:16:26",
+      "end": "01:16:28",
+      "text": "You combine them all together, and you"
+    },
+    {
+      "start": "01:16:28",
+      "end": "01:16:32",
+      "text": "get an output that's your level of excitation."
+    },
+    {
+      "start": "01:16:33",
+      "end": "01:16:35",
+      "text": "And you're then sort of converting that"
+    },
+    {
+      "start": "01:16:35",
+      "end": "01:16:37",
+      "text": "through some non-linearity."
+    },
+    {
+      "start": "01:16:37",
+      "end": "01:16:41",
+      "text": "And so this was proposed as a very simple model"
+    },
+    {
+      "start": "01:16:41",
+      "end": "01:16:42",
+      "text": "of human neurons."
+    },
+    {
+      "start": "01:16:43",
+      "end": "01:16:46",
+      "text": "Now, human neurons are way more complex than this."
+    },
+    {
+      "start": "01:16:46",
+      "end": "01:16:49",
+      "text": "And some people, like neuroscientists,"
+    },
+    {
+      "start": "01:16:49",
+      "end": "01:16:53",
+      "text": "think we maybe should be doing a better model of actual human"
+    },
+    {
+      "start": "01:16:53",
+      "end": "01:16:55",
+      "text": "neurons but in"
+    },
+    {
+      "start": "01:16:55",
+      "end": "01:16:59",
+      "text": "terms of what's being done in the current neural networks eat"
+    },
+    {
+      "start": "01:16:59",
+      "end": "01:17:00",
+      "text": "the world"
+    },
+    {
+      "start": "01:17:00",
+      "end": "01:17:04",
+      "text": "revolution everyone's forgotten about that and it's just sticking"
+    },
+    {
+      "start": "01:17:04",
+      "end": "01:17:04",
+      "text": "with this"
+    },
+    {
+      "start": "01:17:04",
+      "end": "01:17:10",
+      "text": "very very simple model which conveniently turns into linear algebra"
+    },
+    {
+      "start": "01:17:10",
+      "end": "01:17:17",
+      "text": "in a very simple way so this gives us sort of like a single neuron"
+    },
+    {
+      "start": "01:17:17",
+      "end": "01:17:18",
+      "text": "but then"
+    },
+    {
+      "start": "01:17:18",
+      "end": "01:17:24",
+      "text": "precise right so this is which this single neuron if you use"
+    },
+    {
+      "start": "01:17:24",
+      "end": "01:17:24",
+      "text": "the logistic"
+    },
+    {
+      "start": "01:17:24",
+      "end": "01:17:28",
+      "text": "function is identical to logistic regression which you've probably"
+    },
+    {
+      "start": "01:17:28",
+      "end": "01:17:29",
+      "text": "seen in"
+    },
+    {
+      "start": "01:17:29",
+      "end": "01:17:33",
+      "text": "some stats class or something but the difference is that for"
+    },
+    {
+      "start": "01:17:33",
+      "end": "01:17:33",
+      "text": "neural networks"
+    },
+    {
+      "start": "01:17:33",
+      "end": "01:17:39",
+      "text": "we don't just have one logistic regression we have a bunch of"
+    },
+    {
+      "start": "01:17:39",
+      "end": "01:17:40",
+      "text": "logistic"
+    },
+    {
+      "start": "01:17:40",
+      "end": "01:17:44",
+      "text": "regressions at once and well that would be tricky if we had to"
+    },
+    {
+      "start": "01:17:44",
+      "end": "01:17:45",
+      "text": "define what each"
+    },
+    {
+      "start": "01:17:45",
+      "end": "01:17:48",
+      "text": "each of these logistic regressions was calculating."
+    },
+    {
+      "start": "01:17:49",
+      "end": "01:17:52",
+      "text": "But what we don't, what we do is we just"
+    },
+    {
+      "start": "01:17:52",
+      "end": "01:17:56",
+      "text": "feed them into another logistic regression."
+    },
+    {
+      "start": "01:17:57",
+      "end": "01:18:00",
+      "text": "And so we have some eventual output"
+    },
+    {
+      "start": "01:18:00",
+      "end": "01:18:03",
+      "text": "that we want to be something, like we"
+    },
+    {
+      "start": "01:18:03",
+      "end": "01:18:06",
+      "text": "want it to say this is or isn't a location."
+    },
+    {
+      "start": "01:18:07",
+      "end": "01:18:11",
+      "text": "But then what will happen is by our machine learning,"
+    },
+    {
+      "start": "01:18:11",
+      "end": "01:18:14",
+      "text": "these intermediate logistic regressions"
+    },
+    {
+      "start": "01:18:14",
+      "end": "01:18:18",
+      "text": "will figure out all by themselves something useful to do."
+    },
+    {
+      "start": "01:18:18",
+      "end": "01:18:20",
+      "text": "That's the magic, right?"
+    },
+    {
+      "start": "01:18:21",
+      "end": "01:18:25",
+      "text": "So that you get this sort of self-learning property"
+    },
+    {
+      "start": "01:18:25",
+      "end": "01:18:28",
+      "text": "where the model has a lot of parameters"
+    },
+    {
+      "start": "01:18:28",
+      "end": "01:18:32",
+      "text": "and internally will work out useful things to do."
+    },
+    {
+      "start": "01:18:32",
+      "end": "01:18:34",
+      "text": "So in general, we can get more magic"
+    },
+    {
+      "start": "01:18:34",
+      "end": "01:18:36",
+      "text": "by having more layers in the neural network"
+    },
+    {
+      "start": "01:18:36",
+      "end": "01:18:40",
+      "text": "and that we will build up functions."
+    },
+    {
+      "start": "01:18:40",
+      "end": "01:18:43",
+      "text": "So effectively, these intermediate layers"
+    },
+    {
+      "start": "01:18:43",
+      "end": "01:18:49",
+      "text": "let us learn a model that re-represents the input data in ways"
+    },
+    {
+      "start": "01:18:49",
+      "end": "01:18:50",
+      "text": "that will make it"
+    },
+    {
+      "start": "01:18:50",
+      "end": "01:18:55",
+      "text": "easier to classify or easier to interpret and do things with"
+    },
+    {
+      "start": "01:18:55",
+      "end": "01:18:56",
+      "text": "downstream"
+    },
+    {
+      "start": "01:18:56",
+      "end": "01:19:03",
+      "text": "in our neural network and it's time so I should stop there thank"
+    },
+    {
+      "start": "01:19:03",
+      "end": "01:19:03",
+      "text": "you"
+    }
+  ],
+  "asr": {
+    "model": "large-v3",
+    "device": "cuda",
+    "compute_type": "float16",
+    "language": "en"
+  }
+}
