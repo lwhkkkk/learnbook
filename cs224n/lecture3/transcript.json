@@ -1,0 +1,6500 @@
+{
+  "video_url": "https://www.bilibili.com/video/BV1U5RNYgEfp/?p=3",
+  "title": "斯坦福大学《深度学习自然语言处理|Stanford CS224N NLP with Deep Learning 2024》中英字幕（deepseek-R1 p03 [03]Lecture 3 - Backpropagation, Neural Network.zh_en",
+  "video_id": "BV1U5RNYgEfp_p3",
+  "duration": 4406.698,
+  "chapters": [],
+  "segments": [
+    {
+      "start": "00:00:05",
+      "end": "00:00:08",
+      "text": "Okay, hi everyone. I'll be getting started."
+    },
+    {
+      "start": "00:00:09",
+      "end": "00:00:11",
+      "text": "Okay, so it's Tuesday of week two."
+    },
+    {
+      "start": "00:00:12",
+      "end": "00:00:16",
+      "text": "So hopefully that means everyone has done the assignment one."
+    },
+    {
+      "start": "00:00:16",
+      "end": "00:00:18",
+      "text": "Everyone done assignment one?"
+    },
+    {
+      "start": "00:00:19",
+      "end": "00:00:24",
+      "text": "You know, if I'm saying this, I'm probably saying it to the wrong"
+    },
+    {
+      "start": "00:00:24",
+      "end": "00:00:24",
+      "text": "people."
+    },
+    {
+      "start": "00:00:24",
+      "end": "00:00:30",
+      "text": "But it, it seems like every year some people blow some of their"
+    },
+    {
+      "start": "00:00:31",
+      "end": "00:00:35",
+      "text": "late days on assignment one, and it's really just the wrong place"
+    },
+    {
+      "start": "00:00:35",
+      "end": "00:00:36",
+      "text": "to use them."
+    },
+    {
+      "start": "00:00:36",
+      "end": "00:00:40",
+      "text": "So yeah, hopefully you've all done assignment one,"
+    },
+    {
+      "start": "00:00:40",
+      "end": "00:00:41",
+      "text": "and did not,"
+    },
+    {
+      "start": "00:00:41",
+      "end": "00:00:43",
+      "text": "that this is meant to be the easy on-ramp."
+    },
+    {
+      "start": "00:00:43",
+      "end": "00:00:49",
+      "text": "and then we go straight on from that so that out today we have"
+    },
+    {
+      "start": "00:00:49",
+      "end": "00:00:50",
+      "text": "assignment two."
+    },
+    {
+      "start": "00:00:50",
+      "end": "00:00:54",
+      "text": "So assignment two has two purposes."
+    },
+    {
+      "start": "00:00:55",
+      "end": "00:00:58",
+      "text": "Purpose one is to make you do some math"
+    },
+    {
+      "start": "00:00:58",
+      "end": "00:01:04",
+      "text": "to some understanding of what neural networks really compute"
+    },
+    {
+      "start": "00:01:04",
+      "end": "00:01:05",
+      "text": "and how they"
+    },
+    {
+      "start": "00:01:05",
+      "end": "00:01:08",
+      "text": "compute it and that's what I'm going to talk about today is also"
+    },
+    {
+      "start": "00:01:08",
+      "end": "00:01:09",
+      "text": "going through"
+    },
+    {
+      "start": "00:01:09",
+      "end": "00:01:12",
+      "text": "through that math but then simultaneously,"
+    },
+    {
+      "start": "00:01:12",
+      "end": "00:01:15",
+      "text": "maybe it does three things in assignment two."
+    },
+    {
+      "start": "00:01:15",
+      "end": "00:01:19",
+      "text": "So, we're going to be learning something about dependency parsing,"
+    },
+    {
+      "start": "00:01:19",
+      "end": "00:01:23",
+      "text": "which will be actually something about language structure and"
+    },
+    {
+      "start": "00:01:23",
+      "end": "00:01:23",
+      "text": "linguistics."
+    },
+    {
+      "start": "00:01:24",
+      "end": "00:01:26",
+      "text": "But then thirdly,"
+    },
+    {
+      "start": "00:01:26",
+      "end": "00:01:29",
+      "text": "for assignment two, we're going to start using PyTorch."
+    },
+    {
+      "start": "00:01:29",
+      "end": "00:01:33",
+      "text": "So, PyTorch is one of the leading software frameworks for"
+    },
+    {
+      "start": "00:01:33",
+      "end": "00:01:37",
+      "text": "deep learning and the one that we're going to use for this class."
+    },
+    {
+      "start": "00:01:37",
+      "end": "00:01:45",
+      "text": "So for Py, I mean, the assignment three PyTorch is exceedingly"
+    },
+    {
+      "start": "00:01:45",
+      "end": "00:01:47",
+      "text": "scaffolded."
+    },
+    {
+      "start": "00:01:47",
+      "end": "00:01:50",
+      "text": "So it's sort of, here's this thing and"
+    },
+    {
+      "start": "00:01:50",
+      "end": "00:01:53",
+      "text": "you have to write these two lines, use these two functions."
+    },
+    {
+      "start": "00:01:54",
+      "end": "00:01:59",
+      "text": "But nevertheless, for help people get up to speed and"
+    },
+    {
+      "start": "00:01:59",
+      "end": "00:02:04",
+      "text": "get started using PyTorch on Friday at 3.30 and"
+    },
+    {
+      "start": "00:02:04",
+      "end": "00:02:06",
+      "text": "in Gates B01, or it will also again be recorded."
+    },
+    {
+      "start": "00:02:07",
+      "end": "00:02:10",
+      "text": "We have a tutorial on PyTorch, and so that's a great way"
+    },
+    {
+      "start": "00:02:10",
+      "end": "00:02:13",
+      "text": "to get more of a sense of PyTorch"
+    },
+    {
+      "start": "00:02:13",
+      "end": "00:02:16",
+      "text": "and how it works before doing assignment two."
+    },
+    {
+      "start": "00:02:19",
+      "end": "00:02:23",
+      "text": "Yeah, the other things, yeah, so for nearly all the lectures,"
+    },
+    {
+      "start": "00:02:23",
+      "end": "00:02:26",
+      "text": "we've got further reading of places that you can look."
+    },
+    {
+      "start": "00:02:27",
+      "end": "00:02:30",
+      "text": "Of all the classes in the entire quarter,"
+    },
+    {
+      "start": "00:02:32",
+      "end": "00:02:36",
+      "text": "this for many people might be a really good one to look at the"
+    },
+    {
+      "start": "00:02:36",
+      "end": "00:02:38",
+      "text": "suggested readings we have"
+    },
+    {
+      "start": "00:02:38",
+      "end": "00:02:42",
+      "text": "several readings which are sort of shorter tutorials and reviews"
+    },
+    {
+      "start": "00:02:42",
+      "end": "00:02:45",
+      "text": "of the kind of matrix"
+    },
+    {
+      "start": "00:02:45",
+      "end": "00:02:51",
+      "text": "calculus and linear algebra that we need for this class so really"
+    },
+    {
+      "start": "00:02:51",
+      "end": "00:02:55",
+      "text": "encourage you to look at those if"
+    },
+    {
+      "start": "00:02:55",
+      "end": "00:02:57",
+      "text": "you decide that one is your favorite you can tell us on there"
+    },
+    {
+      "start": "00:02:57",
+      "end": "00:02:59",
+      "text": "which one you think is the best one"
+    },
+    {
+      "start": "00:02:59",
+      "end": "00:03:02",
+      "text": "to choose between them. I kind of like the one that's first on"
+    },
+    {
+      "start": "00:03:02",
+      "end": "00:03:04",
+      "text": "the list, but maybe you'll feel"
+    },
+    {
+      "start": "00:03:04",
+      "end": "00:03:08",
+      "text": "differently. Yeah, conversely, yeah,"
+    },
+    {
+      "start": "00:03:08",
+      "end": "00:03:10",
+      "text": "so today will be sort of all math,"
+    },
+    {
+      "start": "00:03:10",
+      "end": "00:03:13",
+      "text": "and then Thursday will be"
+    },
+    {
+      "start": "00:03:13",
+      "end": "00:03:16",
+      "text": "kind of all language and linguistics."
+    },
+    {
+      "start": "00:03:16",
+      "end": "00:03:19",
+      "text": "Some people find the language and linguistics hard as well,"
+    },
+    {
+      "start": "00:03:19",
+      "end": "00:03:22",
+      "text": "so I guess different kinds of people."
+    },
+    {
+      "start": "00:03:23",
+      "end": "00:03:26",
+      "text": "Okay, so getting straight into it,"
+    },
+    {
+      "start": "00:03:26",
+      "end": "00:03:28",
+      "text": "so where we started"
+    },
+    {
+      "start": "00:03:28",
+      "end": "00:03:34",
+      "text": "last time I'd sort of shown these baby neural networks and so"
+    },
+    {
+      "start": "00:03:34",
+      "end": "00:03:35",
+      "text": "said well we can"
+    },
+    {
+      "start": "00:03:35",
+      "end": "00:03:39",
+      "text": "think of each of those orange things as basically like a little"
+    },
+    {
+      "start": "00:03:39",
+      "end": "00:03:39",
+      "text": "logistic"
+    },
+    {
+      "start": "00:03:39",
+      "end": "00:03:44",
+      "text": "regression unit and the crucial difference from then the kind"
+    },
+    {
+      "start": "00:03:44",
+      "end": "00:03:44",
+      "text": "of"
+    },
+    {
+      "start": "00:03:45",
+      "end": "00:03:50",
+      "text": "statistics machine learning you see in a stats class 109 or wherever"
+    },
+    {
+      "start": "00:03:50",
+      "end": "00:03:51",
+      "text": "is that in"
+    },
+    {
+      "start": "00:03:51",
+      "end": "00:03:56",
+      "text": "those you have one logistic regression and you're defining the"
+    },
+    {
+      "start": "00:03:56",
+      "end": "00:03:56",
+      "text": "input features"
+    },
+    {
+      "start": "00:03:56",
+      "end": "00:04:02",
+      "text": "and you've got some decision variable that you want to have at"
+    },
+    {
+      "start": "00:04:02",
+      "end": "00:04:03",
+      "text": "the output."
+    },
+    {
+      "start": "00:04:03",
+      "end": "00:04:07",
+      "text": "Here you're sort of building these cascades of little logistic"
+    },
+    {
+      "start": "00:04:07",
+      "end": "00:04:08",
+      "text": "regressions."
+    },
+    {
+      "start": "00:04:08",
+      "end": "00:04:10",
+      "text": "And so the idea is right at the end,"
+    },
+    {
+      "start": "00:04:10",
+      "end": "00:04:12",
+      "text": "we're gonna define what we want."
+    },
+    {
+      "start": "00:04:12",
+      "end": "00:04:16",
+      "text": "We're gonna capture that by our objective function or loss function."
+    },
+    {
+      "start": "00:04:16",
+      "end": "00:04:21",
+      "text": "But for the stuff in the middle, that stuff in the middle is"
+    },
+    {
+      "start": "00:04:21",
+      "end": "00:04:22",
+      "text": "going to be"
+    },
+    {
+      "start": "00:04:22",
+      "end": "00:04:25",
+      "text": "a chance for the neural network to learn by itself"
+    },
+    {
+      "start": "00:04:25",
+      "end": "00:04:33",
+      "text": "what would be useful inputs to further downstream neurons what"
+    },
+    {
+      "start": "00:04:33",
+      "end": "00:04:34",
+      "text": "kind of functions"
+    },
+    {
+      "start": "00:04:34",
+      "end": "00:04:39",
+      "text": "should I come up with in terms of my inputs that will help me"
+    },
+    {
+      "start": "00:04:39",
+      "end": "00:04:41",
+      "text": "provide useful"
+    },
+    {
+      "start": "00:04:41",
+      "end": "00:04:47",
+      "text": "outputs to help the final computation down the track and you"
+    },
+    {
+      "start": "00:04:47",
+      "end": "00:04:48",
+      "text": "know if you"
+    },
+    {
+      "start": "00:04:48",
+      "end": "00:04:52",
+      "text": "haven't sort of seen and thought about this much before I mean"
+    },
+    {
+      "start": "00:04:52",
+      "end": "00:04:53",
+      "text": "I think you know"
+    },
+    {
+      "start": "00:04:53",
+      "end": "00:04:57",
+      "text": "So it's worth sitting with that idea for a moment,"
+    },
+    {
+      "start": "00:04:57",
+      "end": "00:05:00",
+      "text": "because this is really a super powerful idea, which"
+    },
+    {
+      "start": "00:05:00",
+      "end": "00:05:04",
+      "text": "is what's made neural networks more powerful"
+    },
+    {
+      "start": "00:05:04",
+      "end": "00:05:08",
+      "text": "in most circumstances than other forms of machine learning."
+    },
+    {
+      "start": "00:05:08",
+      "end": "00:05:11",
+      "text": "The fact that you have this self-organization"
+    },
+    {
+      "start": "00:05:12",
+      "end": "00:05:14",
+      "text": "of intermediate levels of representation"
+    },
+    {
+      "start": "00:05:15",
+      "end": "00:05:17",
+      "text": "that you use to compute things that"
+    },
+    {
+      "start": "00:05:17",
+      "end": "00:05:21",
+      "text": "will be useful downstream for what you eventually want to do."
+    },
+    {
+      "start": "00:05:21",
+      "end": "00:05:25",
+      "text": "The other reason I was bringing back up this picture is I've"
+    },
+    {
+      "start": "00:05:25",
+      "end": "00:05:27",
+      "text": "sort of wanted to go straight"
+    },
+    {
+      "start": "00:05:27",
+      "end": "00:05:29",
+      "text": "from here to matrices."
+    },
+    {
+      "start": "00:05:31",
+      "end": "00:05:36",
+      "text": "So while you could sort of wire together neurons however you"
+    },
+    {
+      "start": "00:05:36",
+      "end": "00:05:38",
+      "text": "wanted to, and arguably if you"
+    },
+    {
+      "start": "00:05:38",
+      "end": "00:05:42",
+      "text": "look at human brains, they look more like neurons wired together"
+    },
+    {
+      "start": "00:05:42",
+      "end": "00:05:43",
+      "text": "however you wanted"
+    },
+    {
+      "start": "00:05:43",
+      "end": "00:05:46",
+      "text": "to, but for what's done with neural networks,"
+    },
+    {
+      "start": "00:05:46",
+      "end": "00:05:49",
+      "text": "basically there's always this kind of regular"
+    },
+    {
+      "start": "00:05:49",
+      "end": "00:05:53",
+      "text": "structure of layers. So once we have this regular structure of"
+    },
+    {
+      "start": "00:05:53",
+      "end": "00:05:55",
+      "text": "layers, we are"
+    },
+    {
+      "start": "00:05:55",
+      "end": "00:06:02",
+      "text": "taking the output of one of our neurons at one layer,"
+    },
+    {
+      "start": "00:06:02",
+      "end": "00:06:03",
+      "text": "and we're feeding them"
+    },
+    {
+      "start": "00:06:03",
+      "end": "00:06:10",
+      "text": "together with weights to produce the inputs to the next layer."
+    },
+    {
+      "start": "00:06:10",
+      "end": "00:06:11",
+      "text": "So we're taking"
+    },
+    {
+      "start": "00:06:11",
+      "end": "00:06:15",
+      "text": "the x1, x2, x3 outputs, we're multiplying them all by weights,"
+    },
+    {
+      "start": "00:06:15",
+      "end": "00:06:17",
+      "text": "we're adding a bias"
+    },
+    {
+      "start": "00:06:17",
+      "end": "00:06:22",
+      "text": "term, and then we're going to put it through a non-linearity,"
+    },
+    {
+      "start": "00:06:22",
+      "end": "00:06:23",
+      "text": "and that will give us the value"
+    },
+    {
+      "start": "00:06:23",
+      "end": "00:06:28",
+      "text": "at the next layer. So if we then kind of collapse that to a vector"
+    },
+    {
+      "start": "00:06:28",
+      "end": "00:06:30",
+      "text": "and this to a vector, that then"
+    },
+    {
+      "start": "00:06:30",
+      "end": "00:06:33",
+      "text": "collapses into a computation that,"
+    },
+    {
+      "start": "00:06:33",
+      "end": "00:06:36",
+      "text": "first of all, we're doing a matrix multiplication."
+    },
+    {
+      "start": "00:06:37",
+      "end": "00:06:38",
+      "text": "We're"
+    },
+    {
+      "start": "00:06:38",
+      "end": "00:06:43",
+      "text": "calculating wx of the inputs, and then we're adding on the biases"
+    },
+    {
+      "start": "00:06:43",
+      "end": "00:06:45",
+      "text": "as a vector of biases,"
+    },
+    {
+      "start": "00:06:45",
+      "end": "00:06:48",
+      "text": "c's, which gives us this intermediate value z."
+    },
+    {
+      "start": "00:06:48",
+      "end": "00:06:53",
+      "text": "And then we have this non-linearity or activation"
+    },
+    {
+      "start": "00:06:53",
+      "end": "00:06:57",
+      "text": "function, which is applied to that, which"
+    },
+    {
+      "start": "00:06:57",
+      "end": "00:07:00",
+      "text": "gives us the values in the next layer of the neural network."
+    },
+    {
+      "start": "00:07:00",
+      "end": "00:07:03",
+      "text": "And the activation function is applied to a vector"
+    },
+    {
+      "start": "00:07:03",
+      "end": "00:07:06",
+      "text": "and produces a vector, but it's operating"
+    },
+    {
+      "start": "00:07:06",
+      "end": "00:07:09",
+      "text": "on each of the individual components of that vector"
+    },
+    {
+      "start": "00:07:09",
+      "end": "00:07:10",
+      "text": "one at a time."
+    },
+    {
+      "start": "00:07:10",
+      "end": "00:07:12",
+      "text": "So we've got some scalar function"
+    },
+    {
+      "start": "00:07:12",
+      "end": "00:07:18",
+      "text": "that we're just applying to each element of the vector and so"
+    },
+    {
+      "start": "00:07:18",
+      "end": "00:07:19",
+      "text": "that's the kind of"
+    },
+    {
+      "start": "00:07:19",
+      "end": "00:07:25",
+      "text": "picture we saw when I did this example and I'm going to continue"
+    },
+    {
+      "start": "00:07:25",
+      "end": "00:07:25",
+      "text": "to use this"
+    },
+    {
+      "start": "00:07:25",
+      "end": "00:07:29",
+      "text": "example in today's class remember we were going to decide whether"
+    },
+    {
+      "start": "00:07:29",
+      "end": "00:07:30",
+      "text": "the word in"
+    },
+    {
+      "start": "00:07:30",
+      "end": "00:07:35",
+      "text": "the middle of the input window was a location or not and so we"
+    },
+    {
+      "start": "00:07:35",
+      "end": "00:07:36",
+      "text": "were doing the"
+    },
+    {
+      "start": "00:07:36",
+      "end": "00:07:40",
+      "text": "matrix multiplication putting it through the non-linearity we"
+    },
+    {
+      "start": "00:07:40",
+      "end": "00:07:41",
+      "text": "then just doing a"
+    },
+    {
+      "start": "00:07:41",
+      "end": "00:07:47",
+      "text": "dot product here, and then that got stuck into sigmoid"
+    },
+    {
+      "start": "00:07:47",
+      "end": "00:07:50",
+      "text": "to predict yes or no."
+    },
+    {
+      "start": "00:07:52",
+      "end": "00:07:55",
+      "text": "And the final thing I wanted to say a little bit about"
+    },
+    {
+      "start": "00:07:55",
+      "end": "00:07:59",
+      "text": "is these Fs, the non-linearity or the activation function."
+    },
+    {
+      "start": "00:08:00",
+      "end": "00:08:01",
+      "text": "Where did they come in?"
+    },
+    {
+      "start": "00:08:01",
+      "end": "00:08:04",
+      "text": "Well, the starting point of where"
+    },
+    {
+      "start": "00:08:04",
+      "end": "00:08:06",
+      "text": "they came in in the history of neural networks"
+    },
+    {
+      "start": "00:08:07",
+      "end": "00:08:10",
+      "text": "is when people came up with this idea that, well, you could"
+    },
+    {
+      "start": "00:08:10",
+      "end": "00:08:15",
+      "text": "would represent the operation of a basic neuron"
+    },
+    {
+      "start": "00:08:15",
+      "end": "00:08:19",
+      "text": "by doing a matrix multiplication of the inputs"
+    },
+    {
+      "start": "00:08:19",
+      "end": "00:08:24",
+      "text": "and then having a bias term, or here it"
+    },
+    {
+      "start": "00:08:24",
+      "end": "00:08:28",
+      "text": "represents a threshold term, to see whether the neurons should"
+    },
+    {
+      "start": "00:08:28",
+      "end": "00:08:29",
+      "text": "fire or not."
+    },
+    {
+      "start": "00:08:29",
+      "end": "00:08:33",
+      "text": "That was actually in the very first implementation, which"
+    },
+    {
+      "start": "00:08:33",
+      "end": "00:08:37",
+      "text": "dates back to the 1940s, as done as a threshold,"
+    },
+    {
+      "start": "00:08:37",
+      "end": "00:08:43",
+      "text": "right so that if the activation was greater than theta you output"
+    },
+    {
+      "start": "00:08:43",
+      "end": "00:08:44",
+      "text": "one"
+    },
+    {
+      "start": "00:08:44",
+      "end": "00:08:51",
+      "text": "otherwise you output zero and well if you have a threshold the"
+    },
+    {
+      "start": "00:08:51",
+      "end": "00:08:52",
+      "text": "two lines are"
+    },
+    {
+      "start": "00:08:52",
+      "end": "00:08:57",
+      "text": "flat right so there is no slope there is no gradient so that's"
+    },
+    {
+      "start": "00:08:57",
+      "end": "00:08:58",
+      "text": "actually makes"
+    },
+    {
+      "start": "00:08:58",
+      "end": "00:09:04",
+      "text": "learning much harder so the whole secret of what we build with"
+    },
+    {
+      "start": "00:09:04",
+      "end": "00:09:05",
+      "text": "neural networks"
+    },
+    {
+      "start": "00:09:05",
+      "end": "00:09:09",
+      "text": "works, and in particular an alternative name that's popular in"
+    },
+    {
+      "start": "00:09:09",
+      "end": "00:09:10",
+      "text": "some circles these days"
+    },
+    {
+      "start": "00:09:10",
+      "end": "00:09:12",
+      "text": "is gradient-based learning."
+    },
+    {
+      "start": "00:09:13",
+      "end": "00:09:17",
+      "text": "And the entire idea of gradient-based learning is if we actually"
+    },
+    {
+      "start": "00:09:17",
+      "end": "00:09:20",
+      "text": "have some slopes, then it's"
+    },
+    {
+      "start": "00:09:20",
+      "end": "00:09:22",
+      "text": "like going skiing during spring break."
+    },
+    {
+      "start": "00:09:22",
+      "end": "00:09:24",
+      "text": "You can work out where it's steeper,"
+    },
+    {
+      "start": "00:09:24",
+      "end": "00:09:27",
+      "text": "and you can head down where it's steeper,"
+    },
+    {
+      "start": "00:09:27",
+      "end": "00:09:28",
+      "text": "and that"
+    },
+    {
+      "start": "00:09:28",
+      "end": "00:09:32",
+      "text": "will allow us to optimize our function to learn much more quickly."
+    },
+    {
+      "start": "00:09:32",
+      "end": "00:09:38",
+      "text": "And so that's one reason that we don't just want to have threshold"
+    },
+    {
+      "start": "00:09:38",
+      "end": "00:09:38",
+      "text": "units."
+    },
+    {
+      "start": "00:09:38",
+      "end": "00:09:43",
+      "text": "We want to have things with slopes, so we have gradients."
+    },
+    {
+      "start": "00:09:43",
+      "end": "00:09:48",
+      "text": "So in subsequent work, people started using activation functions"
+    },
+    {
+      "start": "00:09:48",
+      "end": "00:09:49",
+      "text": "with slopes."
+    },
+    {
+      "start": "00:09:50",
+      "end": "00:09:55",
+      "text": "And so the first popular one was this sigmoidal logistic"
+    },
+    {
+      "start": "00:09:55",
+      "end": "00:09:57",
+      "text": "that we've seen for mapping to probabilities."
+    },
+    {
+      "start": "00:09:58",
+      "end": "00:10:02",
+      "text": "But it's sort of imperfect, it seemed."
+    },
+    {
+      "start": "00:10:02",
+      "end": "00:10:06",
+      "text": "because you know the output was always non-negative so that sort"
+    },
+    {
+      "start": "00:10:06",
+      "end": "00:10:06",
+      "text": "of tends to"
+    },
+    {
+      "start": "00:10:06",
+      "end": "00:10:12",
+      "text": "push things towards bigger numbers so there was quite a bit of"
+    },
+    {
+      "start": "00:10:12",
+      "end": "00:10:14",
+      "text": "use then of"
+    },
+    {
+      "start": "00:10:14",
+      "end": "00:10:19",
+      "text": "this tanh function and you'll actually see tanh when we do assignment"
+    },
+    {
+      "start": "00:10:19",
+      "end": "00:10:20",
+      "text": "3 we'll"
+    },
+    {
+      "start": "00:10:20",
+      "end": "00:10:27",
+      "text": "be using tanh as in our current neural networks and so I've written"
+    },
+    {
+      "start": "00:10:27",
+      "end": "00:10:29",
+      "text": "there the"
+    },
+    {
+      "start": "00:10:29",
+      "end": "00:10:33",
+      "text": "the formula you usually give for tanh in terms of exponentials."
+    },
+    {
+      "start": "00:10:34",
+      "end": "00:10:37",
+      "text": "Yeah, if your math is rusty, it's not obvious that tanh and"
+    },
+    {
+      "start": "00:10:37",
+      "end": "00:10:39",
+      "text": "logistic have much to do with each other."
+    },
+    {
+      "start": "00:10:40",
+      "end": "00:10:43",
+      "text": "But if you want to treat this as a math problem,"
+    },
+    {
+      "start": "00:10:44",
+      "end": "00:10:48",
+      "text": "that a tanh is literally just a rescaled logistic."
+    },
+    {
+      "start": "00:10:48",
+      "end": "00:10:50",
+      "text": "You're stretching it by two and moving it down by one."
+    },
+    {
+      "start": "00:10:51",
+      "end": "00:10:52",
+      "text": "It's the same function."
+    },
+    {
+      "start": "00:10:55",
+      "end": "00:10:58",
+      "text": "Okay, so that's nice, but"
+    },
+    {
+      "start": "00:10:58",
+      "end": "00:11:00",
+      "text": "But if you're calculating tan h's,"
+    },
+    {
+      "start": "00:11:00",
+      "end": "00:11:02",
+      "text": "you have to do all of these exponentials."
+    },
+    {
+      "start": "00:11:02",
+      "end": "00:11:07",
+      "text": "And exponentials are kinda slow on your computer and things like"
+    },
+    {
+      "start": "00:11:07",
+      "end": "00:11:07",
+      "text": "that."
+    },
+    {
+      "start": "00:11:08",
+      "end": "00:11:10",
+      "text": "You might wonder whether you couldn't get away with something"
+    },
+    {
+      "start": "00:11:10",
+      "end": "00:11:12",
+      "text": "much cheaper."
+    },
+    {
+      "start": "00:11:12",
+      "end": "00:11:15",
+      "text": "And so people thought about that and thought,"
+    },
+    {
+      "start": "00:11:15",
+      "end": "00:11:16",
+      "text": "maybe we could just use a so"
+    },
+    {
+      "start": "00:11:16",
+      "end": "00:11:21",
+      "text": "called hard tan h, where it has a slope of one in the middle"
+    },
+    {
+      "start": "00:11:21",
+      "end": "00:11:21",
+      "text": "and"
+    },
+    {
+      "start": "00:11:21",
+      "end": "00:11:24",
+      "text": "is then just flat outside that area."
+    },
+    {
+      "start": "00:11:24",
+      "end": "00:11:27",
+      "text": "And that seemed to work in many cases."
+    },
+    {
+      "start": "00:11:27",
+      "end": "00:11:32",
+      "text": "And so that then led to the popularity of the rectified linear"
+    },
+    {
+      "start": "00:11:32",
+      "end": "00:11:32",
+      "text": "unit."
+    },
+    {
+      "start": "00:11:33",
+      "end": "00:11:38",
+      "text": "So the rectified linear unit is simply 0 in the negative region,"
+    },
+    {
+      "start": "00:11:38",
+      "end": "00:11:41",
+      "text": "and then is y equals x in the positive region."
+    },
+    {
+      "start": "00:11:42",
+      "end": "00:11:45",
+      "text": "Now, this seems kind of wonky and"
+    },
+    {
+      "start": "00:11:45",
+      "end": "00:11:49",
+      "text": "goes against what I was saying about gradient-based learning."
+    },
+    {
+      "start": "00:11:49",
+      "end": "00:11:50",
+      "text": "Cuz once you're in the negative region,"
+    },
+    {
+      "start": "00:11:50",
+      "end": "00:11:53",
+      "text": "there's no gradient, you're just dead."
+    },
+    {
+      "start": "00:11:53",
+      "end": "00:11:59",
+      "text": "but in the positive region there is gradient and the gradient"
+    },
+    {
+      "start": "00:11:59",
+      "end": "00:12:01",
+      "text": "is particularly simple right the"
+    },
+    {
+      "start": "00:12:01",
+      "end": "00:12:08",
+      "text": "slope is always one and so you know this still feels slightly"
+    },
+    {
+      "start": "00:12:08",
+      "end": "00:12:10",
+      "text": "perverse to me but you know this"
+    },
+    {
+      "start": "00:12:10",
+      "end": "00:12:14",
+      "text": "really became the norm of what people use for a number of years"
+    },
+    {
+      "start": "00:12:14",
+      "end": "00:12:17",
+      "text": "because people found that although"
+    },
+    {
+      "start": "00:12:17",
+      "end": "00:12:21",
+      "text": "for an individual neuron it was dead half the time anytime it"
+    },
+    {
+      "start": "00:12:21",
+      "end": "00:12:23",
+      "text": "went negative that overall for"
+    },
+    {
+      "start": "00:12:23",
+      "end": "00:12:25",
+      "text": "for your neural networks, some things would be alive."
+    },
+    {
+      "start": "00:12:26",
+      "end": "00:12:29",
+      "text": "So it kind of gave sort of a form of specialization."
+    },
+    {
+      "start": "00:12:30",
+      "end": "00:12:32",
+      "text": "And the fact that the slope was always 1"
+    },
+    {
+      "start": "00:12:33",
+      "end": "00:12:38",
+      "text": "meant that you got really easy, productive, backward flow"
+    },
+    {
+      "start": "00:12:38",
+      "end": "00:12:40",
+      "text": "of gradients in a way we'll talk about later."
+    },
+    {
+      "start": "00:12:41",
+      "end": "00:12:45",
+      "text": "And so learning with the ReLUs turned out"
+    },
+    {
+      "start": "00:12:45",
+      "end": "00:12:46",
+      "text": "to be very effective."
+    },
+    {
+      "start": "00:12:47",
+      "end": "00:12:51",
+      "text": "And people started using the ReLU non-linearity everywhere."
+    },
+    {
+      "start": "00:12:51",
+      "end": "00:12:54",
+      "text": "And it sort of became the default and the norm."
+    },
+    {
+      "start": "00:12:54",
+      "end": "00:12:57",
+      "text": "And you'll see us using it in the assignments in particular."
+    },
+    {
+      "start": "00:12:57",
+      "end": "00:13:00",
+      "text": "We use it in assignment two, and so you'll get to see that it"
+    },
+    {
+      "start": "00:13:00",
+      "end": "00:13:00",
+      "text": "works."
+    },
+    {
+      "start": "00:13:01",
+      "end": "00:13:05",
+      "text": "But nevertheless, at some point, people sort of had second thoughts"
+    },
+    {
+      "start": "00:13:05",
+      "end": "00:13:06",
+      "text": "and"
+    },
+    {
+      "start": "00:13:06",
+      "end": "00:13:09",
+      "text": "decided, you know, having a dead over half of its range"
+    },
+    {
+      "start": "00:13:10",
+      "end": "00:13:12",
+      "text": "maybe isn't such a good idea after all,"
+    },
+    {
+      "start": "00:13:12",
+      "end": "00:13:14",
+      "text": "even though it seemed to work great for a few years."
+    },
+    {
+      "start": "00:13:14",
+      "end": "00:13:19",
+      "text": "And so a lot of what's happened since then is then to come up"
+    },
+    {
+      "start": "00:13:19",
+      "end": "00:13:19",
+      "text": "with other"
+    },
+    {
+      "start": "00:13:19",
+      "end": "00:13:23",
+      "text": "other functions which are, in some sense, ReLU-like,"
+    },
+    {
+      "start": "00:13:23",
+      "end": "00:13:25",
+      "text": "but not actually dead."
+    },
+    {
+      "start": "00:13:29",
+      "end": "00:13:32",
+      "text": "So OK, I don't really, yeah, here we go."
+    },
+    {
+      "start": "00:13:33",
+      "end": "00:13:38",
+      "text": "So one version of that is the so-called leaky ReLU."
+    },
+    {
+      "start": "00:13:38",
+      "end": "00:13:41",
+      "text": "So for the leaky ReLU, you make the negative half"
+    },
+    {
+      "start": "00:13:41",
+      "end": "00:13:45",
+      "text": "a straight line as well with a very minor slope."
+    },
+    {
+      "start": "00:13:45",
+      "end": "00:13:47",
+      "text": "But still, it's got a little bit of slope."
+    },
+    {
+      "start": "00:13:47",
+      "end": "00:13:50",
+      "text": "There is then a variant of that called the parametric"
+    },
+    {
+      "start": "00:13:50",
+      "end": "00:13:52",
+      "text": "value where you have one extra parameter,"
+    },
+    {
+      "start": "00:13:52",
+      "end": "00:13:56",
+      "text": "which is actually what the slope of the negative part"
+    },
+    {
+      "start": "00:13:56",
+      "end": "00:14:00",
+      "text": "is. And people showed some positive results with that."
+    },
+    {
+      "start": "00:14:00",
+      "end": "00:14:03",
+      "text": "More recently again, and this is what you"
+    },
+    {
+      "start": "00:14:03",
+      "end": "00:14:06",
+      "text": "often see in recent transformer models,"
+    },
+    {
+      "start": "00:14:06",
+      "end": "00:14:13",
+      "text": "is you see nonlinearities like SWISH and GELU."
+    },
+    {
+      "start": "00:14:13",
+      "end": "00:14:16",
+      "text": "So, both of these are sort of fancy functions,"
+    },
+    {
+      "start": "00:14:16",
+      "end": "00:14:20",
+      "text": "but kind of what they both look like is basically,"
+    },
+    {
+      "start": "00:14:20",
+      "end": "00:14:23",
+      "text": "this is y equals x to all intents and purposes,"
+    },
+    {
+      "start": "00:14:24",
+      "end": "00:14:25",
+      "text": "not quite but approximately,"
+    },
+    {
+      "start": "00:14:25",
+      "end": "00:14:28",
+      "text": "and then you've got sort of some funky bit of curve down here,"
+    },
+    {
+      "start": "00:14:28",
+      "end": "00:14:30",
+      "text": "which again gives you a bit of slope."
+    },
+    {
+      "start": "00:14:31",
+      "end": "00:14:33",
+      "text": "It's sort of the curve is going the opposite way,"
+    },
+    {
+      "start": "00:14:33",
+      "end": "00:14:34",
+      "text": "that's sort of a bit funny,"
+    },
+    {
+      "start": "00:14:34",
+      "end": "00:14:36",
+      "text": "but they seem to work well,"
+    },
+    {
+      "start": "00:14:36",
+      "end": "00:14:39",
+      "text": "commonly used in recent transformer models."
+    },
+    {
+      "start": "00:14:41",
+      "end": "00:14:46",
+      "text": "So that's a bit of a dump of all the nonlinearities people use."
+    },
+    {
+      "start": "00:14:46",
+      "end": "00:14:50",
+      "text": "I mean, the details of that aren't super important right now."
+    },
+    {
+      "start": "00:14:51",
+      "end": "00:14:56",
+      "text": "But the important thing to have in your head is why do we need"
+    },
+    {
+      "start": "00:14:56",
+      "end": "00:14:57",
+      "text": "nonlinearities?"
+    },
+    {
+      "start": "00:14:58",
+      "end": "00:15:02",
+      "text": "And the way to think about that is that what we're doing with"
+    },
+    {
+      "start": "00:15:02",
+      "end": "00:15:03",
+      "text": "neural networks"
+    },
+    {
+      "start": "00:15:03",
+      "end": "00:15:04",
+      "text": "is function approximation."
+    },
+    {
+      "start": "00:15:04",
+      "end": "00:15:08",
+      "text": "approximation. There's some very complex function that we want"
+    },
+    {
+      "start": "00:15:08",
+      "end": "00:15:09",
+      "text": "to learn, you know,"
+    },
+    {
+      "start": "00:15:09",
+      "end": "00:15:12",
+      "text": "like maybe we want to go from a piece of text to its meaning"
+    },
+    {
+      "start": "00:15:12",
+      "end": "00:15:16",
+      "text": "or we want to be interpreting visual scenes or something like"
+    },
+    {
+      "start": "00:15:16",
+      "end": "00:15:16",
+      "text": "that."
+    },
+    {
+      "start": "00:15:17",
+      "end": "00:15:19",
+      "text": "And so we want to build really good function"
+    },
+    {
+      "start": "00:15:20",
+      "end": "00:15:25",
+      "text": "approximators. And well, if you're just doing matrix multiplies,"
+    },
+    {
+      "start": "00:15:25",
+      "end": "00:15:28",
+      "text": "a matrix multiply of a vector is a linear"
+    },
+    {
+      "start": "00:15:28",
+      "end": "00:15:32",
+      "text": "transform. So that doesn't let you multiply complex functions."
+    },
+    {
+      "start": "00:15:32",
+      "end": "00:15:35",
+      "text": "I guess strictly if you put a bias on the end that's then an"
+    },
+    {
+      "start": "00:15:35",
+      "end": "00:15:38",
+      "text": "affine transform, but let's keep it simple linear transforms"
+    },
+    {
+      "start": "00:15:38",
+      "end": "00:15:43",
+      "text": "Right. So if you're doing multiple if you're doing multiple matrix"
+    },
+    {
+      "start": "00:15:43",
+      "end": "00:15:46",
+      "text": "multiplies, you're doing multiple linear transforms"
+    },
+    {
+      "start": "00:15:46",
+      "end": "00:15:50",
+      "text": "But they compose so you could have just multiplied these two"
+    },
+    {
+      "start": "00:15:50",
+      "end": "00:15:52",
+      "text": "matrices together and you'd have a single linear transform"
+    },
+    {
+      "start": "00:15:52",
+      "end": "00:15:58",
+      "text": "So you get no power in terms of representation by having multi"
+    },
+    {
+      "start": "00:15:58",
+      "end": "00:15:59",
+      "text": "-layer"
+    },
+    {
+      "start": "00:15:59",
+      "end": "00:16:02",
+      "text": "networks that are just matrix multiplies."
+    },
+    {
+      "start": "00:16:02",
+      "end": "00:16:07",
+      "text": "You know, as a little aside, in terms of representational power,"
+    },
+    {
+      "start": "00:16:07",
+      "end": "00:16:12",
+      "text": "having multilayer matrix multiplies gives you no power."
+    },
+    {
+      "start": "00:16:12",
+      "end": "00:16:14",
+      "text": "But if you think about it in terms of learning,"
+    },
+    {
+      "start": "00:16:14",
+      "end": "00:16:16",
+      "text": "actually it does give you some"
+    },
+    {
+      "start": "00:16:16",
+      "end": "00:16:20",
+      "text": "power, so in the theoretical community looking at neural networks,"
+    },
+    {
+      "start": "00:16:20",
+      "end": "00:16:23",
+      "text": "there are actually quite a few papers that look at linear neural"
+    },
+    {
+      "start": "00:16:23",
+      "end": "00:16:23",
+      "text": "networks,"
+    },
+    {
+      "start": "00:16:23",
+      "end": "00:16:26",
+      "text": "works, meaning that they're just sequences of the multipliers"
+    },
+    {
+      "start": "00:16:26",
+      "end": "00:16:28",
+      "text": "with no nonlinearities."
+    },
+    {
+      "start": "00:16:28",
+      "end": "00:16:31",
+      "text": "Because they have interesting learning properties,"
+    },
+    {
+      "start": "00:16:31",
+      "end": "00:16:33",
+      "text": "even though they give you no representational power."
+    },
+    {
+      "start": "00:16:35",
+      "end": "00:16:38",
+      "text": "But we'd like to be able to learn functions like this,"
+    },
+    {
+      "start": "00:16:38",
+      "end": "00:16:40",
+      "text": "not only functions like this."
+    },
+    {
+      "start": "00:16:40",
+      "end": "00:16:42",
+      "text": "And to be able to learn functions like this,"
+    },
+    {
+      "start": "00:16:42",
+      "end": "00:16:44",
+      "text": "we need more than linear transforms."
+    },
+    {
+      "start": "00:16:45",
+      "end": "00:16:48",
+      "text": "And we achieve those by having something"
+    },
+    {
+      "start": "00:16:48",
+      "end": "00:16:51",
+      "text": "that makes us be calculating a nonlinear function."
+    },
+    {
+      "start": "00:16:51",
+      "end": "00:16:56",
+      "text": "And it's these activation functions that give us nonlinear functions"
+    },
+    {
+      "start": "00:16:57",
+      "end": "00:16:58",
+      "text": "Okay, cool"
+    },
+    {
+      "start": "00:17:01",
+      "end": "00:17:04",
+      "text": "Okay, so then for getting on to today,"
+    },
+    {
+      "start": "00:17:05",
+      "end": "00:17:08",
+      "text": "so the whole thing we want to do now is gradient based learning,"
+    },
+    {
+      "start": "00:17:08",
+      "end": "00:17:08",
+      "text": "right?"
+    },
+    {
+      "start": "00:17:08",
+      "end": "00:17:12",
+      "text": "This is our stochastic gradient descent equation where here,"
+    },
+    {
+      "start": "00:17:13",
+      "end": "00:17:15",
+      "text": "you know that upside down triangle symbol,"
+    },
+    {
+      "start": "00:17:16",
+      "end": "00:17:16",
+      "text": "right?"
+    },
+    {
+      "start": "00:17:16",
+      "end": "00:17:20",
+      "text": "That's our gradient. We're wanting to work out the slope of our"
+    },
+    {
+      "start": "00:17:20",
+      "end": "00:17:22",
+      "text": "objective function"
+    },
+    {
+      "start": "00:17:22",
+      "end": "00:17:26",
+      "text": "And so this is how we're going to learn by calculating gradients."
+    },
+    {
+      "start": "00:17:26",
+      "end": "00:17:30",
+      "text": "So what we want to know is how do we calculate the gradients"
+    },
+    {
+      "start": "00:17:30",
+      "end": "00:17:31",
+      "text": "for an arbitrary function?"
+    },
+    {
+      "start": "00:17:32",
+      "end": "00:17:36",
+      "text": "And so what I want to do today is first of all do this by hand"
+    },
+    {
+      "start": "00:17:37",
+      "end": "00:17:38",
+      "text": "for math"
+    },
+    {
+      "start": "00:17:39",
+      "end": "00:17:44",
+      "text": "and then discuss, you know, how do we do it computationally,"
+    },
+    {
+      "start": "00:17:44",
+      "end": "00:17:48",
+      "text": "which is effectively the famous thing that's taken as powering,"
+    },
+    {
+      "start": "00:17:49",
+      "end": "00:17:51",
+      "text": "underpowering all of neural nets,"
+    },
+    {
+      "start": "00:17:51",
+      "end": "00:17:53",
+      "text": "which is the backpropagation algorithm."
+    },
+    {
+      "start": "00:17:53",
+      "end": "00:17:55",
+      "text": "But the backpropagation algorithm"
+    },
+    {
+      "start": "00:17:55",
+      "end": "00:17:57",
+      "text": "is just automating the math."
+    },
+    {
+      "start": "00:17:57",
+      "end": "00:18:00",
+      "text": "Okay, and so for the math,"
+    },
+    {
+      "start": "00:18:00",
+      "end": "00:18:02",
+      "text": "it's matrix calculus."
+    },
+    {
+      "start": "00:18:02",
+      "end": "00:18:03",
+      "text": "And at this point, then,"
+    },
+    {
+      "start": "00:18:03",
+      "end": "00:18:04",
+      "text": "there's a huge spectrum"
+    },
+    {
+      "start": "00:18:04",
+      "end": "00:18:07",
+      "text": "between people who know much more math than me"
+    },
+    {
+      "start": "00:18:07",
+      "end": "00:18:10",
+      "text": "and people who barely ever learnt this."
+    },
+    {
+      "start": "00:18:11",
+      "end": "00:18:12",
+      "text": "But, you know,"
+    },
+    {
+      "start": "00:18:12",
+      "end": "00:18:14",
+      "text": "I hope to explain the essentials"
+    },
+    {
+      "start": "00:18:15",
+      "end": "00:18:18",
+      "text": "or remind people of them"
+    },
+    {
+      "start": "00:18:18",
+      "end": "00:18:22",
+      "text": "enough that you're at least at a starting point for"
+    },
+    {
+      "start": "00:18:22",
+      "end": "00:18:24",
+      "text": "reading some other stuff and doing homework too."
+    },
+    {
+      "start": "00:18:25",
+      "end": "00:18:27",
+      "text": "So let's get into that."
+    },
+    {
+      "start": "00:18:27",
+      "end": "00:18:31",
+      "text": "And so I'm gonna spend about half the time on those two halves."
+    },
+    {
+      "start": "00:18:31",
+      "end": "00:18:35",
+      "text": "And the hope is that after this, you'll feel like,"
+    },
+    {
+      "start": "00:18:35",
+      "end": "00:18:38",
+      "text": "I actually understand how neural networks work under the hood."
+    },
+    {
+      "start": "00:18:38",
+      "end": "00:18:39",
+      "text": "Fingers crossed."
+    },
+    {
+      "start": "00:18:39",
+      "end": "00:18:42",
+      "text": "Okay, so here we go."
+    },
+    {
+      "start": "00:18:42",
+      "end": "00:18:47",
+      "text": "So if you're a Stanford student, you maybe did Math 51."
+    },
+    {
+      "start": "00:18:47",
+      "end": "00:18:50",
+      "text": "or else you could have done Math 51,"
+    },
+    {
+      "start": "00:18:51",
+      "end": "00:18:53",
+      "text": "which teaches linear algebra,"
+    },
+    {
+      "start": "00:18:54",
+      "end": "00:18:56",
+      "text": "multivariate calculus, and modern applications."
+    },
+    {
+      "start": "00:18:57",
+      "end": "00:19:01",
+      "text": "Math 51 covers everything I'm going to talk about and way more"
+    },
+    {
+      "start": "00:19:01",
+      "end": "00:19:01",
+      "text": "stuff."
+    },
+    {
+      "start": "00:19:02",
+      "end": "00:19:03",
+      "text": "So if you actually know that and remember it,"
+    },
+    {
+      "start": "00:19:03",
+      "end": "00:19:07",
+      "text": "you can look at Instagram for the next 35 minutes."
+    },
+    {
+      "start": "00:19:08",
+      "end": "00:19:14",
+      "text": "But I think the problem is that quite a part of the fact a lot"
+    },
+    {
+      "start": "00:19:14",
+      "end": "00:19:14",
+      "text": "of people do it as"
+    },
+    {
+      "start": "00:19:14",
+      "end": "00:19:19",
+      "text": "frosh you know this is a lot to get through in ten weeks and"
+    },
+    {
+      "start": "00:19:19",
+      "end": "00:19:20",
+      "text": "I think that a"
+    },
+    {
+      "start": "00:19:20",
+      "end": "00:19:23",
+      "text": "lot of the people who do this class sort of by two years later"
+    },
+    {
+      "start": "00:19:23",
+      "end": "00:19:24",
+      "text": "don't really have"
+    },
+    {
+      "start": "00:19:24",
+      "end": "00:19:28",
+      "text": "much ability to use any of it but you know if you actually looked"
+    },
+    {
+      "start": "00:19:28",
+      "end": "00:19:29",
+      "text": "at this book"
+    },
+    {
+      "start": "00:19:29",
+      "end": "00:19:33",
+      "text": "really hard and for a very really long time you would have discovered"
+    },
+    {
+      "start": "00:19:33",
+      "end": "00:19:33",
+      "text": "that"
+    },
+    {
+      "start": "00:19:33",
+      "end": "00:19:38",
+      "text": "actually right towards the end of the book in appendix G there's"
+    },
+    {
+      "start": "00:19:38",
+      "end": "00:19:38",
+      "text": "actually an"
+    },
+    {
+      "start": "00:19:38",
+      "end": "00:19:42",
+      "text": "appendix on neural networks and the multivariable chain rule"
+    },
+    {
+      "start": "00:19:42",
+      "end": "00:19:43",
+      "text": "which is"
+    },
+    {
+      "start": "00:19:43",
+      "end": "00:19:47",
+      "text": "is precisely what we're going to be using for doing"
+    },
+    {
+      "start": "00:19:47",
+      "end": "00:19:48",
+      "text": "our neural networks."
+    },
+    {
+      "start": "00:19:49",
+      "end": "00:19:50",
+      "text": "But there are only two problems."
+    },
+    {
+      "start": "00:19:51",
+      "end": "00:19:55",
+      "text": "One problem is that this is page 697 of the book,"
+    },
+    {
+      "start": "00:19:55",
+      "end": "00:19:57",
+      "text": "and I'm not sure anyone ever gets that far."
+    },
+    {
+      "start": "00:19:57",
+      "end": "00:20:01",
+      "text": "And the other problem is, even if you do get that far,"
+    },
+    {
+      "start": "00:20:02",
+      "end": "00:20:05",
+      "text": "you know, I don't know, I find these pages that they're"
+    },
+    {
+      "start": "00:20:05",
+      "end": "00:20:07",
+      "text": "really dense, texty pages."
+    },
+    {
+      "start": "00:20:07",
+      "end": "00:20:10",
+      "text": "It's not even easy to understand them if you have gone there."
+    },
+    {
+      "start": "00:20:10",
+      "end": "00:20:12",
+      "text": "there, so here's my attempt on that."
+    },
+    {
+      "start": "00:20:13",
+      "end": "00:20:17",
+      "text": "So the mantra to have in your head is, gee,"
+    },
+    {
+      "start": "00:20:17",
+      "end": "00:20:20",
+      "text": "if I can remember basic single variable calculus,"
+    },
+    {
+      "start": "00:20:21",
+      "end": "00:20:23",
+      "text": "you know that I've got 3x squared"
+    },
+    {
+      "start": "00:20:23",
+      "end": "00:20:25",
+      "text": "and the derivative of that is 6x."
+    },
+    {
+      "start": "00:20:26",
+      "end": "00:20:28",
+      "text": "That's all you sort of need to know, right?"
+    },
+    {
+      "start": "00:20:28",
+      "end": "00:20:31",
+      "text": "The mantra is multivariable calculus"
+    },
+    {
+      "start": "00:20:31",
+      "end": "00:20:34",
+      "text": "is just like single variable calculus,"
+    },
+    {
+      "start": "00:20:34",
+      "end": "00:20:36",
+      "text": "except you're using matrices."
+    },
+    {
+      "start": "00:20:37",
+      "end": "00:20:40",
+      "text": "So that's our article of faith, and we're"
+    },
+    {
+      "start": "00:20:40",
+      "end": "00:20:44",
+      "text": "gonna do that and so what we're wanting to do is to do matrix"
+    },
+    {
+      "start": "00:20:44",
+      "end": "00:20:45",
+      "text": "calculus or on the"
+    },
+    {
+      "start": "00:20:45",
+      "end": "00:20:49",
+      "text": "generalization of that tensor calculus sort of using vectors"
+    },
+    {
+      "start": "00:20:49",
+      "end": "00:20:50",
+      "text": "matrices and"
+    },
+    {
+      "start": "00:20:50",
+      "end": "00:20:55",
+      "text": "higher-order tensors because if we can do things and what's referred"
+    },
+    {
+      "start": "00:20:55",
+      "end": "00:20:55",
+      "text": "to as"
+    },
+    {
+      "start": "00:20:55",
+      "end": "00:20:59",
+      "text": "vectorized gradients in the neural network world that that will"
+    },
+    {
+      "start": "00:20:59",
+      "end": "00:21:00",
+      "text": "be sort of"
+    },
+    {
+      "start": "00:21:00",
+      "end": "00:21:05",
+      "text": "the fast efficient way to do our operations you know so if you"
+    },
+    {
+      "start": "00:21:05",
+      "end": "00:21:05",
+      "text": "want to"
+    },
+    {
+      "start": "00:21:05",
+      "end": "00:21:06",
+      "text": "to think it all through."
+    },
+    {
+      "start": "00:21:06",
+      "end": "00:21:09",
+      "text": "You can do it single variable at a time"
+    },
+    {
+      "start": "00:21:09",
+      "end": "00:21:11",
+      "text": "and check that you're doing the right thing."
+    },
+    {
+      "start": "00:21:12",
+      "end": "00:21:14",
+      "text": "And I sort of tried to indicate that in the first lecture."
+    },
+    {
+      "start": "00:21:14",
+      "end": "00:21:17",
+      "text": "But if we want to have our networks go vroom,"
+    },
+    {
+      "start": "00:21:18",
+      "end": "00:21:20",
+      "text": "we want to be doing matrix calculus."
+    },
+    {
+      "start": "00:21:21",
+      "end": "00:21:24",
+      "text": "OK, so let's work up to doing that."
+    },
+    {
+      "start": "00:21:24",
+      "end": "00:21:29",
+      "text": "OK, so this is the part that I trust everyone can remember."
+    },
+    {
+      "start": "00:21:30",
+      "end": "00:21:33",
+      "text": "So we have f of x equals x cubed."
+    },
+    {
+      "start": "00:21:33",
+      "end": "00:21:37",
+      "text": "and we can do single variable derivative,"
+    },
+    {
+      "start": "00:21:38",
+      "end": "00:21:43",
+      "text": "and the derivative is 3x squared."
+    },
+    {
+      "start": "00:21:43",
+      "end": "00:21:44",
+      "text": "Everyone remember that one?"
+    },
+    {
+      "start": "00:21:45",
+      "end": "00:21:48",
+      "text": "Okay, that's something we can all start from."
+    },
+    {
+      "start": "00:21:48",
+      "end": "00:21:52",
+      "text": "And remember, this derivative is saying the slope of things,"
+    },
+    {
+      "start": "00:21:52",
+      "end": "00:21:52",
+      "text": "right?"
+    },
+    {
+      "start": "00:21:52",
+      "end": "00:21:57",
+      "text": "So the slope of things lets us work out where is something steep,"
+    },
+    {
+      "start": "00:21:57",
+      "end": "00:22:00",
+      "text": "so we'll be able to go skiing, right?"
+    },
+    {
+      "start": "00:22:00",
+      "end": "00:22:01",
+      "text": "That's our goal, right?"
+    },
+    {
+      "start": "00:22:01",
+      "end": "00:22:07",
+      "text": "And so, you can think of the slope of things as how much the"
+    },
+    {
+      "start": "00:22:07",
+      "end": "00:22:10",
+      "text": "output will change if we change the input a bit,"
+    },
+    {
+      "start": "00:22:10",
+      "end": "00:22:10",
+      "text": "right?"
+    },
+    {
+      "start": "00:22:10",
+      "end": "00:22:13",
+      "text": "That's our measure of steepness, right?"
+    },
+    {
+      "start": "00:22:13",
+      "end": "00:22:17",
+      "text": "So, since the derivative is 3x squared,"
+    },
+    {
+      "start": "00:22:17",
+      "end": "00:22:22",
+      "text": "if we're at x equals 1, that means the slope is about 3 times"
+    },
+    {
+      "start": "00:22:22",
+      "end": "00:22:23",
+      "text": "1 squared 3."
+    },
+    {
+      "start": "00:22:23",
+      "end": "00:22:27",
+      "text": "So if I work out the value of the function for 1.01,"
+    },
+    {
+      "start": "00:22:28",
+      "end": "00:22:31",
+      "text": "it's gone up by about three times."
+    },
+    {
+      "start": "00:22:31",
+      "end": "00:22:35",
+      "text": "Point, I move the x by 0.01 and the output moved by 0.03."
+    },
+    {
+      "start": "00:22:36",
+      "end": "00:22:41",
+      "text": "Where if I go to x equals 4, the derivative is 3 times 4 squared"
+    },
+    {
+      "start": "00:22:41",
+      "end": "00:22:42",
+      "text": "is 48."
+    },
+    {
+      "start": "00:22:42",
+      "end": "00:22:45",
+      "text": "And so if I work out the value of the function at 4.01,"
+    },
+    {
+      "start": "00:22:45",
+      "end": "00:22:50",
+      "text": "I get approximately 64.48 versus 64, right?"
+    },
+    {
+      "start": "00:22:50",
+      "end": "00:22:54",
+      "text": "right, that the small difference from 4 to 4.01"
+    },
+    {
+      "start": "00:22:54",
+      "end": "00:22:57",
+      "text": "has been magnified 48 times in the output."
+    },
+    {
+      "start": "00:22:58",
+      "end": "00:23:02",
+      "text": "OK, so now we just remember the mantra."
+    },
+    {
+      "start": "00:23:03",
+      "end": "00:23:05",
+      "text": "It's going to be exactly the same, the single-value"
+    },
+    {
+      "start": "00:23:06",
+      "end": "00:23:08",
+      "text": "calculus, but with more stuff."
+    },
+    {
+      "start": "00:23:09",
+      "end": "00:23:12",
+      "text": "So if we have a function with n inputs,"
+    },
+    {
+      "start": "00:23:12",
+      "end": "00:23:16",
+      "text": "we then go to work out its gradient, which"
+    },
+    {
+      "start": "00:23:16",
+      "end": "00:23:19",
+      "text": "is its partial derivative with respect to each input."
+    },
+    {
+      "start": "00:23:19",
+      "end": "00:23:25",
+      "text": "So it's gradient will now be a vector of the same size as the"
+    },
+    {
+      "start": "00:23:25",
+      "end": "00:23:26",
+      "text": "number of inputs"
+    },
+    {
+      "start": "00:23:27",
+      "end": "00:23:31",
+      "text": "And there's this funky symbol which people pronounce various"
+    },
+    {
+      "start": "00:23:31",
+      "end": "00:23:31",
+      "text": "ways"
+    },
+    {
+      "start": "00:23:31",
+      "end": "00:23:35",
+      "text": "I mean, you know, this kind of originated as some kind of someone's"
+    },
+    {
+      "start": "00:23:35",
+      "end": "00:23:38",
+      "text": "weird way of drawing a calligraphic D,"
+    },
+    {
+      "start": "00:23:38",
+      "end": "00:23:38",
+      "text": "right?"
+    },
+    {
+      "start": "00:23:38",
+      "end": "00:23:39",
+      "text": "So it is really a D"
+    },
+    {
+      "start": "00:23:40",
+      "end": "00:23:42",
+      "text": "So I think I'll mainly just call it D"
+    },
+    {
+      "start": "00:23:42",
+      "end": "00:23:46",
+      "text": "But sometimes people call it partial or funky D or some some"
+    },
+    {
+      "start": "00:23:46",
+      "end": "00:23:47",
+      "text": "other name, right?"
+    },
+    {
+      "start": "00:23:47",
+      "end": "00:23:52",
+      "text": "All right, so you have df dx1, df dx2 for each of the variables."
+    },
+    {
+      "start": "00:23:52",
+      "end": "00:23:57",
+      "text": "Okay, so if we go beyond that and then have a function"
+    },
+    {
+      "start": "00:23:58",
+      "end": "00:24:01",
+      "text": "with n inputs and m outputs,"
+    },
+    {
+      "start": "00:24:02",
+      "end": "00:24:08",
+      "text": "what we then get for the gradient is what's referred to as the"
+    },
+    {
+      "start": "00:24:08",
+      "end": "00:24:09",
+      "text": "Jacobian."
+    },
+    {
+      "start": "00:24:09",
+      "end": "00:24:14",
+      "text": "Now, actually, the dude this is named after was a German Jew,"
+    },
+    {
+      "start": "00:24:14",
+      "end": "00:24:18",
+      "text": "do, so it should really be Jacobi,"
+    },
+    {
+      "start": "00:24:18",
+      "end": "00:24:20",
+      "text": "but no one says that in this country."
+    },
+    {
+      "start": "00:24:21",
+      "end": "00:24:24",
+      "text": "Jacobian. Okay,"
+    },
+    {
+      "start": "00:24:24",
+      "end": "00:24:30",
+      "text": "so the Jacobian is then a matrix of partial derivatives where"
+    },
+    {
+      "start": "00:24:30",
+      "end": "00:24:32",
+      "text": "you're working out for each"
+    },
+    {
+      "start": "00:24:32",
+      "end": "00:24:37",
+      "text": "output and each input the partial derivative between the component"
+    },
+    {
+      "start": "00:24:37",
+      "end": "00:24:39",
+      "text": "of the input and the"
+    },
+    {
+      "start": "00:24:39",
+      "end": "00:24:43",
+      "text": "the output so this looks like the kind of thing that we're going"
+    },
+    {
+      "start": "00:24:43",
+      "end": "00:24:44",
+      "text": "to have when"
+    },
+    {
+      "start": "00:24:44",
+      "end": "00:24:48",
+      "text": "we have a neural network layer because we're going to have n"
+    },
+    {
+      "start": "00:24:48",
+      "end": "00:24:49",
+      "text": "inputs and m"
+    },
+    {
+      "start": "00:24:49",
+      "end": "00:24:53",
+      "text": "outputs for the two layers of our neural network so we'll be"
+    },
+    {
+      "start": "00:24:53",
+      "end": "00:24:54",
+      "text": "using these kind of"
+    },
+    {
+      "start": "00:24:54",
+      "end": "00:25:01",
+      "text": "Jacobians okay so then you know the whole idea of neural networks"
+    },
+    {
+      "start": "00:25:01",
+      "end": "00:25:02",
+      "text": "is we've"
+    },
+    {
+      "start": "00:25:02",
+      "end": "00:25:08",
+      "text": "got these multi level computations and they're going to correspond"
+    },
+    {
+      "start": "00:25:08",
+      "end": "00:25:08",
+      "text": "to"
+    },
+    {
+      "start": "00:25:08",
+      "end": "00:25:10",
+      "text": "the composition of functions."
+    },
+    {
+      "start": "00:25:10",
+      "end": "00:25:14",
+      "text": "So we need to know how to compose things,"
+    },
+    {
+      "start": "00:25:14",
+      "end": "00:25:18",
+      "text": "both for calculating functions and for calculating"
+    },
+    {
+      "start": "00:25:18",
+      "end": "00:25:19",
+      "text": "their gradients."
+    },
+    {
+      "start": "00:25:19",
+      "end": "00:25:21",
+      "text": "So if we have a one variable function"
+    },
+    {
+      "start": "00:25:21",
+      "end": "00:25:28",
+      "text": "and we want to work out its derivative in terms"
+    },
+    {
+      "start": "00:25:28",
+      "end": "00:25:32",
+      "text": "of a composition of two functions, what we're doing"
+    },
+    {
+      "start": "00:25:32",
+      "end": "00:25:35",
+      "text": "is multiplying our computations."
+    },
+    {
+      "start": "00:25:35",
+      "end": "00:25:41",
+      "text": "Okay, so if you compose together z of y,"
+    },
+    {
+      "start": "00:25:42",
+      "end": "00:25:44",
+      "text": "that's the function that we did at the beginning,"
+    },
+    {
+      "start": "00:25:45",
+      "end": "00:25:48",
+      "text": "that gives you, what was it? No, it's not."
+    },
+    {
+      "start": "00:25:48",
+      "end": "00:25:52",
+      "text": "Sorry, it's different. Okay, z of y gives you 3x squared,"
+    },
+    {
+      "start": "00:25:52",
+      "end": "00:25:57",
+      "text": "right? And so we know that the derivative of that is 6x."
+    },
+    {
+      "start": "00:25:57",
+      "end": "00:26:01",
+      "text": "Okay, but if we do it in terms of the pieces,"
+    },
+    {
+      "start": "00:26:01",
+      "end": "00:26:10",
+      "text": "we can work out dz dy which is just going to be 3 and dy"
+    },
+    {
+      "start": "00:26:10",
+      "end": "00:26:13",
+      "text": "dx is 2x and we can"
+    },
+    {
+      "start": "00:26:13",
+      "end": "00:26:16",
+      "text": "work out the total derivative by multiplying these two pieces"
+    },
+    {
+      "start": "00:26:16",
+      "end": "00:26:17",
+      "text": "and we get"
+    },
+    {
+      "start": "00:26:17",
+      "end": "00:26:25",
+      "text": "6x the same answer right so matrix calculus is exactly like single"
+    },
+    {
+      "start": "00:26:25",
+      "end": "00:26:25",
+      "text": "variable"
+    },
+    {
+      "start": "00:26:25",
+      "end": "00:26:30",
+      "text": "calculus except we're using tensors of different..."
+    },
+    {
+      "start": "00:26:30",
+      "end": "00:26:32",
+      "text": "so the word tensor is used to"
+    },
+    {
+      "start": "00:26:32",
+      "end": "00:26:37",
+      "text": "mean as you go up that spectrum in its size so from sort of scalar"
+    },
+    {
+      "start": "00:26:37",
+      "end": "00:26:38",
+      "text": "to vector to"
+    },
+    {
+      "start": "00:26:38",
+      "end": "00:26:42",
+      "text": "matrix to then you know what in computer science is normally"
+    },
+    {
+      "start": "00:26:42",
+      "end": "00:26:44",
+      "text": "still is"
+    },
+    {
+      "start": "00:26:44",
+      "end": "00:26:49",
+      "text": "multidimensional arrays that spectrum is then tensors of different"
+    },
+    {
+      "start": "00:26:49",
+      "end": "00:26:51",
+      "text": "dimensions."
+    },
+    {
+      "start": "00:26:51",
+      "end": "00:26:55",
+      "text": "dimensions. Okay, so when we have multiple variable functions,"
+    },
+    {
+      "start": "00:26:56",
+      "end": "00:26:58",
+      "text": "we're going to multiply Jacobians."
+    },
+    {
+      "start": "00:26:58",
+      "end": "00:27:03",
+      "text": "So here we have a function, wx plus b, and then we compose"
+    },
+    {
+      "start": "00:27:05",
+      "end": "00:27:10",
+      "text": "the non-linearity f to get h, and so we're going to be able to"
+    },
+    {
+      "start": "00:27:10",
+      "end": "00:27:13",
+      "text": "compute that in the same way as a"
+    },
+    {
+      "start": "00:27:13",
+      "end": "00:27:16",
+      "text": "the product of these partial derivatives, which"
+    },
+    {
+      "start": "00:27:16",
+      "end": "00:27:17",
+      "text": "are Jacobians."
+    },
+    {
+      "start": "00:27:19",
+      "end": "00:27:23",
+      "text": "So let's start looking at a few examples of what we get."
+    },
+    {
+      "start": "00:27:23",
+      "end": "00:27:27",
+      "text": "So let's start with an element-wise activation"
+    },
+    {
+      "start": "00:27:27",
+      "end": "00:27:28",
+      "text": "function."
+    },
+    {
+      "start": "00:27:28",
+      "end": "00:27:33",
+      "text": "So when we have a vector that's being calculated"
+    },
+    {
+      "start": "00:27:33",
+      "end": "00:27:37",
+      "text": "as the activation function of a previously computed quantity,"
+    },
+    {
+      "start": "00:27:38",
+      "end": "00:27:41",
+      "text": "well, we're computing that component-wise,"
+    },
+    {
+      "start": "00:27:41",
+      "end": "00:27:42",
+      "text": "as I explained before."
+    },
+    {
+      "start": "00:27:42",
+      "end": "00:27:47",
+      "text": "So hi equals f of zi, where this sort of f"
+    },
+    {
+      "start": "00:27:47",
+      "end": "00:27:50",
+      "text": "is our activation function that actually applies to a scalar."
+    },
+    {
+      "start": "00:27:51",
+      "end": "00:27:54",
+      "text": "But overall, this layer is a function"
+    },
+    {
+      "start": "00:27:54",
+      "end": "00:27:56",
+      "text": "with n outputs and n inputs."
+    },
+    {
+      "start": "00:27:56",
+      "end": "00:27:59",
+      "text": "And so it's going to have an n by n Jacobian."
+    },
+    {
+      "start": "00:27:59",
+      "end": "00:28:01",
+      "text": "And well, what that's going to look like,"
+    },
+    {
+      "start": "00:28:01",
+      "end": "00:28:04",
+      "text": "so this is our definition of the Jacobian."
+    },
+    {
+      "start": "00:28:05",
+      "end": "00:28:09",
+      "text": "But in this case, this is sort of a special case,"
+    },
+    {
+      "start": "00:28:09",
+      "end": "00:28:17",
+      "text": "because if I equals J then we're going to have the output"
+    },
+    {
+      "start": "00:28:17",
+      "end": "00:28:22",
+      "text": "J the HJ depending on"
+    },
+    {
+      "start": "00:28:22",
+      "end": "00:28:27",
+      "text": "ZI and otherwise it's going to be zero because for the off-diagonal"
+    },
+    {
+      "start": "00:28:27",
+      "end": "00:28:28",
+      "text": "entries it"
+    },
+    {
+      "start": "00:28:28",
+      "end": "00:28:31",
+      "text": "doesn't matter how you change the value it's not changing the"
+    },
+    {
+      "start": "00:28:31",
+      "end": "00:28:32",
+      "text": "output because the"
+    },
+    {
+      "start": "00:28:32",
+      "end": "00:28:37",
+      "text": "output only depends on the corresponding index and so what we're"
+    },
+    {
+      "start": "00:28:37",
+      "end": "00:28:37",
+      "text": "going to get for"
+    },
+    {
+      "start": "00:28:37",
+      "end": "00:28:40",
+      "text": "for this Jacobian of activation functions,"
+    },
+    {
+      "start": "00:28:40",
+      "end": "00:28:43",
+      "text": "is a matrix where everything is zero"
+    },
+    {
+      "start": "00:28:43",
+      "end": "00:28:46",
+      "text": "apart from the diagonal terms that"
+    },
+    {
+      "start": "00:28:46",
+      "end": "00:28:50",
+      "text": "correspond to where we're calculating the activation"
+    },
+    {
+      "start": "00:28:50",
+      "end": "00:28:50",
+      "text": "function."
+    },
+    {
+      "start": "00:28:51",
+      "end": "00:28:53",
+      "text": "And for those ones, we're going to have"
+    },
+    {
+      "start": "00:28:53",
+      "end": "00:28:58",
+      "text": "to work out how to compute the derivative of our activation"
+    },
+    {
+      "start": "00:28:58",
+      "end": "00:28:58",
+      "text": "function."
+    },
+    {
+      "start": "00:28:59",
+      "end": "00:29:01",
+      "text": "That was on assignment one."
+    },
+    {
+      "start": "00:29:01",
+      "end": "00:29:03",
+      "text": "One of the questions on assignment one, I do believe."
+    },
+    {
+      "start": "00:29:04",
+      "end": "00:29:06",
+      "text": "Or was it on assignment two?"
+    },
+    {
+      "start": "00:29:06",
+      "end": "00:29:07",
+      "text": "No, no, it's assignment two."
+    },
+    {
+      "start": "00:29:07",
+      "end": "00:29:10",
+      "text": "One of the questions on assignment two, I got that wrong."
+    },
+    {
+      "start": "00:29:10",
+      "end": "00:29:13",
+      "text": "One of the ones on the new assignment is say, hey,"
+    },
+    {
+      "start": "00:29:13",
+      "end": "00:29:17",
+      "text": "can you work out the derivative of a logistic function?"
+    },
+    {
+      "start": "00:29:17",
+      "end": "00:29:21",
+      "text": "Well, then we'd be able to plug that straight into f prime,"
+    },
+    {
+      "start": "00:29:21",
+      "end": "00:29:21",
+      "text": "so"
+    },
+    {
+      "start": "00:29:21",
+      "end": "00:29:23",
+      "text": "I'm not gonna give that answer away today."
+    },
+    {
+      "start": "00:29:24",
+      "end": "00:29:31",
+      "text": "Okay, so other things that we want to do with Jacobian is,"
+    },
+    {
+      "start": "00:29:31",
+      "end": "00:29:34",
+      "text": "is, well, we have this layer of our neural network"
+    },
+    {
+      "start": "00:29:35",
+      "end": "00:29:38",
+      "text": "where we're calculating wx plus b,"
+    },
+    {
+      "start": "00:29:39",
+      "end": "00:29:41",
+      "text": "and we can want to work out the partial derivative of that"
+    },
+    {
+      "start": "00:29:41",
+      "end": "00:29:43",
+      "text": "with respect to x."
+    },
+    {
+      "start": "00:29:43",
+      "end": "00:29:47",
+      "text": "This is the kind of place where it actually"
+    },
+    {
+      "start": "00:29:47",
+      "end": "00:29:52",
+      "text": "works to remember the mantra and say matrix calculus is just"
+    },
+    {
+      "start": "00:29:52",
+      "end": "00:29:56",
+      "text": "like single variable calculus, but with matrices."
+    },
+    {
+      "start": "00:29:56",
+      "end": "00:29:59",
+      "text": "So if you just don't use your brain too hard and think,"
+    },
+    {
+      "start": "00:29:59",
+      "end": "00:30:01",
+      "text": "Oh, it's just like single variable calculus."
+    },
+    {
+      "start": "00:30:01",
+      "end": "00:30:02",
+      "text": "So what should the answer be?"
+    },
+    {
+      "start": "00:30:02",
+      "end": "00:30:04",
+      "text": "It's obviously going to be w, right?"
+    },
+    {
+      "start": "00:30:04",
+      "end": "00:30:06",
+      "text": "And indeed, it is."
+    },
+    {
+      "start": "00:30:07",
+      "end": "00:30:10",
+      "text": "Similarly, if we want to do the same thing for wxb"
+    },
+    {
+      "start": "00:30:10",
+      "end": "00:30:13",
+      "text": "and work out the partial derivative with respect to b,"
+    },
+    {
+      "start": "00:30:14",
+      "end": "00:30:18",
+      "text": "well, that would be 1 in terms of single variable calculus."
+    },
+    {
+      "start": "00:30:18",
+      "end": "00:30:22",
+      "text": "And so in matrix calculus, that becomes an identity matrix."
+    },
+    {
+      "start": "00:30:22",
+      "end": "00:30:24",
+      "text": "OK, slightly different, but same idea."
+    },
+    {
+      "start": "00:30:26",
+      "end": "00:30:28",
+      "text": "But that's reflecting the fact that b is actually a vector."
+    },
+    {
+      "start": "00:30:28",
+      "end": "00:30:33",
+      "text": "So we need it to be coming out as an identity matrix."
+    },
+    {
+      "start": "00:30:34",
+      "end": "00:30:39",
+      "text": "OK, so higher up in my example picture,"
+    },
+    {
+      "start": "00:30:40",
+      "end": "00:30:44",
+      "text": "I did this sort of vector dot product of uth."
+    },
+    {
+      "start": "00:30:46",
+      "end": "00:30:56",
+      "text": "And well, what happens if we work out the Jacobian of that?"
+    },
+    {
+      "start": "00:30:56",
+      "end": "00:31:01",
+      "text": "that, what we end up with strictly is we come out with ht."
+    },
+    {
+      "start": "00:31:02",
+      "end": "00:31:05",
+      "text": "And you know, this is sort of like when you are working out,"
+    },
+    {
+      "start": "00:31:06",
+      "end": "00:31:09",
+      "text": "well, we did this in the first class, right?"
+    },
+    {
+      "start": "00:31:09",
+      "end": "00:31:11",
+      "text": "When we did a dot product calculation"
+    },
+    {
+      "start": "00:31:12",
+      "end": "00:31:15",
+      "text": "that you kind of get for each individual element,"
+    },
+    {
+      "start": "00:31:15",
+      "end": "00:31:18",
+      "text": "you get the opposite term, and so you"
+    },
+    {
+      "start": "00:31:18",
+      "end": "00:31:20",
+      "text": "get the other vector coming out."
+    },
+    {
+      "start": "00:31:21",
+      "end": "00:31:24",
+      "text": "These are sort of good ones to have computed at home"
+    },
+    {
+      "start": "00:31:24",
+      "end": "00:31:28",
+      "text": "for practice to make sure you really do know the answers and"
+    },
+    {
+      "start": "00:31:28",
+      "end": "00:31:29",
+      "text": "why they work out"
+    },
+    {
+      "start": "00:31:29",
+      "end": "00:31:35",
+      "text": "the way they do okay so let's go back to our little neural net"
+    },
+    {
+      "start": "00:31:35",
+      "end": "00:31:37",
+      "text": "this was most of"
+    },
+    {
+      "start": "00:31:37",
+      "end": "00:31:42",
+      "text": "our neural net up above our neural net there was the non-linearity"
+    },
+    {
+      "start": "00:31:42",
+      "end": "00:31:44",
+      "text": "now I'm"
+    },
+    {
+      "start": "00:31:44",
+      "end": "00:31:48",
+      "text": "going to leave that out of this time because see I got it wrong"
+    },
+    {
+      "start": "00:31:48",
+      "end": "00:31:48",
+      "text": "it's on"
+    },
+    {
+      "start": "00:31:48",
+      "end": "00:31:53",
+      "text": "assignment two but you know normally you'd be calculating the"
+    },
+    {
+      "start": "00:31:53",
+      "end": "00:31:54",
+      "text": "partials of the"
+    },
+    {
+      "start": "00:31:54",
+      "end": "00:31:57",
+      "text": "the output, the loss function, with respect to the inputs."
+    },
+    {
+      "start": "00:31:58",
+      "end": "00:32:01",
+      "text": "But since the loss function is on assignment two,"
+    },
+    {
+      "start": "00:32:01",
+      "end": "00:32:03",
+      "text": "I'm going to leave that out."
+    },
+    {
+      "start": "00:32:03",
+      "end": "00:32:05",
+      "text": "And I'm just going to calculate derivatives"
+    },
+    {
+      "start": "00:32:05",
+      "end": "00:32:09",
+      "text": "with respect to this score that feeds into the loss function."
+    },
+    {
+      "start": "00:32:09",
+      "end": "00:32:13",
+      "text": "So we first of all got the neural network layer,"
+    },
+    {
+      "start": "00:32:13",
+      "end": "00:32:16",
+      "text": "the non-linearity, and then we're"
+    },
+    {
+      "start": "00:32:16",
+      "end": "00:32:18",
+      "text": "doing this dot product to work out"
+    },
+    {
+      "start": "00:32:18",
+      "end": "00:32:20",
+      "text": "a score for each position, which feeds"
+    },
+    {
+      "start": "00:32:20",
+      "end": "00:32:21",
+      "text": "into the logistic function."
+    },
+    {
+      "start": "00:32:21",
+      "end": "00:32:25",
+      "text": "function. So if you want to work out dsdb,"
+    },
+    {
+      "start": "00:32:25",
+      "end": "00:32:28",
+      "text": "so that's with respect to the bias first,"
+    },
+    {
+      "start": "00:32:28",
+      "end": "00:32:30",
+      "text": "so the way we do it is, you know,"
+    },
+    {
+      "start": "00:32:30",
+      "end": "00:32:35",
+      "text": "we break up our equations into our individual pieces"
+    },
+    {
+      "start": "00:32:35",
+      "end": "00:32:39",
+      "text": "that are composed together, and so that means that we break this"
+    },
+    {
+      "start": "00:32:39",
+      "end": "00:32:40",
+      "text": "up. So we first calculate"
+    },
+    {
+      "start": "00:32:40",
+      "end": "00:32:44",
+      "text": "the z equals wx plus b, then we apply the activation function"
+    },
+    {
+      "start": "00:32:44",
+      "end": "00:32:46",
+      "text": "to the different components."
+    },
+    {
+      "start": "00:32:46",
+      "end": "00:32:54",
+      "text": "okay then after that well what we remember to do is okay to"
+    },
+    {
+      "start": "00:32:54",
+      "end": "00:32:57",
+      "text": "work out our"
+    },
+    {
+      "start": "00:32:58",
+      "end": "00:33:04",
+      "text": "partial derivatives of B of S with respect to B that what we're"
+    },
+    {
+      "start": "00:33:04",
+      "end": "00:33:05",
+      "text": "going to be"
+    },
+    {
+      "start": "00:33:05",
+      "end": "00:33:10",
+      "text": "doing is doing the product of the partial derivatives of the"
+    },
+    {
+      "start": "00:33:10",
+      "end": "00:33:11",
+      "text": "component"
+    },
+    {
+      "start": "00:33:11",
+      "end": "00:33:15",
+      "text": "component pieces. So we're applying the matrix calculus version"
+    },
+    {
+      "start": "00:33:15",
+      "end": "00:33:16",
+      "text": "of the chain rule."
+    },
+    {
+      "start": "00:33:17",
+      "end": "00:33:25",
+      "text": "So dS dB equals dS dH times dH dZ times dZ dB and which"
+    },
+    {
+      "start": "00:33:25",
+      "end": "00:33:27",
+      "text": "corresponds to these"
+    },
+    {
+      "start": "00:33:27",
+      "end": "00:33:29",
+      "text": "three layers that are composed together."
+    },
+    {
+      "start": "00:33:30",
+      "end": "00:33:33",
+      "text": "And so at that point we remember our"
+    },
+    {
+      "start": "00:33:33",
+      "end": "00:33:37",
+      "text": "useful Jacobians from the previous slide and we can just apply"
+    },
+    {
+      "start": "00:33:37",
+      "end": "00:33:39",
+      "text": "them. So the top"
+    },
+    {
+      "start": "00:33:39",
+      "end": "00:33:47",
+      "text": "one ds dh is the u transpose or else"
+    },
+    {
+      "start": "00:33:47",
+      "end": "00:33:50",
+      "text": "or maybe it's u let's come back to that"
+    },
+    {
+      "start": "00:33:50",
+      "end": "00:33:53",
+      "text": "but I've got there's a fine point on that but I will explain"
+    },
+    {
+      "start": "00:33:53",
+      "end": "00:33:54",
+      "text": "more about later"
+    },
+    {
+      "start": "00:33:56",
+      "end": "00:34:02",
+      "text": "okay then for the dh dz that was the activation function where"
+    },
+    {
+      "start": "00:34:02",
+      "end": "00:34:02",
+      "text": "we got the"
+    },
+    {
+      "start": "00:34:02",
+      "end": "00:34:07",
+      "text": "the diagonal of the derivative of f of z."
+    },
+    {
+      "start": "00:34:08",
+      "end": "00:34:12",
+      "text": "And then for dz, db, that's where we got the identity function."
+    },
+    {
+      "start": "00:34:12",
+      "end": "00:34:17",
+      "text": "Okay, so we can simplify that down."
+    },
+    {
+      "start": "00:34:17",
+      "end": "00:34:22",
+      "text": "And so what that's going to end up as is the u transpose,"
+    },
+    {
+      "start": "00:34:23",
+      "end": "00:34:30",
+      "text": "that funny symbol there, times the vector element y's derivative"
+    },
+    {
+      "start": "00:34:30",
+      "end": "00:34:31",
+      "text": "of f."
+    },
+    {
+      "start": "00:34:31",
+      "end": "00:34:37",
+      "text": "This symbol, which doesn't normally turn up in your regular math"
+    },
+    {
+      "start": "00:34:37",
+      "end": "00:34:37",
+      "text": "course,"
+    },
+    {
+      "start": "00:34:38",
+      "end": "00:34:40",
+      "text": "but turns up all the time in neural networks,"
+    },
+    {
+      "start": "00:34:41",
+      "end": "00:34:43",
+      "text": "is referred to as the Hadamard product."
+    },
+    {
+      "start": "00:34:43",
+      "end": "00:34:47",
+      "text": "And the Hadamard product is meaning element-wise multiplication."
+    },
+    {
+      "start": "00:34:47",
+      "end": "00:34:51",
+      "text": "So it's not like a cross product where you put two vectors together"
+    },
+    {
+      "start": "00:34:51",
+      "end": "00:34:51",
+      "text": "and"
+    },
+    {
+      "start": "00:34:51",
+      "end": "00:34:53",
+      "text": "you get out one number of scalar."
+    },
+    {
+      "start": "00:34:53",
+      "end": "00:34:57",
+      "text": "You put two vectors together, you element-wise multiply them"
+    },
+    {
+      "start": "00:34:57",
+      "end": "00:34:58",
+      "text": "all, and"
+    },
+    {
+      "start": "00:34:58",
+      "end": "00:35:01",
+      "text": "you're left with another vector of the same type."
+    },
+    {
+      "start": "00:35:02",
+      "end": "00:35:06",
+      "text": "OK, so now this gave us a working out"
+    },
+    {
+      "start": "00:35:06",
+      "end": "00:35:08",
+      "text": "of the partials of dsdb."
+    },
+    {
+      "start": "00:35:08",
+      "end": "00:35:11",
+      "text": "And for a neural network, we want"
+    },
+    {
+      "start": "00:35:11",
+      "end": "00:35:14",
+      "text": "to work out all the other partials as well."
+    },
+    {
+      "start": "00:35:14",
+      "end": "00:35:18",
+      "text": "So overall here in the picture, we"
+    },
+    {
+      "start": "00:35:18",
+      "end": "00:35:25",
+      "text": "had the x, the w, the b, and the u."
+    },
+    {
+      "start": "00:35:26",
+      "end": "00:35:29",
+      "text": "And we'd like to work out partials with respect"
+    },
+    {
+      "start": "00:35:29",
+      "end": "00:35:33",
+      "text": "expect to all of those variables so we can change their values"
+    },
+    {
+      "start": "00:35:33",
+      "end": "00:35:34",
+      "text": "and"
+    },
+    {
+      "start": "00:35:34",
+      "end": "00:35:36",
+      "text": "learn so that our model predicts better."
+    },
+    {
+      "start": "00:35:38",
+      "end": "00:35:43",
+      "text": "So suppose we now want to calculate dsdw."
+    },
+    {
+      "start": "00:35:44",
+      "end": "00:35:48",
+      "text": "So again, we can split it up with the same chain rule and"
+    },
+    {
+      "start": "00:35:48",
+      "end": "00:35:52",
+      "text": "say dsdw equals the product of these three things."
+    },
+    {
+      "start": "00:35:52",
+      "end": "00:35:56",
+      "text": "And the important thing to notice is that two of those three"
+    },
+    {
+      "start": "00:35:56",
+      "end": "00:35:56",
+      "text": "things were"
+    },
+    {
+      "start": "00:35:56",
+      "end": "00:35:59",
+      "text": "were exactly the same ones that we calculated before."
+    },
+    {
+      "start": "00:36:00",
+      "end": "00:36:02",
+      "text": "The only bit that's different is that at the end,"
+    },
+    {
+      "start": "00:36:03",
+      "end": "00:36:07",
+      "text": "we're now doing dz, dw rather than dz, db."
+    },
+    {
+      "start": "00:36:07",
+      "end": "00:36:11",
+      "text": "And so the first central idea that we'll come back to when"
+    },
+    {
+      "start": "00:36:11",
+      "end": "00:36:15",
+      "text": "we do computation graphs is, oh, we really"
+    },
+    {
+      "start": "00:36:15",
+      "end": "00:36:17",
+      "text": "want to avoid doing repeated work."
+    },
+    {
+      "start": "00:36:17",
+      "end": "00:36:21",
+      "text": "So we want to realize that those two parts of things"
+    },
+    {
+      "start": "00:36:21",
+      "end": "00:36:21",
+      "text": "are the same."
+    },
+    {
+      "start": "00:36:22",
+      "end": "00:36:26",
+      "text": "And since we're just multiplying these partial derivatives"
+    },
+    {
+      "start": "00:36:26",
+      "end": "00:36:30",
+      "text": "together, right? We can just compute what that part is and reuse"
+    },
+    {
+      "start": "00:36:30",
+      "end": "00:36:33",
+      "text": "it. And so if we want to,"
+    },
+    {
+      "start": "00:36:34",
+      "end": "00:36:39",
+      "text": "right, yeah, okay. So if we're wanting to calculate ds,"
+    },
+    {
+      "start": "00:36:39",
+      "end": "00:36:41",
+      "text": "dw, the part that's the same,"
+    },
+    {
+      "start": "00:36:42",
+      "end": "00:36:45",
+      "text": "this part here, we can refer to as delta."
+    },
+    {
+      "start": "00:36:46",
+      "end": "00:36:49",
+      "text": "So delta is sort of the upstream gradient or the error"
+    },
+    {
+      "start": "00:36:49",
+      "end": "00:36:53",
+      "text": "signal. The part that you've got from sort of starting at the"
+    },
+    {
+      "start": "00:36:53",
+      "end": "00:36:55",
+      "text": "beginning, ds, dh, dh, dz,"
+    },
+    {
+      "start": "00:36:55",
+      "end": "00:36:57",
+      "text": "this sort of shared upstream part,"
+    },
+    {
+      "start": "00:36:58",
+      "end": "00:37:02",
+      "text": "we can calculate that once and then we can use it"
+    },
+    {
+      "start": "00:37:02",
+      "end": "00:37:06",
+      "text": "to calculate both of these two things."
+    },
+    {
+      "start": "00:37:06",
+      "end": "00:37:11",
+      "text": "And for dsdb, because the dzdb just comes out as the"
+    },
+    {
+      "start": "00:37:11",
+      "end": "00:37:16",
+      "text": "identity matrix, the answer is just delta."
+    },
+    {
+      "start": "00:37:16",
+      "end": "00:37:22",
+      "text": "But for dsdw, we need to work out the dzdw"
+    },
+    {
+      "start": "00:37:22",
+      "end": "00:37:30",
+      "text": "before we're finished okay so what does what do we"
+    },
+    {
+      "start": "00:37:30",
+      "end": "00:37:32",
+      "text": "get for that last piece so"
+    },
+    {
+      "start": "00:37:32",
+      "end": "00:37:36",
+      "text": "one question you might start off with and it's normally a good"
+    },
+    {
+      "start": "00:37:36",
+      "end": "00:37:36",
+      "text": "thing to think"
+    },
+    {
+      "start": "00:37:36",
+      "end": "00:37:39",
+      "text": "about when you're doing assignment problems on this and other"
+    },
+    {
+      "start": "00:37:39",
+      "end": "00:37:41",
+      "text": "things is the"
+    },
+    {
+      "start": "00:37:41",
+      "end": "00:37:44",
+      "text": "first thing to think about is you know what do things look like"
+    },
+    {
+      "start": "00:37:44",
+      "end": "00:37:46",
+      "text": "like am i"
+    },
+    {
+      "start": "00:37:46",
+      "end": "00:37:50",
+      "text": "should the answer be a vector a matrix what size should it be"
+    },
+    {
+      "start": "00:37:50",
+      "end": "00:37:51",
+      "text": "and things like"
+    },
+    {
+      "start": "00:37:51",
+      "end": "00:37:51",
+      "text": "like that."
+    },
+    {
+      "start": "00:37:52",
+      "end": "00:38:01",
+      "text": "So for ds, dw, w is an n by m matrix, and s is a scalar."
+    },
+    {
+      "start": "00:38:02",
+      "end": "00:38:07",
+      "text": "So therefore, since we have one output and n times m inputs,"
+    },
+    {
+      "start": "00:38:07",
+      "end": "00:38:12",
+      "text": "the answer, according to math, should"
+    },
+    {
+      "start": "00:38:12",
+      "end": "00:38:18",
+      "text": "be that we've got a 1 by n times m Jacobian, a big, long row"
+    },
+    {
+      "start": "00:38:18",
+      "end": "00:38:19",
+      "text": "vector."
+    },
+    {
+      "start": "00:38:19",
+      "end": "00:38:24",
+      "text": "vector, but here's where things get a teeny bit tricky."
+    },
+    {
+      "start": "00:38:25",
+      "end": "00:38:33",
+      "text": "And we end up with this weird mess of math and"
+    },
+    {
+      "start": "00:38:33",
+      "end": "00:38:37",
+      "text": "engineering convenience, because immediately what we're wanting"
+    },
+    {
+      "start": "00:38:37",
+      "end": "00:38:38",
+      "text": "to do"
+    },
+    {
+      "start": "00:38:38",
+      "end": "00:38:42",
+      "text": "is we're wanting to take our old parameters,"
+    },
+    {
+      "start": "00:38:42",
+      "end": "00:38:44",
+      "text": "which will be stored in"
+    },
+    {
+      "start": "00:38:44",
+      "end": "00:38:47",
+      "text": "in the form of matrices, vectors, and so on"
+    },
+    {
+      "start": "00:38:47",
+      "end": "00:38:49",
+      "text": "that we're using as coefficients."
+    },
+    {
+      "start": "00:38:49",
+      "end": "00:38:51",
+      "text": "And we're going to want to subtract from them"
+    },
+    {
+      "start": "00:38:53",
+      "end": "00:38:56",
+      "text": "a fraction of our calculated gradient."
+    },
+    {
+      "start": "00:38:56",
+      "end": "00:39:02",
+      "text": "So what we'd like to do is have our calculated gradients"
+    },
+    {
+      "start": "00:39:03",
+      "end": "00:39:05",
+      "text": "in the same shapes as our parameters,"
+    },
+    {
+      "start": "00:39:06",
+      "end": "00:39:08",
+      "text": "because then we can just do subtraction."
+    },
+    {
+      "start": "00:39:08",
+      "end": "00:39:10",
+      "text": "Whereas if they've turned into a god almighty row vector,"
+    },
+    {
+      "start": "00:39:10",
+      "end": "00:39:13",
+      "text": "um, that's not quite so convenient."
+    },
+    {
+      "start": "00:39:13",
+      "end": "00:39:17",
+      "text": "Um, so it turns out that what we end up doing,"
+    },
+    {
+      "start": "00:39:18",
+      "end": "00:39:22",
+      "text": "um, is using something that gets referred to as the shape convention"
+    },
+    {
+      "start": "00:39:22",
+      "end": "00:39:31",
+      "text": "that, um, we, uh, uh, reshape our, um, Jacobians"
+    },
+    {
+      "start": "00:39:31",
+      "end": "00:39:36",
+      "text": "so they fit into things that are of the same shape"
+    },
+    {
+      "start": "00:39:36",
+      "end": "00:39:39",
+      "text": "as the parameters that we are using."
+    },
+    {
+      "start": "00:39:39",
+      "end": "00:39:46",
+      "text": "So we're going to represent ds, dw as an n by m matrix laid out"
+    },
+    {
+      "start": "00:39:46",
+      "end": "00:39:47",
+      "text": "as follows."
+    },
+    {
+      "start": "00:39:48",
+      "end": "00:39:51",
+      "text": "And that's a place that one people can get confused."
+    },
+    {
+      "start": "00:39:52",
+      "end": "00:39:54",
+      "text": "Okay, so that's what we want to calculate,"
+    },
+    {
+      "start": "00:39:54",
+      "end": "00:39:55",
+      "text": "that kind of matrix."
+    },
+    {
+      "start": "00:39:56",
+      "end": "00:40:01",
+      "text": "And so that matrix is going to be delta times dz, dw."
+    },
+    {
+      "start": "00:40:01",
+      "end": "00:40:03",
+      "text": "So delta is going to be part of the answer."
+    },
+    {
+      "start": "00:40:04",
+      "end": "00:40:08",
+      "text": "And then we want to know what dz, dw is."
+    },
+    {
+      "start": "00:40:08",
+      "end": "00:40:12",
+      "text": "and the answer is going to be it's going to come out like this"
+    },
+    {
+      "start": "00:40:12",
+      "end": "00:40:14",
+      "text": "so DSDW is going"
+    },
+    {
+      "start": "00:40:14",
+      "end": "00:40:20",
+      "text": "to be Delta T times XT so it's going to be the product of the"
+    },
+    {
+      "start": "00:40:20",
+      "end": "00:40:21",
+      "text": "upstream gradient"
+    },
+    {
+      "start": "00:40:21",
+      "end": "00:40:24",
+      "text": "which was the same thing we calculated before for the other two"
+    },
+    {
+      "start": "00:40:24",
+      "end": "00:40:25",
+      "text": "quantities and"
+    },
+    {
+      "start": "00:40:25",
+      "end": "00:40:32",
+      "text": "then a local input symbol which is input signal which is here"
+    },
+    {
+      "start": "00:40:32",
+      "end": "00:40:34",
+      "text": "coming out to XT"
+    },
+    {
+      "start": "00:40:34",
+      "end": "00:40:41",
+      "text": "T. And so we're taking the transposes of those two vectors,"
+    },
+    {
+      "start": "00:40:42",
+      "end": "00:40:45",
+      "text": "which it means that we end up calculating an outer product"
+    },
+    {
+      "start": "00:40:45",
+      "end": "00:40:49",
+      "text": "of those two vectors, which gives us our gradient."
+    },
+    {
+      "start": "00:40:51",
+      "end": "00:40:53",
+      "text": "And so why is that the right answer?"
+    },
+    {
+      "start": "00:40:54",
+      "end": "00:40:56",
+      "text": "Well, it kind of looks convenient,"
+    },
+    {
+      "start": "00:40:56",
+      "end": "00:40:58",
+      "text": "because that's giving us something of the right shape"
+    },
+    {
+      "start": "00:40:59",
+      "end": "00:41:01",
+      "text": "for what I was arguing we want to find out."
+    },
+    {
+      "start": "00:41:01",
+      "end": "00:41:07",
+      "text": "and we have the right number of terms now I'm going to rush through"
+    },
+    {
+      "start": "00:41:07",
+      "end": "00:41:07",
+      "text": "this so I"
+    },
+    {
+      "start": "00:41:07",
+      "end": "00:41:12",
+      "text": "encourage you to read the lecture notes and do this more carefully"
+    },
+    {
+      "start": "00:41:12",
+      "end": "00:41:14",
+      "text": "but let me at"
+    },
+    {
+      "start": "00:41:14",
+      "end": "00:41:19",
+      "text": "least a little bit explain why it makes sense right so if you"
+    },
+    {
+      "start": "00:41:19",
+      "end": "00:41:20",
+      "text": "think of one weight"
+    },
+    {
+      "start": "00:41:21",
+      "end": "00:41:25",
+      "text": "in so all of these connections are our matrix right the matrix"
+    },
+    {
+      "start": "00:41:25",
+      "end": "00:41:26",
+      "text": "is being"
+    },
+    {
+      "start": "00:41:26",
+      "end": "00:41:29",
+      "text": "represented by all these lines and in your network so if you"
+    },
+    {
+      "start": "00:41:29",
+      "end": "00:41:30",
+      "text": "think of one"
+    },
+    {
+      "start": "00:41:30",
+      "end": "00:41:32",
+      "text": "one number in the matrix, so here is w23."
+    },
+    {
+      "start": "00:41:33",
+      "end": "00:41:38",
+      "text": "So it's connecting from input 3, or it's multiplying input 3"
+    },
+    {
+      "start": "00:41:38",
+      "end": "00:41:41",
+      "text": "to give part of the answer of h2."
+    },
+    {
+      "start": "00:41:42",
+      "end": "00:41:44",
+      "text": "So it's this line here."
+    },
+    {
+      "start": "00:41:45",
+      "end": "00:41:49",
+      "text": "So for this line here, this weight"
+    },
+    {
+      "start": "00:41:50",
+      "end": "00:41:53",
+      "text": "is being used only in the calculation of h2."
+    },
+    {
+      "start": "00:41:54",
+      "end": "00:41:56",
+      "text": "And the only thing it's dependent on is x3."
+    },
+    {
+      "start": "00:41:56",
+      "end": "00:42:06",
+      "text": "So that if you're then wanting to work out the partial of H2"
+    },
+    {
+      "start": "00:42:06",
+      "end": "00:42:14",
+      "text": "or Z2, sorry, yeah, sorry, yeah, sorry,"
+    },
+    {
+      "start": "00:42:14",
+      "end": "00:42:15",
+      "text": "Z2,"
+    },
+    {
+      "start": "00:42:15",
+      "end": "00:42:18",
+      "text": "the partial of Z2 with respect to X3,"
+    },
+    {
+      "start": "00:42:19",
+      "end": "00:42:22",
+      "text": "it's sort of depending on these two pieces only,"
+    },
+    {
+      "start": "00:42:22",
+      "end": "00:42:29",
+      "text": "And that's what you're achieving by working out the sort of outer"
+    },
+    {
+      "start": "00:42:29",
+      "end": "00:42:30",
+      "text": "product like that."
+    },
+    {
+      "start": "00:42:32",
+      "end": "00:42:32",
+      "text": "Okay."
+    },
+    {
+      "start": "00:42:33",
+      "end": "00:42:40",
+      "text": "Yeah, so let me just come back one more time to the sort of question"
+    },
+    {
+      "start": "00:42:40",
+      "end": "00:42:43",
+      "text": "of the shape of derivatives."
+    },
+    {
+      "start": "00:42:45",
+      "end": "00:42:51",
+      "text": "You know, so I already sort of fudged it when I was sort of talking"
+    },
+    {
+      "start": "00:42:51",
+      "end": "00:42:52",
+      "text": "about,"
+    },
+    {
+      "start": "00:42:52",
+      "end": "00:42:55",
+      "text": "out, oh, should I put the transpose there,"
+    },
+    {
+      "start": "00:42:55",
+      "end": "00:42:58",
+      "text": "or should I nod and get a row vector versus a column vector?"
+    },
+    {
+      "start": "00:43:00",
+      "end": "00:43:02",
+      "text": "So there's sort of this disagreement"
+    },
+    {
+      "start": "00:43:03",
+      "end": "00:43:08",
+      "text": "between whether you kind of have the Jacobian form, which"
+    },
+    {
+      "start": "00:43:08",
+      "end": "00:43:12",
+      "text": "is what actually makes the chain rule work right in terms"
+    },
+    {
+      "start": "00:43:12",
+      "end": "00:43:17",
+      "text": "of doing multiplication, versus the shape convention, which"
+    },
+    {
+      "start": "00:43:17",
+      "end": "00:43:20",
+      "text": "is how we store everything for our computations"
+    },
+    {
+      "start": "00:43:20",
+      "end": "00:43:23",
+      "text": "and makes doing stochastic gradient descent"
+    },
+    {
+      "start": "00:43:23",
+      "end": "00:43:26",
+      "text": "where you're subtracting"
+    },
+    {
+      "start": "00:43:26",
+      "end": "00:43:29",
+      "text": "whatever kind of tensor you have easy."
+    },
+    {
+      "start": "00:43:31",
+      "end": "00:43:35",
+      "text": "So, you know, this can be a source of confusion."
+    },
+    {
+      "start": "00:43:36",
+      "end": "00:43:38",
+      "text": "Since we're doing a computer science course,"
+    },
+    {
+      "start": "00:43:38",
+      "end": "00:43:40",
+      "text": "for the answers in the assignment,"
+    },
+    {
+      "start": "00:43:40",
+      "end": "00:43:43",
+      "text": "we expect you to follow the shape convention."
+    },
+    {
+      "start": "00:43:43",
+      "end": "00:43:46",
+      "text": "So, you know, if you're working out the derivatives"
+    },
+    {
+      "start": "00:43:46",
+      "end": "00:43:49",
+      "text": "with respect to some matrix,"
+    },
+    {
+      "start": "00:43:49",
+      "end": "00:43:53",
+      "text": "it should be shaped like a matrix with the same parameters but"
+    },
+    {
+      "start": "00:43:53",
+      "end": "00:43:55",
+      "text": "you know you may"
+    },
+    {
+      "start": "00:43:55",
+      "end": "00:43:58",
+      "text": "well want to think about Jacobian forms and computing your answers"
+    },
+    {
+      "start": "00:43:58",
+      "end": "00:43:59",
+      "text": "I mean there"
+    },
+    {
+      "start": "00:43:59",
+      "end": "00:44:03",
+      "text": "are sort of two ways to go about doing this one way of doing"
+    },
+    {
+      "start": "00:44:03",
+      "end": "00:44:04",
+      "text": "it is to sort of"
+    },
+    {
+      "start": "00:44:04",
+      "end": "00:44:09",
+      "text": "work out all the math using Jacobians our math 51 and at the"
+    },
+    {
+      "start": "00:44:09",
+      "end": "00:44:10",
+      "text": "end just to"
+    },
+    {
+      "start": "00:44:10",
+      "end": "00:44:16",
+      "text": "reshape it so it fits into the same shape as the parameters according"
+    },
+    {
+      "start": "00:44:16",
+      "end": "00:44:16",
+      "text": "to our"
+    },
+    {
+      "start": "00:44:16",
+      "end": "00:44:17",
+      "text": "our shape convention."
+    },
+    {
+      "start": "00:44:17",
+      "end": "00:44:21",
+      "text": "I mean, the other way is to sort of do each stage following"
+    },
+    {
+      "start": "00:44:21",
+      "end": "00:44:24",
+      "text": "the shape convention, but then you sort of"
+    },
+    {
+      "start": "00:44:24",
+      "end": "00:44:26",
+      "text": "have to be game to sort of reshape things"
+    },
+    {
+      "start": "00:44:27",
+      "end": "00:44:30",
+      "text": "as needed by sort of doing transposing"
+    },
+    {
+      "start": "00:44:30",
+      "end": "00:44:32",
+      "text": "to have things work out at the different stages."
+    },
+    {
+      "start": "00:44:34",
+      "end": "00:44:37",
+      "text": "OK, that was my attempt to quickly review the math."
+    },
+    {
+      "start": "00:44:40",
+      "end": "00:44:42",
+      "text": "Most people are still here."
+    },
+    {
+      "start": "00:44:43",
+      "end": "00:44:45",
+      "text": "I will now go on to the second half"
+    },
+    {
+      "start": "00:44:45",
+      "end": "00:44:51",
+      "text": "and go on to the how we do the computation, right?"
+    },
+    {
+      "start": "00:44:51",
+      "end": "00:44:55",
+      "text": "So, you know, so most of, yeah,"
+    },
+    {
+      "start": "00:44:55",
+      "end": "00:44:57",
+      "text": "so the famous thing that powers neural networks"
+    },
+    {
+      "start": "00:44:57",
+      "end": "00:44:59",
+      "text": "is the backpropagation algorithm."
+    },
+    {
+      "start": "00:45:00",
+      "end": "00:45:05",
+      "text": "So the backpropagation algorithm is really only two things,"
+    },
+    {
+      "start": "00:45:06",
+      "end": "00:45:06",
+      "text": "you know."
+    },
+    {
+      "start": "00:45:06",
+      "end": "00:45:09",
+      "text": "Its invention made people famous"
+    },
+    {
+      "start": "00:45:09",
+      "end": "00:45:11",
+      "text": "because it gave an effective learning algorithm."
+    },
+    {
+      "start": "00:45:12",
+      "end": "00:45:14",
+      "text": "But, you know, at a fundamental level,"
+    },
+    {
+      "start": "00:45:14",
+      "end": "00:45:19",
+      "text": "the back propagation algorithm is only two things thing one is"
+    },
+    {
+      "start": "00:45:19",
+      "end": "00:45:20",
+      "text": "you use the"
+    },
+    {
+      "start": "00:45:20",
+      "end": "00:45:25",
+      "text": "chain rule you do calculus of complex functions and thing two"
+    },
+    {
+      "start": "00:45:25",
+      "end": "00:45:29",
+      "text": "is you store"
+    },
+    {
+      "start": "00:45:29",
+      "end": "00:45:32",
+      "text": "intermediate results so you never recompute the same stuff again"
+    },
+    {
+      "start": "00:45:32",
+      "end": "00:45:34",
+      "text": "that's"
+    },
+    {
+      "start": "00:45:34",
+      "end": "00:45:39",
+      "text": "all there is to the back propagation algorithm and so let's just"
+    },
+    {
+      "start": "00:45:39",
+      "end": "00:45:40",
+      "text": "go through"
+    },
+    {
+      "start": "00:45:40",
+      "end": "00:45:40",
+      "text": "through that."
+    },
+    {
+      "start": "00:45:40",
+      "end": "00:45:44",
+      "text": "So if we're computationally wanting"
+    },
+    {
+      "start": "00:45:44",
+      "end": "00:45:49",
+      "text": "to deal with functions and doing back propagation,"
+    },
+    {
+      "start": "00:45:49",
+      "end": "00:45:53",
+      "text": "we can think of them as being represented as a graph."
+    },
+    {
+      "start": "00:45:53",
+      "end": "00:45:58",
+      "text": "And in some way or another, this kind of graph"
+    },
+    {
+      "start": "00:45:58",
+      "end": "00:46:01",
+      "text": "is being used inside your neural network framework."
+    },
+    {
+      "start": "00:46:02",
+      "end": "00:46:06",
+      "text": "So here is a re-representation of my little neural network"
+    },
+    {
+      "start": "00:46:06",
+      "end": "00:46:08",
+      "text": "for finding whether the word at the center"
+    },
+    {
+      "start": "00:46:08",
+      "end": "00:46:13",
+      "text": "as a location. So I'm taking the x vector input,"
+    },
+    {
+      "start": "00:46:13",
+      "end": "00:46:16",
+      "text": "I multiply it by w, I'm adding b to"
+    },
+    {
+      "start": "00:46:16",
+      "end": "00:46:18",
+      "text": "it, I'm putting it through the nonlinearity,"
+    },
+    {
+      "start": "00:46:19",
+      "end": "00:46:21",
+      "text": "and then I'm doing the dot"
+    },
+    {
+      "start": "00:46:21",
+      "end": "00:46:25",
+      "text": "product with my vector u, right? So that was my computation."
+    },
+    {
+      "start": "00:46:25",
+      "end": "00:46:28",
+      "text": "And so the source"
+    },
+    {
+      "start": "00:46:28",
+      "end": "00:46:30",
+      "text": "nodes are the inputs in this graph,"
+    },
+    {
+      "start": "00:46:31",
+      "end": "00:46:34",
+      "text": "the interior nodes are then the operations I"
+    },
+    {
+      "start": "00:46:34",
+      "end": "00:46:35",
+      "text": "I do."
+    },
+    {
+      "start": "00:46:35",
+      "end": "00:46:40",
+      "text": "And so then the edges that connect those together"
+    },
+    {
+      "start": "00:46:41",
+      "end": "00:46:44",
+      "text": "then pass along the result of each operation."
+    },
+    {
+      "start": "00:46:44",
+      "end": "00:46:49",
+      "text": "So I pass along wx to the addition function with b."
+    },
+    {
+      "start": "00:46:50",
+      "end": "00:46:53",
+      "text": "Then that gives me z that I pass through the nonlinearity,"
+    },
+    {
+      "start": "00:46:54",
+      "end": "00:46:54",
+      "text": "which"
+    },
+    {
+      "start": "00:46:54",
+      "end": "00:46:58",
+      "text": "gives me h, which I then dot product with the u to get s."
+    },
+    {
+      "start": "00:46:59",
+      "end": "00:47:02",
+      "text": "OK, so I do precisely this computation."
+    },
+    {
+      "start": "00:47:02",
+      "end": "00:47:07",
+      "text": "and this is referred to as forward propagation or the forward"
+    },
+    {
+      "start": "00:47:07",
+      "end": "00:47:09",
+      "text": "pass of a neural network. So"
+    },
+    {
+      "start": "00:47:09",
+      "end": "00:47:12",
+      "text": "the forward pass just calculates functions."
+    },
+    {
+      "start": "00:47:13",
+      "end": "00:47:18",
+      "text": "Okay, but then once we've done that what we want to do"
+    },
+    {
+      "start": "00:47:19",
+      "end": "00:47:21",
+      "text": "is then work out"
+    },
+    {
+      "start": "00:47:22",
+      "end": "00:47:26",
+      "text": "gradients so we can do gradient based learning and so that part"
+    },
+    {
+      "start": "00:47:26",
+      "end": "00:47:28",
+      "text": "is then referred to as"
+    },
+    {
+      "start": "00:47:28",
+      "end": "00:47:31",
+      "text": "back propagation or the backward pass"
+    },
+    {
+      "start": "00:47:32",
+      "end": "00:47:36",
+      "text": "then we run things backward. So for running things backward,"
+    },
+    {
+      "start": "00:47:36",
+      "end": "00:47:37",
+      "text": "we're going to"
+    },
+    {
+      "start": "00:47:37",
+      "end": "00:47:41",
+      "text": "use the same graph and we're going to backwards pass along at"
+    },
+    {
+      "start": "00:47:41",
+      "end": "00:47:42",
+      "text": "gradients. And so"
+    },
+    {
+      "start": "00:47:42",
+      "end": "00:47:47",
+      "text": "we start at the right-hand side and we have ds,"
+    },
+    {
+      "start": "00:47:47",
+      "end": "00:47:50",
+      "text": "ds. So ds, ds is just one because"
+    },
+    {
+      "start": "00:47:50",
+      "end": "00:47:53",
+      "text": "you know you change s, you've changed s."
+    },
+    {
+      "start": "00:47:53",
+      "end": "00:47:57",
+      "text": "And then what we want to do is sort of"
+    },
+    {
+      "start": "00:47:57",
+      "end": "00:48:01",
+      "text": "then work further back. So we can work out ds,"
+    },
+    {
+      "start": "00:48:01",
+      "end": "00:48:05",
+      "text": "dh, ds, dz, ds, db, ds, dw, ds, dx,"
+    },
+    {
+      "start": "00:48:05",
+      "end": "00:48:06",
+      "text": "as we work back."
+    },
+    {
+      "start": "00:48:07",
+      "end": "00:48:13",
+      "text": "And so this is what we want to work out with gradients."
+    },
+    {
+      "start": "00:48:14",
+      "end": "00:48:16",
+      "text": "And so how are we going to do that?"
+    },
+    {
+      "start": "00:48:17",
+      "end": "00:48:19",
+      "text": "Well, if we look at a single node,"
+    },
+    {
+      "start": "00:48:19",
+      "end": "00:48:23",
+      "text": "so for example, our non-linearity node,"
+    },
+    {
+      "start": "00:48:23",
+      "end": "00:48:25",
+      "text": "but any node where h equals"
+    },
+    {
+      "start": "00:48:25",
+      "end": "00:48:29",
+      "text": "equals f of x, what we're going to have is an upstream gradient,"
+    },
+    {
+      "start": "00:48:29",
+      "end": "00:48:31",
+      "text": "ds, dh."
+    },
+    {
+      "start": "00:48:32",
+      "end": "00:48:37",
+      "text": "And what we want to do is calculate the downstream gradient of"
+    },
+    {
+      "start": "00:48:37",
+      "end": "00:48:40",
+      "text": "the next variable down, the ds, dz."
+    },
+    {
+      "start": "00:48:40",
+      "end": "00:48:45",
+      "text": "And the way that we're going to do that is we're going to say,"
+    },
+    {
+      "start": "00:48:45",
+      "end": "00:48:45",
+      "text": "well,"
+    },
+    {
+      "start": "00:48:45",
+      "end": "00:48:47",
+      "text": "let's look at f."
+    },
+    {
+      "start": "00:48:47",
+      "end": "00:48:49",
+      "text": "What is f's gradient?"
+    },
+    {
+      "start": "00:48:50",
+      "end": "00:48:52",
+      "text": "And that's going to be our local gradient."
+    },
+    {
+      "start": "00:48:52",
+      "end": "00:48:57",
+      "text": "And then this is immediately what gives us the chain rule that"
+    },
+    {
+      "start": "00:48:57",
+      "end": "00:49:01",
+      "text": "DSDZ is going to be the product of"
+    },
+    {
+      "start": "00:49:01",
+      "end": "00:49:07",
+      "text": "our upstream gradient DSDH times the DHDZ, the local"
+    },
+    {
+      "start": "00:49:08",
+      "end": "00:49:10",
+      "text": "gradient that we calculate at that node."
+    },
+    {
+      "start": "00:49:11",
+      "end": "00:49:13",
+      "text": "So downstream gradient equals"
+    },
+    {
+      "start": "00:49:14",
+      "end": "00:49:17",
+      "text": "upstream gradient times local gradient."
+    },
+    {
+      "start": "00:49:17",
+      "end": "00:49:24",
+      "text": "the end oh yeah that's what that's what it says when I press"
+    },
+    {
+      "start": "00:49:24",
+      "end": "00:49:27",
+      "text": "that again okay so"
+    },
+    {
+      "start": "00:49:27",
+      "end": "00:49:33",
+      "text": "this is the sort of the single the single input single output"
+    },
+    {
+      "start": "00:49:33",
+      "end": "00:49:34",
+      "text": "case though"
+    },
+    {
+      "start": "00:49:34",
+      "end": "00:49:38",
+      "text": "those inputs might be vectors or matrices or something like that"
+    },
+    {
+      "start": "00:49:38",
+      "end": "00:49:39",
+      "text": "we then"
+    },
+    {
+      "start": "00:49:39",
+      "end": "00:49:46",
+      "text": "have sort of more complex graph cases so I think I should have"
+    },
+    {
+      "start": "00:49:46",
+      "end": "00:49:47",
+      "text": "retitled this slot"
+    },
+    {
+      "start": "00:49:47",
+      "end": "00:49:53",
+      "text": "Yeah, so still so sorry so the next case is for our node it might"
+    },
+    {
+      "start": "00:49:53",
+      "end": "00:49:54",
+      "text": "have multiple inputs"
+    },
+    {
+      "start": "00:49:54",
+      "end": "00:49:56",
+      "text": "So this is where we're calculating"
+    },
+    {
+      "start": "00:49:57",
+      "end": "00:50:01",
+      "text": "Wx so in that case we still have an up"
+    },
+    {
+      "start": "00:50:01",
+      "end": "00:50:05",
+      "text": "We have a single upstream gradient and then what we're going"
+    },
+    {
+      "start": "00:50:05",
+      "end": "00:50:08",
+      "text": "to do is we want to calculate"
+    },
+    {
+      "start": "00:50:08",
+      "end": "00:50:13",
+      "text": "the downstream gradient with respect to each input and the way"
+    },
+    {
+      "start": "00:50:13",
+      "end": "00:50:16",
+      "text": "we're going to do that is we're going to work out the local"
+    },
+    {
+      "start": "00:50:17",
+      "end": "00:50:19",
+      "text": "gradient with respect to each input,"
+    },
+    {
+      "start": "00:50:19",
+      "end": "00:50:22",
+      "text": "and then we're going to do the same kind of multiplication"
+    },
+    {
+      "start": "00:50:22",
+      "end": "00:50:28",
+      "text": "of upstream gradient times local gradient with respect to each"
+    },
+    {
+      "start": "00:50:28",
+      "end": "00:50:31",
+      "text": "input. Again, chain rule."
+    },
+    {
+      "start": "00:50:32",
+      "end": "00:50:37",
+      "text": "Okay, so here's a little example of this."
+    },
+    {
+      "start": "00:50:37",
+      "end": "00:50:41",
+      "text": "So this isn't really the kind of thing you normally see"
+    },
+    {
+      "start": "00:50:41",
+      "end": "00:50:43",
+      "text": "in a neural network, but it's an easy example."
+    },
+    {
+      "start": "00:50:44",
+      "end": "00:50:49",
+      "text": "So f of x, y, z is going to be x plus y times the max"
+    },
+    {
+      "start": "00:50:49",
+      "end": "00:50:54",
+      "text": "of y, z. And we've got current values of x,"
+    },
+    {
+      "start": "00:50:54",
+      "end": "00:50:57",
+      "text": "y, and z of 1, 2, and 0, respectively."
+    },
+    {
+      "start": "00:50:58",
+      "end": "00:51:00",
+      "text": "So here's our little computation graph."
+    },
+    {
+      "start": "00:51:01",
+      "end": "00:51:05",
+      "text": "And so for forward propagation, we're going to do this"
+    },
+    {
+      "start": "00:51:05",
+      "end": "00:51:07",
+      "text": "addition. We're going to do this max function."
+    },
+    {
+      "start": "00:51:07",
+      "end": "00:51:09",
+      "text": "And then we're going to multiply the 2."
+    },
+    {
+      "start": "00:51:10",
+      "end": "00:51:10",
+      "text": "And that"
+    },
+    {
+      "start": "00:51:10",
+      "end": "00:51:12",
+      "text": "that gives us the value of f."
+    },
+    {
+      "start": "00:51:12",
+      "end": "00:51:16",
+      "text": "So we can run that with the current values of x, y, and z."
+    },
+    {
+      "start": "00:51:17",
+      "end": "00:51:19",
+      "text": "And this is what we get."
+    },
+    {
+      "start": "00:51:19",
+      "end": "00:51:21",
+      "text": "So the max of 2 and 0 is 2."
+    },
+    {
+      "start": "00:51:22",
+      "end": "00:51:23",
+      "text": "Addition is 3."
+    },
+    {
+      "start": "00:51:23",
+      "end": "00:51:25",
+      "text": "The answer is 6."
+    },
+    {
+      "start": "00:51:25",
+      "end": "00:51:28",
+      "text": "So then after having done that, we"
+    },
+    {
+      "start": "00:51:28",
+      "end": "00:51:30",
+      "text": "run the backward propagation."
+    },
+    {
+      "start": "00:51:31",
+      "end": "00:51:34",
+      "text": "So this procedure is not actually"
+    },
+    {
+      "start": "00:51:34",
+      "end": "00:51:36",
+      "text": "special to neural networks."
+    },
+    {
+      "start": "00:51:36",
+      "end": "00:51:38",
+      "text": "You can use it for any piece of math"
+    },
+    {
+      "start": "00:51:38",
+      "end": "00:51:42",
+      "text": "if you want to just run your math on PyTorch rather than working"
+    },
+    {
+      "start": "00:51:42",
+      "end": "00:51:44",
+      "text": "it out in your head or"
+    },
+    {
+      "start": "00:51:44",
+      "end": "00:51:49",
+      "text": "with Mathematica. Okay, so now we work out backwards."
+    },
+    {
+      "start": "00:51:50",
+      "end": "00:51:52",
+      "text": "So we want to know the local"
+    },
+    {
+      "start": "00:51:52",
+      "end": "00:51:56",
+      "text": "gradient. So dA to z is going to be 1."
+    },
+    {
+      "start": "00:51:58",
+      "end": "00:52:01",
+      "text": "Sorry, I said that wrong. dA to x is going to be 1."
+    },
+    {
+      "start": "00:52:05",
+      "end": "00:52:05",
+      "text": "So"
+    },
+    {
+      "start": "00:52:05",
+      "end": "00:52:09",
+      "text": "for the max function that's going to depend on which of the two"
+    },
+    {
+      "start": "00:52:09",
+      "end": "00:52:11",
+      "text": "is larger because it's going to"
+    },
+    {
+      "start": "00:52:11",
+      "end": "00:52:16",
+      "text": "have a slope of one for the one that's the biggest and zero for"
+    },
+    {
+      "start": "00:52:16",
+      "end": "00:52:17",
+      "text": "the one that's the smallest"
+    },
+    {
+      "start": "00:52:17",
+      "end": "00:52:23",
+      "text": "and then for the product that's like what we saw with vectors"
+    },
+    {
+      "start": "00:52:23",
+      "end": "00:52:26",
+      "text": "that df da is going to be b"
+    },
+    {
+      "start": "00:52:26",
+      "end": "00:52:31",
+      "text": "and df db is going to be a so those are all our local gradients"
+    },
+    {
+      "start": "00:52:31",
+      "end": "00:52:34",
+      "text": "and so then we can use those"
+    },
+    {
+      "start": "00:52:34",
+      "end": "00:52:36",
+      "text": "those to calculate out the derivatives."
+    },
+    {
+      "start": "00:52:36",
+      "end": "00:52:38",
+      "text": "So, df, df is one."
+    },
+    {
+      "start": "00:52:39",
+      "end": "00:52:47",
+      "text": "We then multiply that by the two local gradients that are calculated."
+    },
+    {
+      "start": "00:52:49",
+      "end": "00:52:55",
+      "text": "We got a and b, so that gives us two and"
+    },
+    {
+      "start": "00:52:55",
+      "end": "00:52:58",
+      "text": "three, where you're swapping over the numbers."
+    },
+    {
+      "start": "00:52:58",
+      "end": "00:53:06",
+      "text": "then for the max that we're having the one that is biggest we're"
+    },
+    {
+      "start": "00:53:06",
+      "end": "00:53:08",
+      "text": "taking the"
+    },
+    {
+      "start": "00:53:08",
+      "end": "00:53:13",
+      "text": "upstream times one so it gets three the other one gets zero and"
+    },
+    {
+      "start": "00:53:13",
+      "end": "00:53:13",
+      "text": "then for the"
+    },
+    {
+      "start": "00:53:13",
+      "end": "00:53:17",
+      "text": "plus we're just sending the gradient down in both directions"
+    },
+    {
+      "start": "00:53:17",
+      "end": "00:53:19",
+      "text": "and so both of"
+    },
+    {
+      "start": "00:53:19",
+      "end": "00:53:26",
+      "text": "them come out as two and so that gives us df dx so the final"
+    },
+    {
+      "start": "00:53:26",
+      "end": "00:53:27",
+      "text": "function value is"
+    },
+    {
+      "start": "00:53:27",
+      "end": "00:53:34",
+      "text": "2, df dy we're taking the 3 and adding the 2 I'll mention that"
+    },
+    {
+      "start": "00:53:34",
+      "end": "00:53:34",
+      "text": "again in a"
+    },
+    {
+      "start": "00:53:34",
+      "end": "00:53:42",
+      "text": "minute which gives us 5 and then df dz is 0 and we should be"
+    },
+    {
+      "start": "00:53:42",
+      "end": "00:53:43",
+      "text": "able to again be"
+    },
+    {
+      "start": "00:53:43",
+      "end": "00:53:48",
+      "text": "able to quickly check that we've got this right right so if we"
+    },
+    {
+      "start": "00:53:48",
+      "end": "00:53:49",
+      "text": "consider you"
+    },
+    {
+      "start": "00:53:49",
+      "end": "00:53:55",
+      "text": "You know, the slope around z is you change z a little."
+    },
+    {
+      "start": "00:53:56",
+      "end": "00:53:57",
+      "text": "So z is 0."
+    },
+    {
+      "start": "00:53:57",
+      "end": "00:54:02",
+      "text": "If we make z 0.1, that makes absolutely no difference"
+    },
+    {
+      "start": "00:54:02",
+      "end": "00:54:04",
+      "text": "to what the computed function value is."
+    },
+    {
+      "start": "00:54:05",
+      "end": "00:54:07",
+      "text": "So the gradient there is 0."
+    },
+    {
+      "start": "00:54:08",
+      "end": "00:54:08",
+      "text": "That's correct."
+    },
+    {
+      "start": "00:54:10",
+      "end": "00:54:14",
+      "text": "So up the top, if I change x a little bit,"
+    },
+    {
+      "start": "00:54:14",
+      "end": "00:54:19",
+      "text": "right, if I change x to 1.1, then I'll be calculating"
+    },
+    {
+      "start": "00:54:19",
+      "end": "00:54:24",
+      "text": "1.1 plus 2 is 3.1"
+    },
+    {
+      "start": "00:54:24",
+      "end": "00:54:32",
+      "text": "and then I'll be taking the max which is 2 and I'll be calculating"
+    },
+    {
+      "start": "00:54:32",
+      "end": "00:54:33",
+      "text": "5.1"
+    },
+    {
+      "start": "00:54:34",
+      "end": "00:54:35",
+      "text": "and"
+    },
+    {
+      "start": "00:54:35",
+      "end": "00:54:36",
+      "text": "so"
+    },
+    {
+      "start": "00:54:36",
+      "end": "00:54:39",
+      "text": "Wait, no, it's in there wrong. Oh"
+    },
+    {
+      "start": "00:54:40",
+      "end": "00:54:42",
+      "text": "times 2 right. I"
+    },
+    {
+      "start": "00:54:43",
+      "end": "00:54:45",
+      "text": "Didn't do the multiplication, right?"
+    },
+    {
+      "start": "00:54:46",
+      "end": "00:54:52",
+      "text": "I'm sorry, yeah, so we get the 3.1 that's multiplied by 2 that"
+    },
+    {
+      "start": "00:54:52",
+      "end": "00:54:54",
+      "text": "gives us 6.2."
+    },
+    {
+      "start": "00:54:54",
+      "end": "00:54:59",
+      "text": "So a change of 0.1 in the x has moved things up by 0.2,"
+    },
+    {
+      "start": "00:54:59",
+      "end": "00:55:02",
+      "text": "so that corresponds to the gradient being 2."
+    },
+    {
+      "start": "00:55:03",
+      "end": "00:55:08",
+      "text": "And so then the final case is, well, what if we change y to,"
+    },
+    {
+      "start": "00:55:09",
+      "end": "00:55:14",
+      "text": "so y started off as a 2 and made it 2.1,"
+    },
+    {
+      "start": "00:55:14",
+      "end": "00:55:22",
+      "text": "then we're going to get 2.1 multiplied by 1 is 2.1 and"
+    },
+    {
+      "start": "00:55:25",
+      "end": "00:55:26",
+      "text": "right and then we've got"
+    },
+    {
+      "start": "00:55:26",
+      "end": "00:55:33",
+      "text": "the 2.1 here that I'll say I keep doing this wrong 2.1 plus 1"
+    },
+    {
+      "start": "00:55:33",
+      "end": "00:55:35",
+      "text": "equals 3.1 and"
+    },
+    {
+      "start": "00:55:35",
+      "end": "00:55:41",
+      "text": "then we've got 2.1 is the max so we've got 2.1 times 3.1 and"
+    },
+    {
+      "start": "00:55:41",
+      "end": "00:55:42",
+      "text": "that comes out to"
+    },
+    {
+      "start": "00:55:42",
+      "end": "00:55:48",
+      "text": "to be 6.51, so it's approximately gone up by,"
+    },
+    {
+      "start": "00:55:48",
+      "end": "00:55:53",
+      "text": "so our 0.1 difference has gone up to approximately 0.5."
+    },
+    {
+      "start": "00:55:53",
+      "end": "00:55:54",
+      "text": "It's just an estimate."
+    },
+    {
+      "start": "00:55:55",
+      "end": "00:55:59",
+      "text": "And so that corresponds to the gradient being 5, right?"
+    },
+    {
+      "start": "00:55:59",
+      "end": "00:56:02",
+      "text": "We get this 5 times multiplication of our changes."
+    },
+    {
+      "start": "00:56:03",
+      "end": "00:56:08",
+      "text": "OK, and so that illustrates the fact"
+    },
+    {
+      "start": "00:56:08",
+      "end": "00:56:10",
+      "text": "that the right thing to do is when"
+    },
+    {
+      "start": "00:56:10",
+      "end": "00:56:14",
+      "text": "when you have outward branches in your computation graph"
+    },
+    {
+      "start": "00:56:15",
+      "end": "00:56:18",
+      "text": "and you're running the back propagation,"
+    },
+    {
+      "start": "00:56:19",
+      "end": "00:56:24",
+      "text": "that what you do is you sum the gradients, right?"
+    },
+    {
+      "start": "00:56:24",
+      "end": "00:56:32",
+      "text": "So that for this case, we had y being the y is sort of going"
+    },
+    {
+      "start": "00:56:32",
+      "end": "00:56:35",
+      "text": "into these two different things in our previous chart."
+    },
+    {
+      "start": "00:56:35",
+      "end": "00:56:38",
+      "text": "So once we've worked out the upstream gradients,"
+    },
+    {
+      "start": "00:56:38",
+      "end": "00:56:42",
+      "text": "we sum them to get the total gradient and so that's what we did"
+    },
+    {
+      "start": "00:56:42",
+      "end": "00:56:44",
+      "text": "back here we had two outward"
+    },
+    {
+      "start": "00:56:44",
+      "end": "00:56:48",
+      "text": "things and we sort of took these calculated upstream gradients"
+    },
+    {
+      "start": "00:56:48",
+      "end": "00:56:50",
+      "text": "of two and three and we just"
+    },
+    {
+      "start": "00:56:50",
+      "end": "00:57:00",
+      "text": "sum them to get five and that gave the right answer okay um"
+    },
+    {
+      "start": "00:57:00",
+      "end": "00:57:03",
+      "text": "and so you can think about that"
+    },
+    {
+      "start": "00:57:03",
+      "end": "00:57:09",
+      "text": "for the sort of just generally how the sort of things to think"
+    },
+    {
+      "start": "00:57:09",
+      "end": "00:57:10",
+      "text": "about as sort of gradients move"
+    },
+    {
+      "start": "00:57:10",
+      "end": "00:57:12",
+      "text": "move around in these pictures."
+    },
+    {
+      "start": "00:57:13",
+      "end": "00:57:16",
+      "text": "So that when we have a plus operation,"
+    },
+    {
+      "start": "00:57:17",
+      "end": "00:57:21",
+      "text": "that plus just sort of distributes gradients."
+    },
+    {
+      "start": "00:57:21",
+      "end": "00:57:24",
+      "text": "So the same gradient that's the upstream gradient"
+    },
+    {
+      "start": "00:57:24",
+      "end": "00:57:26",
+      "text": "goes to each input."
+    },
+    {
+      "start": "00:57:27",
+      "end": "00:57:31",
+      "text": "When you have a max, it's kind of like a router of gradients."
+    },
+    {
+      "start": "00:57:31",
+      "end": "00:57:36",
+      "text": "So the max is going to send the gradient to one of the inputs"
+    },
+    {
+      "start": "00:57:36",
+      "end": "00:57:41",
+      "text": "and send nothing at all to the other inputs and when you have"
+    },
+    {
+      "start": "00:57:41",
+      "end": "00:57:43",
+      "text": "a multiplication it's a little bit"
+    },
+    {
+      "start": "00:57:43",
+      "end": "00:57:48",
+      "text": "funky because you're sort of doing this sort of switching of"
+    },
+    {
+      "start": "00:57:48",
+      "end": "00:57:50",
+      "text": "the forward coefficient so you're"
+    },
+    {
+      "start": "00:57:50",
+      "end": "00:57:56",
+      "text": "taking the upstream gradient multiplied by the opposite forward"
+    },
+    {
+      "start": "00:57:56",
+      "end": "00:57:58",
+      "text": "coefficient gives you your"
+    },
+    {
+      "start": "00:57:58",
+      "end": "00:58:00",
+      "text": "or downstream gradient."
+    },
+    {
+      "start": "00:58:01",
+      "end": "00:58:05",
+      "text": "OK, so we kind of have this systematic way"
+    },
+    {
+      "start": "00:58:05",
+      "end": "00:58:09",
+      "text": "of being able to sort of forward pass calculate"
+    },
+    {
+      "start": "00:58:09",
+      "end": "00:58:13",
+      "text": "the values of functions, then run this backward"
+    },
+    {
+      "start": "00:58:13",
+      "end": "00:58:18",
+      "text": "to work out the gradients heading down the network."
+    },
+    {
+      "start": "00:58:18",
+      "end": "00:58:24",
+      "text": "And so the main other thing of the back propagation algorithm"
+    },
+    {
+      "start": "00:58:24",
+      "end": "00:58:27",
+      "text": "is just that we want to do this efficiently."
+    },
+    {
+      "start": "00:58:27",
+      "end": "00:58:31",
+      "text": "So the wrong way to do it would be to say, well, gee,"
+    },
+    {
+      "start": "00:58:31",
+      "end": "00:58:36",
+      "text": "I want to calculate dsdb, dsdw, dsdx, dsdu."
+    },
+    {
+      "start": "00:58:36",
+      "end": "00:58:39",
+      "text": "So let me start doing those one at a time."
+    },
+    {
+      "start": "00:58:40",
+      "end": "00:58:42",
+      "text": "And when I've done them all, I will stop."
+    },
+    {
+      "start": "00:58:42",
+      "end": "00:58:46",
+      "text": "Because that means if you first calculated dsdb,"
+    },
+    {
+      "start": "00:58:46",
+      "end": "00:58:48",
+      "text": "you'd do all of the part that's in blue."
+    },
+    {
+      "start": "00:58:49",
+      "end": "00:58:55",
+      "text": "But then if you went on to dsdw, you'd"
+    },
+    {
+      "start": "00:58:55",
+      "end": "00:58:57",
+      "text": "would be calculating all the part in red."
+    },
+    {
+      "start": "00:58:58",
+      "end": "00:59:00",
+      "text": "And well, just as we saw in the math part"
+    },
+    {
+      "start": "00:59:01",
+      "end": "00:59:04",
+      "text": "when we were doing it as math, these parts"
+    },
+    {
+      "start": "00:59:04",
+      "end": "00:59:06",
+      "text": "are exactly the same."
+    },
+    {
+      "start": "00:59:06",
+      "end": "00:59:08",
+      "text": "You're doing exactly the same computations."
+    },
+    {
+      "start": "00:59:08",
+      "end": "00:59:12",
+      "text": "So you only want to do that part once"
+    },
+    {
+      "start": "00:59:12",
+      "end": "00:59:17",
+      "text": "and work out this upstream gradient or error signal that"
+    },
+    {
+      "start": "00:59:17",
+      "end": "00:59:20",
+      "text": "is being then calculated and is then being shared."
+    },
+    {
+      "start": "00:59:21",
+      "end": "00:59:23",
+      "text": "So the picture that we want to have"
+    },
+    {
+      "start": "00:59:23",
+      "end": "00:59:28",
+      "text": "is you're doing together the shared part and then you're only"
+    },
+    {
+      "start": "00:59:28",
+      "end": "00:59:28",
+      "text": "sort of doing"
+    },
+    {
+      "start": "00:59:28",
+      "end": "00:59:32",
+      "text": "separately the little bits that you need to do."
+    },
+    {
+      "start": "00:59:34",
+      "end": "00:59:36",
+      "text": "Okay, boy I seem to have been"
+    },
+    {
+      "start": "00:59:36",
+      "end": "00:59:40",
+      "text": "rushing through today and I'm going to actually end early unless"
+    },
+    {
+      "start": "00:59:40",
+      "end": "00:59:41",
+      "text": "anyone is"
+    },
+    {
+      "start": "00:59:41",
+      "end": "00:59:45",
+      "text": "going to slow me down. But I do have just a few more slides to"
+    },
+    {
+      "start": "00:59:45",
+      "end": "00:59:47",
+      "text": "go through. Yeah, so"
+    },
+    {
+      "start": "00:59:47",
+      "end": "00:59:53",
+      "text": "So, the sort of generalization of this as an algorithm is,"
+    },
+    {
+      "start": "00:59:53",
+      "end": "00:59:56",
+      "text": "you know, in the general case, you know,"
+    },
+    {
+      "start": "00:59:56",
+      "end": "01:00:00",
+      "text": "so we normally have these sort of neural network layers and"
+    },
+    {
+      "start": "01:00:00",
+      "end": "01:00:04",
+      "text": "matrices which you can represent as vectors and matrices."
+    },
+    {
+      "start": "01:00:05",
+      "end": "01:00:08",
+      "text": "And, you know, it's sort of nice and clean and it"
+    },
+    {
+      "start": "01:00:08",
+      "end": "01:00:12",
+      "text": "looks like I'm doing that in calculus class."
+    },
+    {
+      "start": "01:00:13",
+      "end": "01:00:15",
+      "text": "I mean, strictly speaking, that isn't necessary."
+    },
+    {
+      "start": "01:00:15",
+      "end": "01:00:19",
+      "text": "So the algorithm for forward propagation and"
+    },
+    {
+      "start": "01:00:19",
+      "end": "01:00:21",
+      "text": "backward propagation that I've outlined,"
+    },
+    {
+      "start": "01:00:22",
+      "end": "01:00:24",
+      "text": "that you can have it work in"
+    },
+    {
+      "start": "01:00:24",
+      "end": "01:00:27",
+      "text": "a completely arbitrary computation graph,"
+    },
+    {
+      "start": "01:00:27",
+      "end": "01:00:30",
+      "text": "providing it's a DAG that doesn't have cycles in it."
+    },
+    {
+      "start": "01:00:30",
+      "end": "01:00:33",
+      "text": "So the general algorithm is, well,"
+    },
+    {
+      "start": "01:00:34",
+      "end": "01:00:38",
+      "text": "you've got a whole bunch of variables that depend on other variables."
+    },
+    {
+      "start": "01:00:39",
+      "end": "01:00:43",
+      "text": "There's some way in which we can sort them so"
+    },
+    {
+      "start": "01:00:43",
+      "end": "01:00:45",
+      "text": "so that each variable only depends on variables"
+    },
+    {
+      "start": "01:00:45",
+      "end": "01:00:47",
+      "text": "to the left of it."
+    },
+    {
+      "start": "01:00:47",
+      "end": "01:00:50",
+      "text": "So that's referred to as a topological sort of the outputs."
+    },
+    {
+      "start": "01:00:51",
+      "end": "01:00:53",
+      "text": "And so that means there's a way we"
+    },
+    {
+      "start": "01:00:53",
+      "end": "01:00:56",
+      "text": "can do a forward pass where we're"
+    },
+    {
+      "start": "01:00:56",
+      "end": "01:01:01",
+      "text": "calculating variables in terms of ones that have already"
+    },
+    {
+      "start": "01:01:01",
+      "end": "01:01:01",
+      "text": "been calculated."
+    },
+    {
+      "start": "01:01:02",
+      "end": "01:01:04",
+      "text": "But if we want to have some extra wonky arcs"
+    },
+    {
+      "start": "01:01:04",
+      "end": "01:01:08",
+      "text": "so it's not like nice matrix multiplies or anything,"
+    },
+    {
+      "start": "01:01:08",
+      "end": "01:01:10",
+      "text": "we're totally allowed to do that."
+    },
+    {
+      "start": "01:01:10",
+      "end": "01:01:13",
+      "text": "that, or we can have things not fully connected, right?"
+    },
+    {
+      "start": "01:01:13",
+      "end": "01:01:16",
+      "text": "So there's no connections across here, right?"
+    },
+    {
+      "start": "01:01:16",
+      "end": "01:01:18",
+      "text": "We can have an arbitrary computation graph."
+    },
+    {
+      "start": "01:01:19",
+      "end": "01:01:22",
+      "text": "And so that gives us our forward propagation."
+    },
+    {
+      "start": "01:01:23",
+      "end": "01:01:25",
+      "text": "And then once we've done the forward propagation,"
+    },
+    {
+      "start": "01:01:26",
+      "end": "01:01:30",
+      "text": "we can initialize the output gradient as 1."
+    },
+    {
+      "start": "01:01:31",
+      "end": "01:01:36",
+      "text": "And then we're going to visit the nodes in reverse order."
+    },
+    {
+      "start": "01:01:37",
+      "end": "01:01:39",
+      "text": "And for each node, we're going to compute"
+    },
+    {
+      "start": "01:01:39",
+      "end": "01:01:43",
+      "text": "we can compute a gradient by using the upstream gradient"
+    },
+    {
+      "start": "01:01:43",
+      "end": "01:01:46",
+      "text": "and the local gradient to compute the downstream gradient."
+    },
+    {
+      "start": "01:01:47",
+      "end": "01:01:50",
+      "text": "And so then we can head back down the computation graph"
+    },
+    {
+      "start": "01:01:50",
+      "end": "01:01:54",
+      "text": "and work out all of the downstream gradients."
+    },
+    {
+      "start": "01:01:54",
+      "end": "01:01:56",
+      "text": "And so the crucial thing to notice"
+    },
+    {
+      "start": "01:01:56",
+      "end": "01:02:07",
+      "text": "is that if you do it correctly, that working out the gradients"
+    },
+    {
+      "start": "01:02:07",
+      "end": "01:02:12",
+      "text": "has the same big O complexity as working out the forward calculation,"
+    },
+    {
+      "start": "01:02:13",
+      "end": "01:02:13",
+      "text": "right?"
+    },
+    {
+      "start": "01:02:14",
+      "end": "01:02:16",
+      "text": "So that if you're doing more, you know,"
+    },
+    {
+      "start": "01:02:16",
+      "end": "01:02:19",
+      "text": "if in terms of big O terms, right,"
+    },
+    {
+      "start": "01:02:19",
+      "end": "01:02:21",
+      "text": "you might have different functions depending on what the derivatives"
+    },
+    {
+      "start": "01:02:21",
+      "end": "01:02:22",
+      "text": "are."
+    },
+    {
+      "start": "01:02:22",
+      "end": "01:02:26",
+      "text": "But in big O terms, if you're doing more work in the backward"
+    },
+    {
+      "start": "01:02:26",
+      "end": "01:02:26",
+      "text": "pass"
+    },
+    {
+      "start": "01:02:26",
+      "end": "01:02:28",
+      "text": "than you're doing in the forward pass,"
+    },
+    {
+      "start": "01:02:28",
+      "end": "01:02:34",
+      "text": "that means that you're somehow failing to do this efficient computation"
+    },
+    {
+      "start": "01:02:34",
+      "end": "01:02:37",
+      "text": "computation and that you're recomputing some of your work."
+    },
+    {
+      "start": "01:02:38",
+      "end": "01:02:43",
+      "text": "Okay, so because we have such a good algorithm"
+    },
+    {
+      "start": "01:02:43",
+      "end": "01:02:48",
+      "text": "here, you should be able to just work out the backward pass"
+    },
+    {
+      "start": "01:02:48",
+      "end": "01:02:52",
+      "text": "automatically and that gets referred to as automatic differentiation."
+    },
+    {
+      "start": "01:02:53",
+      "end": "01:02:58",
+      "text": "So if you had the symbolic form of"
+    },
+    {
+      "start": "01:02:58",
+      "end": "01:03:01",
+      "text": "what you're calculating with your forward pass,"
+    },
+    {
+      "start": "01:03:01",
+      "end": "01:03:05",
+      "text": "pass, you should just be able to say, yo,"
+    },
+    {
+      "start": "01:03:05",
+      "end": "01:03:09",
+      "text": "computer, can you work out the backward pass for me?"
+    },
+    {
+      "start": "01:03:09",
+      "end": "01:03:14",
+      "text": "And kind of mathematical like, it could look at the symbolic"
+    },
+    {
+      "start": "01:03:14",
+      "end": "01:03:15",
+      "text": "form of all of"
+    },
+    {
+      "start": "01:03:15",
+      "end": "01:03:19",
+      "text": "your functions, work out their derivatives, and"
+    },
+    {
+      "start": "01:03:19",
+      "end": "01:03:22",
+      "text": "do the entire thing for you."
+    },
+    {
+      "start": "01:03:23",
+      "end": "01:03:29",
+      "text": "So early on, there was a pioneering deep learning framework,"
+    },
+    {
+      "start": "01:03:29",
+      "end": "01:03:33",
+      "text": "work, Fiano, principally from the University of Montreal,"
+    },
+    {
+      "start": "01:03:34",
+      "end": "01:03:37",
+      "text": "which attempted to do precisely that,"
+    },
+    {
+      "start": "01:03:37",
+      "end": "01:03:40",
+      "text": "that you had the entire forward pass computation started"
+    },
+    {
+      "start": "01:03:40",
+      "end": "01:03:45",
+      "text": "in symbolic form, and it just did the entire thing for you"
+    },
+    {
+      "start": "01:03:45",
+      "end": "01:03:49",
+      "text": "and worked out the backward pass automatically."
+    },
+    {
+      "start": "01:03:50",
+      "end": "01:03:57",
+      "text": "But somehow, that sort of proved to be too heavyweight"
+    },
+    {
+      "start": "01:03:57",
+      "end": "01:04:02",
+      "text": "or hard to deal with different things or people just like to"
+    },
+    {
+      "start": "01:04:02",
+      "end": "01:04:02",
+      "text": "write their own"
+    },
+    {
+      "start": "01:04:02",
+      "end": "01:04:09",
+      "text": "Python or whatever it is so that idea did not fully succeed and"
+    },
+    {
+      "start": "01:04:09",
+      "end": "01:04:10",
+      "text": "so what in"
+    },
+    {
+      "start": "01:04:10",
+      "end": "01:04:14",
+      "text": "practice all of the current main frameworks have fallen back"
+    },
+    {
+      "start": "01:04:14",
+      "end": "01:04:15",
+      "text": "on is"
+    },
+    {
+      "start": "01:04:15",
+      "end": "01:04:20",
+      "text": "something that's actually less automated than that so it's sort"
+    },
+    {
+      "start": "01:04:20",
+      "end": "01:04:20",
+      "text": "of like we've"
+    },
+    {
+      "start": "01:04:20",
+      "end": "01:04:23",
+      "text": "gone backwards in time but the software has gotten a lot better"
+    },
+    {
+      "start": "01:04:23",
+      "end": "01:04:24",
+      "text": "really it's a"
+    },
+    {
+      "start": "01:04:24",
+      "end": "01:04:26",
+      "text": "a lot stabler and faster."
+    },
+    {
+      "start": "01:04:27",
+      "end": "01:04:30",
+      "text": "So all of the modern deep learning frameworks"
+    },
+    {
+      "start": "01:04:31",
+      "end": "01:04:35",
+      "text": "sort of say, look, I will manage the computation graph for you."
+    },
+    {
+      "start": "01:04:35",
+      "end": "01:04:37",
+      "text": "And I can run the forward propagation"
+    },
+    {
+      "start": "01:04:37",
+      "end": "01:04:40",
+      "text": "paths and the backward propagation paths."
+    },
+    {
+      "start": "01:04:40",
+      "end": "01:04:44",
+      "text": "But you're going to have to work out the local derivatives"
+    },
+    {
+      "start": "01:04:44",
+      "end": "01:04:44",
+      "text": "yourself."
+    },
+    {
+      "start": "01:04:45",
+      "end": "01:04:53",
+      "text": "So if you're putting in a layer or putting in a function"
+    },
+    {
+      "start": "01:04:53",
+      "end": "01:04:57",
+      "text": "like an activation function in the in a neural network,"
+    },
+    {
+      "start": "01:04:57",
+      "end": "01:05:00",
+      "text": "your class, your Python"
+    },
+    {
+      "start": "01:05:00",
+      "end": "01:05:04",
+      "text": "class that represents that, you're going to have to tell me what"
+    },
+    {
+      "start": "01:05:04",
+      "end": "01:05:04",
+      "text": "the forward"
+    },
+    {
+      "start": "01:05:05",
+      "end": "01:05:10",
+      "text": "computation is and what the local gradient is and I'm just going"
+    },
+    {
+      "start": "01:05:10",
+      "end": "01:05:11",
+      "text": "to call"
+    },
+    {
+      "start": "01:05:11",
+      "end": "01:05:13",
+      "text": "your local gradient and assume it's correct."
+    },
+    {
+      "start": "01:05:14",
+      "end": "01:05:16",
+      "text": "So there's a bit more that has"
+    },
+    {
+      "start": "01:05:16",
+      "end": "01:05:17",
+      "text": "has to be done manually."
+    },
+    {
+      "start": "01:05:18",
+      "end": "01:05:21",
+      "text": "So the part that's automated then"
+    },
+    {
+      "start": "01:05:22",
+      "end": "01:05:27",
+      "text": "is that when not precisely this code, obviously,"
+    },
+    {
+      "start": "01:05:28",
+      "end": "01:05:31",
+      "text": "but roughly inside the deep learning software,"
+    },
+    {
+      "start": "01:05:33",
+      "end": "01:05:35",
+      "text": "it's computing with a computation graph."
+    },
+    {
+      "start": "01:05:36",
+      "end": "01:05:38",
+      "text": "And it's got a forward and a backward."
+    },
+    {
+      "start": "01:05:38",
+      "end": "01:05:40",
+      "text": "And it's doing what I presented on the pictures before."
+    },
+    {
+      "start": "01:05:40",
+      "end": "01:05:45",
+      "text": "So for the forward pass, it's topologically"
+    },
+    {
+      "start": "01:05:45",
+      "end": "01:05:50",
+      "text": "sorting all the nodes of the graph and then it's going through"
+    },
+    {
+      "start": "01:05:50",
+      "end": "01:05:51",
+      "text": "them and for"
+    },
+    {
+      "start": "01:05:51",
+      "end": "01:05:56",
+      "text": "each node in the graph it's calling its forward function which"
+    },
+    {
+      "start": "01:05:56",
+      "end": "01:05:56",
+      "text": "will be able to"
+    },
+    {
+      "start": "01:05:56",
+      "end": "01:06:02",
+      "text": "compute its local value in terms of its inputs which have already"
+    },
+    {
+      "start": "01:06:02",
+      "end": "01:06:02",
+      "text": "been"
+    },
+    {
+      "start": "01:06:02",
+      "end": "01:06:07",
+      "text": "calculated because it's topologically sorted and then it's running"
+    },
+    {
+      "start": "01:06:07",
+      "end": "01:06:07",
+      "text": "the"
+    },
+    {
+      "start": "01:06:07",
+      "end": "01:06:10",
+      "text": "backward pass and in the backward pass you're reversing your"
+    },
+    {
+      "start": "01:06:10",
+      "end": "01:06:12",
+      "text": "topological sort"
+    },
+    {
+      "start": "01:06:12",
+      "end": "01:06:17",
+      "text": "thought, and then you're working out the gradient, which"
+    },
+    {
+      "start": "01:06:17",
+      "end": "01:06:18",
+      "text": "is going to be the multiplication"
+    },
+    {
+      "start": "01:06:18",
+      "end": "01:06:22",
+      "text": "of the upstream error signal times your local gradient."
+    },
+    {
+      "start": "01:06:22",
+      "end": "01:06:25",
+      "text": "And so what a human being has to implement"
+    },
+    {
+      "start": "01:06:27",
+      "end": "01:06:30",
+      "text": "is that for anything, whether it's a single gate,"
+    },
+    {
+      "start": "01:06:30",
+      "end": "01:06:33",
+      "text": "here's a multiply gate, or a neural network layer,"
+    },
+    {
+      "start": "01:06:34",
+      "end": "01:06:38",
+      "text": "you have to implement a forward pass and a backward pass."
+    },
+    {
+      "start": "01:06:38",
+      "end": "01:06:42",
+      "text": "So here for my baby example, since we're just doing multiplication,"
+    },
+    {
+      "start": "01:06:43",
+      "end": "01:06:48",
+      "text": "my forward pass is that I just multiply the two numbers and return"
+    },
+    {
+      "start": "01:06:48",
+      "end": "01:06:49",
+      "text": "it."
+    },
+    {
+      "start": "01:06:49",
+      "end": "01:06:52",
+      "text": "So I'm specifying that for the local node."
+    },
+    {
+      "start": "01:06:52",
+      "end": "01:06:58",
+      "text": "And then the other part is that I have to work out those gradients."
+    },
+    {
+      "start": "01:06:58",
+      "end": "01:07:00",
+      "text": "And well, we sort of know how to do that,"
+    },
+    {
+      "start": "01:07:01",
+      "end": "01:07:03",
+      "text": "because that's the examples that we've been doing here."
+    },
+    {
+      "start": "01:07:04",
+      "end": "01:07:06",
+      "text": "But notice that there's sort of a trick, right?"
+    },
+    {
+      "start": "01:07:06",
+      "end": "01:07:13",
+      "text": "for what I've got now you kind of can't write down what the gradients"
+    },
+    {
+      "start": "01:07:13",
+      "end": "01:07:15",
+      "text": "are because"
+    },
+    {
+      "start": "01:07:15",
+      "end": "01:07:19",
+      "text": "you know what these because you know backward is just taking"
+    },
+    {
+      "start": "01:07:19",
+      "end": "01:07:20",
+      "text": "as an input the"
+    },
+    {
+      "start": "01:07:20",
+      "end": "01:07:25",
+      "text": "upstream gradient and you can't work out what the downstream"
+    },
+    {
+      "start": "01:07:25",
+      "end": "01:07:26",
+      "text": "gradients are going"
+    },
+    {
+      "start": "01:07:26",
+      "end": "01:07:30",
+      "text": "to be unless you know what function values you're calculating"
+    },
+    {
+      "start": "01:07:30",
+      "end": "01:07:32",
+      "text": "it at so the"
+    },
+    {
+      "start": "01:07:32",
+      "end": "01:07:36",
+      "text": "The standard trick, which is how everyone writes this code,"
+    },
+    {
+      "start": "01:07:37",
+      "end": "01:07:40",
+      "text": "is you're relying on the fact that the forward is being"
+    },
+    {
+      "start": "01:07:40",
+      "end": "01:07:42",
+      "text": "calculated before the backward."
+    },
+    {
+      "start": "01:07:42",
+      "end": "01:07:46",
+      "text": "And so your forward method shoves"
+    },
+    {
+      "start": "01:07:46",
+      "end": "01:07:49",
+      "text": "into some local variables of the class"
+    },
+    {
+      "start": "01:07:49",
+      "end": "01:07:51",
+      "text": "what the values of the inputs are."
+    },
+    {
+      "start": "01:07:52",
+      "end": "01:07:55",
+      "text": "And then you have them available so when"
+    },
+    {
+      "start": "01:07:55",
+      "end": "01:07:57",
+      "text": "you get to the backward pass, you"
+    },
+    {
+      "start": "01:07:57",
+      "end": "01:08:02",
+      "text": "can do what we did before, that dx"
+    },
+    {
+      "start": "01:08:02",
+      "end": "01:08:05",
+      "text": "is going to be the upstream error signal times"
+    },
+    {
+      "start": "01:08:05",
+      "end": "01:08:10",
+      "text": "the opposite input, and similarly for dy."
+    },
+    {
+      "start": "01:08:10",
+      "end": "01:08:12",
+      "text": "And that's going to give us the answer."
+    },
+    {
+      "start": "01:08:13",
+      "end": "01:08:18",
+      "text": "OK, just two last things then to mention."
+    },
+    {
+      "start": "01:08:19",
+      "end": "01:08:27",
+      "text": "Yeah, so doing this, you need to get the math right"
+    },
+    {
+      "start": "01:08:27",
+      "end": "01:08:30",
+      "text": "write for what's the derivative of your function so"
+    },
+    {
+      "start": "01:08:30",
+      "end": "01:08:33",
+      "text": "you get the right backward calculation."
+    },
+    {
+      "start": "01:08:34",
+      "end": "01:08:38",
+      "text": "So the standard way to check that you've got the right backward"
+    },
+    {
+      "start": "01:08:38",
+      "end": "01:08:39",
+      "text": "calculation"
+    },
+    {
+      "start": "01:08:39",
+      "end": "01:08:45",
+      "text": "is to do manual gradient checking with numeric gradients."
+    },
+    {
+      "start": "01:08:45",
+      "end": "01:08:50",
+      "text": "So the way you do that is you sort of,"
+    },
+    {
+      "start": "01:08:50",
+      "end": "01:08:54",
+      "text": "like for the couple of examples I did when I said let's check"
+    },
+    {
+      "start": "01:08:54",
+      "end": "01:08:55",
+      "text": "it by for"
+    },
+    {
+      "start": "01:08:55",
+      "end": "01:08:58",
+      "text": "for going from 1 to 1.1."
+    },
+    {
+      "start": "01:08:58",
+      "end": "01:08:59",
+      "text": "What should the slope be approximately?"
+    },
+    {
+      "start": "01:09:00",
+      "end": "01:09:02",
+      "text": "We're going to do that in an automated way."
+    },
+    {
+      "start": "01:09:03",
+      "end": "01:09:05",
+      "text": "And so we're going to say, at the value x,"
+    },
+    {
+      "start": "01:09:05",
+      "end": "01:09:08",
+      "text": "let's estimate what the gradient should be."
+    },
+    {
+      "start": "01:09:08",
+      "end": "01:09:12",
+      "text": "And the way to do that is to pick a small h."
+    },
+    {
+      "start": "01:09:12",
+      "end": "01:09:14",
+      "text": "There isn't a magical number, because it"
+    },
+    {
+      "start": "01:09:14",
+      "end": "01:09:15",
+      "text": "depends on the function."
+    },
+    {
+      "start": "01:09:15",
+      "end": "01:09:17",
+      "text": "But typically, in neural networks,"
+    },
+    {
+      "start": "01:09:17",
+      "end": "01:09:19",
+      "text": "around 10 to the minus 4 is good."
+    },
+    {
+      "start": "01:09:20",
+      "end": "01:09:24",
+      "text": "A small h, and work out the function value,"
+    },
+    {
+      "start": "01:09:24",
+      "end": "01:09:30",
+      "text": "you either forward pass at x plus h and x minus h divided by"
+    },
+    {
+      "start": "01:09:30",
+      "end": "01:09:34",
+      "text": "the run, which is 2h, and that should"
+    },
+    {
+      "start": "01:09:34",
+      "end": "01:09:36",
+      "text": "give you an estimate of the slope,"
+    },
+    {
+      "start": "01:09:36",
+      "end": "01:09:39",
+      "text": "what the backward pass is calculating."
+    },
+    {
+      "start": "01:09:39",
+      "end": "01:09:40",
+      "text": "And you want those"
+    },
+    {
+      "start": "01:09:40",
+      "end": "01:09:42",
+      "text": "two numbers to be approximately equal,"
+    },
+    {
+      "start": "01:09:43",
+      "end": "01:09:46",
+      "text": "you know, within some 10 to the minus 2 of each other."
+    },
+    {
+      "start": "01:09:49",
+      "end": "01:09:50",
+      "text": "And"
+    },
+    {
+      "start": "01:09:50",
+      "end": "01:09:56",
+      "text": "And if they aren't equal, that you probably"
+    },
+    {
+      "start": "01:09:56",
+      "end": "01:09:57",
+      "text": "have made a mistake."
+    },
+    {
+      "start": "01:09:59",
+      "end": "01:10:02",
+      "text": "So note that this formula, for the version"
+    },
+    {
+      "start": "01:10:02",
+      "end": "01:10:08",
+      "text": "I did for my examples, I just compared to x with x plus h."
+    },
+    {
+      "start": "01:10:09",
+      "end": "01:10:11",
+      "text": "I did a one-sided estimate, which"
+    },
+    {
+      "start": "01:10:11",
+      "end": "01:10:14",
+      "text": "is normally what you get taught in a math class."
+    },
+    {
+      "start": "01:10:14",
+      "end": "01:10:18",
+      "text": "If you're doing this to check your gradients numerically,"
+    },
+    {
+      "start": "01:10:18",
+      "end": "01:10:22",
+      "text": "you're far, far better off doing this two-sided estimate"
+    },
+    {
+      "start": "01:10:22",
+      "end": "01:10:24",
+      "text": "because it's much more accurate and stable"
+    },
+    {
+      "start": "01:10:24",
+      "end": "01:10:28",
+      "text": "when you're doing it equally around both sides of your h."
+    },
+    {
+      "start": "01:10:29",
+      "end": "01:10:32",
+      "text": "Yeah, so this looks easy to do."
+    },
+    {
+      "start": "01:10:33",
+      "end": "01:10:35",
+      "text": "If this was just so good,"
+    },
+    {
+      "start": "01:10:36",
+      "end": "01:10:38",
+      "text": "why doesn't everyone do this all the time"
+    },
+    {
+      "start": "01:10:38",
+      "end": "01:10:39",
+      "text": "and forget about calculus?"
+    },
+    {
+      "start": "01:10:40",
+      "end": "01:10:43",
+      "text": "You know, the reason you don't want to do this"
+    },
+    {
+      "start": "01:10:43",
+      "end": "01:10:47",
+      "text": "is that doing this is incredibly slow, right?"
+    },
+    {
+      "start": "01:10:47",
+      "end": "01:10:51",
+      "text": "because you have to repeat this computation for every parameter"
+    },
+    {
+      "start": "01:10:51",
+      "end": "01:10:53",
+      "text": "of your model that you're not"
+    },
+    {
+      "start": "01:10:53",
+      "end": "01:10:58",
+      "text": "getting the kind of speedups you're getting from the backpropagation"
+    },
+    {
+      "start": "01:10:58",
+      "end": "01:11:00",
+      "text": "algorithm. But it's useful"
+    },
+    {
+      "start": "01:11:00",
+      "end": "01:11:02",
+      "text": "for checking your implementation is correct."
+    },
+    {
+      "start": "01:11:02",
+      "end": "01:11:06",
+      "text": "In the old days before frameworks like PyTorch,"
+    },
+    {
+      "start": "01:11:06",
+      "end": "01:11:10",
+      "text": "we used to write everything by hand and people often got things"
+    },
+    {
+      "start": "01:11:10",
+      "end": "01:11:13",
+      "text": "wrong. But nowadays, it's less"
+    },
+    {
+      "start": "01:11:13",
+      "end": "01:11:16",
+      "text": "less needed, but it's good to check that if you've implemented"
+    },
+    {
+      "start": "01:11:16",
+      "end": "01:11:17",
+      "text": "your own new layer,"
+    },
+    {
+      "start": "01:11:17",
+      "end": "01:11:20",
+      "text": "that it's doing the right thing. Okay,"
+    },
+    {
+      "start": "01:11:20",
+      "end": "01:11:24",
+      "text": "yeah, so that's everything that we need to know about"
+    },
+    {
+      "start": "01:11:24",
+      "end": "01:11:28",
+      "text": "neural nets. Backpropagation is the chain rule applied efficiently."
+    },
+    {
+      "start": "01:11:29",
+      "end": "01:11:30",
+      "text": "Forward pass is just"
+    },
+    {
+      "start": "01:11:30",
+      "end": "01:11:36",
+      "text": "function application. Backward pass is chain rule applied inefficiently."
+    },
+    {
+      "start": "01:11:37",
+      "end": "01:11:38",
+      "text": "So, you know,"
+    },
+    {
+      "start": "01:11:39",
+      "end": "01:11:44",
+      "text": "we're going to inflict pain on our students by making them do"
+    },
+    {
+      "start": "01:11:44",
+      "end": "01:11:46",
+      "text": "some math and calculate some of"
+    },
+    {
+      "start": "01:11:46",
+      "end": "01:11:51",
+      "text": "these things and do the homework and I know that'll be harder"
+    },
+    {
+      "start": "01:11:51",
+      "end": "01:11:53",
+      "text": "for some of you than others"
+    },
+    {
+      "start": "01:11:53",
+      "end": "01:11:58",
+      "text": "you know that in some sense you don't actually need to know how"
+    },
+    {
+      "start": "01:11:58",
+      "end": "01:12:00",
+      "text": "to do this the beauty of these"
+    },
+    {
+      "start": "01:12:00",
+      "end": "01:12:03",
+      "text": "modern deep learning frameworks is they'll do it all for you"
+    },
+    {
+      "start": "01:12:03",
+      "end": "01:12:06",
+      "text": "they pre-define common layer types and"
+    },
+    {
+      "start": "01:12:06",
+      "end": "01:12:08",
+      "text": "and you can just plug them together like pieces of Lego,"
+    },
+    {
+      "start": "01:12:08",
+      "end": "01:12:10",
+      "text": "and they'll be computed right."
+    },
+    {
+      "start": "01:12:10",
+      "end": "01:12:13",
+      "text": "And this is precisely the reason that high school students"
+    },
+    {
+      "start": "01:12:13",
+      "end": "01:12:16",
+      "text": "across the country and the world can now"
+    },
+    {
+      "start": "01:12:16",
+      "end": "01:12:19",
+      "text": "do deep learning projects for their science fairs,"
+    },
+    {
+      "start": "01:12:19",
+      "end": "01:12:22",
+      "text": "because you don't actually have to understand any of this math."
+    },
+    {
+      "start": "01:12:22",
+      "end": "01:12:24",
+      "text": "You can just use what's given to you."
+    },
+    {
+      "start": "01:12:25",
+      "end": "01:12:29",
+      "text": "But we kind of want to hope that you actually"
+    },
+    {
+      "start": "01:12:29",
+      "end": "01:12:32",
+      "text": "do understand something about what's"
+    },
+    {
+      "start": "01:12:32",
+      "end": "01:12:36",
+      "text": "going on under the hood and how neural networks work."
+    },
+    {
+      "start": "01:12:36",
+      "end": "01:12:38",
+      "text": "So therefore, we make you suffer a little bit."
+    },
+    {
+      "start": "01:12:38",
+      "end": "01:12:42",
+      "text": "And of course, if you're sort of wanting"
+    },
+    {
+      "start": "01:12:42",
+      "end": "01:12:45",
+      "text": "to look at and understand more complex things,"
+    },
+    {
+      "start": "01:12:46",
+      "end": "01:12:48",
+      "text": "you need to have some sense of what's going on."
+    },
+    {
+      "start": "01:12:48",
+      "end": "01:12:51",
+      "text": "So later on, when we get onto a current neural networks,"
+    },
+    {
+      "start": "01:12:51",
+      "end": "01:12:55",
+      "text": "we'll talk a bit about things like exploding and vanishing"
+    },
+    {
+      "start": "01:12:55",
+      "end": "01:12:55",
+      "text": "gradients."
+    },
+    {
+      "start": "01:12:56",
+      "end": "01:12:58",
+      "text": "And if you want to have some understanding about, well,"
+    },
+    {
+      "start": "01:12:58",
+      "end": "01:13:01",
+      "text": "why things aren't working and things are going wrong,"
+    },
+    {
+      "start": "01:13:01",
+      "end": "01:13:04",
+      "text": "then you sort of want to know what it's actually calculating"
+    },
+    {
+      "start": "01:13:04",
+      "end": "01:13:06",
+      "text": "rather than just thinking it's all a"
+    },
+    {
+      "start": "01:13:06",
+      "end": "01:13:11",
+      "text": "black box magic and so that's why we hope to have taught something"
+    },
+    {
+      "start": "01:13:11",
+      "end": "01:13:14",
+      "text": "about that okay I think"
+    },
+    {
+      "start": "01:13:14",
+      "end": "01:13:18",
+      "text": "I'm done if the audience is sufficiently stunned and we can stop"
+    },
+    {
+      "start": "01:13:18",
+      "end": "01:13:20",
+      "text": "for the day okay thank you"
+    }
+  ],
+  "asr": {
+    "model": "large-v3",
+    "device": "cuda",
+    "compute_type": "float16",
+    "language": "en"
+  }
+}
